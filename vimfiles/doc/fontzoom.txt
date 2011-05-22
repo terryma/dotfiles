@@ -1,0 +1,105 @@
+*fontzoom.txt*	The fontsize controller in gVim.
+
+Version: 0.1.1
+Modified: thinca <thinca+vim@gmail.com>
+License: Creative Commons Attribution 2.1 Japan License
+         <http://creativecommons.org/licenses/by/2.1/jp/deed.en>
+
+==============================================================================
+CONTENTS					*fontzoom-contents*
+
+INTRODUCTION			|fontzoom-introduction|
+INTERFACE			|fontzoom-interface|
+  KEY MAPPINGS			  |fontzoom-key-mappings|
+  COMMANDS			  |fontzoom-commands|
+SETTINGS			|fontzoom-settings|
+LIMITATION			|fontzoom-limitation|
+CHANGELOG			|fontzoom-changelog|
+
+
+==============================================================================
+INTRODUCTION					*fontzoom-introduction*
+
+*fontzoom* is a Vim plugin to control gui fontsize.  You can change fontsize
+with + and - keys(when default setting).  You can also use the [count].
+This plugin remember 'guifont', 'lines', and 'columns' when you change
+fontsize first.  And tries to keep the size of the window as much as possible.
+
+
+
+==============================================================================
+INTERFACE					*fontzoom-interface*
+
+------------------------------------------------------------------------------
+KEY MAPPINGS					*fontzoom-key-mappings*
+
+<Plug>(fontzoom-learger)			*<Plug>(fontzoom-learger)*
+			Fontsize is made large [count] point.
+
+<Plug>(fontzoom-smaller)			*<Plug>(fontzoom-smaller)*
+			Fontsize is made small [count] point.
+
+
+					    *g:fontzoom_no_default_key_mappings*
+The following key mappings will be also available unless
+g:fontzoom_no_default_key_mappings is defined:
+
+{lhs}			{rhs}
+--------		-----------------------------
++			<Plug>(fontzoom-larger)
+-			<Plug>(fontzoom-smaller)
+<C-ScrollWheelUp>	<Plug>(fontzoom-larger)
+<C-ScrollWheelDown>	<Plug>(fontzoom-smaller)
+
+------------------------------------------------------------------------------
+COMMANDS					*fontzoom-commands*
+
+:Fontzoom					*:Fontzoom*
+			Show fontsize in current.
+
+:Fontzoom +[N]
+			Fontsize is made large [N] point.
+
+:Fontzoom -[N]
+			Fontsize is made small [N] point.
+
+:Fontzoom [N]
+			Fontsize is changed into [N] points.
+
+:Fontzoom!
+			Fontsize is changed into initial size.  All arguments
+			are ignored.
+
+
+
+==============================================================================
+SETTINGS					*fontzoom-settings*
+
+g:fontzoom_pattern				*g:fontzoom_pattern*
+			Pick out the Fontsize from font name.  The pattern
+			must match to the Fontsize.  |/\zs| and |/\ze| are
+			convenient.
+
+
+
+==============================================================================
+LIMITATION					*fontzoom-limitation*
+
+- 'guifont' should contain fontsize that matches to |g:fontzoom_pattern|.
+
+
+
+==============================================================================
+CHANGELOG					*fontzoom-changelog*
+
+0.1.1	2011-02-24
+	- Added default key mappings.
+	  - <C-ScrollWheelUp> and <C-ScrollWheelDown>.
+
+0.1.0	2009-12-25
+	- Initial version.
+
+
+
+==============================================================================
+vim:tw=78:fo=tcq2mM:ts=8:ft=help:norl
