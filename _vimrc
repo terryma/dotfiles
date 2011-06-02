@@ -1,9 +1,3 @@
-" Do some session management to remember a few things
-set ssop+=resize,winpos
-set ssop-=options,localoptions
-autocmd VIMEnter * :source $HOME/session.vim
-autocmd VIMLeave * :mksession! $HOME/session.vim
-
 " Map NERDTree
 map <F2> :NERDTreeToggle<cr>
 " Map taglist
@@ -137,6 +131,8 @@ syntax enable "Enable syntax hl
 
 " Set font according to system
 set gfn=Consolas:h12
+set t_Co=256
+colorscheme zenburn
 
 set encoding=utf8
 try

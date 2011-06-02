@@ -1,12 +1,10 @@
 PROMPT_COLOR=${PROMPT_COLOR:-cyan}       # Set the prompt color; defaults to cyan
 export GREP_COLOR=${GREP_COLOR:-1;35}    # Set the color for grep matches
-
 # a sane default prompt, most people will override this
 autoload colors
 colors
 PS1="%{${fg[$PROMPT_COLOR]}%}%B%n@%m] %b%{${fg[default]}%}"   # a nice colored prompt
 RPROMPT="%{${fg[$PROMPT_COLOR]}%}%B%(7~,.../,)%6~%b%{${fg[default]}%}"
-
 if [[ $AUTO_TITLE_SCREENS != "NO" && $EMACS != "t" ]]
 then
 
@@ -25,7 +23,6 @@ then
     fi
     setopt LOCAL_OPTIONS # restore value of UNSET
   }
-
   # if you are running a command, make your screen title the command you're
   # running
   preexec ()
@@ -48,11 +45,8 @@ then
     fi
     setopt LOCAL_OPTIONS # restore value of UNSET
   }
-
 fi
-
 DIRSTACKSIZE=20   # number of directories in your pushd/popd stack
-
 # programs will use this by default if you need to edit something
 # default to vim, so we don't surprise anyone
 export EDITOR=${OVERRIDE_EDITOR:-vim} 
@@ -62,7 +56,6 @@ if [[ $EMACS == "t" ]]; then
 else
     export PAGER=less           # less is more :)
 fi
-
 #################### coloring matters ########################
 # Color codes: 00;{30,31,32,33,34,35,36,37} and 01;{30,31,32,33,34,35,36,37}
 # are actually just color palette items (1-16 in gnome-terminal profile)
@@ -73,7 +66,6 @@ export LS_COLORS_BOLD='no=00:fi=00:di=01;34:ln=01;36:pi=40;33:so=01;35:do=01;35:
 export LS_COLORS_NORM='no=00:fi=00:di=00;34:ln=00;36:pi=40;33:so=00;35:do=00;35:bd=40;33;01:cd=40;33;01:or=40;31;01:ex=00;32:*.tar=00;31:*.tgz=00;31:*.arj=00;31:*.taz=00;31:*.lzh=00;31:*.zip=00;31:*.z=00;31:*.Z=00;31:*.gz=00;31:*.bz2=00;31:*.deb=00;31:*.rpm=00;31:*.jar=00;31:*.jpg=00;35:*.jpeg=00;35:*.gif=00;35:*.bmp=00;35:*.pbm=00;35:*.pgm=00;35:*.ppm=00;35:*.tga=00;35:*.xbm=00;35:*.xpm=00;35:*.tif=00;35:*.tiff=00;35:*.png=00;35:*.mpg=00;35:*.mpeg=00;35:*.avi=00;35:*.fli=00;35:*.gl=00;35:*.dl=00;35:*.xcf=00;35:*.xwd=00;35:*.ogg=00;35:*.mp3=00;35:*.wav=00;35:*.tex=00;33:*.sxw=00;33:*.sxc=00;33:*.lyx=00;33:*.pdf=0;35:*.ps=00;36:*.asm=0;33:*.S=0;33:*.s=0;33:*.h=0;31:*.c=0;35:*.cxx=0;35:*.cc=0;35:*.C=0;35:*.o=0;30:*.am=0;33:*.py=0;34:'
 export MY_LS_COLORS=${MY_LS_COLORS:-LS_COLORS_BOLD}
 eval export LS_COLORS=\${$MY_LS_COLORS}
-
 #################### program environment vars ########################
 export LESS='-i'                # case insensitive searching in less
 
@@ -81,7 +73,6 @@ export LESS='-i'                # case insensitive searching in less
 #Don't alias grep until after sourcing the files above, could get bad version
 #of grep that doesn't understand --color
 alias grep='nocorrect grep --color=auto'
-
 alias ls='ls --color=auto'
 alias ll='ls -lh'
 
@@ -98,23 +89,19 @@ esac
 bindkey "^R" history-incremental-search-backward
 bindkey "^E" end-of-line
 bindkey "^A" beginning-of-line
-
 #AWESOME...
 #pushes current command on command stack and gives blank line, after that line
 #runs command stack is popped
 bindkey "^T" push-line-or-edit
-
 # VI editing mode is a pain to use if you have to wait for <ESC> to register.
 # This times out multi-char key combos as fast as possible. (1/100th of a
 # second.)
 KEYTIMEOUT=1
-
 ######################### zsh options ################################
-setopt ALWAYS_TO_END	       # Push that cursor on completions.
+setopt ALWAYS_TO_END           # Push that cursor on completions.
 setopt AUTO_NAME_DIRS          # change directories  to variable names
 setopt AUTO_PUSHD              # push directories on every cd
 setopt NO_BEEP                 # self explanatory
-
 ######################### history options ############################
 setopt EXTENDED_HISTORY        # store time in history
 setopt HIST_EXPIRE_DUPS_FIRST  # unique events are more usefull to me
@@ -123,13 +110,10 @@ setopt INC_APPEND_HISTORY      # immediatly insert history into history file
 HISTSIZE=16000                 # spots for duplicates/uniques
 SAVEHIST=15000                 # unique events guarenteed
 HISTFILE=~/.history
-
-
 ######################### completion #################################
 # these are some (mostly) sane defaults, if you want your own settings, I
 # recommend using compinstall to choose them.  See 'man zshcompsys' for more
 # info about this stuff.
-
 # The following lines were added by compinstall
 
 zstyle ':completion:*' completer _expand _complete _approximate
@@ -139,13 +123,11 @@ zstyle ':completion:*' matcher-list '' 'm:{a-z}={A-Z}' 'r:|[._-]=** r:|=**' 'l:|
 zstyle ':completion:*' menu select=long
 zstyle ':completion:*' select-prompt '%SScrolling active: current selection at %p%s'
 zstyle ':completion:*' use-compctl true
-
 if [[ $IGNORE_APOLLO_1 != 'NO' ]]
 then
   # Ignore /apollo_1 for directories.  That dir is an import directory
   zstyle ':completion:*' ignored-patterns '/apollo_1'
 fi
-
 autoload -U compinit
 compinit
 # End of lines added by compinstall
