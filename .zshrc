@@ -75,6 +75,7 @@ export LESS='-i'                # case insensitive searching in less
 alias grep='nocorrect grep --color=auto'
 alias ls='ls --color=auto'
 alias ll='ls -lh'
+alias untar='tar -xzvf'
 
 ######################### key bindings ###############################
 #set zsh key binding options
