@@ -24,6 +24,9 @@ vnoremap <C-C> "+y
 
 " Map Ctrl-n Ctrl-n to toggle line number
 nmap <C-N><C-N> :set invnumber<CR>
+" Map Ctrl-l Ctrl-l to clean line ending
+nmap <C-L><C-L> :%s/\r//g<cr>
+
 " Ctrl-n Ctrl-t to open a new tab
 nmap <C-N><C-T> :tabnew<cr>
 
