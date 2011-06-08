@@ -130,9 +130,16 @@ set novisualbell
 syntax enable "Enable syntax hl
 
 " Set font according to system
-set gfn=Consolas:h12
+if has("unix")
+    set gfn=Consolas\ 12
+elseif has("win32")
+    set gfn=Consolas:h12
+endif
 set t_Co=256
 colorscheme zenburn
+" disable menu and toolbar
+set go-=T
+set go-=m
 
 set encoding=utf8
 try
