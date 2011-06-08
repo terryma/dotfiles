@@ -1,7 +1,10 @@
 " Map NERDTree
 map <F2> :NERDTreeToggle<cr>
 " Map taglist
-let Tlist_Ctags_Cmd = $HOME.'/vimfiles/bin/ctags.exe'
+if has("win32")
+    let Tlist_Ctags_Cmd = $HOME.'/vimfiles/bin/ctags.exe'
+endif
+
 map <F4> :TlistToggle<cr>
 " Place taglist on the right side
 let Tlist_Use_Right_Window = 1
@@ -86,8 +89,14 @@ nmap <leader>w :w!<cr>
 map <leader>e :e! ~/_vimrc<cr>
 
 " When vimrc is edited, reload it
-autocmd! bufwritepost _vimrc source ~/_vimrc
+if has("win32")
+    autocmd! bufwritepost _vimrc source $HOME/_vimrc
+elseif has("unix")
+    autocmd! bufwritepost _vimrc source $HOME/.vimrc
+endif
 
+" disable folding
+set nofoldenable
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
