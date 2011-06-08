@@ -56,12 +56,8 @@ endif
 imap <c-s> <c-o><c-s>
 
 " map ctrl-space to omni-completion
-inoremap <expr> <C-Space> pumvisible() \|\| &omnifunc == '' ?
-\ "\<lt>C-n>" :
-\ "\<lt>C-x>\<lt>C-o><c-r>=pumvisible() ?" .
-\ "\"\\<lt>c-n>\\<lt>c-p>\\<lt>c-n>\" :" .
-\ "\" \\<lt>bs>\\<lt>C-n>\"\<CR>"
-imap <C-@> <C-Space>
+inoremap <expr> <c-space> pumvisible() ? "\<lt>c-n>" : "\<lt>c-n>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
+inoremap <expr> <m-;> pumvisible() ? "\<lt>c-n>" : "\<lt>c-x>\<lt>c-o>\<lt>c-n>\<lt>c-p>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
