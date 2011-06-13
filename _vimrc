@@ -29,6 +29,7 @@ nmap <C-L><C-L> :%s/\r//g<cr>
 
 " Ctrl-n Ctrl-t to open a new tab
 nmap <C-N><C-T> :tabnew<cr>
+nmap <C-N><C-W> :tabclose<cr>
 
 
 " Clear search highlights with F3
@@ -58,6 +59,7 @@ if has("gui_running")
 endif
 imap <c-s> <c-o><c-s>
 
+set completeopt=longest,menuone
 " map ctrl-space to omni-completion
 inoremap <expr> <c-space> pumvisible() ? "\<lt>c-n>" : "\<lt>c-n>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
 inoremap <expr> <m-;> pumvisible() ? "\<lt>c-n>" : "\<lt>c-x>\<lt>c-o>\<lt>c-n>\<lt>c-p>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"

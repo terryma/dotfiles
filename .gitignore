@@ -5,3 +5,4 @@ vimfiles/ruby/command-t/match.o
 vimfiles/ruby/command-t/matcher.o
 vimfiles/ruby/command-t/mkmf.log
 vimfiles/ruby/command-t/ext.so
+.VimballRecord
