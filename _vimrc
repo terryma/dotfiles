@@ -93,6 +93,7 @@ endif
 
 " disable folding
 set nofoldenable
+set foldlevel=99999
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => VIM user interface
