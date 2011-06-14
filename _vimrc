@@ -18,9 +18,10 @@ map <C-r> :CommandT<cr>
 map <C-b> :CommandTBuffer<cr>
 
 " Map Copy and Paste
-map <C-V> "+gP
+nmap <C-V> "+gp
 cmap <C-V> <C-R>+
 vnoremap <C-C> "+y
+imap <C-V> <esc><C-V>a
 
 " Map Ctrl-n Ctrl-n to toggle line number
 nmap <C-N><C-N> :set invnumber<CR>
