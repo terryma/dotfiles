@@ -20,8 +20,12 @@ map <C-b> :CommandTBuffer<cr>
 " Map Copy and Paste
 nmap <C-V> "+gp
 cmap <C-V> <C-R>+
-vnoremap <C-C> "+y
-imap <C-V> <esc><C-V>a
+vmap <C-C> "+y
+imap <C-V> <C-R><S-">
+smap <C-C> <C-G><C-C>
+
+" Map Ctrl-z to undo in insert mode
+imap <C-Z> <esc>ui
 
 " Map Ctrl-n Ctrl-n to toggle line number
 nmap <C-N><C-N> :set invnumber<CR>
@@ -67,6 +71,9 @@ inoremap <expr> <m-;> pumvisible() ? "\<lt>c-n>" : "\<lt>c-x>\<lt>c-o>\<lt>c-n>\
 
 " Ctrl-i to indent current line
 map <C-i> ==
+
+" make shift selection work amongst other things
+behave mswin
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -306,8 +313,8 @@ map <leader>bd :Bclose<cr>
 map <leader>ba :1,300 bd!<cr>
 
 " Use the arrows to something usefull
-map <right> :bn<cr>
-map <left> :bp<cr>
+" map <right> :bn<cr>
+" map <left> :bp<cr>
 
 " Tab configuration
 " map <leader>tn :tabnew<cr>
@@ -405,13 +412,22 @@ map 0 ^
 
 "Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
+nmap <M-Down> <M-j>
 nmap <M-k> mz:m-2<cr>`z
+nmap <M-Up> <M-k>
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-Down> <M-j>
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+vmap <M-Up> <M-k>
+smap <M-j> <C-G><M-j>
+smap <M-Down> <M-j>
+smap <M-k> <C-G><M-k>
+smap <M-Up> <M-k>
 "Copy a line using Ctrl-Alt-down or Ctrl-Alt-j
 nmap <C-M-Down> yyp
+imap <C-M-Down> <esc><C-M-Down>i
 nmap <C-M-j> yyp
-
+imap <C-M-Up> <esc><C-M-Up>i
 
 "Delete trailing white space, useful for Python ;)
 func! DeleteTrailingWS()
@@ -496,31 +512,29 @@ au FileType python map <buffer> <leader>2 /def
 au FileType python map <buffer> <leader>C ?class
 au FileType python map <buffer> <leader>D ?def
 
-
 """"""""""""""""""""""""""""""
 " => JavaScript section
 """""""""""""""""""""""""""""""
-au FileType javascript call JavaScriptFold()
-au FileType javascript setl fen
-au FileType javascript setl nocindent
-
-au FileType javascript imap <c-t> AJS.log();<esc>hi
-au FileType javascript imap <c-a> alert();<esc>hi
-
-au FileType javascript inoremap <buffer> $r return
-au FileType javascript inoremap <buffer> $f //--- PH ----------------------------------------------<esc>FP2xi
-
-function! JavaScriptFold()
-    setl foldmethod=syntax
-    setl foldlevelstart=1
-    syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
-
-    function! FoldText()
-    return substitute(getline(v:foldstart), '{.*', '{...}', '')
-    endfunction
-    setl foldtext=FoldText()
-endfunction
-
+" au FileType javascript call JavaScriptFold()
+" au FileType javascript setl fen
+" au FileType javascript setl nocindent
+" 
+" au FileType javascript imap <c-t> AJS.log();<esc>hi
+" au FileType javascript imap <c-a> alert();<esc>hi
+" 
+" au FileType javascript inoremap <buffer> $r return
+" au FileType javascript inoremap <buffer> $f //--- PH ----------------------------------------------<esc>FP2xi
+" 
+" function! JavaScriptFold()
+"     setl foldmethod=syntax
+"     setl foldlevelstart=1
+"     syn region foldBraces start=/{/ end=/}/ transparent fold keepend extend
+" 
+"     function! FoldText()
+"     return substitute(getline(v:foldstart), '{.*', '{...}', '')
+"     endfunction
+"     setl foldtext=FoldText()
+" endfunction
 
 """"""""""""""""""""""""""""""
 " => MRU plugin
