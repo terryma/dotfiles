@@ -18,10 +18,13 @@ map <C-r> :CommandT<cr>
 map <C-b> :CommandTBuffer<cr>
 
 " Map Copy and Paste
-nmap <C-V> "+gp
+nmap <C-V> "+gP
 cmap <C-V> <C-R>+
+vmap <C-V> "+p
+" imap <C-V> <C-R><S-">
+imap <C-V> <C-O>gP
 vmap <C-C> "+y
-imap <C-V> <C-R><S-">
+vmap <C-X> "+d
 smap <C-C> <C-G><C-C>
 
 " Map Ctrl-z to undo in insert mode
@@ -542,6 +545,10 @@ au FileType python map <buffer> <leader>D ?def
 let MRU_Max_Entries = 400
 map <leader>f :MRU<CR>
 
+"""""""""""""""""""""""""""""
+" => CSS Section
+"""""""""""""""""""""""""""""
+au FileType css imap <C-\> <esc>:s/\(.*\)/\/* \1 *\//g<cr>:noh<cr>
 
 """"""""""""""""""""""""""""""
 " => Command-T
