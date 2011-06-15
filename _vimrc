@@ -1,3 +1,5 @@
+set sessionoptions=curdir,tabpages
+
 " Map NERDTree
 map <F2> :NERDTreeToggle<cr>
 " Map taglist
@@ -78,6 +80,9 @@ map <C-i> ==
 " make shift selection work amongst other things
 behave mswin
 
+" Ctrl-\ to toggle comment using the NERDCommenter
+map <C-\> <leader>c<space>
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -101,11 +106,11 @@ let g:mapleader = ","
 nmap <leader>w :w!<cr>
 
 " Fast editing of the .vimrc
-map <leader>e :e! ~/_vimrc<cr>
+" map <leader>e :e! ~/_vimrc<cr>
 
 " When vimrc is edited, reload it
 if has("win32")
-    autocmd! bufwritepost _vimrc source $HOME/_vimrc
+   autocmd! bufwritepost _vimrc source $HOME/_vimrc
 elseif has("unix")
     autocmd! bufwritepost _vimrc source $HOME/.vimrc
 endif
@@ -326,7 +331,7 @@ map <leader>ba :1,300 bd!<cr>
 " map <leader>tm :tabmove
 
 " When pressing <leader>cd switch to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>
+" map <leader>cd :cd %:p:h<cr>
 
 
 command! Bclose call <SID>BufcloseCloseIt()
@@ -447,9 +452,9 @@ set guitablabel=%t
 " => Cope
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Do :help cope if you are unsure what cope is. It's super useful!
-map <leader>cc :botright cope<cr>
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
+" map <leader>cc :botright cope<cr>
+" map <leader>n :cn<cr>
+" map <leader>p :cp<cr>
 
 
 """"""""""""""""""""""""""""""
@@ -539,32 +544,23 @@ au FileType python map <buffer> <leader>D ?def
 "     setl foldtext=FoldText()
 " endfunction
 
-""""""""""""""""""""""""""""""
-" => MRU plugin
-""""""""""""""""""""""""""""""
-let MRU_Max_Entries = 400
-map <leader>f :MRU<CR>
-
 """""""""""""""""""""""""""""
 " => CSS Section
 """""""""""""""""""""""""""""
-au FileType css imap <C-\> <esc>:s/\(.*\)/\/* \1 *\//g<cr>:noh<cr>
+" au FileType css imap <C-\> <esc>:s/\(.*\)/\/* \1 *\//g<cr>:noh<cr>
 
 """"""""""""""""""""""""""""""
 " => Command-T
 """"""""""""""""""""""""""""""
 let g:CommandTMaxHeight = 15
 set wildignore+=*.o,*.obj,.git,*.pyc,*.class
-" noremap <leader>j :CommandT<cr>
-" noremap <leader>y :CommandTFlush<cr>
-
+noremap <leader>y :CommandTFlush<cr>
 
 """"""""""""""""""""""""""""""
 " => Vim grep
 """"""""""""""""""""""""""""""
 let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'
 set grepprg=/bin/grep\ -nH
-
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
