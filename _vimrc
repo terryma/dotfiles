@@ -1,3 +1,9 @@
+" Init pathogen
+filetype off
+call pathogen#runtime_append_all_bundles()
+call pathogen#helptags()
+
+" Set session params
 set sessionoptions=curdir,tabpages
 
 " Map NERDTree
