@@ -54,6 +54,8 @@ map <F3> :noh<cr>
 " Ctrl up and down control scrolling up and down a line, more resembles Eclipse
 map <C-UP> <C-y>
 map <C-DOWN> <C-e>
+imap <C-UP> <C-O><C-UP>
+imap <C-DOWN> <C-O><C-DOWN>
 
 " F5 and F6 to switch color schemes
 map <F5> :colorscheme zenburn<cr>
@@ -63,7 +65,8 @@ map <F6> :colorscheme molokai<cr>
 imap <C-BS> <C-W>
 
 " Ctrl-a to select all
-map <C-a> ggVG
+map <C-A> ggVG
+imap <C-A> <esc><C-A>i
 
 " Ctrl-s to save
 " map <C-s> :w!<cr>
@@ -75,7 +78,7 @@ if has("gui_running")
 endif
 imap <c-s> <c-o><c-s>
 
-set completeopt=longest,menuone
+set completeopt=longest,menuone,preview
 " map ctrl-space to omni-completion
 inoremap <expr> <c-space> pumvisible() ? "\<lt>c-n>" : "\<lt>c-n>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
 inoremap <expr> <m-;> pumvisible() ? "\<lt>c-n>" : "\<lt>c-x>\<lt>c-o>\<lt>c-n>\<lt>c-p>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
@@ -86,8 +89,8 @@ map <C-i> ==
 " make shift selection work amongst other things
 behave mswin
 
-" Ctrl-\ to toggle comment using the NERDCommenter
-map <C-\> <leader>c<space>
+" \ to toggle comment using the NERDCommenter
+map \ <leader>c<space>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -437,6 +440,10 @@ smap <M-j> <C-G><M-j>
 smap <M-Down> <M-j>
 smap <M-k> <C-G><M-k>
 smap <M-Up> <M-k>
+imap <M-j> <C-O><M-j>
+imap <M-Down> <M-j>
+imap <M-k> <C-O><M-k>
+imap <M-Up> <M-k>
 "Copy a line using Ctrl-Alt-down or Ctrl-Alt-j
 nmap <C-M-Down> yyp
 imap <C-M-Down> <esc><C-M-Down>i
