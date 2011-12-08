@@ -40,6 +40,10 @@ imap <C-V> <C-O>gP
 vmap <C-C> "+y
 vmap <C-X> "+d
 smap <C-C> <C-G><C-C>
+" Map F7 to toggle between paste modes
+nmap <F7> :set invpaste paste?<CR>
+set pastetoggle=<F7>
+set showmode
 
 " Map Ctrl-z to undo in insert mode
 imap <C-Z> <esc>ui
