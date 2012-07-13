@@ -1,47 +1,48 @@
+" I'm going to start re-learning VIM clean this time. Getting rid of most of my existing vimrc configs and try to understands what each one does
+
 " Init pathogen
 filetype off
 call pathogen#infect()
 
-" Set session params
-set sessionoptions=curdir,tabpages
-
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
-
 let mapleader = ","
 let g:mapleader = ","
 
+" disable arrow keys
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
+imap <up> <nop>
+imap <down> <nop>
+imap <left> <nop>
+imap <right> <nop>
+
+" disable Ctrl-C, that's a bad habit, use Ctrl-[ or jk instead
+imap <C-C> <nop>
+
+" map jk to escape
+imap jk <esc>
+
 " Map NERDTree
 map <F2> :NERDTreeToggle<cr>
-" Map taglist
-if has("win32")
-    let Tlist_Ctags_Cmd = $HOME.'/vimfiles/bin/ctags.exe'
-endif
+
+" Clear search highlights with F3
+map <F3> :noh<cr>
 
 map <F4> :TlistToggle<cr>
 " Place taglist on the right side
 let Tlist_Use_Right_Window = 1
-" Map ctrl-u to redo, just more natural that way
-map <C-u> :redo<cr>
-" mswin.vim maps C-Y to redo, restore it since this is used for scrolling pages up
-" unmap <C-y>
-" Map ctrl-r to Command-T, resemble Ctrl-shift-r in Eclipse
-map <C-r> :CommandT<cr>
-" Map ctrl-b to Command-T-Buffer
-map <C-b> :CommandTBuffer<cr>
 
-" Map Copy and Paste
-nmap <C-V> "+gP
-cmap <C-V> <C-R>+
-vmap <C-V> "+p
-" imap <C-V> <C-R><S-">
-imap <C-V> <C-O>gP
-vmap <C-C> "+y
-vmap <C-X> "+d
-smap <C-C> <C-G><C-C>
-" Map F7 to toggle between paste modes
-nmap <F7> :set invpaste paste?<CR>
-set pastetoggle=<F7>
+" F5 to F7 to switch color schemes
+map <F5> :colorscheme zenburn<cr>
+map <F6> :colorscheme molokai<cr>
+map <F7> :colorscheme desert<cr>
+
+" Map F8 to toggle between paste modes
+nmap <F8> :set invpaste paste?<CR>
+set pastetoggle=<F8>
 set showmode
 
 " Map Ctrl-z to undo in insert mode
@@ -56,50 +57,25 @@ nmap <C-L><C-L> :%s/\r//g<cr>
 nmap <C-N><C-T> :tabnew<cr>
 nmap <C-N><C-W> :tabclose<cr>
 
-
-" Clear search highlights with F3
-map <F3> :noh<cr>
-
-" Ctrl up and down control scrolling up and down a line, more resembles Eclipse
-map <C-UP> <C-y>
-map <C-DOWN> <C-e>
-imap <C-UP> <C-O><C-UP>
-imap <C-DOWN> <C-O><C-DOWN>
-
-" F5 and F6 to switch color schemes
-map <F5> :colorscheme zenburn<cr>
-map <F6> :colorscheme molokai<cr>
-
 " Ctrl-Backspace to delete previous word
 imap <C-BS> <C-W>
-
-" Ctrl-a to select all
-map <C-A> ggVG
-imap <C-A> <esc><C-A>i
-
-" Ctrl-s to save
-" map <C-s> :w!<cr>
-" imap <C-s> <esc>:w!<cr>i
-if has("gui_running")
-  " If the current buffer has never been saved, it will have no name,
-  " call the file browser to save it, otherwise just save it.
-  :map <silent> <C-S> :if expand("%") == ""<CR>:browse confirm w<CR>:else<CR>:confirm w<CR>:endif<CR>
-endif
-imap <c-s> <c-o><c-s>
 
 set completeopt=longest,menuone,preview
 " map ctrl-space to omni-completion
 inoremap <expr> <c-space> pumvisible() ? "\<lt>c-n>" : "\<lt>c-n>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
 inoremap <expr> <m-;> pumvisible() ? "\<lt>c-n>" : "\<lt>c-x>\<lt>c-o>\<lt>c-n>\<lt>c-p>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
 
-" Ctrl-i to indent current line
-map <C-i> ==
-
-" make shift selection work amongst other things
-behave mswin
-
 " \ to toggle comment using the NERDCommenter
 map \ <leader>c<space>
+
+" w! change RO files to RW
+function! g:ChmodOnWrite()
+  if v:cmdbang
+    silent !chmod u+w %
+  endif
+endfunction
+
+autocmd BufWrite * call g:ChmodOnWrite()
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -114,12 +90,11 @@ filetype indent on
 " Set to auto read when a file is changed from the outside
 set autoread
 
-
 " Fast saving
 nmap <leader>w :w!<cr>
 
 " Fast editing of the .vimrc
-" map <leader>e :e! ~/_vimrc<cr>
+map <leader>e :e! ~/.dotfiles/_vimrc<cr>
 
 " When vimrc is edited, reload it
 if has("win32")
@@ -136,19 +111,21 @@ set foldlevel=99999
 " => VIM user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Set 7 lines to the curors - when moving vertical..
-set so=7
+"set so=7
 
+" Set completion mode. First tab completes as much as possible, second tab shows list of options
+set wildmode=longest,list
 set wildmenu "Turn on WiLd menu
 
-set ruler "Always show current position
+"set ruler "Always show current position
 
-set cmdheight=2 "The commandbar height
+"set cmdheight=2 "The commandbar height
 
 set hid "Change buffer - without saving
 
 " Set backspace config
-set backspace=eol,start,indent
-set whichwrap+=<,>,h,l
+"set backspace=eol,start,indent
+"set whichwrap+=<,>,h,l
 
 set ignorecase "Ignore case when searching
 set smartcase
@@ -174,12 +151,12 @@ syntax enable "Enable syntax hl
 
 " Set font according to system
 if has("unix")
-    set gfn=Consolas\ 12
+    set gfn=Menlo:h12
 elseif has("win32")
     set gfn=Consolas:h12
 endif
 set t_Co=256
-colorscheme zenburn
+colorscheme desert
 " disable menu and toolbar
 set go-=T
 set go-=m
@@ -230,39 +207,39 @@ set wrap "Wrap lines
 """"""""""""""""""""""""""""""
 " Really useful!
 "  In visual mode when you press * or # to search for the current selection
-vnoremap <silent> * :call VisualSearch('f')<CR>
-vnoremap <silent> # :call VisualSearch('b')<CR>
+"vnoremap <silent> * :call VisualSearch('f')<CR>
+"vnoremap <silent> # :call VisualSearch('b')<CR>
 
 " When you press gv you vimgrep after the selected text
-vnoremap <silent> gv :call VisualSearch('gv')<CR>
-map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
+"vnoremap <silent> gv :call VisualSearch('gv')<CR>
+"map <leader>g :vimgrep // **/*.<left><left><left><left><left><left><left>
 
 
-function! CmdLine(str)
-    exe "menu Foo.Bar :" . a:str
-    emenu Foo.Bar
-    unmenu Foo
-endfunction
+"function! CmdLine(str)
+    "exe "menu Foo.Bar :" . a:str
+    "emenu Foo.Bar
+    "unmenu Foo
+"endfunction
 
 " From an idea by Michael Naumann
-function! VisualSearch(direction) range
-    let l:saved_reg = @"
-    execute "normal! vgvy"
+"function! VisualSearch(direction) range
+    "let l:saved_reg = @"
+    "execute "normal! vgvy"
 
-    let l:pattern = escape(@", '\\/.*$^~[]')
-    let l:pattern = substitute(l:pattern, "\n$", "", "")
+    "let l:pattern = escape(@", '\\/.*$^~[]')
+    "let l:pattern = substitute(l:pattern, "\n$", "", "")
 
-    if a:direction == 'b'
-        execute "normal ?" . l:pattern . "^M"
-    elseif a:direction == 'gv'
-        call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
-    elseif a:direction == 'f'
-        execute "normal /" . l:pattern . "^M"
-    endif
+    "if a:direction == 'b'
+        "execute "normal ?" . l:pattern . "^M"
+    "elseif a:direction == 'gv'
+        "call CmdLine("vimgrep " . '/'. l:pattern . '/' . ' **/*.')
+    "elseif a:direction == 'f'
+        "execute "normal /" . l:pattern . "^M"
+    "endif
 
-    let @/ = l:pattern
-    let @" = l:saved_reg
-endfunction
+    "let @/ = l:pattern
+    "let @" = l:saved_reg
+"endfunction
 
 
 
@@ -270,13 +247,13 @@ endfunction
 " => Command mode related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Smart mappings on the command line
-cno $h e ~/
-cno $d e ~/Desktop/
-cno $j e ./
-cno $c e <C-\>eCurrentFileDir("e")<cr>
+"cno $h e ~/
+"cno $d e ~/Desktop/
+"cno $j e ./
+"cno $c e <C-\>eCurrentFileDir("e")<cr>
 
 " $q is super useful when browsing on the command line
-cno $q <C-\>eDeleteTillSlash()<cr>
+"cno $q <C-\>eDeleteTillSlash()<cr>
 
 " Bash like keys for the command line
 cnoremap <C-A>      <Home>
@@ -344,7 +321,7 @@ map <leader>ba :1,300 bd!<cr>
 " map <leader>tm :tabmove
 
 " When pressing <leader>cd switch to the directory of the open buffer
-" map <leader>cd :cd %:p:h<cr>
+map <leader>cd :cd %:p:h<cr>
 
 
 command! Bclose call <SID>BufcloseCloseIt()
@@ -379,24 +356,24 @@ endtry
 " => Statusline
 """"""""""""""""""""""""""""""
 " Always hide the statusline
-set laststatus=2
+"set laststatus=2
 
 " Format the statusline
-set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ \ Line:\ %l/%L:%c
+"set statusline=\ %{HasPaste()}%F%m%r%h\ %w\ \ CWD:\ %r%{CurDir()}%h\ \ \ Line:\ %l/%L:%c
 
 
-function! CurDir()
-    let curdir = substitute(getcwd(), '/Users/amir/', "~/", "g")
-    return curdir
-endfunction
+"function! CurDir()
+    "let curdir = substitute(getcwd(), '/Users/amir/', "~/", "g")
+    "return curdir
+"endfunction
 
-function! HasPaste()
-    if &paste
-        return 'PASTE MODE  '
-    else
-        return ''
-    endif
-endfunction
+"function! HasPaste()
+    "if &paste
+        "return 'PASTE MODE  '
+    "else
+        "return ''
+    "endif
+"endfunction
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -422,7 +399,7 @@ endfunction
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General Abbrevs
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
+"iab xdate <c-r>=strftime("%d/%m/%y %H:%M:%S")<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -433,20 +410,28 @@ map 0 ^
 
 "Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
+nmap <D-j> <M-j> 
 nmap <M-Down> <M-j>
 nmap <M-k> mz:m-2<cr>`z
+nmap <D-k> <M-k>
 nmap <M-Up> <M-k>
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <D-j> <M-j>
 vmap <M-Down> <M-j>
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+vmap <D-k> <M-k>
 vmap <M-Up> <M-k>
 smap <M-j> <C-G><M-j>
+smap <D-j> <M-j>
 smap <M-Down> <M-j>
 smap <M-k> <C-G><M-k>
+smap <D-k> <M-k>
 smap <M-Up> <M-k>
 imap <M-j> <C-O><M-j>
+imap <D-j> <M-j>
 imap <M-Down> <M-j>
 imap <M-k> <C-O><M-k>
+imap <D-k> <M-k>
 imap <M-Up> <M-k>
 "Copy a line using Ctrl-Alt-down or Ctrl-Alt-j
 nmap <C-M-Down> yyp
@@ -477,27 +462,27 @@ set guitablabel=%t
 """"""""""""""""""""""""""""""
 " => bufExplorer plugin
 """"""""""""""""""""""""""""""
-let g:bufExplorerDefaultHelp=0
-let g:bufExplorerShowRelativePath=1
-map <leader>o :BufExplorer<cr>
+"let g:bufExplorerDefaultHelp=0
+"let g:bufExplorerShowRelativePath=1
+"map <leader>o :BufExplorer<cr>
 
 
 """"""""""""""""""""""""""""""
 " => Minibuffer plugin
 """"""""""""""""""""""""""""""
-let g:miniBufExplModSelTarget = 1
-let g:miniBufExplorerMoreThanOne = 2
-let g:miniBufExplModSelTarget = 0
-let g:miniBufExplUseSingleClick = 1
-let g:miniBufExplMapWindowNavVim = 1
-let g:miniBufExplVSplit = 25
-let g:miniBufExplSplitBelow=1
+"let g:miniBufExplModSelTarget = 1
+"let g:miniBufExplorerMoreThanOne = 2
+"let g:miniBufExplModSelTarget = 0
+"let g:miniBufExplUseSingleClick = 1
+"let g:miniBufExplMapWindowNavVim = 1
+"let g:miniBufExplVSplit = 25
+"let g:miniBufExplSplitBelow=1
 
-let g:bufExplorerSortBy = "name"
+"let g:bufExplorerSortBy = "name"
 
-autocmd BufRead,BufNew :call UMiniBufExplorer
+"autocmd BufRead,BufNew :call UMiniBufExplorer
 
-map <leader>u :TMiniBufExplorer<cr>
+"map <leader>u :TMiniBufExplorer<cr>
 
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
