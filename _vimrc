@@ -3,6 +3,7 @@
 " Init pathogen
 filetype off
 call pathogen#infect()
+call pathogen#helptags()
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
@@ -31,9 +32,11 @@ map <F2> :NERDTreeToggle<cr>
 " Clear search highlights with F3
 map <F3> :noh<cr>
 
-map <F4> :TlistToggle<cr>
+"map <F4> :TlistToggle<cr>
 " Place taglist on the right side
-let Tlist_Use_Right_Window = 1
+"let Tlist_Use_Right_Window = 1
+
+map <F4> :TagbarToggle<cr>
 
 " F5 to F7 to switch color schemes
 map <F5> :colorscheme zenburn<cr>
@@ -50,8 +53,6 @@ imap <C-Z> <esc>ui
 
 " Map Ctrl-n Ctrl-n to toggle line number
 nmap <C-N><C-N> :set invnumber<CR>
-" Map Ctrl-l Ctrl-l to clean line ending
-nmap <C-L><C-L> :%s/\r//g<cr>
 
 " Ctrl-n Ctrl-t to open a new tab
 nmap <C-N><C-T> :tabnew<cr>
@@ -68,6 +69,11 @@ inoremap <expr> <m-;> pumvisible() ? "\<lt>c-n>" : "\<lt>c-x>\<lt>c-o>\<lt>c-n>\
 " \ to toggle comment using the NERDCommenter
 map \ <leader>c<space>
 
+" <leader>r to sync the current buffer with NERDTree
+map <leader>r :NERDTreeFind<cr>
+
+let g:NERDTreeWinSize=30
+
 " w! change RO files to RW
 function! g:ChmodOnWrite()
   if v:cmdbang
@@ -76,6 +82,9 @@ function! g:ChmodOnWrite()
 endfunction
 
 autocmd BufWrite * call g:ChmodOnWrite()
+
+" Auto-change current directory
+" autocmd BufEnter * silent! lcd %:p:h
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General
@@ -557,6 +566,7 @@ au FileType python map <buffer> <leader>D ?def
 let g:CommandTMaxHeight = 15
 set wildignore+=*.o,*.obj,.git,*.pyc,*.class
 noremap <leader>y :CommandTFlush<cr>
+map <S-T> :CommandT<cr>
 
 """"""""""""""""""""""""""""""
 " => Vim grep
