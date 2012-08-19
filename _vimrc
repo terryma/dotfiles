@@ -12,6 +12,11 @@ let g:mapleader = ","
 
 let g:Powerline_symbols = 'fancy'
 
+" Syntastic settings
+let g:syntastic_mode_map = { 'mode': 'active',
+            \ 'active_filetypes': ['ruby', 'php'],
+            \ 'passive_filetypes': ['puppet'] }
+
 " disable arrow keys
 map <up> <nop>
 map <down> <nop>
@@ -116,9 +121,9 @@ map <leader>e :e! ~/.dotfiles/_vimrc<cr>
 
 " when vimrc is edited, reload it
 if has("win32")
-   autocmd! bufwritepost _vimrc source $home/_vimrc
+   autocmd! bufwritepost _vimrc source $HOME/_vimrc
 elseif has("unix")
-    autocmd! bufwritepost _vimrc source $home/.vimrc
+    autocmd! bufwritepost _vimrc source $HOME/.vimrc
 endif
 
 " disable folding
