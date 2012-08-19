@@ -17,10 +17,6 @@ map <up> <nop>
 map <down> <nop>
 map <left> <nop>
 map <right> <nop>
-imap <up> <nop>
-imap <down> <nop>
-imap <left> <nop>
-imap <right> <nop>
 
 " disable Ctrl-C, that's a bad habit, use Ctrl-[ or jk instead
 map <C-C> <nop>
@@ -45,84 +41,84 @@ map <F4> :TagbarToggle<cr>
 " F5 to F7 to switch color schemes
 map <F5> :colorscheme zenburn<cr>
 map <F6> :colorscheme molokai<cr>
-map <F7> :colorscheme desert<cr>
+map <f7> :colorscheme desert-warm-256<cr>
 
-" Map F8 to toggle between paste modes
-nmap <F8> :set invpaste paste?<CR>
-set pastetoggle=<F8>
+" map f8 to toggle between paste modes
+nmap <f8> :set invpaste paste?<cr>
+set pastetoggle=<f8>
 set showmode
 
-" Map Ctrl-z to undo in insert mode
-imap <C-Z> <esc>ui
+" map ctrl-z to undo in insert mode
+imap <c-z> <esc>ui
 
-" Map Ctrl-n Ctrl-n to toggle line number
-nmap <C-N><C-N> :set invnumber<CR>
-" Show line number
+" map ctrl-n ctrl-n to toggle line number
+nmap <c-n><c-n> :set invnumber<cr>
+" show line number
 set number
 
-" Ctrl-n Ctrl-t to open a new tab
-nmap <C-N><C-T> :tabnew<cr>
-nmap <C-N><C-W> :tabclose<cr>
+" ctrl-n ctrl-t to open a new tab
+nmap <c-n><c-t> :tabnew<cr>
+nmap <c-n><c-w> :tabclose<cr>
 
-" Ctrl-Backspace to delete previous word
-imap <C-BS> <C-W>
+" ctrl-backspace to delete previous word
+imap <c-bs> <c-w>
 
 set completeopt=longest,menuone,preview
 " map ctrl-space to omni-completion
 inoremap <expr> <c-space> pumvisible() ? "\<lt>c-n>" : "\<lt>c-n>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
 inoremap <expr> <m-;> pumvisible() ? "\<lt>c-n>" : "\<lt>c-x>\<lt>c-o>\<lt>c-n>\<lt>c-p>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
 
-" \ to toggle comment using the NERDCommenter
+" \ to toggle comment using the nerdcommenter
 map \ <leader>c<space>
 
-" <leader>f to sync the current buffer with NERDTree
-map <leader>f :NERDTreeFind<cr>
-let NERDTreeShowBookmarks=1
-"let g:NERDTreeWinSize=30
-" Only start if no file is specified
-autocmd VimEnter * if !argc() | NERDTree | wincmd p | endif
-" Close Vim if the only window open is NERDTree
+" <leader>f to sync the current buffer with nerdtree
+map <leader>f :NERDTreefind<cr>
+let nerdtreeshowbookmarks=1
+"let g:nerdtreewinsize=30
+" only start if no file is specified
+autocmd vimenter * if !argc() | NERDTree | wincmd p | endif
+" close vim if the only window open is nerdtree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
-" w! change RO files to RW
-function! g:ChmodOnWrite()
+" w! change ro files to rw
+function! g:chmodonwrite()
   if v:cmdbang
     silent !chmod u+w %
   endif
 endfunction
 
-autocmd BufWrite * call g:ChmodOnWrite()
+autocmd bufwrite * call g:chmodonwrite()
 
-" Auto-change current directory
-"autocmd BufEnter * silent! lcd %:p:h
+" auto-change current directory
+"autocmd bufenter * silent! lcd %:p:h
 
-" Copy the full path of the current file to the clipboard
+" copy the full path of the current file to the clipboard
 map <leader>p :let @* = expand("%:p")<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General
+" => general
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Sets how many lines of history VIM has to remember
+" sets how many lines of history vim has to remember
 set history=700
 
-" Enable filetype plugin
+" enable filetype plugin
 filetype plugin on
 filetype indent on
 
-" Set to auto read when a file is changed from the outside
+" set to auto read when a file is changed from the outside
 set autoread
 
-" Fast saving
+" fast saving
 nmap <leader>w :w!<cr>
 
-" Fast editing of the .vimrc
+" fast editing of the .vimrc
 map <leader>e :e! ~/.dotfiles/_vimrc<cr>
 
-" When vimrc is edited, reload it
+" when vimrc is edited, reload it
 if has("win32")
-   autocmd! bufwritepost _vimrc source $HOME/_vimrc
+   autocmd! bufwritepost _vimrc source $home/_vimrc
 elseif has("unix")
-    autocmd! bufwritepost _vimrc source $HOME/.vimrc
+    autocmd! bufwritepost _vimrc source $home/.vimrc
 endif
 
 " disable folding
@@ -130,57 +126,57 @@ set nofoldenable
 set foldlevel=99999
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => VIM user interface
+" => vim user interface
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Set 7 lines to the curors - when moving vertical..
+" set 7 lines to the curors - when moving vertical..
 "set so=7
 
-" Set completion mode. First tab completes as much as possible, second tab shows list of options
+" set completion mode. first tab completes as much as possible, second tab shows list of options
 set wildmode=longest,list
-set wildmenu "Turn on WiLd menu
+set wildmenu "turn on wild menu
 
-"set ruler "Always show current position
+"set ruler "always show current position
 
-"set cmdheight=2 "The commandbar height
+"set cmdheight=2 "the commandbar height
 
-set hid "Change buffer - without saving
+set hid "change buffer - without saving
 
-" Set backspace config
+" set backspace config
 "set backspace=eol,start,indent
 "set whichwrap+=<,>,h,l
 
-set ignorecase "Ignore case when searching
+set ignorecase "ignore case when searching
 set smartcase
 
-set hlsearch "Highlight search things
+set hlsearch "highlight search things
 
-set incsearch "Make search act like search in modern browsers
-set nolazyredraw "Don't redraw while executing macros 
+set incsearch "make search act like search in modern browsers
+set nolazyredraw "don't redraw while executing macros 
 
-set magic "Set magic on, for regular expressions
+set magic "set magic on, for regular expressions
 
-set showmatch "Show matching bracets when text indicator is over them
-set mat=2 "How many tenths of a second to blink
+set showmatch "show matching bracets when text indicator is over them
+set mat=2 "how many tenths of a second to blink
 
-" No sound on errors
+" no sound on errors
 set vb
 
-set nocompatible   " Disable vi-compatibility
-set laststatus=2   " Always show the statusline
-set encoding=utf-8 " Necessary to show Unicode glyphs
+set nocompatible   " disable vi-compatibility
+set laststatus=2   " always show the statusline
+set encoding=utf-8 " necessary to show unicode glyphs
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Colors and Fonts
+" => colors and fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-syntax enable "Enable syntax hl
+syntax enable "enable syntax hl
 
-" Set font according to system
+" set font according to system
 if has("unix")
-    set gfn=Menlo\ for\ Powerline:h12
+    set gfn=menlo\ for\ powerline:h12
 elseif has("win32")
-    set gfn=Consolas:h12
+    set gfn=consolas:h12
 endif
-set t_Co=256
+set t_co=256
 colorscheme desert-warm-256
 " disable menu and toolbar
 set go-=T
