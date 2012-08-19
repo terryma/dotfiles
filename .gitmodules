@@ -1,0 +1,30 @@
+[submodule "vimfiles/bundle/ack"]
+	path = vimfiles/bundle/ack
+	url = https://github.com/mileszs/ack.vim.git
+[submodule "vimfiles/bundle/ctrlp"]
+	path = vimfiles/bundle/ctrlp
+	url = https://github.com/kien/ctrlp.vim.git
+[submodule "vimfiles/bundle/nerdtree"]
+	path = vimfiles/bundle/nerdtree
+	url = https://github.com/scrooloose/nerdtree.git
+[submodule "vimfiles/bundle/supertab"]
+	path = vimfiles/bundle/supertab
+	url = https://github.com/ervandew/supertab
+[submodule "vimfiles/bundle/tagbar"]
+	path = vimfiles/bundle/tagbar
+	url = https://github.com/majutsushi/tagbar
+[submodule "vimfiles/bundle/powerline"]
+	path = vimfiles/bundle/powerline
+	url = https://github.com/Lokaltog/vim-powerline.git
+[submodule "vimfiles/bundle/command-t"]
+	path = vimfiles/bundle/command-t
+	url = https://github.com/wincent/Command-T.git
+[submodule "vimfiles/bundle/nerdcommenter"]
+	path = vimfiles/bundle/nerdcommenter
+	url = https://github.com/scrooloose/nerdcommenter.git
+[submodule "vimfiles/bundle/syntastic"]
+	path = vimfiles/bundle/syntastic
+	url = https://github.com/scrooloose/syntastic.git
+[submodule "vimfiles/bundle/easytags"]
+	path = vimfiles/bundle/easytags
+	url = https://github.com/xolox/vim-easytags.git
