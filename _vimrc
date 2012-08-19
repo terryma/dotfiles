@@ -79,10 +79,8 @@ map \ <leader>c<space>
 map <leader>f :NERDTreeFind<cr>
 let NERDTreeShowBookmarks=1
 "let g:NERDTreeWinSize=30
-" Run on start
-autocmd VimEnter * NERDTree
-" Switch to main window
-autocmd VimEnter * wincmd p
+" Only start if no file is specified
+autocmd VimEnter * if !argc() | NERDTree | wincmd p | endif
 " Close Vim if the only window open is NERDTree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
