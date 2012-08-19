@@ -30,6 +30,11 @@ imap jk <esc>
 
 " Map NERDTree
 map <F2> :NERDTreeToggle<cr>
+map <leader><tab> :NERDTreeToggle<cr>
+
+" Resize window using shift left and right
+map <S-left> :vertical resize -5<cr>
+map <S-right> :vertical resize +5<cr>
 
 " Clear search highlights with F3
 map <F3> :noh<cr>
@@ -72,8 +77,14 @@ map \ <leader>c<space>
 
 " <leader>f to sync the current buffer with NERDTree
 map <leader>f :NERDTreeFind<cr>
-
-let g:NERDTreeWinSize=30
+let NERDTreeShowBookmarks=1
+"let g:NERDTreeWinSize=30
+" Run on start
+autocmd VimEnter * NERDTree
+" Switch to main window
+autocmd VimEnter * wincmd p
+" Close Vim if the only window open is NERDTree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " w! change RO files to RW
 function! g:ChmodOnWrite()
@@ -172,7 +183,7 @@ elseif has("win32")
     set gfn=Consolas:h12
 endif
 set t_Co=256
-colorscheme desert
+colorscheme desert-warm-256
 " disable menu and toolbar
 set go-=T
 set go-=m
