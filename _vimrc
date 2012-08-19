@@ -10,6 +10,8 @@ call pathogen#helptags()
 let mapleader = ","
 let g:mapleader = ","
 
+let g:Powerline_symbols = 'fancy'
+
 " disable arrow keys
 map <up> <nop>
 map <down> <nop>
@@ -154,6 +156,10 @@ set mat=2 "How many tenths of a second to blink
 " No sound on errors
 set vb
 
+set nocompatible   " Disable vi-compatibility
+set laststatus=2   " Always show the statusline
+set encoding=utf-8 " Necessary to show Unicode glyphs
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Colors and Fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -161,7 +167,7 @@ syntax enable "Enable syntax hl
 
 " Set font according to system
 if has("unix")
-    set gfn=Menlo:h12
+    set gfn=Menlo\ for\ Powerline:h12
 elseif has("win32")
     set gfn=Consolas:h12
 endif
