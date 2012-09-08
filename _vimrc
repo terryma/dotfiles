@@ -48,9 +48,8 @@ map <F5> :colorscheme zenburn<cr>
 map <F6> :colorscheme molokai<cr>
 map <f7> :colorscheme desert-warm-256<cr>
 
-" map f8 to toggle between paste modes
-nmap <f8> :set invpaste paste?<cr>
-set pastetoggle=<f8>
+" toggle between paste mode
+set pastetoggle=<leader>1
 set showmode
 
 " map ctrl-z to undo in insert mode
@@ -77,8 +76,8 @@ inoremap <expr> <m-;> pumvisible() ? "\<lt>c-n>" : "\<lt>c-x>\<lt>c-o>\<lt>c-n>\
 map \ <leader>c<space>
 
 " <leader>f to sync the current buffer with nerdtree
-map <leader>f :NERDTreefind<cr>
-let nerdtreeshowbookmarks=1
+map <leader>f :NERDTreeFind<cr>
+let NERDTreeShowBookmarks=1
 "let g:nerdtreewinsize=30
 " only start if no file is specified
 autocmd vimenter * if !argc() | NERDTree | wincmd p | endif
@@ -87,12 +86,15 @@ autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTree
 
 " w! change ro files to rw
 function! g:chmodonwrite()
-  if v:cmdbang
-    silent !chmod u+w %
-  endif
+    if v:cmdbang
+        silent !chmod u+w %
+    endif
 endfunction
 
 autocmd bufwrite * call g:chmodonwrite()
+
+" w!! writes using sudo
+cmap w!! w !sudo tee % >/dev/null
 
 " auto-change current directory
 "autocmd bufenter * silent! lcd %:p:h
@@ -120,11 +122,10 @@ nmap <leader>w :w!<cr>
 map <leader>e :e! ~/.dotfiles/_vimrc<cr>
 
 " when vimrc is edited, reload it
-if has("win32")
-   autocmd! bufwritepost _vimrc source $HOME/_vimrc
-elseif has("unix")
-    autocmd! bufwritepost _vimrc source $HOME/.vimrc
-endif
+autocmd! bufwritepost _vimrc source $HOME/.dotfiles/_vimrc
+
+set list
+set listchars=tab:>.,trail:.,extends:#,nbsp:.
 
 " disable folding
 set nofoldenable

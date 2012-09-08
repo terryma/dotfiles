@@ -28,3 +28,6 @@
 [submodule "vimfiles/bundle/easytags"]
 	path = vimfiles/bundle/easytags
 	url = https://github.com/xolox/vim-easytags.git
+[submodule "vimfiles/bundle/fugitive"]
+	path = vimfiles/bundle/fugitive
+	url = https://github.com/tpope/vim-fugitive.git
