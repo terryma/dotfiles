@@ -148,7 +148,7 @@ set wildmenu "turn on wild menu
 set hid "change buffer - without saving
 
 " set backspace config
-"set backspace=eol,start,indent
+set backspace=eol,start,indent
 "set whichwrap+=<,>,h,l
 
 set ignorecase "ignore case when searching
