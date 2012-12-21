@@ -24,6 +24,7 @@ map <left> <nop>
 map <right> <nop>
 
 " disable Ctrl-C, that's a bad habit, use Ctrl-[ or jk instead
+" instead map it to copy to the system clipboard
 map <C-C> <nop>
 
 " map jk to escape
@@ -39,9 +40,11 @@ map <S-right> :vertical resize +5<cr>
 
 " Clear search highlights with F3
 map <F3> :noh<cr>
+map <leader>n :noh<cr>
 
 " Toggle Tagbar
 map <F4> :TagbarToggle<cr>
+map <leader>2 :TagbarToggle<cr>
 
 " F5 to F7 to switch color schemes
 map <F5> :colorscheme zenburn<cr>
@@ -100,7 +103,16 @@ cmap w!! w !sudo tee % >/dev/null
 "autocmd bufenter * silent! lcd %:p:h
 
 " copy the full path of the current file to the clipboard
-map <leader>p :let @* = expand("%:p")<cr>
+"map <leader>p :let @*=expand("%:p")<cr>
+map <leader>p :let @+=expand("%:p")<cr>
+
+" Copy and paste to the system clipboard using Ctrl-C and Ctrl-V
+nmap <C-V> "+gP
+imap <C-V> <esc><C-V>i
+vmap <C-C> "+y
+
+" Search the highlighted word using Ack
+vmap <c-s> y:<c-u>Ack -u <c-r>"<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => general
@@ -121,8 +133,9 @@ nmap <leader>w :w!<cr>
 " fast editing of the .vimrc
 map <leader>e :e! ~/.dotfiles/_vimrc<cr>
 
-" when vimrc is edited, reload it
-autocmd! bufwritepost _vimrc source $HOME/.dotfiles/_vimrc
+" when vimrc is edited, reload it and reload the powerline color scheme
+autocmd! bufwritepost _vimrc source ~/.dotfiles/_vimrc
+autocmd! bufwritepost _vimrc :PowerlineReloadColorscheme
 
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
@@ -166,6 +179,7 @@ set mat=2 "how many tenths of a second to blink
 
 " no sound on errors
 set vb
+set t_vb=
 
 set nocompatible   " disable vi-compatibility
 set laststatus=2   " always show the statusline
@@ -178,6 +192,9 @@ syntax enable "enable syntax hl
 
 " set font according to system
 if has("unix")
+    "set gfn=Menlo\ for\ Powerline\ 12
+    set gfn=Ubuntu\ Mono\ for\ Powerline\ 12
+elseif has("macunix")
     set gfn=menlo\ for\ powerline:h12
 elseif has("win32")
     set gfn=consolas:h12
@@ -208,12 +225,13 @@ set noswapfile
 " => Text, tab and indent related
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 set expandtab
-set shiftwidth=4
-set tabstop=4
+set shiftwidth=2
+set tabstop=8
+set softtabstop=2
 set smarttab
 
 set lbr
-set tw=500
+set tw=80
 
 set ai "Auto indent
 set si "Smart indet
@@ -284,12 +302,8 @@ imap <M-Down> <M-j>
 imap <M-k> <C-O><M-k>
 imap <D-k> <M-k>
 imap <M-Up> <M-k>
-"Copy a line using Ctrl-Alt-down or Ctrl-Alt-j
-nmap <C-M-Down> yyp
-imap <C-M-Down> <esc><C-M-Down>i
+"Copy a line using Ctrl-Alt-j
 nmap <C-M-j> yyp
-imap <C-M-Up> <esc><C-M-Up>i
-
 
 set guitablabel=%t
 
@@ -315,9 +329,9 @@ map <leader>s? z=
 """"""""""""""""""""""""""""""
 " => Command-T
 """"""""""""""""""""""""""""""
-let g:CommandTMaxHeight = 20
-set wildignore+=*.o,*.obj,.git,*.pyc,*.class,*.LCK,*.pdf
-noremap <leader>y :CommandTFlush<cr>
+"let g:CommandTMaxHeight = 20
+"set wildignore+=*.o,*.obj,.git,*.pyc,*.class,*.LCK,*.pdf
+"noremap <leader>y :CommandTFlush<cr>
 "map <S-T> :CommandT<cr>
 "map <leader>t :CommandT<cr>
 
