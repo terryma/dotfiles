@@ -1,15 +1,15 @@
-" I'm going to start re-learning VIM clean this time. Getting rid of most of my existing vimrc configs and try to understands what each one does
-
 " Init pathogen
-filetype off
 call pathogen#infect()
 call pathogen#helptags()
+syntax on
+filetype plugin indent on
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
 let mapleader = ","
 let g:mapleader = ","
 
+" Use the fancy version of Powerline synbols
 let g:Powerline_symbols = 'fancy'
 
 " Syntastic settings
@@ -17,15 +17,14 @@ let g:syntastic_mode_map = { 'mode': 'active',
             \ 'active_filetypes': ['ruby', 'php'],
             \ 'passive_filetypes': ['puppet'] }
 
-" disable arrow keys
+" Disable arrow keys, they're evil
 map <up> <nop>
 map <down> <nop>
 map <left> <nop>
 map <right> <nop>
 
-" disable Ctrl-C, that's a bad habit, use Ctrl-[ or jk instead
-" instead map it to copy to the system clipboard
-map <C-C> <nop>
+" Disable Ctrl-C, that's a bad habit, use Ctrl-[ or jk instead
+imap <c-c> <nop>
 
 " map jk to escape
 imap jk <esc>
@@ -118,11 +117,7 @@ vmap <c-s> y:<c-u>Ack -u <c-r>"<cr>
 " => general
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " sets how many lines of history vim has to remember
-set history=700
-
-" enable filetype plugin
-filetype plugin on
-filetype indent on
+set history=10000
 
 " set to auto read when a file is changed from the outside
 set autoread
@@ -130,12 +125,14 @@ set autoread
 " fast saving
 nmap <leader>w :w!<cr>
 
-" fast editing of the .vimrc
-map <leader>e :e! ~/.dotfiles/_vimrc<cr>
+" Fast editing of the .vimrc
+map <leader>e :e! ~/.dotfiles/.vimrc<cr>
 
-" when vimrc is edited, reload it and reload the powerline color scheme
-autocmd! bufwritepost _vimrc source ~/.dotfiles/_vimrc
-autocmd! bufwritepost _vimrc :PowerlineReloadColorscheme
+" Reload vimrc when edited, also reload the powerline color
+augroup myvimrc
+  au!
+  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | call Pl#Load() | if has('gui_running') | so $MYGVIMRC | endif
+augroup END
 
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
