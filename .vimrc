@@ -1,8 +1,16 @@
+set runtimepath+=~/.dotfiles/vimfiles
+
 " Init pathogen
 call pathogen#infect()
 call pathogen#helptags()
 syntax on
 filetype plugin indent on
+
+" Source google specific settings
+try
+source ~/.vimrc.google
+catch
+endtry
 
 " With a map leader it's possible to do extra key combinations
 " like <leader>w saves the current file
@@ -29,56 +37,56 @@ imap <c-c> <nop>
 " map jk to escape
 imap jk <esc>
 
-" Map NERDTree
-map <F2> :NERDTreeToggle<cr>
+""" Leader keys """
+" <Leader>Tab: Toggle NerdTree
 map <leader><tab> :NERDTreeToggle<cr>
+
+" <Leader>F: Sync the current buffer with NerdTree
+map <leader>f :NERDTreeFind<cr>
+
+" <Leader>N: Clear search highlights
+map <leader>n :noh<cr>
+
+" <Leader>W: Save
+nmap <leader>w :w<cr>
+
+" <Leader>1: Toggle between paste mode
+set pastetoggle=<leader>1
+
+" Toggle Tagbar
+map <leader>2 :tagbartoggle<cr>
 
 " Resize window using shift left and right
 map <S-left> :vertical resize -5<cr>
 map <S-right> :vertical resize +5<cr>
 
-" Clear search highlights with F3
-map <F3> :noh<cr>
-map <leader>n :noh<cr>
-
-" Toggle Tagbar
-map <F4> :TagbarToggle<cr>
-map <leader>2 :TagbarToggle<cr>
-
-" F5 to F7 to switch color schemes
-map <F5> :colorscheme zenburn<cr>
-map <F6> :colorscheme molokai<cr>
-map <f7> :colorscheme desert-warm-256<cr>
-
-" toggle between paste mode
-set pastetoggle=<leader>1
-set showmode
-
-" map ctrl-z to undo in insert mode
+" Ctrl-Z: Undo in insert mode
 imap <c-z> <esc>ui
 
-" map ctrl-n ctrl-n to toggle line number
+" Ctrl-N Ctrl-N: Toggle line number
 nmap <c-n><c-n> :set invnumber<cr>
-" show line number
-set number
 
-" ctrl-n ctrl-t to open a new tab
+" Ctrl-N Ctrl-T: Open new tab
 nmap <c-n><c-t> :tabnew<cr>
+
+" Ctrl-N Ctrl-W: Close tab
 nmap <c-n><c-w> :tabclose<cr>
 
-" ctrl-backspace to delete previous word
+" Ctrl-Backspace: Delete previous word
 imap <c-bs> <c-w>
 
-set completeopt=longest,menuone,preview
-" map ctrl-space to omni-completion
-inoremap <expr> <c-space> pumvisible() ? "\<lt>c-n>" : "\<lt>c-n>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
-inoremap <expr> <m-;> pumvisible() ? "\<lt>c-n>" : "\<lt>c-x>\<lt>c-o>\<lt>c-n>\<lt>c-p>\<lt>c-r>=pumvisible() ? \"\\<lt>down>\" : \"\"\<lt>cr>"
-
-" \ to toggle comment using the nerdcommenter
+" \: Toggle comment with Nerdcommenter
 map \ <leader>c<space>
 
-" <leader>f to sync the current buffer with nerdtree
-map <leader>f :NERDTreeFind<cr>
+" Show line number
+set number
+
+" Show mode
+set showmode
+
+" Auto complete setting
+set completeopt=longest,menuone,preview
+
 let NERDTreeShowBookmarks=1
 "let g:nerdtreewinsize=30
 " only start if no file is specified
@@ -97,9 +105,6 @@ autocmd bufwrite * call g:chmodonwrite()
 
 " w!! writes using sudo
 cmap w!! w !sudo tee % >/dev/null
-
-" auto-change current directory
-"autocmd bufenter * silent! lcd %:p:h
 
 " copy the full path of the current file to the clipboard
 "map <leader>p :let @*=expand("%:p")<cr>
@@ -121,9 +126,6 @@ set history=10000
 
 " set to auto read when a file is changed from the outside
 set autoread
-
-" fast saving
-nmap <leader>w :w!<cr>
 
 " Fast editing of the .vimrc
 map <leader>e :e! ~/.dotfiles/.vimrc<cr>
@@ -277,6 +279,7 @@ map 0 ^
 "Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
 nmap <D-j> <M-j> 
+nmap ^[j mz:m+<cr>`z
 nmap <M-Down> <M-j>
 nmap <M-k> mz:m-2<cr>`z
 nmap <D-k> <M-k>
@@ -304,13 +307,6 @@ nmap <C-M-j> yyp
 
 set guitablabel=%t
 
-
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Omni complete functions
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-autocmd FileType css set omnifunc=csscomplete#CompleteCSS
-
-
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -322,19 +318,3 @@ map <leader>sn ]s
 map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
-
-""""""""""""""""""""""""""""""
-" => Command-T
-""""""""""""""""""""""""""""""
-"let g:CommandTMaxHeight = 20
-"set wildignore+=*.o,*.obj,.git,*.pyc,*.class,*.LCK,*.pdf
-"noremap <leader>y :CommandTFlush<cr>
-"map <S-T> :CommandT<cr>
-"map <leader>t :CommandT<cr>
-
-
-""""""""""""""""""""""""""""""
-" => Vim grep
-""""""""""""""""""""""""""""""
-let Grep_Skip_Dirs = 'RCS CVS SCCS .svn generated'
-set grepprg=/bin/grep\ -nH

@@ -31,3 +31,6 @@
 [submodule "vimfiles/bundle/fugitive"]
 	path = vimfiles/bundle/fugitive
 	url = https://github.com/tpope/vim-fugitive.git
+[submodule "vimfiles/bundle/vim-session"]
+	path = vimfiles/bundle/vim-session
+	url = https://github.com/xolox/vim-session.git
