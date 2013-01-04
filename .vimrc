@@ -67,13 +67,13 @@ imap <c-z> <esc>ui
 nmap <c-n><c-n> :set invnumber<cr>
 
 " Ctrl-N Ctrl-T: Open new tab
-nmap <c-n><c-t> :tabnew<cr>
+nnoremap <c-n><c-t> :tabnew<cr>
 
 " Ctrl-N Ctrl-W: Close tab
-nmap <c-n><c-w> :tabclose<cr>
+nnoremap <c-n><c-w> :tabclose<cr>
 
 " Ctrl-Backspace: Delete previous word
-imap <c-bs> <c-w>
+inoremap <c-bs> <c-w>
 
 " \: Toggle comment with Nerdcommenter
 map \ <leader>c<space>
@@ -115,8 +115,24 @@ nmap <C-V> "+gP
 imap <C-V> <esc><C-V>i
 vmap <C-C> "+y
 
-" Search the highlighted word using Ack
-vmap <c-s> y:<c-u>Ack -u <c-r>"<cr>
+" Select all with Ctrl-A
+nmap <C-A> ggVG
+
+" Paste to command mode using Ctrl-V
+cmap <C-V> <C-R>"
+
+" Search the highlighted word literally using Ack
+vnoremap <c-s> y:<c-u>Ack -Qu '<c-r>"'<cr>
+
+" Search the highlighted word literally on the current buffer using Ack
+vnoremap <leader>s y:<c-u>Ack -Q '<c-r>"' %<cr>
+
+" Ctrl-S to save
+nmap <C-S> :w<cr>
+imap <C-S> <C-O><C-S>
+
+" Remap Ctrl-W to quit
+nmap <C-W> :q<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => general
@@ -256,10 +272,10 @@ map <c-space> ?
 map <silent> <leader><cr> :noh<cr>
 
 " Smart way to move btw. windows
-map <C-j> <C-W>j
-map <C-k> <C-W>k
-map <C-h> <C-W>h
-map <C-l> <C-W>l
+noremap <C-j> <C-W>j
+noremap <C-k> <C-W>k
+noremap <C-h> <C-W>h
+noremap <C-l> <C-W>l
 
 " Close the current buffer
 map <leader>bd :Bclose<cr>
@@ -278,30 +294,23 @@ map 0 ^
 
 "Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
-nmap <D-j> <M-j> 
+nmap <D-j> <M-j>
 nmap ^[j mz:m+<cr>`z
-nmap <M-Down> <M-j>
 nmap <M-k> mz:m-2<cr>`z
 nmap <D-k> <M-k>
-nmap <M-Up> <M-k>
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <D-j> <M-j>
-vmap <M-Down> <M-j>
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 vmap <D-k> <M-k>
-vmap <M-Up> <M-k>
 smap <M-j> <C-G><M-j>
 smap <D-j> <M-j>
-smap <M-Down> <M-j>
 smap <M-k> <C-G><M-k>
 smap <D-k> <M-k>
-smap <M-Up> <M-k>
-imap <M-j> <C-O><M-j>
+imap <M-j> <esc><M-j>i
 imap <D-j> <M-j>
-imap <M-Down> <M-j>
-imap <M-k> <C-O><M-k>
+imap <M-k> <esc><M-k>i
 imap <D-k> <M-k>
-imap <M-Up> <M-k>
+
 "Copy a line using Ctrl-Alt-j
 nmap <C-M-j> yyp
 
