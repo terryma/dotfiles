@@ -35,3 +35,4 @@
 [submodule "vimfiles/bundle/vim-session"]
 	path = vimfiles/bundle/vim-session
 	url = https://github.com/xolox/vim-session.git
+        ignore = untracked
