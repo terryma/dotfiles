@@ -17,28 +17,10 @@ endtry
 let mapleader = ","
 let g:mapleader = ","
 
-" Use the fancy version of Powerline synbols
-let g:Powerline_symbols = 'fancy'
-
-" Syntastic settings
-let g:syntastic_mode_map = { 'mode': 'active',
-            \ 'active_filetypes': ['ruby', 'php'],
-            \ 'passive_filetypes': ['puppet'] }
-
-" Disable arrow keys, they're evil
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
-
-" Disable Ctrl-C, that's a bad habit, use Ctrl-[ or jk instead
-imap <c-c> <nop>
-
-" map jk to escape
-imap jk <esc>
-
-""" Leader keys """
-" <Leader>Tab: Toggle NerdTree
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Leader key mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" <Leader>tab Toggles NERDTree
 map <leader><tab> :NERDTreeToggle<cr>
 
 " <Leader>F: Sync the current buffer with NerdTree
@@ -50,18 +32,43 @@ map <leader>n :noh<cr>
 " <Leader>W: Save
 nmap <leader>w :w<cr>
 
+" <Leader>Q: Quit all
+map <leader>q :qa<cr>
+
+" <Leader>P: Copy the full path of the current file to the clipboard
+map <leader>p :let @+=expand("%:p")<cr>
+
 " <Leader>1: Toggle between paste mode
 set pastetoggle=<leader>1
 
-" Toggle Tagbar
-map <leader>2 :tagbartoggle<cr>
+" <Leader>2: Toggle Tagbar
+map <leader>2 :TagbarToggle<cr>
 
-" Resize window using shift left and right
-map <S-left> :vertical resize -5<cr>
-map <S-right> :vertical resize +5<cr>
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => General key mappings
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Disable arrow keys, they're evil
+map <up> <nop>
+map <down> <nop>
+map <left> <nop>
+map <right> <nop>
 
-" Ctrl-Z: Undo in insert mode
-imap <c-z> <esc>ui
+" Disable Ctrl-C, that's a bad habit, use Ctrl-[ or jk instead
+imap <c-c> <nop>
+
+" Map jk to escape in insert mode
+imap jk <esc>
+
+" Ctrl-[hjkl]: Move in insert mode
+imap <c-h> <left>
+imap <c-j> <down>
+imap <c-k> <up>
+imap <c-l> <right>
+
+" Alt-[hjkl]: Move word i insert mode
+" TODO This doesn't work when a word is just a single character, how to fix?
+inoremap <m-h> <esc>BBEa
+inoremap <m-l> <esc>Ea
 
 " Ctrl-N Ctrl-N: Toggle line number
 nmap <c-n><c-n> :set invnumber<cr>
@@ -78,69 +85,50 @@ inoremap <c-bs> <c-w>
 " \: Toggle comment with Nerdcommenter
 map \ <leader>c<space>
 
-" Show line number
-set number
-
-" Show mode
-set showmode
-
-" Auto complete setting
-set completeopt=longest,menuone,preview
-
-let NERDTreeShowBookmarks=1
-"let g:nerdtreewinsize=30
-" only start if no file is specified
-autocmd vimenter * if !argc() | NERDTree | wincmd p | endif
-" close vim if the only window open is nerdtree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-
 " w! change ro files to rw
 function! g:chmodonwrite()
     if v:cmdbang
         silent !chmod u+w %
     endif
 endfunction
-
 autocmd bufwrite * call g:chmodonwrite()
 
 " w!! writes using sudo
 cmap w!! w !sudo tee % >/dev/null
 
-" copy the full path of the current file to the clipboard
-"map <leader>p :let @*=expand("%:p")<cr>
-map <leader>p :let @+=expand("%:p")<cr>
-
 " Copy and paste to the system clipboard using Ctrl-C and Ctrl-V
-nmap <C-V> "+gP
-imap <C-V> <esc><C-V>i
-vmap <C-C> "+y
-
-" Select all with Ctrl-A
-nmap <C-A> ggVG
+nmap <c-v> "+gP
+imap <c-v> <esc><c-v>i
+vmap <c-c> "+y
 
 " Paste to command mode using Ctrl-V
-cmap <C-V> <C-R>"
+cmap <c-v> <c-r>"
+
+" Select all with Ctrl-A
+nmap <c-a> ggVG
 
 " Search the highlighted word literally using Ack
-vnoremap <c-s> y:<c-u>Ack -Qu '<c-r>"'<cr>
+vnoremap <leader>sd y:<c-u>Ack -Qu '<c-r>"'<cr>
+nnoremap <leader>sd :Ack -Qu '<c-r><c-w>'<cr>
 
 " Search the highlighted word literally on the current buffer using Ack
-vnoremap <leader>s y:<c-u>Ack -Q '<c-r>"' %<cr>
+vnoremap <leader>sf y:<c-u>Ack -Q '<c-r>"' %<cr>
+nnoremap <leader>sf :Ack -Q '<c-r><c-w>' %<cr>
 
 " Ctrl-S to save
-nmap <C-S> :w<cr>
-imap <C-S> <C-O><C-S>
+nmap <c-s> :w<cr>
+imap <c-s> <c-o><c-s>
 
 " Remap Ctrl-W to quit
-nmap <C-W> :q<cr>
+nmap <c-w> :q<cr>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => general
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" sets how many lines of history vim has to remember
+" Sets how many lines of history vim has to remember
 set history=10000
 
-" set to auto read when a file is changed from the outside
+" Set to auto read when a file is changed from the outside
 set autoread
 
 " Fast editing of the .vimrc
@@ -152,32 +140,34 @@ augroup myvimrc
   au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | call Pl#Load() | if has('gui_running') | so $MYGVIMRC | endif
 augroup END
 
+" Display unprintable chars
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
 
-" disable folding
+" Minimal number of screen lines to keep above and below the cursor
+set scrolloff=10
+
+" Disable folding
 set nofoldenable
 set foldlevel=99999
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => vim user interface
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" set 7 lines to the curors - when moving vertical..
-"set so=7
+" Show line number
+set number
 
-" set completion mode. first tab completes as much as possible, second tab shows list of options
+" Show mode
+set showmode
+
+" Auto complete setting
+set completeopt=longest,menuone,preview
+
+" Set completion mode. first tab completes as much as possible, second tab shows list of options
 set wildmode=longest,list
 set wildmenu "turn on wild menu
-
-"set ruler "always show current position
-
-"set cmdheight=2 "the commandbar height
 
 set hid "change buffer - without saving
 
 " set backspace config
 set backspace=eol,start,indent
-"set whichwrap+=<,>,h,l
 
 set ignorecase "ignore case when searching
 set smartcase
@@ -207,7 +197,6 @@ syntax enable "enable syntax hl
 
 " set font according to system
 if has("unix")
-    "set gfn=Menlo\ for\ Powerline\ 12
     set gfn=Ubuntu\ Mono\ for\ Powerline\ 12
 elseif has("macunix")
     set gfn=menlo\ for\ powerline:h12
@@ -249,7 +238,6 @@ set lbr
 set tw=80
 
 set ai "Auto indent
-set si "Smart indet
 set wrap "Wrap lines
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -284,7 +272,10 @@ map <leader>bd :Bclose<cr>
 map <leader>ba :1,300 bd!<cr>
 
 " When pressing <leader>cd switch to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+" Restart vim with Ctrl-Alt-R
+nmap <C-M-r> :RestartVim<CR>
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Editing mappings
@@ -306,9 +297,9 @@ smap <M-j> <C-G><M-j>
 smap <D-j> <M-j>
 smap <M-k> <C-G><M-k>
 smap <D-k> <M-k>
-imap <M-j> <esc><M-j>i
+imap <M-j> <esc><M-j>a
 imap <D-j> <M-j>
-imap <M-k> <esc><M-k>i
+imap <M-k> <esc><M-k>a
 imap <D-k> <M-k>
 
 "Copy a line using Ctrl-Alt-j
@@ -327,3 +318,36 @@ map <leader>sn ]s
 map <leader>sp [s
 map <leader>sa zg
 map <leader>s? z=
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => NERDTree
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let NERDTreeShowBookmarks=1
+" only start if no file is specified
+autocmd vimenter * if !argc() | NERDTree | wincmd p | endif
+" close vim if the only window open is nerdtree
+autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => NERD Commenter
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let NERDSpaceDelims=1
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Powerline
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use the fancy version of Powerline symbols
+let g:Powerline_symbols = 'fancy'
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Syntastic
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Syntastic settings
+let g:syntastic_mode_map = { 'mode': 'active',
+            \ 'active_filetypes': ['ruby', 'php'],
+            \ 'passive_filetypes': ['puppet'] }
+
+""" Temporarily disabled settings """
+" Resize window using shift left and right
+" map <S-left> :vertical resize -5<cr>
+" map <S-right> :vertical resize +5<cr>
