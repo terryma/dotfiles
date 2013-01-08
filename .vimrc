@@ -145,6 +145,9 @@ augroup END
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
 
+" the /g flag on :s substitutions by default
+set gdefault
+
 " Minimal number of screen lines to keep above and below the cursor
 set scrolloff=10
 
@@ -286,14 +289,13 @@ map 0 ^
 
 "Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
-nmap <D-j> <M-j>
-nmap ^[j mz:m+<cr>`z
 nmap <M-k> mz:m-2<cr>`z
-nmap <D-k> <M-k>
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
-vmap <D-j> <M-j>
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
-vmap <D-k> <M-k>
+smap <M-j> <C-G><M-j>
+smap <M-k> <C-G><M-k>
+imap <M-j> <esc><M-j>a
+imap <M-k> <esc><M-k>a
 smap <M-j> <C-G><M-j>
 smap <D-j> <M-j>
 smap <M-k> <C-G><M-k>
@@ -353,3 +355,9 @@ let g:syntastic_mode_map = { 'mode': 'active',
 " Resize window using shift left and right
 " map <S-left> :vertical resize -5<cr>
 " map <S-right> :vertical resize +5<cr>
+
+" Recognize single <Esc> immediately, at the expense of arrow keys and function
+" keys not working. meh
+set noesckeys
+" Lower the delay of escaping out of other modes
+set timeout timeoutlen=1000 ttimeoutlen=100
