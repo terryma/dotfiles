@@ -1,0 +1,24 @@
+[user]
+	name = Terry Ma
+	email = zhenchuan.ma@gmail.com
+[core]
+	excludesfile = /Users/terryma/.gitignore_global
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
+[alias]
+	d = difftool
+[difftool]
+	prompt = false
+[color]
+	ui = auto
+[diff]
+  tool = p4diff
+  external = vimdiff-git
+[difftool "p4diff"]
+  cmd = /Applications/p4merge.app/Contents/MacOS/p4merge \"$LOCAL\" \"$REMOTE\" >/dev/null 2>$1
+[pager]
+  diff = 

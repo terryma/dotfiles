@@ -30,12 +30,26 @@ ZSH_THEME="agnoster"
 # Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
 # Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
 # Example format: plugins=(rails git textmate ruby lighthouse)
-plugins=(git)
+plugins=(git brew)
 
 source $ZSH/oh-my-zsh.sh
 
 # Customize to your needs...
-export PATH=/usr/local/bin:/user/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python
+export PATH=~/.dotfiles/bin:/usr/local/bin:/user/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python
 
 DEFAULT_USER=$USER
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# fasd settings
+fasd_cache="$HOME/.fasd-init-bash"
+if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+  fasd --init posix-alias zsh-{hook,ccomp,ccomp-install,wcomp,wcomp-install} >| "$fasd_cache"
+fi
+source "$fasd_cache"
+unset fasd_cache
+
+alias v='f -e vim'
+alias p4merge='/Applications/p4merge.app/Contents/MacOS/p4merge'
+
+
+
