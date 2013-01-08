@@ -383,6 +383,11 @@ nmap <leader>gr :Gremove<cr>
 nmap <leader>gs :Gstatus<cr>
 nmap <leader>gw :Gwrite<cr>
 
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => CtrlP
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap <c-b> :CtrlPBuffer<cr>
+
 """ Temporarily disabled settings """
 " Resize window using shift left and right
 " map <S-left> :vertical resize -5<cr>
