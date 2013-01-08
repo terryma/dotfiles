@@ -97,7 +97,8 @@ autocmd bufwrite * call g:chmodonwrite()
 cmap w!! w !sudo tee % >/dev/null
 
 " Copy and paste to the system clipboard using Ctrl-C and Ctrl-V
-nmap <c-v> "+gP
+" Disable this in normal node since it conflicts with visual block mode
+" nmap <c-v> "+gP
 imap <c-v> <esc><c-v>i
 vmap <c-c> "+y
 
