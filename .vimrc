@@ -106,7 +106,7 @@ vmap <c-c> "+y
 cmap <c-v> <c-r>"
 
 " Select all with Ctrl-A
-nmap <c-a> ggVG
+nmap <c-a> ggvGg_
 
 " Search the highlighted word literally using Ack
 vnoremap <leader>sd y:<c-u>Ack -Qu '<c-r>"'<cr>
@@ -122,6 +122,27 @@ imap <c-s> <c-o><c-s>
 
 " Remap Ctrl-W to quit
 nmap <c-w> :q<cr>
+
+" scroll faster & move cursor too
+nnoremap <c-e> 3<c-e>3j
+nnoremap <c-y> 3<c-y>3k
+vnoremap <c-e> 3<c-e>3j
+vnoremap <c-y> 3<c-y>3k
+
+" Go to beginning and end of line quicker
+noremap H ^
+noremap L $
+
+" keep search matches in the middle of the window
+nnoremap n nzzzv
+nnoremap N Nzzzv
+
+" basic readline shortcuts
+inoremap <c-a> <esc>I
+inoremap <c-e> <esc>A
+
+" make backspace work sanely in visual mode
+vnoremap <bs> x
 
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => general
@@ -350,6 +371,17 @@ let g:Powerline_symbols = 'fancy'
 let g:syntastic_mode_map = { 'mode': 'active',
             \ 'active_filetypes': ['ruby', 'php'],
             \ 'passive_filetypes': ['puppet'] }
+
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Fugitive
+"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nmap <leader>gb :Gblame<cr>
+nmap <leader>gc :Gcommit<cr>
+nmap <leader>gd :Gdiff<cr>
+nmap <leader>gp :Git push<cr>
+nmap <leader>gr :Gremove<cr>
+nmap <leader>gs :Gstatus<cr>
+nmap <leader>gw :Gwrite<cr>
 
 """ Temporarily disabled settings """
 " Resize window using shift left and right
