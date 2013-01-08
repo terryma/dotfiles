@@ -215,6 +215,8 @@ set nocompatible   " disable vi-compatibility
 set laststatus=2   " always show the statusline
 set encoding=utf-8 " necessary to show unicode glyphs
 
+set colorcolumn=+1 " color the text width
+
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => colors and fonts
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
