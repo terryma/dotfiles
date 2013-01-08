@@ -324,8 +324,9 @@ map <leader>s? z=
 " => NERDTree
 """""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeShowBookmarks=1
-" only start if no file is specified
-autocmd vimenter * if !argc() | NERDTree | wincmd p | endif
+" only start if no file is specified (this appears to cause powerline to not
+" show up correctly inside of tmux for some strange reason. Disable it for now
+" autocmd vimenter * if !argc() | NERDTree | wincmd p | endif
 " close vim if the only window open is nerdtree
 autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
