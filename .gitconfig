@@ -19,6 +19,7 @@
   tool = p4diff
   external = vimdiff-git
 [difftool "p4diff"]
-  cmd = /Applications/p4merge.app/Contents/MacOS/p4merge \"$LOCAL\" \"$REMOTE\" >/dev/null 2>$1
+  cmd = /Applications/p4merge.app/Contents/MacOS/p4merge \"$LOCAL\" \"$REMOTE\" > /dev/null 2>&1
+  trustExitCode = false
 [pager]
   diff = 
