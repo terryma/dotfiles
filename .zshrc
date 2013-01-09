@@ -32,12 +32,19 @@ ZSH_THEME="agnoster"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git brew osx vi-mode)
 
+# Source oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-# Customize to your needs...
-export PATH=~/.dotfiles/bin:/usr/local/bin:/user/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python
+# Source all other zsh files
+for config in "~/.dotfiles/.zsh/*.zsh" source $config
 
-DEFAULT_USER=$USER
+# Export TERM correctly for tmux
+[[ $TERM == "screen" ]] && export TERM=screen-256color
+[[ $TERM == "xterm" ]] && export TERM=xterm-256color
+
+# eval `dircolors ~/.dircolors`
+
+# Initialize rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # fasd settings
@@ -48,8 +55,11 @@ fi
 source "$fasd_cache"
 unset fasd_cache
 
+# Aliases
 alias v='f -e vim'
 alias p4merge='/Applications/p4merge.app/Contents/MacOS/p4merge'
+alias gvir='gvim --remote' # Open file in existing gvim
+alias tmux='tmux -2'
 
 # Use vim as a pager for less
 VLESS=$(find /usr/share/vim -name 'less.sh')
@@ -57,6 +67,8 @@ if [ ! -z $VLESS ]; then
   alias less=$VLESS
 fi
 
+DEFAULT_USER=$USER
+export PATH=~/.dotfiles/bin:/usr/local/bin:/user/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python
 export EDITOR=vim
 export PAGER=less
 export VISUAL=vim

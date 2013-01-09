@@ -99,7 +99,7 @@ cmap w!! w !sudo tee % >/dev/null
 " Copy and paste to the system clipboard using Ctrl-C and Ctrl-V
 " Disable this in normal node since it conflicts with visual block mode
 " nmap <c-v> "+gP
-imap <c-v> <esc><c-v>i
+" imap <c-v> <esc>"+gpa
 vmap <c-c> "+y
 
 " Paste to command mode using Ctrl-V
@@ -310,22 +310,18 @@ nmap <C-M-r> :RestartVim<CR>
 "Remap VIM 0
 map 0 ^
 
-"Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
+"Move a line of text using Alt+[jk] or Comamnd+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
+imap <M-j> <esc><M-j>a
 nmap <M-k> mz:m-2<cr>`z
+imap <M-k> <esc><M-k>a
 vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 smap <M-j> <C-G><M-j>
 smap <M-k> <C-G><M-k>
-imap <M-j> <esc><M-j>a
-imap <M-k> <esc><M-k>a
-smap <M-j> <C-G><M-j>
 smap <D-j> <M-j>
-smap <M-k> <C-G><M-k>
 smap <D-k> <M-k>
-imap <M-j> <esc><M-j>a
 imap <D-j> <M-j>
-imap <M-k> <esc><M-k>a
 imap <D-k> <M-k>
 
 "Copy a line using Ctrl-Alt-j
@@ -397,6 +393,23 @@ nmap <c-b> :CtrlPBuffer<cr>
 
 " Recognize single <Esc> immediately, at the expense of arrow keys and function
 " keys not working. meh
-set noesckeys
+" set noesckeys
 " Lower the delay of escaping out of other modes
 set timeout timeoutlen=1000 ttimeoutlen=100
+
+" Map Alt keys correctly
+" See http://stackoverflow.com/questions/6778961/alt-key-shortcuts-not-working-on-gnome-terminal-with-vim 
+" let c='a'
+" while c <= 'z'
+  " exec "set <a-".c.">=\e".c
+  " exec "imap \e".c." <a-".c.">"
+  " let c = nr2char(1+char2nr(c))
+" endw
+
+" fix meta-keys which generate <Esc>a .. <Esc>z
+let c='a'
+while c <= 'z'
+  exec "set <M-".c.">=\e".c
+  exec "imap \e".c." <M-".c.">"
+  let c = nr2char(1+char2nr(c))
+endw
