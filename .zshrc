@@ -35,6 +35,10 @@ plugins=(git brew osx vi-mode)
 # Source oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
+# Disable auto correct
+unsetopt correct_all
+
+# if mode indicator wasn't setup by theme, define default
 # Source all other zsh files
 for config in "~/.dotfiles/.zsh/*.zsh" source $config
 
@@ -42,7 +46,7 @@ for config in "~/.dotfiles/.zsh/*.zsh" source $config
 [[ $TERM == "screen" ]] && export TERM=screen-256color
 [[ $TERM == "xterm" ]] && export TERM=xterm-256color
 
-# eval `dircolors ~/.dircolors`
+eval `dircolors ~/.dircolors`
 
 # Initialize rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
@@ -279,6 +283,10 @@ case "$TERM" in
     bindkey -M viins '\ef'   forward-word      # Alt-f
     bindkey -M viins '\eb'   backward-word     # Alt-b
     bindkey -M viins '\ed'   kill-word         # Alt-d
+    # For some reason up and down arrows take you to the beginning of the line.
+    # Remap them explicitly
+    bindkey -M viins '\eOA'  up-line-or-history
+    bindkey -M viins '\eOB'  down-line-or-history
 
 
     # VI MODE KEYBINDINGS (cmd mode)
