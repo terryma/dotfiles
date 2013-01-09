@@ -99,7 +99,7 @@ cmap w!! w !sudo tee % >/dev/null
 " Copy and paste to the system clipboard using Ctrl-C and Ctrl-V
 " Disable this in normal node since it conflicts with visual block mode
 " nmap <c-v> "+gP
-" imap <c-v> <esc>"+gpa
+imap <c-v> <esc>"+gpa
 vmap <c-c> "+y
 
 " Paste to command mode using Ctrl-V

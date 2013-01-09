@@ -72,6 +72,7 @@ export PATH=~/.dotfiles/bin:/usr/local/bin:/user/local/sbin:/usr/bin:/bin:/usr/s
 export EDITOR=vim
 export PAGER=less
 export VISUAL=vim
+export P4DIFF="gvimdiff -f -R"
 
 # Turn off terminal driver flow control (CTRL+S/CTRL+Q)
 setopt noflowcontrol
