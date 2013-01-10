@@ -45,7 +45,9 @@ for config in "~/.zsh/*.zsh" source $config
 [[ $TERM == "screen" ]] && export TERM=screen-256color
 [[ $TERM == "xterm" ]] && export TERM=xterm-256color
 
-eval `dircolors ~/.dircolors`
+if [[ `uname` == 'Linux' ]]; then
+  eval `dircolors ~/.dircolors`
+fi
 
 # Initialize rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
