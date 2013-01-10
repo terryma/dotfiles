@@ -1,7 +1,7 @@
 " Init pathogen
 source ~/.dotfiles/.vim/bundle/pathogen/autoload/pathogen.vim
-call pathogen#infect()
-call pathogen#helptags()
+execute pathogen#infect()
+execute pathogen#helptags()
 syntax on
 filetype plugin indent on
 
@@ -200,10 +200,11 @@ nmap <C-M-j> yyp
 set background=dark
 
 " Colorscheme
-colorscheme desert-warm-256
+" colorscheme desert-warm-256
 " colorscheme distinguished
 " colorscheme solarized
 " colorscheme vivdchalk
+colorscheme jellybeans
 
 " Sets how many lines of history vim has to remember
 set history=10000
