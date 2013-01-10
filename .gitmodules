@@ -54,3 +54,6 @@
 [submodule "vimfiles/bundle/jellybeans.vim"]
 	path = vimfiles/bundle/jellybeans.vim
 	url = https://github.com/nanotech/jellybeans.vim.git
+[submodule "vimfiles/bundle/vividchalk"]
+	path = vimfiles/bundle/vividchalk
+	url = https://github.com/tpope/vim-vividchalk.git
