@@ -207,10 +207,12 @@ vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 smap <M-j> <C-G><M-j>
 smap <M-k> <C-G><M-k>
-smap <D-j> <M-j>
-smap <D-k> <M-k>
-imap <D-j> <M-j>
-imap <D-k> <M-k>
+if has("macunix")
+  smap <D-j> <M-j>
+  smap <D-k> <M-k>
+  imap <D-j> <M-j>
+  imap <D-k> <M-k>
+endif
 
 " FIXME None of the following works in the terminal
 " Copy a line using Ctrl-Alt-j
