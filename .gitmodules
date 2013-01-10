@@ -48,3 +48,6 @@
 [submodule "vimfiles/bundle/wombat256"]
 	path = vimfiles/bundle/wombat256
 	url = https://github.com/vim-scripts/wombat256.vim.git
+[submodule "vimfiles/bundle/vim-golang"]
+	path = vimfiles/bundle/vim-golang
+	url = https://github.com/jnwhiteh/vim-golang.git
