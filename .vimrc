@@ -1,6 +1,5 @@
-set runtimepath+=~/.dotfiles/vimfiles
-
 " Init pathogen
+source ~/.dotfiles/.vim/bundle/pathogen/autoload/pathogen.vim
 call pathogen#infect()
 call pathogen#helptags()
 syntax on
