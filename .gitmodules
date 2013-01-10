@@ -63,3 +63,6 @@
 [submodule "vimfiles/bundle/molokai"]
 	path = vimfiles/bundle/molokai
 	url = https://github.com/tomasr/molokai.git
+[submodule "vimfiles/bundle/solarized"]
+	path = vimfiles/bundle/solarized
+	url = https://github.com/altercation/vim-colors-solarized.git

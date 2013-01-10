@@ -198,8 +198,13 @@ nmap <C-M-j> yyp
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General Settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+set background=dark
+
 " Colorscheme
 colorscheme desert-warm-256
+" colorscheme distinguished
+" colorscheme solarized
+" colorscheme vivdchalk
 
 " Sets how many lines of history vim has to remember
 set history=10000
