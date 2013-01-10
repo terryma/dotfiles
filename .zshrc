@@ -32,12 +32,23 @@ ZSH_THEME="agnoster"
 # Example format: plugins=(rails git textmate ruby lighthouse)
 plugins=(git brew osx vi-mode)
 
+# Source oh-my-zsh
 source $ZSH/oh-my-zsh.sh
 
-# Customize to your needs...
-export PATH=~/.dotfiles/bin:/usr/local/bin:/user/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python
+# Disable auto correct
+unsetopt correct_all
 
-DEFAULT_USER=$USER
+# if mode indicator wasn't setup by theme, define default
+# Source all other zsh files
+for config in "~/.dotfiles/.zsh/*.zsh" source $config
+
+# Export TERM correctly for tmux
+[[ $TERM == "screen" ]] && export TERM=screen-256color
+[[ $TERM == "xterm" ]] && export TERM=xterm-256color
+
+eval `dircolors ~/.dircolors`
+
+# Initialize rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
 # fasd settings
@@ -48,8 +59,11 @@ fi
 source "$fasd_cache"
 unset fasd_cache
 
+# Aliases
 alias v='f -e vim'
 alias p4merge='/Applications/p4merge.app/Contents/MacOS/p4merge'
+alias gvir='gvim --remote' # Open file in existing gvim
+alias tmux='tmux -2'
 
 # Use vim as a pager for less
 VLESS=$(find /usr/share/vim -name 'less.sh')
@@ -57,9 +71,12 @@ if [ ! -z $VLESS ]; then
   alias less=$VLESS
 fi
 
+DEFAULT_USER=$USER
+export PATH=~/.dotfiles/bin:/usr/local/bin:/user/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python
 export EDITOR=vim
 export PAGER=less
 export VISUAL=vim
+export P4DIFF="gvimdiff -f -R"
 
 # Turn off terminal driver flow control (CTRL+S/CTRL+Q)
 setopt noflowcontrol
@@ -266,6 +283,10 @@ case "$TERM" in
     bindkey -M viins '\ef'   forward-word      # Alt-f
     bindkey -M viins '\eb'   backward-word     # Alt-b
     bindkey -M viins '\ed'   kill-word         # Alt-d
+    # For some reason up and down arrows take you to the beginning of the line.
+    # Remap them explicitly
+    bindkey -M viins '\eOA'  up-line-or-history
+    bindkey -M viins '\eOB'  down-line-or-history
 
 
     # VI MODE KEYBINDINGS (cmd mode)
