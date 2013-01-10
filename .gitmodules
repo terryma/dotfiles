@@ -57,3 +57,9 @@
 [submodule "vimfiles/bundle/vividchalk"]
 	path = vimfiles/bundle/vividchalk
 	url = https://github.com/tpope/vim-vividchalk.git
+[submodule "vimfiles/bundle/vim-desert-warm-256"]
+	path = vimfiles/bundle/vim-desert-warm-256
+	url = https://github.com/rainux/vim-desert-warm-256.git
+[submodule "vimfiles/bundle/molokai"]
+	path = vimfiles/bundle/molokai
+	url = https://github.com/tomasr/molokai.git
