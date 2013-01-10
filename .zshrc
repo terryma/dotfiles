@@ -38,9 +38,8 @@ source $ZSH/oh-my-zsh.sh
 # Disable auto correct
 unsetopt correct_all
 
-# if mode indicator wasn't setup by theme, define default
 # Source all other zsh files
-for config in "~/.dotfiles/.zsh/*.zsh" source $config
+for config in "~/.zsh/*.zsh" source $config
 
 # Export TERM correctly for tmux
 [[ $TERM == "screen" ]] && export TERM=screen-256color
@@ -84,9 +83,6 @@ stty -ixon -ixoff
 
 # no beep
 setopt no_beep
-
-# 10ms for key sequences
-# KEYTIMEOUT=1
 
 # ZLE WIDGETS
 
