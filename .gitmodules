@@ -1,39 +1,39 @@
-[submodule "vimfiles/bundle/ack"]
-	path = vimfiles/bundle/ack
+[submodule ".vim/bundle/ack"]
+	path = .vim/bundle/ack
 	url = https://github.com/mileszs/ack.vim.git
-[submodule "vimfiles/bundle/ctrlp"]
-	path = vimfiles/bundle/ctrlp
+[submodule ".vim/bundle/ctrlp"]
+	path = .vim/bundle/ctrlp
 	url = https://github.com/kien/ctrlp.vim.git
-[submodule "vimfiles/bundle/nerdtree"]
-	path = vimfiles/bundle/nerdtree
+[submodule ".vim/bundle/nerdtree"]
+	path = .vim/bundle/nerdtree
 	url = https://github.com/scrooloose/nerdtree.git
-[submodule "vimfiles/bundle/supertab"]
-	path = vimfiles/bundle/supertab
+[submodule ".vim/bundle/supertab"]
+	path = .vim/bundle/supertab
 	url = https://github.com/ervandew/supertab
-[submodule "vimfiles/bundle/tagbar"]
-	path = vimfiles/bundle/tagbar
+[submodule ".vim/bundle/tagbar"]
+	path = .vim/bundle/tagbar
 	url = https://github.com/majutsushi/tagbar
-[submodule "vimfiles/bundle/powerline"]
-	path = vimfiles/bundle/powerline
+[submodule ".vim/bundle/powerline"]
+	path = .vim/bundle/powerline
 	url = https://github.com/Lokaltog/vim-powerline.git
-[submodule "vimfiles/bundle/command-t"]
-	path = vimfiles/bundle/command-t
+[submodule ".vim/bundle/command-t"]
+	path = .vim/bundle/command-t
 	url = https://github.com/wincent/Command-T.git
-[submodule "vimfiles/bundle/nerdcommenter"]
-	path = vimfiles/bundle/nerdcommenter
+[submodule ".vim/bundle/nerdcommenter"]
+	path = .vim/bundle/nerdcommenter
 	url = https://github.com/scrooloose/nerdcommenter.git
-[submodule "vimfiles/bundle/syntastic"]
-	path = vimfiles/bundle/syntastic
+[submodule ".vim/bundle/syntastic"]
+	path = .vim/bundle/syntastic
 	url = https://github.com/scrooloose/syntastic.git
-[submodule "vimfiles/bundle/easytags"]
-	path = vimfiles/bundle/easytags
+[submodule ".vim/bundle/easytags"]
+	path = .vim/bundle/easytags
 	url = https://github.com/xolox/vim-easytags.git
         ignore = untracked
-[submodule "vimfiles/bundle/fugitive"]
-	path = vimfiles/bundle/fugitive
+[submodule ".vim/bundle/fugitive"]
+	path = .vim/bundle/fugitive
 	url = https://github.com/tpope/vim-fugitive.git
-[submodule "vimfiles/bundle/vim-session"]
-	path = vimfiles/bundle/vim-session
+[submodule ".vim/bundle/vim-session"]
+	path = .vim/bundle/vim-session
 	url = https://github.com/xolox/vim-session.git
         ignore = untracked
 [submodule "tmux-powerline"]
@@ -42,27 +42,27 @@
 [submodule "tmux-color-solarized"]
 	path = tmux-color-solarized
 	url = https://github.com/seebi/tmux-colors-solarized.git
-[submodule "vimfiles/bundle/vim-distinguished"]
-	path = vimfiles/bundle/vim-distinguished
+[submodule ".vim/bundle/vim-distinguished"]
+	path = .vim/bundle/vim-distinguished
 	url = https://github.com/Lokaltog/vim-distinguished.git
-[submodule "vimfiles/bundle/wombat256"]
-	path = vimfiles/bundle/wombat256
+[submodule ".vim/bundle/wombat256"]
+	path = .vim/bundle/wombat256
 	url = https://github.com/vim-scripts/wombat256.vim.git
-[submodule "vimfiles/bundle/vim-golang"]
-	path = vimfiles/bundle/vim-golang
+[submodule ".vim/bundle/vim-golang"]
+	path = .vim/bundle/vim-golang
 	url = https://github.com/jnwhiteh/vim-golang.git
-[submodule "vimfiles/bundle/jellybeans.vim"]
-	path = vimfiles/bundle/jellybeans.vim
+[submodule ".vim/bundle/jellybeans.vim"]
+	path = .vim/bundle/jellybeans.vim
 	url = https://github.com/nanotech/jellybeans.vim.git
-[submodule "vimfiles/bundle/vividchalk"]
-	path = vimfiles/bundle/vividchalk
+[submodule ".vim/bundle/vividchalk"]
+	path = .vim/bundle/vividchalk
 	url = https://github.com/tpope/vim-vividchalk.git
-[submodule "vimfiles/bundle/vim-desert-warm-256"]
-	path = vimfiles/bundle/vim-desert-warm-256
+[submodule ".vim/bundle/vim-desert-warm-256"]
+	path = .vim/bundle/vim-desert-warm-256
 	url = https://github.com/rainux/vim-desert-warm-256.git
-[submodule "vimfiles/bundle/molokai"]
-	path = vimfiles/bundle/molokai
+[submodule ".vim/bundle/molokai"]
+	path = .vim/bundle/molokai
 	url = https://github.com/tomasr/molokai.git
-[submodule "vimfiles/bundle/solarized"]
-	path = vimfiles/bundle/solarized
+[submodule ".vim/bundle/solarized"]
+	path = .vim/bundle/solarized
 	url = https://github.com/altercation/vim-colors-solarized.git
