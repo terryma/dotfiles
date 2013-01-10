@@ -51,3 +51,6 @@
 [submodule "vimfiles/bundle/vim-golang"]
 	path = vimfiles/bundle/vim-golang
 	url = https://github.com/jnwhiteh/vim-golang.git
+[submodule "vimfiles/bundle/jellybeans.vim"]
+	path = vimfiles/bundle/jellybeans.vim
+	url = https://github.com/nanotech/jellybeans.vim.git
