@@ -12,7 +12,7 @@ source $ZSH/oh-my-zsh.sh
 # General
 ################################################################################
 # Source all other zsh files
-for config in "~/.zsh/*.zsh" source $config
+for config (~/.zsh/*.zsh) source $config
 
 # Disable sound
 setopt no_beep
@@ -37,7 +37,7 @@ stty -ixon -ixoff
 # Aliases
 ################################################################################
 alias v='f -e vim'
-alias p4merge='/Applications/p4merge.app/Contents/MacOS/p4merge'
+# alias p4merge='/Applications/p4merge.app/Contents/MacOS/p4merge'
 alias gvir='gvim --remote' # Open file in existing gvim
 alias tmux='tmux -2'
 # Use vim as a pager for less
