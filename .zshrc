@@ -1,58 +1,71 @@
-# Path to your oh-my-zsh configuration.
+################################################################################
+# Oh My Zsh
+################################################################################
 ZSH=$HOME/.oh-my-zsh
-
-# Set name of the theme to load.
-# Look in ~/.oh-my-zsh/themes/
-# Optionally, if you set this to "random", it'll load a random theme each
-# time that oh-my-zsh is loaded.
-#ZSH_THEME="robbyrussell"
 ZSH_THEME="agnoster"
-
-# Example aliases
-# alias zshconfig="mate ~/.zshrc"
-# alias ohmyzsh="mate ~/.oh-my-zsh"
-
-# Set to this to use case-sensitive completion
-# CASE_SENSITIVE="true"
-
-# Comment this out to disable weekly auto-update checks
-# DISABLE_AUTO_UPDATE="true"
-
-# Uncomment following line if you want to disable colors in ls
-# DISABLE_LS_COLORS="true"
-
-# Uncomment following line if you want to disable autosetting terminal title.
-# DISABLE_AUTO_TITLE="true"
-
-# Uncomment following line if you want red dots to be displayed while waiting for completion
-# COMPLETION_WAITING_DOTS="true"
-
-# Which plugins would you like to load? (plugins can be found in ~/.oh-my-zsh/plugins/*)
-# Custom plugins may be added to ~/.oh-my-zsh/custom/plugins/
-# Example format: plugins=(rails git textmate ruby lighthouse)
+DISABLE_AUTO_TITLE="true"
+DEFAULT_USER=$USER
 plugins=(git brew osx vi-mode)
-
-# Source oh-my-zsh
 source $ZSH/oh-my-zsh.sh
+
+################################################################################
+# General
+################################################################################
+# Source all other zsh files
+for config in "~/.zsh/*.zsh" source $config
+
+# Disable sound
+setopt no_beep
 
 # Disable auto correct
 unsetopt correct_all
-
-# Source all other zsh files
-for config in "~/.zsh/*.zsh" source $config
 
 # Export TERM correctly for tmux
 [[ $TERM == "screen" ]] && export TERM=screen-256color
 [[ $TERM == "xterm" ]] && export TERM=xterm-256color
 
+# Enable dircolors if we're in Linux
 if [[ `uname` == 'Linux' ]]; then
   eval `dircolors ~/.dircolors`
 fi
 
+# Turn off terminal driver flow control (CTRL+S/CTRL+Q)
+setopt noflowcontrol
+stty -ixon -ixoff
+
+################################################################################
+# Aliases
+################################################################################
+alias v='f -e vim'
+alias p4merge='/Applications/p4merge.app/Contents/MacOS/p4merge'
+alias gvir='gvim --remote' # Open file in existing gvim
+alias tmux='tmux -2'
+# Use vim as a pager for less
+VLESS=$(find /usr/share/vim -name 'less.sh')
+if [ ! -z $VLESS ]; then
+  alias less=$VLESS
+fi
+alias ←="pushd -q +1"
+alias →="pushd -q -0"
+
+################################################################################
+# Vars
+################################################################################
+export PATH=~/.dotfiles/bin:/usr/local/bin:/user/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python
+export EDITOR=vim
+export PAGER=less
+export VISUAL=vim
+export P4DIFF="gvimdiff -f -R"
+
+################################################################################
+# Ruby
+################################################################################
 # Initialize rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 
-# fasd settings
+################################################################################
+# fasd
+################################################################################
 fasd_cache="$HOME/.fasd-init-bash"
 if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
   fasd --init posix-alias zsh-{hook,ccomp,ccomp-install,wcomp,wcomp-install} >| "$fasd_cache"
@@ -60,34 +73,10 @@ fi
 source "$fasd_cache"
 unset fasd_cache
 
-# Aliases
-alias v='f -e vim'
-alias p4merge='/Applications/p4merge.app/Contents/MacOS/p4merge'
-alias gvir='gvim --remote' # Open file in existing gvim
-alias tmux='tmux -2'
 
-# Use vim as a pager for less
-VLESS=$(find /usr/share/vim -name 'less.sh')
-if [ ! -z $VLESS ]; then
-  alias less=$VLESS
-fi
-
-DEFAULT_USER=$USER
-export PATH=~/.dotfiles/bin:/usr/local/bin:/user/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python
-export EDITOR=vim
-export PAGER=less
-export VISUAL=vim
-export P4DIFF="gvimdiff -f -R"
-
-# Turn off terminal driver flow control (CTRL+S/CTRL+Q)
-setopt noflowcontrol
-stty -ixon -ixoff
-
-# no beep
-setopt no_beep
-
-# ZLE WIDGETS
-
+################################################################################
+# ZLE Widgets
+################################################################################
 # Zsh's history-beginning-search-backward is very close to Vim's C-x C-l
 history-beginning-search-backward-then-append() {
   zle history-beginning-search-backward
@@ -192,7 +181,6 @@ delete-in() {
 
 zle -N delete-in
 
-
 # Delete all characters between a pair of characters and then go to insert mode
 # Mimics vim's "ci" text object functionality.
 change-in() {
@@ -212,7 +200,8 @@ delete-around() {
 zle -N delete-around
 
 # Delete all characters between a pair of characters as well as the surrounding
-# characters themselves and then go into insert mode. Mimics vim's "ca" text object functionality.
+# characters themselves and then go into insert mode. Mimics vim's "ca" text
+# object functionality.
 change-around() {
   zle delete-in
   zle vi-backward-char
@@ -222,25 +211,22 @@ change-around() {
 }
 zle -N change-around
 
-# End of ZLE widgets
-
-alias ←="pushd -q +1"
-alias →="pushd -q -0"
-
+################################################################################
 # Key bindings
+################################################################################
 case "$TERM" in
   *xterm*|screen-256color)
-    # alt + arrows
+    # alt + arrows (Alt-arrow is used to switch panes in tmux)
     # bindkey '[d' backward-word
     # bindkey '[c' forward-word
     # bindkey '^[[1;3d' backward-word
     # bindkey '^[[1;3c' forward-word
 
     # ctrl + arrows
-    # bindkey '^[od' backward-word
-    # bindkey '^[oc' forward-word
-    # bindkey '^[[1;5D' backward-word
-    # bindkey '^[[1;5C' forward-word
+    bindkey '^[od' backward-word
+    bindkey '^[oc' forward-word
+    bindkey '^[[1;5D' backward-word
+    bindkey '^[[1;5C' forward-word
 
     # home / end
     bindkey '^[[1~' beginning-of-line
@@ -256,7 +242,6 @@ case "$TERM" in
     # shift + tab
     bindkey '^[[Z' reverse-menu-complete
 
-
     # VI MODE KEYBINDINGS (ins mode)
     bindkey -M viins '^a'    beginning-of-line
     bindkey -M viins '^e'    end-of-line
@@ -269,6 +254,8 @@ case "$TERM" in
     bindkey -M viins '^n'    history-beginning-search-forward
     bindkey -M viins '^y'    yank
     bindkey -M viins '^w'    backward-kill-word
+    bindkey -M viins '^[[33~' backward-kill-word
+    bindkey -M viins '^[[3;5~' kill-word        # Ctrl-Delete
     bindkey -M viins '^u'    backward-kill-line
     bindkey -M viins '^h'    backward-delete-char
     bindkey -M viins '^?'    backward-delete-char
@@ -285,7 +272,6 @@ case "$TERM" in
     # Remap them explicitly
     bindkey -M viins '\eOA'  up-line-or-history
     bindkey -M viins '\eOB'  down-line-or-history
-
 
     # VI MODE KEYBINDINGS (cmd mode)
     bindkey -M vicmd 'ca'    change-around
@@ -316,7 +302,11 @@ case "$TERM" in
   ;;
 esac
 
-# vim mode indicator in prompt (http://superuser.com/questions/151803/how-do-i-customize-zshs-vim-mode)
+################################################################################
+# Vim mode
+################################################################################
+# vim mode indicator in prompt
+# (http://superuser.com/questions/151803/how-do-i-customize-zshs-vim-mode)
 vim_ins_mode="%{$fg[cyan]%}[INS]%{$reset_color%}"
 vim_cmd_mode="%{$fg[green]%}[CMD]%{$reset_color%}"
 vim_mode=$vim_ins_mode
@@ -333,5 +323,7 @@ function zle-line-finish {
 zle -N zle-line-finish
 
 RPROMPT='${vim_mode}'
-# end
 
+################################################################################
+# END
+################################################################################

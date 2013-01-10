@@ -1,23 +1,27 @@
-" Init pathogen
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Pathogen
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 source ~/.dotfiles/.vim/bundle/pathogen/autoload/pathogen.vim
 execute pathogen#infect()
 execute pathogen#helptags()
 syntax on
 filetype plugin indent on
 
-" Source google specific settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Google specific settings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 try
 source ~/.vimrc.google
 catch
 endtry
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Leader key mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Map leader key to comma
 let mapleader = ","
 let g:mapleader = ","
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Leader key mappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " <Leader>tab Toggles NERDTree
 map <leader><tab> :NERDTreeToggle<cr>
 
@@ -26,6 +30,9 @@ map <leader>f :NERDTreeFind<cr>
 
 " <Leader>n: Clear search highlights
 map <silent> <leader>n :noh<cr>
+
+" <Leader>v: copy line down
+nmap <leader>v yyp
 
 " <Leader>w: Save
 map <leader>w :w<cr>
@@ -62,9 +69,9 @@ nnoremap <leader>sf :Ack -Q '<c-r><c-w>' %<cr>
 " => Command mode key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Bash like keys for the command line
-cnoremap <C-A>      <Home>
-cnoremap <C-E>      <End>
-cnoremap <C-K>      <C-U>
+cnoremap <C-A> <Home>
+cnoremap <C-E> <End>
+cnoremap <C-K> <C-U>
 
 cnoremap <C-P> <Up>
 cnoremap <C-N> <Down>
@@ -86,6 +93,13 @@ imap <c-c> <nop>
 
 " Map jk to escape in insert mode
 imap jk <esc>
+
+" Backspace deletes character in normal mode
+map <bs> X
+
+" Alt-[hl]: Move in normal mode
+nnoremap <m-h> B
+nnoremap <m-l> W
 
 " Ctrl-[hjkl]: Move in insert mode
 imap <c-h> <left>
@@ -123,8 +137,18 @@ cmap w!! w !sudo tee % >/dev/null
 
 " Copy and paste to the system clipboard using Ctrl-C and Ctrl-V
 " Disable this in normal node since it conflicts with visual block mode
-inoremap <c-v> :set paste<cr><esc>"+gp:set nopaste<cr>a
+inoremap <c-v> <esc>:set paste<cr><esc>"+gp:set nopaste<cr>a
 vnoremap <c-c> "+y
+
+" Paste in visual mode should not replace the default register with the deleted
+" text
+vnoremap p "_dP
+
+" Easier search and replace
+vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
+
+" Highlight visual selections
+vmap * y:let @/ = @"<cr>
 
 " Select all with Ctrl-A
 nnoremap <c-a> ggvGg_
@@ -171,9 +195,6 @@ noremap <C-k> <C-W>k
 noremap <C-h> <C-W>h
 noremap <C-l> <C-W>l
 
-" Restart vim with Ctrl-Alt-R
-nmap <C-M-r> :RestartVim<CR>
-
 " Remap VIM 0
 map 0 ^
 
@@ -191,8 +212,12 @@ smap <D-k> <M-k>
 imap <D-j> <M-j>
 imap <D-k> <M-k>
 
+" FIXME None of the following works in the terminal
 " Copy a line using Ctrl-Alt-j
 nmap <C-M-j> yyp
+
+" Restart vim with Ctrl-Alt-R
+nmap <C-M-r> :RestartVim<CR>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General Settings
@@ -235,7 +260,8 @@ set showmode
 " Auto complete setting
 set completeopt=longest,menuone,preview
 
-" Set completion mode. first tab completes as much as possible, second tab shows list of options
+" Set completion mode. first tab completes as much as possible, second tab shows
+" list of options
 set wildmode=longest,list
 set wildmenu "turn on wild menu
 
@@ -277,7 +303,7 @@ set encoding=utf-8
 set colorcolumn=+1 
 
 " Lower the delay of escaping out of other modes
-set timeout timeoutlen=1000 ttimeoutlen=100
+set timeout timeoutlen=1000 ttimeoutlen=0
 
 " Fix meta-keys which generate <Esc>a .. <Esc>z
 let c='a'
@@ -290,7 +316,8 @@ endw
 " Reload vimrc when edited, also reload the powerline color
 augroup myvimrc
   au!
-  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC | call Pl#Load() | if has('gui_running') | so $MYGVIMRC | endif
+  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC
+        \ | call Pl#Load() | if has('gui_running') | so $MYGVIMRC | endif
 augroup END
 
 " Set font according to system
@@ -303,7 +330,7 @@ elseif has("win32")
 endif
 
 " 256bit terminal
-set t_co=256
+set t_Co=256
 
 " Disble menu and toolbar
 set go-=T
@@ -334,8 +361,11 @@ set linebreak
 set textwidth=80
 set autoindent 
 set wrap 
+set whichwrap+=h,l,<,>,[,]
 
 set guitablabel=%t
+
+set clipboard-=autoselect
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Spell checking
@@ -386,7 +416,7 @@ autocmd BufEnter * call rc:syncTree()
 let NERDSpaceDelims=1
 
 " \: Toggle comment
-nmap \ <leader>c<space>
+map \ <leader>c<space>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Powerline
