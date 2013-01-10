@@ -72,3 +72,6 @@
 [submodule ".tmux/tmux-colors-solarized"]
 	path = .tmux/tmux-colors-solarized
 	url = https://github.com/seebi/tmux-colors-solarized.git
+[submodule ".dircolors-solarized"]
+	path = .dircolors-solarized
+	url = https://github.com/seebi/dircolors-solarized.git
