@@ -25,28 +25,13 @@ unsetopt correct_all
 [[ $TERM == "xterm" ]] && export TERM=xterm-256color
 
 # Enable dircolors if we're in Linux
-if [[ `uname` == 'Linux' ]]; then
+if [[ "$(uname)" == "Linux" ]]; then
   eval `dircolors ~/.dircolors`
 fi
 
 # Turn off terminal driver flow control (CTRL+S/CTRL+Q)
 setopt noflowcontrol
 stty -ixon -ixoff
-
-################################################################################
-# Aliases
-################################################################################
-alias v='f -e vim'
-# alias p4merge='/Applications/p4merge.app/Contents/MacOS/p4merge'
-alias gvir='gvim --remote' # Open file in existing gvim
-alias tmux='tmux -2'
-# Use vim as a pager for less
-VLESS=$(find /usr/share/vim -name 'less.sh')
-if [ ! -z $VLESS ]; then
-  alias less=$VLESS
-fi
-alias ←="pushd -q +1"
-alias →="pushd -q -0"
 
 ################################################################################
 # Vars
@@ -59,6 +44,38 @@ export P4DIFF="gvimdiff -f -R"
 if [ -f /usr/local/heroku/bin/heroku ]; then
   export PATH=/usr/local/heroku/bin:$PATH
 fi
+
+################################################################################
+# Aliases
+################################################################################
+# fasd aliases
+alias v='f -e vim'
+
+# p4merge
+if [[ "$(uname)" == "Darwin" ]]; then
+  alias p4merge='/Applications/p4merge.app/Contents/MacOS/p4merge'
+fi
+
+# Open file in existing  gvim
+alias gvir='gvim --remote'
+
+# Enable reattach-to-user-namespace on Mac. See
+# https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/issues/8
+if [[ "$(uname)" == "Darwin" ]]; then
+  alias tmux='tmux -2 -f ~/.dotfiles/.tmux-osx.conf'
+else
+  alias tmux='tmux -2'
+fi
+
+# Use vim as a pager and manpager instead of less
+VLESS=$(find /usr/share/vim -name 'less.sh')
+if [ ! -z $VLESS ]; then
+  alias less=$VLESS
+  export PAGER=$VLESS
+  export MANPAGER="bash -c \"$VLESS -c 'set ft=man nomod nolist nonumber'</dev/tty <(col -bx)\""
+fi
+alias ←="pushd -q +1"
+alias →="pushd -q -0"
 
 ################################################################################
 # Ruby

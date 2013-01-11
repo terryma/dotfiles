@@ -1,3 +1,6 @@
+" Disable vi-compatibility
+set nocompatible
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Pathogen
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -11,7 +14,7 @@ filetype plugin indent on
 " => Google specific settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 try
-source ~/.vimrc.google
+  source ~/.vimrc.google
 catch
 endtry
 
@@ -22,52 +25,64 @@ endtry
 let mapleader = ","
 let g:mapleader = ","
 
-" <Leader>tab Toggles NERDTree
-map <leader><tab> :NERDTreeToggle<cr>
-
-" <Leader>f: Sync the current buffer with NerdTree
-map <leader>f :NERDTreeFind<cr>
-
-" <Leader>n: Clear search highlights
-map <silent> <leader>n :noh<cr>
-
-" <Leader>v: copy line down
-nmap <leader>v yyp
-
-" <Leader>w: Save
-map <leader>w :w<cr>
-imap <leader>w <esc>:w<cr>a
-
-" <Leader>q: Quit all
-map <leader>q :qa<cr>
-
-" <Leader>P: Copy the full path of the current file to the clipboard
-map <leader>p :let @+=expand("%:p")<cr>
+" Order by key location
 
 " <Leader>1: Toggle between paste mode
-set pastetoggle=<leader>1
+nnoremap <silent> <leader>1 :set paste!<cr>
 
 " <Leader>2: Toggle Tagbar
-map <leader>2 :TagbarToggle<cr>
+nnoremap <leader>2 :TagbarToggle<cr>
 
-" <Leader>cd: Switch to the directory of the open buffer
-map <leader>cd :cd %:p:h<cr>:pwd<cr>
+" <Leader>3: Run the visually selected code in python and replace it with the
+" output
+vnoremap <silent> <leader>0 :!python<cr>
+
+" <Leader>tab: Toggles NERDTree
+nnoremap <leader><tab> :NERDTreeToggle<cr>
+
+" <Leader>q: Quit all, very useful in vimdiff
+nnoremap <leader>q :qa<cr>
+
+" <Leader>w: Save
+nnoremap <leader>w :w<cr>
+inoremap <leader>w <esc>:w<cr>a
 
 " <Leader>e: Fast editing of the .vimrc
-map <leader>e :e! ~/.dotfiles/.vimrc<cr>
+nnoremap <leader>e :e! $MYVIMRC<cr>
 
-" <Leader>sd: Search the highlighted word literally using Ack
-vnoremap <leader>sd y:<c-u>Ack -Qu '<c-r>"'<cr>
-nnoremap <leader>sd :Ack -Qu '<c-r><c-w>'<cr>
+" <Leader>r: Sync the current buffer with NERDTree
+nnoremap <silent> <leader>r :NERDTreeFind<cr>
 
-" <Leader>sf: Search the highlighted word literally on the current buffer using
-" Ack
-vnoremap <leader>sf y:<c-u>Ack -Q '<c-r>"' %<cr>
-nnoremap <leader>sf :Ack -Q '<c-r><c-w>' %<cr>
+" <Leader>t: unused
 
-" <Leader>0: Run the visually selected code in python and replace it with the
-" output
-vnoremap <leader>0 :!python<cr>
+" <Leader>a: unused
+
+" <Leader>s: Search the highlighted word or the word under cursor using Ack
+vnoremap <leader>s y:<c-u>Ack -Qu '<c-r>"'<cr>
+nnoremap <leader>s :Ack -Qu '<c-r><c-w>'<cr>
+
+" <Leader>d: Copy line down (d: duplicate)
+nnoremap <leader>d yyp
+
+" <Leader>f: Find the highlighted word or the word under cursor on the current
+" buffer using Ack
+vnoremap <leader>f y:<c-u>Ack -Q '<c-r>"' %<cr>
+nnoremap <leader>f :Ack -Q '<c-r><c-w>' %<cr>
+
+" <Leader>g: unused
+
+" <Leader>cd: Switch to the directory of the open buffer
+nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+" <Leader>v: quick vertical split
+nnoremap <leader>v :vsp<cr>
+
+" <Leader>n: Clear search highlights
+nnoremap <silent> <leader>n :noh<cr>
+
+" <Leader>p: Copy the full path of the current file to the clipboard
+nnoremap <silent> <leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
+      \ path '".expand("%:p")."' to clipboard"<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Command mode key mappings
@@ -84,19 +99,54 @@ cnoremap <C-N> <Down>
 cnoremap <c-v> <c-r>"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" => Shift key mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Q: Closes the window
+nnoremap Q :q<cr>
+
+" W: Move word forward
+
+" E: Move to end of word forward
+
+" R: Replace mode
+
+" T: unused
+
+" U: Redos since 'u' undos
+nnoremap U <c-r>
+
+" S: Deletes the line and puts us in insert mode
+
+" D: Deletes til the end of line
+
+" F: Finds backwards
+
+" G: Go to end of file
+
+" H: Go to beginning of line
+noremap H ^
+
+" L: Go to end of line
+noremap L $
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Disable arrow keys, they're evil
-map <up> <nop>
-map <down> <nop>
-map <left> <nop>
-map <right> <nop>
+nmap <up> <nop>
+nmap <down> <nop>
+nmap <left> <nop>
+nmap <right> <nop>
 
-" Disable Ctrl-C, that's a bad habit, use Ctrl-[ or jk instead
+" Disable Ctrl-C, that's a bad habit, use Ctrl-[, capslock,  or jk instead
 imap <c-c> <nop>
 
 " Map jk to escape in insert mode
 imap jk <esc>
+
+" Stop typing the stupid colon
+nnoremap ; :
+vnoremap ; :
 
 " Backspace deletes character in normal mode
 map <bs> X
@@ -111,10 +161,9 @@ imap <c-j> <down>
 imap <c-k> <up>
 imap <c-l> <right>
 
-" Alt-[hjkl]: Move word i insert mode
-" TODO This doesn't work when a word is just a single character, how to fix?
-inoremap <m-h> <esc>BBEa
-inoremap <m-l> <esc>Ea
+" Alt-[hjkl]: Move word in insert mode
+inoremap <m-h> <esc>Bhi
+inoremap <m-l> <esc>lWh
 
 " Ctrl-N Ctrl-N: Toggle line number
 nnoremap <c-n><c-n> :set invnumber<cr>
@@ -130,9 +179,9 @@ inoremap <c-bs> <c-w>
 
 " w! change ro files to rw
 function! g:chmodonwrite()
-    if v:cmdbang
-        silent !chmod u+w %
-    endif
+  if v:cmdbang
+    silent !chmod u+w %
+  endif
 endfunction
 autocmd bufwrite * call g:chmodonwrite()
 
@@ -141,7 +190,10 @@ cmap w!! w !sudo tee % >/dev/null
 
 " Copy and paste to the system clipboard using Ctrl-C and Ctrl-V
 " Disable this in normal node since it conflicts with visual block mode
-inoremap <c-v> <esc>:set paste<cr><esc>"+gp:set nopaste<cr>a
+" The 'g' right after the register name means leave the cursor after the text
+" Notice that clipboard=unnamed is not set for OSX, since we want the clipboard
+" copy/paste to be explicit
+inoremap <c-v> <esc>:set paste<cr><esc>"+gP:set nopaste<cr>a
 vnoremap <c-c> "+y
 
 " Paste in visual mode should not replace the default register with the deleted
@@ -169,10 +221,6 @@ nnoremap <c-e> 3<c-e>3j
 nnoremap <c-y> 3<c-y>3k
 vnoremap <c-e> 3<c-e>3j
 vnoremap <c-y> 3<c-y>3k
-
-" Go to beginning and end of line quicker
-noremap H ^
-noremap L $
 
 " keep search matches in the middle of the window
 nnoremap n nzzzv
@@ -212,8 +260,10 @@ vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 smap <M-j> <C-G><M-j>
 smap <M-k> <C-G><M-k>
 if has("macunix")
-  smap <D-j> <M-j>
-  smap <D-k> <M-k>
+  nmap <D-j> <M-j>
+  nmap <D-k> <M-k>
+  vmap <D-j> <M-j>
+  vmap <D-k> <M-k>
   imap <D-j> <M-j>
   imap <D-k> <M-k>
 endif
@@ -228,6 +278,17 @@ nmap <C-M-r> :RestartVim<CR>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General Settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Turn on the mouse, since it doesn't play well with tmux anyway. This way I can
+" scroll in the terminal
+set mouse=a
+
+" Always splits to the right and below
+set splitright
+set splitbelow
+
+" Turn on line highlighting
+set cursorline
+
 set background=dark
 
 " Colorscheme
@@ -268,8 +329,18 @@ set completeopt=longest,menuone,preview
 
 " Set completion mode. first tab completes as much as possible, second tab shows
 " list of options
-set wildmode=longest,list
+set wildmode=longest,list,full
 set wildmenu "turn on wild menu
+set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+set wildignore+=*vim/backups*
+set wildignore+=*sass-cache*
+set wildignore+=*DS_Store*
+set wildignore+=vendor/rails/**
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif
 
 " Allow changing buffer without saving it first 
 set hidden
@@ -296,9 +367,6 @@ set showmatch
 set vb
 set t_vb=
 
-" Disable vi-compatibility
-set nocompatible
-
 " Always show the statusline
 set laststatus=2
 
@@ -311,13 +379,16 @@ set colorcolumn=+1
 " Lower the delay of escaping out of other modes
 set timeout timeoutlen=1000 ttimeoutlen=0
 
-" Fix meta-keys which generate <Esc>a .. <Esc>z
-let c='a'
-while c <= 'z'
-  exec "set <M-".c.">=\e".c
-  exec "imap \e".c." <M-".c.">"
-  let c = nr2char(1+char2nr(c))
-endw
+if !has('gui_running')
+  " Fix meta-keys which generate <Esc>a .. <Esc>z
+  let c='a'
+  while c <= 'z'
+    exec "set <M-".c.">=\e".c
+    exec "imap \e".c." <M-".c.">"
+    let c = nr2char(1+char2nr(c))
+  endw
+endif
+
 
 " Reload vimrc when edited, also reload the powerline color
 augroup myvimrc
@@ -327,12 +398,12 @@ augroup myvimrc
 augroup END
 
 " Set font according to system
-if has("unix")
-    set gfn=Ubuntu\ Mono\ for\ Powerline\ 12
-elseif has("macunix")
-    set gfn=menlo\ for\ powerline:h12
+if has("macunix")
+  set gfn=menlo\ for\ powerline:h12
+elseif has("unix")
+  set gfn=Ubuntu\ Mono\ for\ Powerline\ 12
 elseif has("win32")
-    set gfn=consolas:h12
+  set gfn=consolas:h12
 endif
 
 " 256bit terminal
@@ -343,7 +414,7 @@ set go-=T
 set go-=m
 
 try
-    lang en_us
+  lang en_us
 catch
 endtry
 
