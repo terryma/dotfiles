@@ -65,6 +65,10 @@ nnoremap <leader>sd :Ack -Qu '<c-r><c-w>'<cr>
 vnoremap <leader>sf y:<c-u>Ack -Q '<c-r>"' %<cr>
 nnoremap <leader>sf :Ack -Q '<c-r><c-w>' %<cr>
 
+" <Leader>0: Run the visually selected code in python and replace it with the
+" output
+vnoremap <leader>0 :!python<cr>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Command mode key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""

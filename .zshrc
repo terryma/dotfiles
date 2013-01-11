@@ -56,6 +56,9 @@ export EDITOR=vim
 export PAGER=less
 export VISUAL=vim
 export P4DIFF="gvimdiff -f -R"
+if [ -f /usr/local/heroku/bin/heroku ]; then
+  export PATH=/usr/local/heroku/bin:$PATH
+fi
 
 ################################################################################
 # Ruby
