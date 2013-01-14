@@ -81,6 +81,7 @@
 [submodule ".vim/bundle/quickrun"]
 	path = .vim/bundle/quickrun
 	url = https://github.com/thinca/vim-quickrun.git
+  ignore = untracked
 [submodule ".vim/bundle/neocomplcache"]
 	path = .vim/bundle/neocomplcache
 	url = https://github.com/Shougo/neocomplcache.git
@@ -96,6 +97,7 @@
 [submodule ".vim/bundle/conque-term"]
 	path = .vim/bundle/conque-term
 	url = https://github.com/rosenfeld/conque-term.git
+  ignore = untracked
 [submodule ".vim/bundle/vimproc"]
 	path = .vim/bundle/vimproc
 	url = https://github.com/Shougo/vimproc.git
@@ -105,3 +107,4 @@
 [submodule ".vim/bundle/clam"]
 	path = .vim/bundle/clam
 	url = https://github.com/sjl/clam.vim.git
+  ignore = untracked
