@@ -7,9 +7,6 @@
 [submodule ".vim/bundle/nerdtree"]
         path = .vim/bundle/nerdtree
         url = https://github.com/scrooloose/nerdtree.git
-[submodule ".vim/bundle/supertab"]
-        path = .vim/bundle/supertab
-        url = https://github.com/ervandew/supertab
 [submodule ".vim/bundle/tagbar"]
         path = .vim/bundle/tagbar
         url = https://github.com/majutsushi/tagbar
@@ -81,3 +78,30 @@
 [submodule ".vim/bundle/scrollcolors"]
 	path = .vim/bundle/scrollcolors
 	url = https://github.com/vim-scripts/ScrollColors.git
+[submodule ".vim/bundle/quickrun"]
+	path = .vim/bundle/quickrun
+	url = https://github.com/thinca/vim-quickrun.git
+[submodule ".vim/bundle/neocomplcache"]
+	path = .vim/bundle/neocomplcache
+	url = https://github.com/Shougo/neocomplcache.git
+[submodule ".vim/bundle/easymotion"]
+	path = .vim/bundle/easymotion
+	url = https://github.com/Lokaltog/vim-easymotion.git
+[submodule ".vim/bundle/neosnippet"]
+	path = .vim/bundle/neosnippet
+	url = https://github.com/Shougo/neosnippet.git
+[submodule ".vim/bundle/tasklist"]
+	path = .vim/bundle/tasklist
+	url = https://github.com/vim-scripts/TaskList.vim.git
+[submodule ".vim/bundle/conque-term"]
+	path = .vim/bundle/conque-term
+	url = https://github.com/rosenfeld/conque-term.git
+[submodule ".vim/bundle/vimproc"]
+	path = .vim/bundle/vimproc
+	url = https://github.com/Shougo/vimproc.git
+[submodule ".vim/bundle/vimshell"]
+	path = .vim/bundle/vimshell
+	url = https://github.com/Shougo/vimshell.git
+[submodule ".vim/bundle/clam"]
+	path = .vim/bundle/clam
+	url = https://github.com/sjl/clam.vim.git

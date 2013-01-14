@@ -9,7 +9,6 @@ execute pathogen#infect()
 execute pathogen#helptags()
 syntax on
 filetype plugin indent on
-
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Google specific settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -27,69 +26,75 @@ let g:mapleader = ","
 
 " Order by key location
 
-" <Leader>1: Toggle between paste mode
+" ✓ <Leader>1: Toggle between paste mode
 nnoremap <silent> <leader>1 :set paste!<cr>
 
-" <Leader>2: Toggle Tagbar
+" ✓ <Leader>2: Toggle Tagbar
 nnoremap <leader>2 :TagbarToggle<cr>
 
-" <Leader>3: Run the visually selected code in python and replace it with the"
+" ✓ <Leader>3: Run the visually selected code in python and replace it with the"
 " output
 vnoremap <silent> <leader>0 :!python<cr>
 
-" <Leader>tab: Toggles NERDTree
+" <Leader>3: Open tasklist
+nnoremap <Leader>3 :TaskList<cr>
+
+" ✓ <Leader>tab: Toggles NERDTree
 nnoremap <leader><tab> :NERDTreeToggle<cr>
 
-" <Leader>q: Quit all, very useful in vimdiff
+" ✓ <Leader>q: Quit all, very useful in vimdiff
 nnoremap <leader>q :qa<cr>
 
-" <Leader>w: Save
+" ✓ <Leader>w: Save
 nnoremap <leader>w :w<cr>
 
-" <Leader>e: Fast editing of the .vimrc
+" ✓ <Leader>e: Fast editing of the .vimrc
 nnoremap <leader>e :e! $MYVIMRC<cr>
 
-" <Leader>r: Sync the current buffer with NERDTree
-nnoremap <silent> <leader>r :NERDTreeFind<cr>
+" ✓ <Leader>r: QuickRun's default keymap
 
-" <Leader>t: unused
+" <leader>t: unused
 
-" <Leader>a: Find the highlighted word or the word under cursor on the current
-" buffer using Ack (a for Ack)
-vnoremap <leader>a y:<c-u>Ack -Q '<c-r>"' %<cr>
+" <leader>o: only
+nnoremap <leader>o :only<cr>
+
+" ✓ <leader>a: find the highlighted word or the word under cursor on the current
+" buffer using ack (a for ack)
+vnoremap <leader>a y:<c-u>ack -q '<c-r>"' %<cr>
 nnoremap <leader>a :Ack -Q '<c-r><c-w>' %<cr>
 
-" <Leader>s: Search the highlighted word or the word under cursor using Ack (s
-" for Search)
-vnoremap <leader>s y:<c-u>Ack -Qu '<c-r>"'<cr>
-nnoremap <leader>s :Ack -Qu '<c-r><c-w>'<cr>
+" ✓ <leader>s: search the highlighted word or the word under cursor using ack (s
+" for search)
+vnoremap <leader>s y:<c-u>ack -qu '<c-r>"'<cr>
+nnoremap <leader>s :Ack -qu '<c-r><c-w>'<cr>
 
-" <Leader>d: Copy line down (d for Duplicate)
+" ✓ <leader>d: copy line down (d for duplicate)
 nnoremap <leader>d mzyyp`zj
 
-" <Leader>f: EasyMotion forward search
-let g:EasyMotion_mapping_f = '<Leader>f'
+" <Leader>f: unused
 
 " <Leader>g: unused
 
-" <Leader>cd: Switch to the directory of the open buffer
+" <Leader>z: unused
+
+" <Leader>x: unused
+
+" ✓ <Leader>cd: Switch to the directory of the open buffer
 nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " <Leader>v: quick vertical split
 nnoremap <leader>v :vsp<cr>
 
-" <Leader>b: EasyMotion backward search
-let g:EasyMotion_mapping_F = '<Leader>b'
-
-" <Leader>n: Clear search highlights
-nnoremap <silent> <leader>n :noh<cr>
+" <Leader>n: unused
 
 " <Leader>p: Copy the full path of the current file to the clipboard
 nnoremap <silent> <leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
       \ path '".expand("%:p")."' to clipboard"<cr>
 
-" <Leader>.: List all the snippets for the current files
-nnoremap <leader>. :call UltiSnips_ListSnippets()<cr>
+" ✓ <Leader>.: List all the snippets for the current files
+" nnoremap <leader>. :call UltiSnips_ListSnippets()<cr>
+
+" <Leader><space>: unused
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Command mode key mappings
@@ -97,10 +102,8 @@ nnoremap <leader>. :call UltiSnips_ListSnippets()<cr>
 " Bash like keys for the command line
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
-cnoremap <c-k> <c-u>
-
-cnoremap <c-p> <up>
-cnoremap <c-n> <down>
+cnoremap <c-j> <up>
+cnoremap <c-k> <down>
 
 " Ctrl-[hl]: Moves left/right by word, since Shift-left/right are used by tmux
 " to switch panes
@@ -124,166 +127,192 @@ cnoremap w!! w !sudo tee % >/dev/null
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Normal Mode Shift key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Q: Closes the window
+" ✓ Q: Closes the window
 nnoremap Q :q<cr>
 
-" W: Move word forward
+" ✓ W: Move word forward
 
-" E: Move to end of word forward
+" ✓ E: Move to end of word forward
 
-" R: Replace mode
+" ✓ R: Replace mode
 
-" T: Remap this to K. K invokes 'man' on the word under cusor, not often used
-nnoremap T K
+" ✓ T: Finds till backwards
 
-" Y: Remove join lines to this, Y looks like a join of two lines into one
+" ✓ Y: Remove join lines to this, Y looks like a join of two lines into one
 nnoremap Y J
 
-" U: Redos since 'u' undos
+" ✓ U: Redos since 'u' undos
 nnoremap U <c-r>
 
-" I: Insert at beginning of line
+" ✓ I: Insert at beginning of line
 
-" O: Insert line above
+" ✓ O: Insert line above
 
-" P: Paste above line
+" ✓ P: Paste above line
 
-" A: Insert at end of line
+" ✓ {: Beginning of paragraph
 
-" S: Deletes the line and puts us in insert mode
+" ✓ }: End of paragraph
 
-" D: Deletes til the end of line
+" |: Beginning of line
 
-" F: Finds backwards
+" ✓ A: Insert at end of line
 
-" G: Go to end of file
+" ✓ S: Deletes the line and puts us in insert mode
 
-" H: Go to beginning of line
-nnoremap H ^
+" ✓ D: Deletes til the end of line
 
-" J: Scroll down, Ctrl-e is a little difficult to reach
+" ✓ F: Finds backwards
+
+" ✓ G: Go to end of file
+
+" ✓ H: Go to beginning of line
+noremap H ^
+
+" ✓ J: Scroll down, Ctrl-e is a little difficult to reach
 nmap J <c-e>
 
-" K: Scroll up, Ctrl-y is a diffcult to reach
+" ✓ K: Scroll up, Ctrl-y is a diffcult to reach
 nmap K <c-y>
+" TODO Remap the previous functionality of K to something else?
 
-" L: Go to end of line
-nnoremap L $
+" ✓ L: Go to end of line
+noremap L $
 
-" :: Make this do what ; used to do, since ; is remapped to go to command mode
-" nnoremap : ;
+" ✓ ::: Go to command-line mode. Since ; is also used to go to command-line mode,
+" : should be mapped to what ; used to do (next when doing fFtT). But since
+" we're using EasyMotion to replace what fFtT used to do, it renders ; obsolete
 
-" ": Handles registers
+" ✓ ": Handles registers
 
-" X: Deletes character backward
+" TODO Z: Nothing by itself, ZZ = :x<cr>
 
-" C: Deletes rest of line and go to insert mode
+" ✓ X: Deletes character backward
 
-" V: Visual line mode
+" ✓ C: Deletes rest of line and go to insert mode
 
-" B: Move word backard
+" ✓ V: Visual line mode
 
-" N: Find next occurrence backward
+" ✓ B: Move word backard
+
+" ✓ N: Find next occurrence backward
 nnoremap N Nzzzv
 
-" M: Move cursor to mid screen
+" TODO M: Move cursor to mid screen
 
-" <: Indent left
+" ✓ <: Indent left
 
-" >: Indent right
+" ✓ >: Indent right
 
-" ?: Search backwards
-
-" |: 
+" ✓ ?: Search backwards
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Normal Mode Ctrl key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Ctrl-q: Visual block mode (We'll use Ctrl-v, remap?)
+" ✓ Ctrl-q: Visual block mode
 
-" Ctrl-w: Window management
+" ✓ Ctrl-w: Window management
 
-" Ctrl-e: Scroll down, move the cursor as well
+" TODO Ctrl-e: Scroll down, move the cursor as well
+" This is mapped to Shift-J, remap to something else?
 nnoremap <c-e> 3<c-e>3j
 
-" Ctrl-r: Redo
+" TODO Ctrl-r: Redo
+" This is mapped to Shift-U, remap to something else?
 
-" Ctrl-y: Scroll up, move the cursor as well
+" TODO Ctrl-y: Scroll up, move the cursor as well
+" This is mapped to Shift-K, remap to something else?
 nnoremap <c-y> 3<c-y>3k
 
 " Ctrl-t: Go back in tag stack
+" I don't seem to use this very often, map to something else?
+nnoremap <c-t> :CtrlPBufTag<cr>
 
-" Ctrl-u: Scroll half a screen up
+" Ctrl-t*: Tab operations
+nnoremap <c-t>n :tabnew<cr>
+nnoremap <c-t>w :tabclose<cr>
+nnoremap <c-t>j :tabprev<cr>
+nnoremap <c-t>h :tabprev<cr>
+nnoremap <c-t>k :tabnext<cr>
+nnoremap <c-t>l :tabnext<cr>
+let g:lasttab = 1
+nnoremap <c-t>t :exe "tabn ".g:lasttab<cr>
+au TabLeave * let g:lasttab = tabpagenr()
 
-" Ctrl-i: Go forward in the jumplist, also realign the screen
+" TODO Ctrl-u: Scroll half a screen up
+" Do I use this much?
+
+" ✓ Ctrl-i: Go forward in the jumplist, also realign the screen
 nnoremap <c-i> <c-i>zzzv
 
-" Ctrl-o: Go back in the jumplist, also realign the screen
+" ✓ Ctrl-o: Go back in the jumplist, also realign the screen
 nnoremap <c-o> <c-o>zzzv
 
-" Ctrl-p: Open CtrlP
+" ✓ Ctrl-p: Open CtrlP
 
-" Ctrl-[: Esc
+" ✓ Ctrl-[: Esc
 
-" Ctrl-]: Go forward in tag stack
+" ✓ Ctrl-]: Go forward in tag stack
 
-" Ctrl-a: Select all
+" ✓ Ctrl-a: Select all
 nnoremap <c-a> ggvGg_
 
-" Ctrl-s: Save
+" TODO Ctrl-s: Save
+" Hitting ;w<cr> are pretty simple, remap to something more useful?
 nnoremap <c-s> :w<cr>
 
-" Ctrl-d: Scroll half a screen down
+" TODO Ctrl-d: Scroll half a screen down
+" Do I use this much?
 
-" Ctrl-f: Scroll one full screen down
+" TODO Ctrl-f: Scroll one full screen down
+" Do I use this much?
+nnoremap <c-f> :CtrlPLine<cr>
 
 " Ctrl-g: Prints current file name. 1Ctrl-g prints the full path
+" TODO Do I use this much? Can we just have the full path displayed at all time?
 
-" Ctrl-[hjkl]: Smart way to move around windows
+" ✓ Ctrl-[hjkl]: Smart way to move around windows
 noremap <c-h> <c-w>h
 noremap <c-j> <c-w>j
 noremap <c-k> <c-w>k
 noremap <c-l> <c-w>l
 
-" Ctrl-;: Vim can't map this
+" ✓ Ctrl-;: Vim can't map this
 
-" Ctrl-': Go to mark
+" ✓ Ctrl-': Go to mark
 
-" Ctrl-z: This is the command key for tmux
+" ✓ Ctrl-z: This is the command key for tmux
 
-" Ctrl-x: unused
+" TODO Ctrl-x: unused
 
-" Ctrl-c: unused
+" TODO Ctrl-c: unused
 
-" Ctrl-v: Visual block mode
+" ✓ Ctrl-v: Paste system clipboard
+nmap <c-v> i<c-v><esc>
 
-" Ctrl-b: CtrlP buffer mode
+" ✓ Ctrl-b: CtrlP buffer mode
+nnoremap <c-b> :CtrlPBuffer<cr>
 
-" Ctrl-n: Toggle relative line number
+" ✓ Ctrl-n: Toggle relative line number
 nnoremap <c-n> :set invrelativenumber<cr>
 
-" Ctrl-m: Same as Enter
+" ✓ Ctrl-m: Same as Enter
 
-" Ctrl-,: Vim can't map this
-" Ctrl-.: Vim can't map this
-" Ctrl-/: Vim can't map this
-
-" Ctrl-N Ctrl-T: Open new tab
-" nnoremap <c-n><c-t> :tabnew<cr>
-
-" Ctrl-N Ctrl-W: Close tab
-" nnoremap <c-n><c-w> :tabclose<cr>
+" ✓ Ctrl-,: Vim can't map this
+" ✓ Ctrl-.: Vim can't map this
+" ✓ Ctrl-/: Vim can't map this
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Insert Mode Ctrl key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Ctrl-[hjkl]: Move in insert mode
 inoremap <c-h> <left>
-inoremap <c-j> <down>
-inoremap <c-k> <up>
+inoremap <expr> <c-j> pumvisible() ? "\<c-n>" : "\<down>"
+inoremap <expr> <c-k> pumvisible() ? "\<c-p>" : "\<up>"
 inoremap <c-l> <right>
 
 " Disable Ctrl-C, that's a bad habit, use Ctrl-[, capslock, or jk instead
+
 " TODO Map it to something useful
 inoremap <c-c> <nop>
 
@@ -312,13 +341,13 @@ vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Meta key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Alt-[hl]: Move in normal mode
-nnoremap <m-h> B
-nnoremap <m-l> W
+" Alt-[hl]: Move word in normal mode
+nnoremap <m-h> hgEl
+nnoremap <m-l> El
 
 " Alt-[hl]: Move word in insert mode
-inoremap <m-h> <esc>Bhi
-inoremap <m-l> <esc>lWh
+inoremap <m-h> <esc>gEa
+inoremap <m-l> <esc>Ea
 
 " Move a line of text using Alt+[jk] or Comamnd+[jk] on mac
 nnoremap <m-j> mz:m+<cr>`z
@@ -380,6 +409,12 @@ nnoremap n nzzzv
 " .: Repeat last command
 " /" Search
 
+" Replace the normal fFtF keys with EasyMotion
+let g:EasyMotion_mapping_f = 'f'
+let g:EasyMotion_mapping_F = 'F'
+let g:EasyMotion_mapping_t = 't'
+let g:EasyMotion_mapping_T = 'T'
+
 " Disable arrow keys, they're evil
 nmap <up> <nop>
 nmap <down> <nop>
@@ -388,6 +423,9 @@ nmap <right> <nop>
 
 " Enter: Add new line
 nnoremap <cr> o<esc>
+
+" Backspace: Turn off search highlight
+nnoremap <silent> <bs> :noh<cr>
 
 " Space: Go to command mode
 noremap <space> :
@@ -430,7 +468,7 @@ set cursorline
 
 set background=dark
 
-" Colorscheme
+" Colorschemes
 " colorscheme desert-warm-256
 " colorscheme distinguished
 " colorscheme solarized
@@ -442,6 +480,9 @@ set history=10000
 
 " Set to auto read when a file is changed from the outside
 set autoread
+
+" Set to auto write file
+set autowrite
 
 " Display unprintable chars
 set list
@@ -596,11 +637,12 @@ nnoremap <leader>s? z=
 " => NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeShowBookmarks=1
+let NERDTreeShowHidden=1
 " only start if no file is specified (this appears to cause powerline to not
 " show up correctly inside of tmux for some strange reason. Disable it for now
 " autocmd vimenter * if !argc() | NERDTree | wincmd p | endif
 " close vim if the only window open is nerdtree
-autocmd bufenter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 " returns true iff is NERDTree open/active
 function! rc:isNTOpen()
@@ -656,15 +698,64 @@ nnoremap <leader>gr :Gremove<cr>
 nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gw :Gwrite<cr>
 
-"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => CtrlP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <c-b> :CtrlPBuffer<cr>
 " Show hidden files
 let g:ctrlp_show_hidden=1
+let g:ctrlp_max_height=20
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " EasyMotion
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Neoicomplcache
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Launches neocomplcache automatically on vim startup.
+let g:neocomplcache_enable_at_startup = 1
+" Use smartcase.
+let g:neocomplcache_enable_smart_case = 1
+" Use camel case completion.
+let g:neocomplcache_enable_camel_case_completion = 1
+" Use underscore completion.
+let g:neocomplcache_enable_underbar_completion = 1
+" Sets minimum char length of syntax keyword.
+let g:neocomplcache_min_syntax_length = 1
+" AutoComplPop like behavior.
+let g:neocomplcache_enable_auto_select = 1
+
+" SuperTab like snippets behavior.
+imap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : ""
+smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+imap <expr><cr> pumvisible() ? neocomplcache#close_popup() . "\<tab>" : "\<cr>"
+
+" Enable omni completion. Not required if they are already set elsewhere in .vimrc
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+if has('conceal')
+  set conceallevel=2 concealcursor=i
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Clam
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+nnoremap ! :Clam<space>
+vnoremap ! :ClamVisual<space>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" My functions
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+function! Refactor()
+  call inputsave()
+  let @z=input("What do you want to rename '" . @z . "' to? ")
+  call inputrestore()
+endfunction
+" Locally (local to block) rename a variable
+nnoremap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>[{V%:s/<C-R>//<c-r>z/g<cr>`x
