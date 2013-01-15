@@ -752,6 +752,9 @@ if has('conceal')
   set conceallevel=2 concealcursor=i
 endif
 
+" Tell Neosnippets to use the snipmate snippets
+let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets'
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Clam
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
