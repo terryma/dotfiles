@@ -108,3 +108,6 @@
 	path = .vim/bundle/clam
 	url = https://github.com/sjl/clam.vim.git
   ignore = untracked
+[submodule ".vim/bundle/snipmate-snippets"]
+	path = .vim/bundle/snipmate-snippets
+	url = https://github.com/honza/snipmate-snippets.git

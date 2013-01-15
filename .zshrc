@@ -11,9 +11,6 @@ source $ZSH/oh-my-zsh.sh
 ################################################################################
 # General
 ################################################################################
-# Source all other zsh files
-for config (~/.zsh/*.zsh) source $config
-
 # Disable sound
 setopt no_beep
 
@@ -45,6 +42,9 @@ if [ -f /usr/local/heroku/bin/heroku ]; then
   export PATH=/usr/local/heroku/bin:$PATH
 fi
 
+# Source all other zsh files where vars like PATH could be overwritten
+for config (~/.zsh/*.zsh) source $config
+
 ################################################################################
 # Aliases
 ################################################################################
@@ -72,7 +72,7 @@ VLESS=$(find /usr/share/vim -name 'less.sh')
 if [ ! -z $VLESS ]; then
   alias less=$VLESS
   export PAGER=$VLESS
-  export MANPAGER="bash -c \"$VLESS -c 'set ft=man nomod nolist nonumber'</dev/tty <(col -bx)\""
+  export MANPAGER="bash -c \"$VLESS -c 'set ft=man nomod nolist nonumber norelativenumber colorcolumn='</dev/tty <(col -bx)\""
 fi
 alias ←="pushd -q +1"
 alias →="pushd -q -0"

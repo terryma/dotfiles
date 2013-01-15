@@ -3,3 +3,4 @@
 borgcfg.vim
 **/spell/
 tags
+.vim/sessions/
