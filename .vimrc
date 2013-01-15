@@ -359,6 +359,8 @@ vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
 smap <m-j> <c-g><m-j>
 smap <m-k> <c-g><m-k>
 
+nnoremap <m-o> :only<cr>
+
 if has("macunix")
   nmap <d-j> <m-j>
   nmap <d-k> <m-k>
@@ -455,6 +457,8 @@ endif
 " Turn on the mouse, since it doesn't play well with tmux anyway. This way I can
 " scroll in the terminal
 set mouse=a
+
+set virtualedit=onemore
 
 " Use relative numbering to help with motion
 set relativenumber
@@ -638,6 +642,7 @@ nnoremap <leader>s? z=
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=1
+let NERDTreeIgnore=['\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 " only start if no file is specified (this appears to cause powerline to not
 " show up correctly inside of tmux for some strange reason. Disable it for now
 " autocmd vimenter * if !argc() | NERDTree | wincmd p | endif
@@ -703,7 +708,10 @@ nnoremap <leader>gw :Gwrite<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Show hidden files
 let g:ctrlp_show_hidden=1
+" Show up to 20 lines
 let g:ctrlp_max_height=20
+" Turn off the feature to intelligently selects the root and always use pwd
+let g:ctrlp_working_path_mode = 0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " EasyMotion
@@ -738,6 +746,7 @@ autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
 
 if has('conceal')
   set conceallevel=2 concealcursor=i
