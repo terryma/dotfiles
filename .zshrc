@@ -72,7 +72,7 @@ VLESS=$(find /usr/share/vim -name 'less.sh')
 if [ ! -z $VLESS ]; then
   alias less=$VLESS
   export PAGER=$VLESS
-  export MANPAGER="bash -c \"$VLESS -c 'set ft=man nomod nolist nonumber'</dev/tty <(col -bx)\""
+  export MANPAGER="bash -c \"$VLESS -c 'set ft=man nomod nolist nonumber norelativenumber colorcolumn='</dev/tty <(col -bx)\""
 fi
 alias ←="pushd -q +1"
 alias →="pushd -q -0"
