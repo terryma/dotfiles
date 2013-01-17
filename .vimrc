@@ -2,7 +2,7 @@
 set nocompatible
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Pathogen
+" Pathogen
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 source ~/.dotfiles/.vim/bundle/pathogen/autoload/pathogen.vim
 execute pathogen#infect()
@@ -10,7 +10,7 @@ execute pathogen#helptags()
 syntax on
 filetype plugin indent on
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Google specific settings
+" Google specific settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 try
   source ~/.vimrc.google
@@ -18,7 +18,7 @@ catch
 endtry
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Leader key mappings
+" Leader key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Map leader and localleader key to comma
 let mapleader = ","
@@ -99,7 +99,7 @@ nnoremap <silent> <leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
 " <Leader><space>: unused
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Command mode key mappings
+" Command mode key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Bash like keys for the command line
 cnoremap <c-a> <home>
@@ -127,7 +127,7 @@ autocmd bufwrite * call g:chmodonwrite()
 cnoremap w!! w !sudo tee % >/dev/null
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Normal Mode Shift key mappings
+" Normal Mode Shift key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ✓ Q: Closes the window
 nnoremap Q :q<cr>
@@ -213,7 +213,7 @@ nnoremap + <c-a>
 nnoremap - <c-x>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Normal Mode Ctrl key mappings
+" Normal Mode Ctrl key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " ✓ Ctrl-q: Visual block mode
 
@@ -307,7 +307,7 @@ nnoremap <c-n> :set invrelativenumber<cr>
 " ✓ Ctrl-/: Vim can't map this
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Insert Mode Ctrl key mappings
+" Insert Mode Ctrl key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Ctrl-[hjkl]: Move in insert mode
 inoremap <c-h> <left>
@@ -343,7 +343,7 @@ vnoremap <c-c> "+y
 vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Meta key mappings
+" Meta key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Normal Mode
 " Alt-[hl]: Move word in normal mode
@@ -378,7 +378,7 @@ inoremap <m-h> <esc>gEa
 inoremap <m-l> <esc>Ea
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General key mappings
+" General key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Normal Mode:
 " q: Record macros
@@ -459,7 +459,7 @@ if has('gui_running')
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => General Settings
+" General Settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Turn on the mouse, since it doesn't play well with tmux anyway. This way I can
 " scroll in the terminal
@@ -633,7 +633,7 @@ set guitablabel=%t
 set clipboard-=autoselect
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Spell checking
+" Spell checking
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Pressing ,ss will toggle and untoggle spell checking
 nnoremap <leader>ss :setlocal spell!<cr>
@@ -646,7 +646,7 @@ nnoremap <leader>s? z=
 nnoremap <leader>s1 1z=
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => NERDTree
+" NERDTree
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=1
@@ -678,7 +678,7 @@ endfunction
 autocmd BufEnter * call rc:syncTree()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => NERD Commenter
+" NERD Commenter
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Always leave a space between the comment character and the comment
 let NERDSpaceDelims=1
@@ -687,13 +687,13 @@ let NERDSpaceDelims=1
 map \\ <leader>c<space>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Powerline
+" Powerline
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Use the fancy version of Powerline symbols
 let g:Powerline_symbols = 'fancy'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Syntastic
+" Syntastic
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Syntastic settings
 let g:syntastic_mode_map = { 'mode': 'active',
@@ -701,7 +701,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
             \ 'passive_filetypes': ['puppet'] }
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => Fugitive
+" Fugitive
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap <leader>gb :Gblame<cr>
 nnoremap <leader>gc :Gcommit<cr>
@@ -712,7 +712,7 @@ nnoremap <leader>gs :Gstatus<cr>
 nnoremap <leader>gw :Gwrite<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" => CtrlP
+" CtrlP
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Show hidden files
 let g:ctrlp_show_hidden=1
@@ -760,13 +760,25 @@ if has('conceal')
 endif
 
 " Tell Neosnippets to use the snipmate snippets
-let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets'
+let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets,~/.dotfiles/.vim/snippets'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Clam
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 nnoremap ! :Clam<space>
 vnoremap ! :ClamVisual<space>
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" VimSessions
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Automatically save and load sessions
+let g:session_autosave="yes"
+let g:session_autoload="yes"
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Calendar
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:calendar_options="fdc=0 nonu nornu"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " My functions
