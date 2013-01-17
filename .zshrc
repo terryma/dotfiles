@@ -4,6 +4,7 @@
 ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="agnoster"
 DISABLE_AUTO_TITLE="true"
+COMPLETION_WAITING_DOTS="true"
 DEFAULT_USER=$USER
 plugins=(git brew osx vi-mode)
 source $ZSH/oh-my-zsh.sh
@@ -30,6 +31,8 @@ fi
 setopt noflowcontrol
 stty -ixon -ixoff
 
+autoload zmv
+
 ################################################################################
 # Vars
 ################################################################################
@@ -41,6 +44,7 @@ export P4DIFF="gvimdiff -f -R"
 if [ -f /usr/local/heroku/bin/heroku ]; then
   export PATH=/usr/local/heroku/bin:$PATH
 fi
+export KEYTIMEOUT=1
 
 # Source all other zsh files where vars like PATH could be overwritten
 for config (~/.zsh/*.zsh) source $config

@@ -60,15 +60,15 @@ nnoremap <leader>e :e! $MYVIMRC<cr>
 " <leader>o: only
 nnoremap <leader>o :only<cr>
 
-" ✓ <leader>a: find the highlighted word or the word under cursor on the current
+" ✓ <leader>af: find the highlighted word or the word under cursor on the current
 " buffer using ack (a for ack)
-vnoremap <leader>a y:<c-u>ack -q '<c-r>"' %<cr>
-nnoremap <leader>a :Ack -Q '<c-r><c-w>' %<cr>
+vnoremap <leader>af y:<c-u>Ack! -q '<c-r>"' %<cr>
+nnoremap <leader>af :Ack! -Q '<c-r><c-w>' %<cr>
 
-" ✓ <leader>s: search the highlighted word or the word under cursor using ack (s
+" ✓ <leader>ad: search the highlighted word or the word under cursor using ack (s
 " for search)
-vnoremap <leader>s y:<c-u>ack -qu '<c-r>"'<cr>
-nnoremap <leader>s :Ack -qu '<c-r><c-w>'<cr>
+vnoremap <leader>ad y:<c-u>Ack! -qu '<c-r>"'<cr>
+nnoremap <leader>ad :Ack! -Qu '<c-r><c-w>'<cr>
 
 " ✓ <leader>d: copy line down (d for duplicate)
 nnoremap <leader>d mzyyp`zj
@@ -174,7 +174,7 @@ noremap H ^
 " ✓ J: Scroll down, Ctrl-e is a little difficult to reach
 nmap J <c-e>
 
-" ✓ K: Scroll up, Ctrl-y is a diffcult to reach
+" ✓ K: Scroll up, Ctrl-y is a difficult to reach
 nmap K <c-y>
 " TODO Remap the previous functionality of K to something else?
 
@@ -195,7 +195,7 @@ noremap L $
 
 " ✓ V: Visual line mode
 
-" ✓ B: Move word backard
+" ✓ B: Move word backward
 
 " ✓ N: Find next occurrence backward
 nnoremap N Nzzzv
@@ -207,6 +207,10 @@ nnoremap N Nzzzv
 " ✓ >: Indent right
 
 " ✓ ?: Search backwards
+
+" +: Increment number
+nnoremap + <c-a>
+nnoremap - <c-x>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Normal Mode Ctrl key mappings
@@ -341,35 +345,37 @@ vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => Meta key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Normal Mode
 " Alt-[hl]: Move word in normal mode
 nnoremap <m-h> hgEl
 nnoremap <m-l> El
 
+" Alt-[jk]: Move current line up or down
+nnoremap <m-j> mz:m+<cr>`z
+nnoremap <m-k> mz:m-2<cr>`z
+
+" Alt-o: Jump back in the changelist
+nnoremap <m-o> g;
+
+" Alt-i: Jump forward in the changelist
+nnoremap <m-i> g,
+
+" Alt-t: Open CtrlP's tag search, similar to Eclipse's Ctrl-o
+nnoremap <m-t> :CtrlPBufTag<cr>
+
+" Insert Mode
+" Alt-[jk]: Move current line up or down
+imap <m-j> <esc><m-j>a
+imap <m-k> <esc><m-k>a
+
+" Visual Mode
+" Alt-[jk]: Move selections up or down
+vnoremap <m-j> :m'>+<cr>`<my`>mzgv`yo`z
+vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
+
 " Alt-[hl]: Move word in insert mode
 inoremap <m-h> <esc>gEa
 inoremap <m-l> <esc>Ea
-
-" Move a line of text using Alt+[jk] or Comamnd+[jk] on mac
-nnoremap <m-j> mz:m+<cr>`z
-nnoremap <m-k> mz:m-2<cr>`z
-imap <m-j> <esc><m-j>a
-imap <m-k> <esc><m-k>a
-vnoremap <m-j> :m'>+<cr>`<my`>mzgv`yo`z
-vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
-smap <m-j> <c-g><m-j>
-smap <m-k> <c-g><m-k>
-
-" Alt-o: Open CtrlP's tag search, similar to Eclipse's Ctrl-o
-nnoremap <m-o> :CtrlPBufTag<cr>
-
-if has("macunix")
-  nmap <d-j> <m-j>
-  nmap <d-k> <m-k>
-  vmap <d-j> <m-j>
-  vmap <d-k> <m-k>
-  imap <d-j> <m-j>
-  imap <d-k> <m-k>
-endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => General key mappings
@@ -509,7 +515,7 @@ set showmode
 " Auto complete setting
 set completeopt=longest,menuone,preview
 
-" Set completion mode. first tab completes as much as possible, second tab shows
+" Set completion mode. First tab completes as much as possible, second tab shows
 " list of options
 set wildmode=longest,list,full
 set wildmenu "turn on wild menu
@@ -591,7 +597,7 @@ endif
 " 256bit terminal
 set t_Co=256
 
-" Disble menu and toolbar
+" Disable menu and toolbar
 set go-=T
 set go-=m
 
@@ -637,6 +643,7 @@ nnoremap <leader>sn ]s
 nnoremap <leader>sp [s
 nnoremap <leader>sa zg
 nnoremap <leader>s? z=
+nnoremap <leader>s1 1z=
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " => NERDTree
@@ -711,8 +718,7 @@ nnoremap <leader>gw :Gwrite<cr>
 let g:ctrlp_show_hidden=1
 " Show up to 20 lines
 let g:ctrlp_max_height=20
-" Turn off the feature to intelligently selects the root and always use pwd
-let g:ctrlp_working_path_mode = 0
+let g:ctrlp_working_path_mode = 'ra'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " EasyMotion
@@ -721,7 +727,7 @@ hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Neoicomplcache
+" Neocomplcache
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Launches neocomplcache automatically on vim startup.
 let g:neocomplcache_enable_at_startup = 1
