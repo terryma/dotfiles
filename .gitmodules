@@ -111,3 +111,6 @@
 [submodule ".vim/bundle/snipmate-snippets"]
 	path = .vim/bundle/snipmate-snippets
 	url = https://github.com/honza/snipmate-snippets.git
+[submodule ".zsh/vimpager"]
+	path = .zsh/vimpager
+	url = https://github.com/rkitover/vimpager.git

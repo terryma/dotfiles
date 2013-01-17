@@ -38,7 +38,9 @@ autoload zmv
 ################################################################################
 export PATH=~/.dotfiles/bin:/usr/local/bin:/user/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python
 export EDITOR=vim
-export PAGER=less
+# Use vimpager as PAGER
+export VIMPAGER_RC=~/.dotfiles/.zsh/.vimpagerrc
+export PAGER=~/.dotfiles/.zsh/vimpager/vimpager
 export VISUAL=vim
 export P4DIFF="gvimdiff -f -R"
 if [ -f /usr/local/heroku/bin/heroku ]; then
@@ -71,13 +73,9 @@ else
   alias tmux='tmux -2'
 fi
 
-# Use vim as a pager and manpager instead of less
-VLESS=$(find /usr/share/vim -name 'less.sh')
-if [ ! -z $VLESS ]; then
-  alias less=$VLESS
-  export PAGER=$VLESS
-  export MANPAGER="bash -c \"$VLESS -c 'set ft=man nomod nolist nonumber norelativenumber colorcolumn='</dev/tty <(col -bx)\""
-fi
+alias less=$PAGER
+alias zless=$PAGER
+
 alias ←="pushd -q +1"
 alias →="pushd -q -0"
 
