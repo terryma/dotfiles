@@ -73,7 +73,8 @@ nnoremap <leader>ad :Ack! -Qu '<c-r><c-w>'<cr>
 " ✓ <leader>d: copy line down (d for duplicate)
 nnoremap <leader>d mzyyp`zj
 
-" <Leader>f: unused
+" <Leader>f: NERDTreeFind
+nnoremap <silent> <leader>f :NERDTreeFind<cr> :wincmd p<cr>
 
 " <Leader>g: unused
 
@@ -253,6 +254,10 @@ nnoremap <c-i> <c-i>zzzv
 nnoremap <c-o> <c-o>zzzv
 
 " ✓ Ctrl-p: Open CtrlP
+nnoremap <c-p><c-p> :CtrlP<cr>
+nnoremap <c-p><c-t> :CtrlPBufTag<cr>
+nnoremap <c-p><c-l> :CtrlPLine<cr>
+nnoremap <c-p><c-b> :CtrlPBookmarkDir<cr>
 
 " ✓ Ctrl-[: Esc
 
@@ -676,7 +681,9 @@ function! rc:syncTree()
   endif
 endfunction
 
-autocmd BufEnter * call rc:syncTree()
+" This currently doesn't work very well with quickrun and vimshell. Disable
+" until I can figure out how to fix it
+" autocmd BufEnter * call rc:syncTree()
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERD Commenter

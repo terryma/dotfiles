@@ -112,9 +112,9 @@
 [submodule ".vim/bundle/bufonly"]
   path = .vim/bundle/bufonly
   url = https://github.com/vim-scripts/BufOnly.vim.git
-[submodule ".tools/git-submodule-tools"]
-	path = .tools/git-submodule-tools
-	url = https://github.com/kollerma/git-submodule-tools.git
 [submodule ".vim/bundle/vim-signature"]
 	path = .vim/bundle/vim-signature
 	url = https://github.com/kshenoy/vim-signature.git
+[submodule "git-extras"]
+	path = git-extras
+	url = https://github.com/visionmedia/git-extras.git
