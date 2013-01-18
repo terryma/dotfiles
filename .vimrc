@@ -292,7 +292,7 @@ noremap <c-l> <c-w>l
 " TODO Ctrl-c: unused
 
 " ✓ Ctrl-v: Paste system clipboard
-nmap <c-v> i<c-v><esc>
+nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
 
 " ✓ Ctrl-b: CtrlP buffer mode
 nnoremap <c-b> :CtrlPBuffer<cr>
@@ -336,7 +336,7 @@ vnoremap <c-y> 3<c-y>3k
 " The 'g' right after the register name means leave the cursor after the text
 " Notice that clipboard=unnamed is not set for OSX, since we want the clipboard
 " copy/paste to be explicit
-inoremap <c-v> <esc>:set paste<cr><esc>"+gP:set nopaste<cr>a
+inoremap <c-v> <esc>:set paste<cr><esc>"+gp:set nopaste<cr>a
 vnoremap <c-c> "+y
 
 " Easier search and replace
@@ -436,8 +436,9 @@ nnoremap <cr> o<esc>
 " Backspace: Turn off search highlight
 nnoremap <silent> <bs> :noh<cr>
 
-" Space: Go to command mode
-noremap <space> :
+" Space: Toggle folding
+nnoremap <space> za
+vnoremap <space> za
 
 " Visual Mode:
 " Paste in visual mode should not replace the default register with the deleted
@@ -506,8 +507,8 @@ set listchars=tab:>.,trail:.,extends:#,nbsp:.
 set scrolloff=10
 
 " Disable folding
-set nofoldenable
-set foldlevel=99999
+" set nofoldenable
+" set foldlevel=99999
 
 " Show mode
 set showmode

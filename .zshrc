@@ -12,6 +12,9 @@ source $ZSH/oh-my-zsh.sh
 ################################################################################
 # General
 ################################################################################
+# Uncomment if we want tmux powerline to display the current directory
+# PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
+
 # Disable sound
 setopt no_beep
 
