@@ -34,7 +34,7 @@ nnoremap <silent> <leader>1 :set paste!<cr>
 " ✓ <Leader>2: Toggle Tagbar
 nnoremap <leader>2 :TagbarToggle<cr>
 
-" ✓ <Leader>3: Run the visually selected code in python and replace it with the"
+" ✓ <Leader>3: Run the visually selected code in python and replace it with the
 " output
 vnoremap <silent> <leader>0 :!python<cr>
 
@@ -60,13 +60,13 @@ nnoremap <leader>e :e! $MYVIMRC<cr>
 " <leader>o: only
 nnoremap <leader>o :only<cr>
 
-" ✓ <leader>af: find the highlighted word or the word under cursor on the current
-" buffer using ack (a for ack)
+" ✓ <leader>af: find the highlighted word or the word under cursor on the
+" current buffer using ack (a for ack)
 vnoremap <leader>af y:<c-u>Ack! -q '<c-r>"' %<cr>
 nnoremap <leader>af :Ack! -Q '<c-r><c-w>' %<cr>
 
-" ✓ <leader>ad: search the highlighted word or the word under cursor using ack (s
-" for search)
+" ✓ <leader>ad: search the highlighted word or the word under cursor using ack
+" (s for search)
 vnoremap <leader>ad y:<c-u>Ack! -qu '<c-r>"'<cr>
 nnoremap <leader>ad :Ack! -Qu '<c-r><c-w>'<cr>
 
@@ -486,11 +486,9 @@ set cursorline
 set background=dark
 
 " Colorschemes
-" colorscheme desert-warm-256
-" colorscheme distinguished
-" colorscheme solarized
-" colorscheme vividchalk
-colorscheme jellybeans
+" colorscheme jellybeans
+" colorscheme base16-tomorrow
+colorscheme Tomorrow-Night
 
 " Sets how many lines of history vim has to remember
 set history=10000
@@ -786,7 +784,7 @@ let g:session_autoload="yes"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Calendar
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-let g:calendar_options="fdc=0 nonu nornu"
+let g:calendar_options="fdc=0 nornu"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " My functions
