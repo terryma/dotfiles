@@ -506,9 +506,9 @@ set listchars=tab:>.,trail:.,extends:#,nbsp:.
 " Minimal number of screen lines to keep above and below the cursor
 set scrolloff=10
 
-" Disable folding
-" set nofoldenable
-" set foldlevel=99999
+" Open all folds initially
+set foldmethod=indent
+set foldlevelstart=99
 
 " Show mode
 set showmode

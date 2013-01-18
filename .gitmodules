@@ -122,3 +122,7 @@
 [submodule ".vim/bundle/vim-signature"]
 	path = .vim/bundle/vim-signature
 	url = https://github.com/kshenoy/vim-signature.git
+[submodule ".vim/bundle/project"]
+	path = .vim/bundle/project
+	url = https://github.com/vim-scripts/project.tar.gz.git
+  ignore = untracked
