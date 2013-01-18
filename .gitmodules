@@ -127,6 +127,7 @@
 [submodule ".themes/tomorrow"]
 	path = .themes/tomorrow
 	url = https://github.com/chriskempson/tomorrow-theme.git
+  ignore = untracked
 [submodule ".vim/bundle/unite"]
 	path = .vim/bundle/unite
 	url = https://github.com/Shougo/unite.vim.git
