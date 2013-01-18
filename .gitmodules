@@ -89,10 +89,6 @@
 [submodule ".vim/bundle/tasklist"]
   path = .vim/bundle/tasklist
   url = https://github.com/vim-scripts/TaskList.vim.git
-[submodule ".vim/bundle/conque-term"]
-  path = .vim/bundle/conque-term
-  url = https://github.com/rosenfeld/conque-term.git
-  ignore = untracked
 [submodule ".vim/bundle/vimproc"]
   path = .vim/bundle/vimproc
   url = https://github.com/Shougo/vimproc.git
