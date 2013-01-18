@@ -30,13 +30,6 @@
   path = .vim/bundle/vim-session
   url = https://github.com/xolox/vim-session.git
   ignore = untracked
-[submodule "tmux-powerline"]
-  path = tmux-powerline
-  url = https://github.com/erikw/tmux-powerline.git
-  ignore = untracked
-[submodule "tmux-color-solarized"]
-  path = tmux-color-solarized
-  url = https://github.com/seebi/tmux-colors-solarized.git
 [submodule ".vim/bundle/vim-distinguished"]
   path = .vim/bundle/vim-distinguished
   url = https://github.com/Lokaltog/vim-distinguished.git
@@ -67,6 +60,7 @@
 [submodule ".tmux/tmux-powerline"]
   path = .tmux/tmux-powerline
   url = https://github.com/erikw/tmux-powerline.git
+  ignore = untracked
 [submodule ".tmux/tmux-colors-solarized"]
   path = .tmux/tmux-colors-solarized
   url = https://github.com/seebi/tmux-colors-solarized.git
