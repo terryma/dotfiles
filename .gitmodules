@@ -1,16 +1,16 @@
 [submodule ".tmux/tmux-powerline"]
-  path = .tmux/tmux-powerline
-  url = https://github.com/erikw/tmux-powerline.git
+	path = .tmux/tmux-powerline
+	url = https://github.com/erikw/tmux-powerline.git
   ignore = untracked
 [submodule ".tmux/tmux-colors-solarized"]
-  path = .tmux/tmux-colors-solarized
-  url = https://github.com/seebi/tmux-colors-solarized.git
+	path = .tmux/tmux-colors-solarized
+	url = https://github.com/seebi/tmux-colors-solarized.git
 [submodule ".dircolors-solarized"]
-  path = .dircolors-solarized
-  url = https://github.com/seebi/dircolors-solarized.git
+	path = .dircolors-solarized
+	url = https://github.com/seebi/dircolors-solarized.git
 [submodule "git-extras"]
-  path = git-extras
-  url = https://github.com/visionmedia/git-extras.git
+	path = git-extras
+	url = https://github.com/visionmedia/git-extras.git
 [submodule ".themes/base16-iterm2"]
-  path = .themes/base16-iterm2
-  url = https://github.com/chriskempson/base16-iterm2.git
+	path = .themes/base16-iterm2
+	url = https://github.com/chriskempson/base16-iterm2.git
