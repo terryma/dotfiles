@@ -419,7 +419,7 @@ noremap ; :
 " n: Next, keep search matches in the middle of the window
 nnoremap n nzzzv
 " m: Marks
-" ,: Repeat last f,F,t,T reverse  (Remap?)
+" ,: Leader
 " .: Repeat last command
 " /" Search
 
@@ -442,8 +442,8 @@ nnoremap <cr> o<esc>
 nnoremap <silent> <bs> :noh<cr>
 
 " Space: Toggle folding
-nnoremap <space> za
-vnoremap <space> za
+" nnoremap <space> za
+" vnoremap <space> za
 
 " Visual Mode:
 " Paste in visual mode should not replace the default register with the deleted
@@ -786,6 +786,91 @@ let g:session_autoload="yes"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:calendar_options="fdc=0 nornu"
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Unite
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" The prefix key.
+nnoremap    [unite]   <Nop>
+nmap    <space> [unite]
+
+nnoremap <silent> [unite]c  :<C-u>UniteWithCurrentDir
+      \ -buffer-name=files buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir
+      \ -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
+nnoremap <silent> [unite]r  :<C-u>Unite
+      \ -buffer-name=register register<CR>
+nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
+nnoremap <silent> [unite]f
+      \ :<C-u>Unite -buffer-name=resume resume<CR>
+nnoremap <silent> [unite]d
+      \ :<C-u>Unite -buffer-name=files -default-action=lcd directory_mru<CR>
+nnoremap <silent> [unite]ma
+      \ :<C-u>Unite mapping<CR>
+nnoremap <silent> [unite]me
+      \ :<C-u>Unite output:message<CR>
+nnoremap  [unite]f  :<C-u>Unite source<CR>
+
+nnoremap <silent> [unite]s
+      \ :<C-u>Unite -buffer-name=files -no-split
+      \ jump_point file_point buffer_tab
+      \ file_rec:! file file/new file_mru<CR>
+
+" Start insert.
+let g:unite_enable_start_insert = 1
+let g:unite_enable_short_source_names = 1
+
+autocmd FileType unite call s:unite_my_settings()
+function! s:unite_my_settings()"{{{
+  " Overwrite settings.
+
+  nmap <buffer> <ESC>      <Plug>(unite_exit)
+  imap <buffer> jj      <Plug>(unite_insert_leave)
+  "imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+
+  imap <buffer><expr> j unite#smart_map('j', '')
+  imap <buffer> <TAB>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+  imap <buffer> '     <Plug>(unite_quick_match_default_action)
+  nmap <buffer> '     <Plug>(unite_quick_match_default_action)
+  imap <buffer><expr> x
+        \ unite#smart_map('x', "\<Plug>(unite_quick_match_choose_action)")
+  nmap <buffer> x     <Plug>(unite_quick_match_choose_action)
+  nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+  imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+  imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+  nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+  nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
+  nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+  imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+  nnoremap <silent><buffer><expr> l
+        \ unite#smart_map('l', unite#do_action('default'))
+
+  let unite = unite#get_current_unite()
+  if unite.buffer_name =~# '^search'
+    nnoremap <silent><buffer><expr> r     unite#do_action('replace')
+  else
+    nnoremap <silent><buffer><expr> r     unite#do_action('rename')
+  endif
+
+  nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
+  nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
+        \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
+endfunction"}}}
+
+let g:unite_source_file_mru_limit = 200
+let g:unite_cursor_line_highlight = 'TabLineSel'
+let g:unite_abbr_highlight = 'TabLine'
+
+" For optimize.
+let g:unite_source_file_mru_filename_format = ''
+
+" For ack.
+if executable('ack-grep')
+  let g:unite_source_grep_command = 'ack-grep'
+  let g:unite_source_grep_default_opts = '--no-heading --no-color -a'
+  let g:unite_source_grep_recursive_opt = ''
+endif
+<
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " My functions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
