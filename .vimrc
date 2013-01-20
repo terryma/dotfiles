@@ -2,13 +2,58 @@
 set nocompatible
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Pathogen
+" NeoBundle
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-source ~/.dotfiles/.vim/bundle/pathogen/autoload/pathogen.vim
-execute pathogen#infect()
-execute pathogen#helptags()
-syntax on
+if has ('vim_starting')
+  set runtimepath+=~/.vim/bundle/neobundle.vim/
+endif
+
+call neobundle#rc(expand('~/.vim/bundle/'))
+
+" Let NeoBundle manage NeoBundle
+NeoBundleFetch 'Shougo/neobundle.vim'
+
+NeoBundle 'Shougo/vimproc'
+NeoBundle 'Shougo/unite.vim'
+NeoBundle 'Shougo/neocomplcache'
+NeoBundle 'Shougo/neosnippet'
+NeoBundle 'honza/snipmate-snippets'
+NeoBundle 'Shougo/vimshell'
+NeoBundle 'Shougo/vimfiler'
+NeoBundle 'mileszs/ack.vim'
+" NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'terryma/vim-powerline', {'rev':'develop'}
+NeoBundle 'kshenoy/vim-signature'
+NeoBundle 'majutsushi/tagbar'
+NeoBundle 'mattn/calendar-vim'
+NeoBundle 'rkitover/vimpager'
+NeoBundle 'scrooloose/nerdcommenter'
+NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'scrooloose/syntastic'
+NeoBundle 'sjl/clam.vim'
+NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'tpope/vim-fugitive'
+NeoBundle 'tpope/vim-surround'
+NeoBundle 'vim-scripts/BufOnly.vim'
+NeoBundle 'vim-scripts/TaskList.vim'
+NeoBundle 'xolox/vim-easytags'
+NeoBundle 'xolox/vim-session'
+" Color themems
+NeoBundle 'altercation/vim-colors-solarized'
+NeoBundle 'tomasr/molokai'
+NeoBundle 'Lokaltog/vim-distinguished'
+NeoBundle 'chriskempson/base16-vim'
+NeoBundle 'tpope/vim-vividchalk'
+NeoBundle 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
+NeoBundle 'rainux/vim-desert-warm-256'
+NeoBundle 'nanotech/jellybeans.vim'
+NeoBundle 'vim-scripts/wombat256.vim'
+
 filetype plugin indent on
+
+NeoBundleCheck
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Google specific settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -436,7 +481,7 @@ nmap <left> <nop>
 nmap <right> <nop>
 
 " Enter: Add new line
-nnoremap <cr> o<esc>
+" nnoremap <cr> o<esc>
 
 " Backspace: Turn off search highlight
 nnoremap <silent> <bs> :noh<cr>
@@ -467,6 +512,8 @@ endif
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General Settings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+syntax on
+
 " Turn on the mouse, since it doesn't play well with tmux anyway. This way I can
 " scroll in the terminal
 set mouse=a

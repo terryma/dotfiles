@@ -1,6 +1,6 @@
 .VimballRecord
 .netrwhist
 borgcfg.vim
-**/spell/
+spell/
 tags
-.vim/sessions/
+.vim/bundle/*
