@@ -14,3 +14,6 @@
 [submodule ".themes/base16-iterm2"]
 	path = .themes/base16-iterm2
 	url = https://github.com/chriskempson/base16-iterm2.git
+[submodule ".zsh/vimpager"]
+	path = .zsh/vimpager
+	url = https://github.com/rkitover/vimpager.git

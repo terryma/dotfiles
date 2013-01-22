@@ -4,3 +4,4 @@ borgcfg.vim
 spell/
 tags
 .vim/bundle/*
+.vim/sessions/*
