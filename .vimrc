@@ -15,13 +15,13 @@ NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'Shougo/vimproc'
 NeoBundle 'Shougo/unite.vim'
+NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'honza/snipmate-snippets'
 NeoBundle 'Shougo/vimshell'
-NeoBundle 'Shougo/vimfiler'
 NeoBundle 'mileszs/ack.vim'
-" NeoBundle 'kien/ctrlp.vim'
+NeoBundle 'kien/ctrlp.vim'
 NeoBundle 'Lokaltog/vim-easymotion'
 NeoBundle 'terryma/vim-powerline', {'rev':'develop'}
 NeoBundle 'kshenoy/vim-signature'
@@ -39,6 +39,7 @@ NeoBundle 'vim-scripts/BufOnly.vim'
 NeoBundle 'vim-scripts/TaskList.vim'
 NeoBundle 'xolox/vim-easytags'
 NeoBundle 'xolox/vim-session'
+NeoBundle 'AndrewRadev/multichange.vim'
 " Color themems
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'tomasr/molokai'
@@ -167,7 +168,10 @@ function! g:chmodonwrite()
     silent !chmod u+w %
   endif
 endfunction
-autocmd bufwrite * call g:chmodonwrite()
+augroup chmodonwrite
+  autocmd!
+  autocmd bufwrite * call g:chmodonwrite()
+augroup END
 
 " w!!: Writes using sudo
 cnoremap w!! w !sudo tee % >/dev/null
@@ -287,7 +291,10 @@ nnoremap <c-t>k :tabnext<cr>
 nnoremap <c-t>l :tabnext<cr>
 let g:lasttab = 1
 nnoremap <c-t>t :exe "tabn ".g:lasttab<cr>
-au TabLeave * let g:lasttab = tabpagenr()
+augroup lasttab
+  autocmd!
+  autocmd TabLeave * let g:lasttab = tabpagenr()
+augroup END
 
 " TODO Ctrl-u: Scroll half a screen up
 " Do I use this much?
@@ -348,7 +355,7 @@ nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
 nnoremap <c-b> :CtrlPBuffer<cr>
 
 " ✓ Ctrl-n: Toggle relative line number
-nnoremap <c-n> :set invrelativenumber<cr>
+" nnoremap <c-n> :set invrelativenumber<cr>
 
 " ✓ Ctrl-m: Same as Enter
 
@@ -498,8 +505,12 @@ vnoremap p "_dP
 " Highlight visual selections
 vnoremap * y:let @/ = @"<cr>
 
-" make backspace work sanely in visual mode
+" Make backspace work sanely in visual mode
 vnoremap <bs> x
+
+" Reselect visual block after indent
+vnoremap < <gv
+vnoremap > >gv
 
 " Remap VIM 0
 noremap 0 ^
@@ -706,7 +717,10 @@ let NERDTreeIgnore=['\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
 " show up correctly inside of tmux for some strange reason. Disable it for now
 " autocmd vimenter * if !argc() | NERDTree | wincmd p | endif
 " close vim if the only window open is nerdtree
-autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+augroup nerdtreeclose
+  autocmd!
+  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+augroup END
 
 " returns true iff is NERDTree open/active
 function! rc:isNTOpen()
@@ -728,7 +742,10 @@ endfunction
 
 " This currently doesn't work very well with quickrun and vimshell. Disable
 " until I can figure out how to fix it
-" autocmd BufEnter * call rc:syncTree()
+" augroup nerdtree_autosync
+  " autocmd!
+  " autocmd BufEnter * call rc:syncTree()
+" augroup END
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERD Commenter
@@ -801,12 +818,15 @@ smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<P
 imap <expr><cr> pumvisible() ? neocomplcache#close_popup() . "\<tab>" : "\<cr>"
 
 " Enable omni completion. Not required if they are already set elsewhere in .vimrc
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+augroup omnicomplete
+  autocmd!
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+augroup END
 
 if has('conceal')
   set conceallevel=2 concealcursor=i
@@ -866,43 +886,45 @@ nnoremap <silent> [unite]s
 let g:unite_enable_start_insert = 1
 let g:unite_enable_short_source_names = 1
 
-autocmd FileType unite call s:unite_my_settings()
-function! s:unite_my_settings()"{{{
-  " Overwrite settings.
+augroup unite
+  autocmd!
+  autocmd FileType unite call s:unite_my_settings()
+  function! s:unite_my_settings()"{{{
+    " Overwrite settings.
 
-  nmap <buffer> <ESC>      <Plug>(unite_exit)
-  imap <buffer> jj      <Plug>(unite_insert_leave)
-  "imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+    nmap <buffer> <ESC>      <Plug>(unite_exit)
+    imap <buffer> jj      <Plug>(unite_insert_leave)
 
-  imap <buffer><expr> j unite#smart_map('j', '')
-  imap <buffer> <TAB>   <Plug>(unite_select_next_line)
-  imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
-  imap <buffer> '     <Plug>(unite_quick_match_default_action)
-  nmap <buffer> '     <Plug>(unite_quick_match_default_action)
-  imap <buffer><expr> x
-        \ unite#smart_map('x', "\<Plug>(unite_quick_match_choose_action)")
-  nmap <buffer> x     <Plug>(unite_quick_match_choose_action)
-  nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-  imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-  imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
-  nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
-  nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
-  nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-  imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-  nnoremap <silent><buffer><expr> l
-        \ unite#smart_map('l', unite#do_action('default'))
+    imap <buffer><expr> j unite#smart_map('j', '')
+    imap <buffer> <TAB>   <Plug>(unite_select_next_line)
+    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+    imap <buffer> '     <Plug>(unite_quick_match_default_action)
+    nmap <buffer> '     <Plug>(unite_quick_match_default_action)
+    imap <buffer><expr> x
+          \ unite#smart_map('x', "\<Plug>(unite_quick_match_choose_action)")
+    nmap <buffer> x     <Plug>(unite_quick_match_choose_action)
+    nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+    imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+    imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+    nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+    nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
+    nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+    imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+    nnoremap <silent><buffer><expr> l
+          \ unite#smart_map('l', unite#do_action('default'))
 
-  let unite = unite#get_current_unite()
-  if unite.buffer_name =~# '^search'
-    nnoremap <silent><buffer><expr> r     unite#do_action('replace')
-  else
-    nnoremap <silent><buffer><expr> r     unite#do_action('rename')
-  endif
+    let unite = unite#get_current_unite()
+    if unite.buffer_name =~# '^search'
+      nnoremap <silent><buffer><expr> r     unite#do_action('replace')
+    else
+      nnoremap <silent><buffer><expr> r     unite#do_action('rename')
+    endif
 
-  nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
-  nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
-        \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
-endfunction"}}}
+    nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
+    nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
+          \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
+  endfunction"}}}
+augroup END
 
 let g:unite_source_file_mru_limit = 200
 let g:unite_cursor_line_highlight = 'TabLineSel'
@@ -917,7 +939,7 @@ if executable('ack-grep')
   let g:unite_source_grep_default_opts = '--no-heading --no-color -a'
   let g:unite_source_grep_recursive_opt = ''
 endif
-<
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " My functions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
