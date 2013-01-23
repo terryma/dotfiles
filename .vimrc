@@ -35,6 +35,7 @@ NeoBundle 'sjl/clam.vim'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'tpope/vim-fugitive'
 NeoBundle 'tpope/vim-surround'
+NeoBundle 'tpope/vim-repeat'
 NeoBundle 'vim-scripts/BufOnly.vim'
 NeoBundle 'vim-scripts/TaskList.vim'
 NeoBundle 'xolox/vim-easytags'
@@ -50,6 +51,10 @@ NeoBundle 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
 NeoBundle 'rainux/vim-desert-warm-256'
 NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'vim-scripts/wombat256.vim'
+" Experiment
+" NeoBundle 'klen/python-mode'
+NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'hynek/vim-python-pep8-indent'
 
 filetype plugin indent on
 
@@ -856,6 +861,7 @@ let g:calendar_options="fdc=0 nornu"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Unite
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
 " The prefix key.
 nnoremap    [unite]   <Nop>
 nmap    <space> [unite]
@@ -938,6 +944,15 @@ if executable('ack-grep')
   let g:unite_source_grep_command = 'ack-grep'
   let g:unite_source_grep_default_opts = '--no-heading --no-color -a'
   let g:unite_source_grep_recursive_opt = ''
+endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Indent Guides
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+if !has('gui_running')
+  let g:indent_guides_auto_colors = 0
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=236
+  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=237
 endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
