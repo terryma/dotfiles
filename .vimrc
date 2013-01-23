@@ -881,6 +881,8 @@ let g:calendar_options="fdc=0 nornu"
 " Unite
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
+" Ignore everything under the review client
+call unite#custom_source('file_rec,file_mru,file,buffer', 'ignore_pattern', 'git5/.*/review/')
 " The prefix key.
 nnoremap    [unite]   <Nop>
 nmap    <space> [unite]
