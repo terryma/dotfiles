@@ -56,6 +56,9 @@ NeoBundle 'vim-scripts/wombat256.vim'
 NeoBundle 'nathanaelkane/vim-indent-guides'
 NeoBundle 'hynek/vim-python-pep8-indent'
 
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'kana/vim-textobj-entire'
+
 filetype plugin indent on
 
 NeoBundleCheck
