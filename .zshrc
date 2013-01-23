@@ -39,7 +39,7 @@ autoload zmv
 ################################################################################
 # Vars
 ################################################################################
-export PATH=~/.dotfiles/bin:/usr/local/bin:/user/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python
+export PATH=~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:/user/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python
 export EDITOR=vim
 # Use vimpager as PAGER
 export VIMPAGER_RC=~/.dotfiles/.zsh/.vimpagerrc
