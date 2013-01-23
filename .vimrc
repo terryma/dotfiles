@@ -51,6 +51,9 @@ NeoBundle 'rainux/vim-desert-warm-256'
 NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'vim-scripts/wombat256.vim'
 
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'kana/vim-textobj-entire'
+
 filetype plugin indent on
 
 NeoBundleCheck
