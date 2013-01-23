@@ -106,7 +106,7 @@ nnoremap <leader>q :qa<cr>
 nnoremap <leader>w :w<cr>
 
 " ✓ <Leader>e: Fast editing of the .vimrc
-nnoremap <leader>e :e! $MYVIMRC<cr>
+nnoremap <leader>e :e! ~/.dotfiles/.vimrc<cr>
 
 " ✓ <Leader>r: QuickRun's default keymap
 
@@ -125,13 +125,15 @@ nnoremap <leader>af :Ack! -Q '<c-r><c-w>' %<cr>
 vnoremap <leader>ad y:<c-u>Ack! -qu '<c-r>"'<cr>
 nnoremap <leader>ad :Ack! -Qu '<c-r><c-w>'<cr>
 
+" <Leader>s: Spell checking shortcuts
+
 " ✓ <leader>d: copy line down (d for duplicate)
 nnoremap <leader>d mzyyp`zj
 
 " <Leader>f: NERDTreeFind
 nnoremap <silent> <leader>f :NERDTreeFind<cr> :wincmd p<cr>
 
-" <Leader>g: unused
+" <Leader>g: Fugitive shortcuts
 
 " <Leader>z: unused
 
@@ -142,6 +144,9 @@ nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " <Leader>v: quick vertical split
 nnoremap <leader>v :vsp<cr>
+
+" <Leader>b: toggle between last two buffers
+nnoremap <leader>b <c-^>
 
 " <Leader>n: unused
 
@@ -372,6 +377,10 @@ nnoremap <c-b> :CtrlPBuffer<cr>
 " ✓ Ctrl-.: Vim can't map this
 " ✓ Ctrl-/: Vim can't map this
 
+" Ctrl-Space: Toggle between last 2 buffers
+" nnoremap <c-space> <c-^>
+" nmap <c-@> <c-space>
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Insert Mode Ctrl key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -491,10 +500,16 @@ let g:EasyMotion_mapping_t = 't'
 let g:EasyMotion_mapping_T = 'T'
 
 " Disable arrow keys, they're evil
-nmap <up> <nop>
-nmap <down> <nop>
-nmap <left> <nop>
-nmap <right> <nop>
+" nmap <up> <nop>
+" nmap <down> <nop>
+" nmap <left> <nop>
+" nmap <right> <nop>
+" Up Down Left Right resize splits
+nnoremap <up> <c-w>+
+nnoremap <down> <c-w>-
+nnoremap <left> <c-w><
+nnoremap <right> <c-w>>
+
 
 " Enter: Add new line
 " nnoremap <cr> o<esc>
