@@ -117,12 +117,14 @@ nnoremap <leader>o :only<cr>
 
 " ✓ <leader>af: find the highlighted word or the word under cursor on the
 " current buffer using ack (a for ack)
-vnoremap <leader>af y:<c-u>Ack! -q '<c-r>"' %<cr>
+vnoremap <leader>af y:<c-u>Ack! -Q '<c-r>"' %<cr>
 nnoremap <leader>af :Ack! -Q '<c-r><c-w>' %<cr>
+
+nnoremap <leader>as :Ack! -Q ''<left>
 
 " ✓ <leader>ad: search the highlighted word or the word under cursor using ack
 " (s for search)
-vnoremap <leader>ad y:<c-u>Ack! -qu '<c-r>"'<cr>
+vnoremap <leader>ad y:<c-u>Ack! -Qu '<c-r>"'<cr>
 nnoremap <leader>ad :Ack! -Qu '<c-r><c-w>'<cr>
 
 " <Leader>s: Spell checking shortcuts
@@ -287,8 +289,8 @@ nnoremap - <c-x>
 " This is mapped to Shift-J, remap to something else?
 nnoremap <c-e> 3<c-e>3j
 
-" TODO Ctrl-r: Redo
-" This is mapped to Shift-U, remap to something else?
+" Ctrl-r: Easier search and replace. Redo is remapped to U
+nnoremap <c-r> :%s/<c-r><c-w>//gc<left><left><left>
 
 " TODO Ctrl-y: Scroll up, move the cursor as well
 " This is mapped to Shift-K, remap to something else?
@@ -377,9 +379,9 @@ nnoremap <c-b> :CtrlPBuffer<cr>
 " ✓ Ctrl-.: Vim can't map this
 " ✓ Ctrl-/: Vim can't map this
 
-" Ctrl-Space: Toggle between last 2 buffers
-" nnoremap <c-space> <c-^>
-" nmap <c-@> <c-space>
+" Ctrl-Space: [unite]c is very often used, map to that
+nmap <c-space> [unite]c
+nmap <c-@> <c-space>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Insert Mode Ctrl key mappings
@@ -414,7 +416,7 @@ vnoremap <c-y> 3<c-y>3k
 inoremap <c-v> <esc>:set paste<cr><esc>"+gp:set nopaste<cr>a
 vnoremap <c-c> "+y
 
-" Easier search and replace
+" Ctrl-r: Easier search and replace
 vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
