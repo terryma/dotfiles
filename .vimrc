@@ -875,8 +875,8 @@ let g:session_autosave="yes"
 let g:session_autoload="yes"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Calendar
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Calendar
 let g:calendar_options="fdc=0 nornu"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -884,20 +884,19 @@ let g:calendar_options="fdc=0 nornu"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 " Ignore everything under the review client
-call unite#custom_source('file_rec,file_mru,file,buffer', 'ignore_pattern', 'git5/.*/review/')
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer', 'ignore_pattern', 'git5/.*/review/')
 " The prefix key.
 nnoremap    [unite]   <Nop>
 nmap    <space> [unite]
 
-nnoremap <silent> [unite]c  :<C-u>UniteWithCurrentDir
-      \ -buffer-name=files buffer file_mru bookmark file<CR>
-nnoremap <silent> [unite]b  :<C-u>UniteWithBufferDir
+nnoremap <silent> [unite]c :<C-u>UniteWithCurrentDir
+      \ -buffer-name=files buffer file_mru bookmark file_rec/async<CR>
+nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir
       \ -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
-nnoremap <silent> [unite]r  :<C-u>Unite
+nnoremap <silent> [unite]r :<C-u>Unite
       \ -buffer-name=register register<CR>
-nnoremap <silent> [unite]o  :<C-u>Unite outline<CR>
-nnoremap <silent> [unite]f
-      \ :<C-u>Unite -buffer-name=resume resume<CR>
+nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
+nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=resume resume<CR>
 nnoremap <silent> [unite]d
       \ :<C-u>Unite -buffer-name=files -default-action=lcd directory_mru<CR>
 nnoremap <silent> [unite]ma
@@ -937,8 +936,10 @@ augroup unite
     imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
     nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
     nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
-    nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-    imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+    " nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+    " imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+    nmap <buffer> <C-r> <Plug>(unite_redraw)
+    imap <buffer> <C-r> <Plug>(unite_redraw)
     nnoremap <silent><buffer><expr> l
           \ unite#smart_map('l', unite#do_action('default'))
 
