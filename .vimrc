@@ -59,8 +59,10 @@ NeoBundle 'hynek/vim-python-pep8-indent'
 
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-entire'
+NeoBundle 'Raimondi/vim_search_objects'
 
 filetype plugin indent on
+syntax enable
 
 NeoBundleCheck
 
@@ -120,7 +122,7 @@ nnoremap <leader>o :only<cr>
 vnoremap <leader>af y:<c-u>Ack! -Q '<c-r>"' %<cr>
 nnoremap <leader>af :Ack! -Q '<c-r><c-w>' %<cr>
 
-nnoremap <leader>as :Ack! -Q ''<left>
+nnoremap <leader>as :Ack! -Qu ''<left>
 
 " ✓ <leader>ad: search the highlighted word or the word under cursor using ack
 " (s for search)
@@ -424,6 +426,9 @@ vnoremap <c-c> "+y
 
 " Ctrl-r: Easier search and replace
 vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
+
+" Ctrl-s: Easier substitue
+vnoremap <c-s> :s/\%V//g<left><left><left>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Meta key mappings
@@ -889,8 +894,10 @@ let g:calendar_options="fdc=0 nornu"
 " Unite
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
-" Ignore everything under the review client
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer', 'ignore_pattern', 'git5/.*/review/')
+" Set up some custom ignores
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer', 
+      \ 'ignore_pattern', 
+      \ 'git5/.*/review/,/google/obj/')
 " The prefix key.
 nnoremap    [unite]   <Nop>
 nmap    <space> [unite]
