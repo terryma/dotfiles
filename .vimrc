@@ -60,6 +60,7 @@ NeoBundle 'hynek/vim-python-pep8-indent'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-entire'
 NeoBundle 'Raimondi/vim_search_objects'
+NeoBundle 'myusuf3/numbers.vim'
 
 filetype plugin indent on
 syntax enable
@@ -372,8 +373,7 @@ nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
 " ✓ Ctrl-b: CtrlP buffer mode
 nnoremap <c-b> :CtrlPBuffer<cr>
 
-" ✓ Ctrl-n: Toggle relative line number
-" nnoremap <c-n> :set invrelativenumber<cr>
+" ✓ Ctrl-n: Multichange default mapping
 
 " ✓ Ctrl-m: Same as Enter
 
@@ -458,6 +458,9 @@ vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
 " Alt-[hl]: Move word in insert mode
 inoremap <m-h> <esc>gEa
 inoremap <m-l> <esc>Ea
+
+" Alt-n: Toggle line numbers
+nnoremap <m-n> :NumbersToggle<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General key mappings
