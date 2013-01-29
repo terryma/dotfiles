@@ -60,6 +60,7 @@ NeoBundle 'hynek/vim-python-pep8-indent'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-entire'
 NeoBundle 'Raimondi/vim_search_objects'
+NeoBundle 'mattn/zencoding-vim'
 
 filetype plugin indent on
 syntax enable
@@ -84,6 +85,9 @@ let maplocalleader = ","
 let g:maplocalleader = ","
 
 " Order by key location
+
+" <Leader>``: Force quit all
+nnoremap <leader>`` :qa!<cr>
 
 " ✓ <Leader>1: Toggle between paste mode
 nnoremap <silent> <leader>1 :set paste!<cr>
@@ -834,7 +838,7 @@ hi link EasyMotionTarget ErrorMsg
 hi link EasyMotionShade  Comment
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Neocomplcache
+" Neocomplcache and Neosnippets
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Launches neocomplcache automatically on vim startup.
 let g:neocomplcache_enable_at_startup = 1
@@ -849,10 +853,11 @@ let g:neocomplcache_min_syntax_length = 1
 " AutoComplPop like behavior.
 let g:neocomplcache_enable_auto_select = 1
 
-" SuperTab like snippets behavior.
-imap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? "\<C-n>" : ""
-smap <expr><TAB> neosnippet#expandable() <Bar><bar> neosnippet#jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-imap <expr><cr> pumvisible() ? neocomplcache#close_popup() . "\<tab>" : "\<cr>"
+" Tab always completes the suggestion
+imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? neocomplcache#close_popup() : "\<TAB>"
+smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" Enter always performs a literal enter
+imap <expr><cr> neocomplcache#smart_close_popup() . "\<CR>"
 
 " Enable omni completion. Not required if they are already set elsewhere in .vimrc
 augroup omnicomplete
@@ -922,6 +927,8 @@ nnoremap <silent> [unite]s
       \ :<C-u>Unite -buffer-name=files -no-split
       \ jump_point file_point buffer_tab
       \ file_rec:! file file/new file_mru<CR>
+
+nnoremap <silent> [unite]z :<C-u>Unite -buffer-name=snippets snippet<CR>
 
 " Start insert.
 let g:unite_enable_start_insert = 1
