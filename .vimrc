@@ -110,7 +110,7 @@ nnoremap <leader>e :e! ~/.dotfiles/.vimrc<cr>
 
 " ✓ <Leader>r: QuickRun's default keymap
 
-" <leader>t: unused
+" <leader>t: TaskList's default keymap
 
 " <leader>o: only
 nnoremap <leader>o :only<cr>
@@ -399,6 +399,12 @@ inoremap <c-c> <nop>
 
 " Ctrl-backspace: Delete previous word (Doesn't work in terminal)
 inoremap <c-bs> <c-w>
+
+" Ctrl-w: Delete previous word
+" Ctrl-r: Insert register
+" Ctrl-u: Delete til beginning of line
+" Ctrl-o: Insert Normal mode
+" Ctrl-p: Auto complete previous
 
 " basic readline shortcuts
 inoremap <c-a> <esc>I
