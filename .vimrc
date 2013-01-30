@@ -956,6 +956,7 @@ augroup unite
     " Overwrite settings.
 
     nmap <buffer> <ESC>      <Plug>(unite_exit)
+    imap <buffer> <ESC> <Plug>(unite_exit)
     imap <buffer> jj      <Plug>(unite_insert_leave)
 
     imap <buffer><expr> j unite#smart_map('j', '')
