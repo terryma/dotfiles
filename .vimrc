@@ -59,9 +59,11 @@ NeoBundle 'hynek/vim-python-pep8-indent'
 
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-entire'
+NeoBundle 'kana/vim-submode'
 NeoBundle 'Raimondi/vim_search_objects'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'mattn/zencoding-vim'
+NeoBundle 'goldfeld/vim-seek'
 
 filetype plugin indent on
 syntax enable
@@ -174,13 +176,17 @@ nnoremap <silent> <leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
 " Bash like keys for the command line
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
-cnoremap <c-j> <up>
-cnoremap <c-k> <down>
+cnoremap <c-j> <down>
+cnoremap <c-k> <up>
 
-" Ctrl-[hl]: Moves left/right by word, since Shift-left/right are used by tmux
+" Ctrl-[hl]: Move left/right by character
+cnoremap <c-h> <left>
+cnoremap <c-l> <right>
+
+" Alt-[hl]: Moves left/right by word, since Shift-left/right are used by tmux
 " to switch panes
-cnoremap <c-h> <s-left>
-cnoremap <c-l> <s-right>
+cnoremap <m-h> <s-left>
+cnoremap <m-l> <s-right>
 
 " Paste to command mode using Ctrl-V
 cnoremap <c-v> <c-r>"
@@ -229,8 +235,6 @@ nnoremap U <c-r>
 
 " ✓ }: End of paragraph
 
-" |: Beginning of line
-
 " ✓ A: Insert at end of line
 
 " ✓ S: Deletes the line and puts us in insert mode
@@ -245,16 +249,15 @@ nnoremap U <c-r>
 noremap H ^
 
 " ✓ J: Scroll down, Ctrl-e is a little difficult to reach
-nmap J <c-e>
+noremap J 3<c-e>3j
 
 " ✓ K: Scroll up, Ctrl-y is a difficult to reach
-nmap K <c-y>
-" TODO Remap the previous functionality of K to something else?
+noremap K 3<c-y>3k
 
 " ✓ L: Go to end of line
 noremap L $
 
-" ✓ ::: Go to command-line mode. Since ; is also used to go to command-line mode,
+" ✓ :: Go to command-line mode. Since ; is also used to go to command-line mode,
 " : should be mapped to what ; used to do (next when doing fFtT). But since
 " we're using EasyMotion to replace what fFtT used to do, it renders ; obsolete
 
@@ -281,7 +284,7 @@ nnoremap N Nzzzv
 
 " ✓ ?: Search backwards
 
-" +: Increment number
+" +/-: Increment number
 nnoremap + <c-a>
 nnoremap - <c-x>
 
@@ -299,8 +302,8 @@ nnoremap <c-e> 3<c-e>3j
 " Ctrl-r: Easier search and replace. Redo is remapped to U
 nnoremap <c-r> :%s/<c-r><c-w>//gc<left><left><left>
 
-" TODO Ctrl-y: Scroll up, move the cursor as well
-" This is mapped to Shift-K, remap to something else?
+" Ctrl-y: Scroll up, move the cursor as well
+" TODO This is mapped to Shift-K, remap to something else?
 nnoremap <c-y> 3<c-y>3k
 
 " Ctrl-t: Go back in tag stack
@@ -367,7 +370,7 @@ noremap <c-l> <c-w>l
 
 " ✓ Ctrl-z: This is the command key for tmux
 
-" TODO Ctrl-x: unused
+" Ctrl-x: Zencoding leader key
 
 " TODO Ctrl-c: unused
 
@@ -473,6 +476,15 @@ inoremap <m-l> <esc>Ea
 nnoremap <m-n> :NumbersToggle<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Space key mappings
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Space-jk scrolls the page
+call submode#enter_with('scroll', 'n', '', '<space>j', '<c-e>')
+call submode#enter_with('scroll', 'n', '', '<space>k', '<c-y>')
+call submode#map('scroll', 'n', '', 'j', '<c-e>')
+call submode#map('scroll', 'n', '', 'k', '<c-y>')
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " General key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Normal Mode:
@@ -512,12 +524,6 @@ nnoremap n nzzzv
 " ,: Leader
 " .: Repeat last command
 " /" Search
-
-" Replace the normal fFtF keys with EasyMotion
-let g:EasyMotion_mapping_f = 'f'
-let g:EasyMotion_mapping_F = 'F'
-let g:EasyMotion_mapping_t = 't'
-let g:EasyMotion_mapping_T = 'T'
 
 " Disable arrow keys, they're evil
 " nmap <up> <nop>
@@ -839,8 +845,14 @@ let g:ctrlp_working_path_mode = 'ra'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " EasyMotion
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-hi link EasyMotionTarget ErrorMsg
+hi link EasyMotionTarget WarningMsg
 hi link EasyMotionShade  Comment
+
+" Replace the normal fFtF keys with EasyMotion
+let g:EasyMotion_mapping_f = 'f'
+let g:EasyMotion_mapping_F = 'F'
+let g:EasyMotion_mapping_t = 't'
+let g:EasyMotion_mapping_T = 'T'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Neocomplcache and Neosnippets
@@ -1001,6 +1013,11 @@ if !has('gui_running')
   autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=236
   autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=237
 endif
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Zencoding
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+let g:user_zen_leader_key = '<c-x>'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " My functions
