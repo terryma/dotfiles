@@ -235,8 +235,6 @@ nnoremap U <c-r>
 
 " ✓ }: End of paragraph
 
-" |: Beginning of line
-
 " ✓ A: Insert at end of line
 
 " ✓ S: Deletes the line and puts us in insert mode
@@ -286,7 +284,7 @@ nnoremap N Nzzzv
 
 " ✓ ?: Search backwards
 
-" +: Increment number
+" +/-: Increment number
 nnoremap + <c-a>
 nnoremap - <c-x>
 
