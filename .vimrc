@@ -443,8 +443,8 @@ nnoremap <m-h> hgEl
 nnoremap <m-l> El
 
 " Alt-[jk]: Move current line up or down
-nnoremap <m-j> mz:m+<cr>`z
-nnoremap <m-k> mz:m-2<cr>`z
+nnoremap <silent> <m-j> mz:m+<cr>`z
+nnoremap <silent> <m-k> mz:m-2<cr>`z
 
 " Alt-o: Jump back in the changelist
 nnoremap <m-o> g;
@@ -610,6 +610,8 @@ set listchars=tab:>.,trail:.,extends:#,nbsp:.
 
 " Minimal number of screen lines to keep above and below the cursor
 set scrolloff=10
+
+set numberwidth=6
 
 " Open all folds initially
 set foldmethod=indent
@@ -903,9 +905,7 @@ let g:calendar_options="fdc=0 nornu"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 " Set up some custom ignores
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer', 
-      \ 'ignore_pattern', 
-      \ 'git5/.*/review/,/google/obj/')
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer', 'ignore_pattern', 'git5/.*/review/')
 " The prefix key.
 nnoremap    [unite]   <Nop>
 nmap    <space> [unite]
