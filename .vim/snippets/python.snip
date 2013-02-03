@@ -1,0 +1,24 @@
+snippet     header
+abbr        header
+options     head
+        # Copyright 2013 Google Inc. All Rights Reserved.
+
+        """${1:One-line documentation for test module.}
+
+        ${2:A detailed description of test.}
+        """
+
+        __author__ = 'terryma@google.com (Terry Ma)'
+
+        from google3.pyglib import app
+        from google3.pyglib import flags
+
+        FLAGS = flags.FLAGS
+
+
+        def main(argv):
+          pass
+
+
+        if __name__ == '__main__':
+          app.run()
