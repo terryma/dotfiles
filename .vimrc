@@ -235,6 +235,12 @@ nnoremap U <c-r>
 
 " ✓ }: End of paragraph
 
+" _ : Quick horizontal splits
+nnoremap _ :sp<cr>
+
+" | : Quick vertical splits
+nnoremap <bar> :vsp<cr>
+
 " ✓ A: Insert at end of line
 
 " ✓ S: Deletes the line and puts us in insert mode
@@ -540,12 +546,8 @@ nnoremap <right> <c-w>>
 " Enter: Add new line
 " nnoremap <cr> o<esc>
 
-" Backspace: Turn off search highlight
-nnoremap <silent> <bs> :noh<cr>
-
-" Space: Toggle folding
-" nnoremap <space> za
-" vnoremap <space> za
+" Backspace: Toggle search highlight
+nnoremap <bs> :set hlsearch! hlsearch?<cr>
 
 " Visual Mode:
 " Paste in visual mode should not replace the default register with the deleted
