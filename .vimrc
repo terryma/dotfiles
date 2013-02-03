@@ -14,34 +14,72 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 NeoBundleFetch 'Shougo/neobundle.vim'
 
 NeoBundle 'Shougo/vimproc'
+
+" Fuzzy search
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'mileszs/ack.vim'
+
+" Code completion
 NeoBundle 'Shougo/neocomplcache'
+
+" Snippets
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'honza/snipmate-snippets'
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'mileszs/ack.vim'
-NeoBundle 'kien/ctrlp.vim'
-NeoBundle 'Lokaltog/vim-easymotion'
-NeoBundle 'terryma/vim-powerline', {'rev':'develop'}
+
+" Marks
 NeoBundle 'kshenoy/vim-signature'
-NeoBundle 'majutsushi/tagbar'
-NeoBundle 'mattn/calendar-vim'
-NeoBundle 'rkitover/vimpager'
+
+" Comments
 NeoBundle 'scrooloose/nerdcommenter'
+
+" File browsing
 NeoBundle 'scrooloose/nerdtree'
+
+" Syntax checker
 NeoBundle 'scrooloose/syntastic'
-NeoBundle 'sjl/clam.vim'
+
+" Shell
 NeoBundle 'thinca/vim-quickrun'
+NeoBundle 'Shougo/vimshell'
+
+" Html
+NeoBundle 'mattn/zencoding-vim'
+
+" Markdown
+NeoBundle 'tpope/vim-markdown'
+
+" Git
 NeoBundle 'tpope/vim-fugitive'
+
+" Motions
+NeoBundle 'Lokaltog/vim-easymotion'
+NeoBundle 'goldfeld/vim-seek'
+
+" Text Objects
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-repeat'
-NeoBundle 'tpope/vim-markdown'
+NeoBundle 'kana/vim-textobj-user'
+NeoBundle 'kana/vim-textobj-entire'
+NeoBundle 'Raimondi/vim_search_objects'
+
+" Tags
+NeoBundle 'xolox/vim-easytags'
+NeoBundle 'majutsushi/tagbar'
+
+" Sessions
+NeoBundle 'xolox/vim-session'
+
+" Misc
 NeoBundle 'vim-scripts/BufOnly.vim'
 NeoBundle 'vim-scripts/TaskList.vim'
-NeoBundle 'xolox/vim-easytags'
-NeoBundle 'xolox/vim-session'
 NeoBundle 'AndrewRadev/multichange.vim'
+NeoBundle 'kana/vim-submode'
+NeoBundle 'myusuf3/numbers.vim'
+
+" Status line
+NeoBundle 'terryma/vim-powerline', {'rev':'develop'}
+
 " Color themems
 NeoBundle 'altercation/vim-colors-solarized'
 NeoBundle 'tomasr/molokai'
@@ -52,18 +90,14 @@ NeoBundle 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
 NeoBundle 'rainux/vim-desert-warm-256'
 NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'vim-scripts/wombat256.vim'
-" Experiment
-" NeoBundle 'klen/python-mode'
-NeoBundle 'nathanaelkane/vim-indent-guides'
-NeoBundle 'hynek/vim-python-pep8-indent'
 
-NeoBundle 'kana/vim-textobj-user'
-NeoBundle 'kana/vim-textobj-entire'
-NeoBundle 'kana/vim-submode'
-NeoBundle 'Raimondi/vim_search_objects'
-NeoBundle 'myusuf3/numbers.vim'
-NeoBundle 'mattn/zencoding-vim'
-NeoBundle 'goldfeld/vim-seek'
+" Ones that I don't really use anymore
+" NeoBundle 'klen/python-mode'
+" NeoBundle 'nathanaelkane/vim-indent-guides'
+" NeoBundle 'hynek/vim-python-pep8-indent'
+" NeoBundle 'kien/ctrlp.vim'
+" NeoBundle 'mattn/calendar-vim'
+" NeoBundle 'sjl/clam.vim'
 
 filetype plugin indent on
 syntax enable
@@ -452,8 +486,8 @@ nnoremap <m-h> hgEl
 nnoremap <m-l> El
 
 " Alt-[jk]: Move current line up or down
-nnoremap <m-j> mz:m+<cr>`z
-nnoremap <m-k> mz:m-2<cr>`z
+nnoremap <silent> <m-j> mz:m+<cr>`z
+nnoremap <silent> <m-k> mz:m-2<cr>`z
 
 " Alt-o: Jump back in the changelist
 nnoremap <m-o> g;
@@ -512,6 +546,8 @@ call submode#map('scroll', 'n', '', 'k', '<c-y>')
 " d: Delete
 " f: Find 
 " g: Many functions
+" gp to visually select pasted text
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " h: Left
 " j: Down
 " k: Up
@@ -564,8 +600,8 @@ vnoremap <bs> x
 vnoremap < <gv
 vnoremap > >gv
 
-" Remap VIM 0
-noremap 0 ^
+" . repeats the last command on every line
+vnoremap . :normal.<cr>
 
 " Restart vim with Ctrl-Alt-R when in gui
 if has('gui_running')
@@ -618,6 +654,8 @@ set listchars=tab:>.,trail:.,extends:#,nbsp:.
 
 " Minimal number of screen lines to keep above and below the cursor
 set scrolloff=10
+
+set numberwidth=6
 
 " Open all folds initially
 set foldmethod=indent
@@ -745,6 +783,9 @@ set whichwrap+=h,l,<,>,[,]
 set guitablabel=%t
 
 set clipboard-=autoselect
+
+" Sensible indent after parentheses
+set cino=(0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spell checking
@@ -915,11 +956,12 @@ let g:calendar_options="fdc=0 nornu"
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Unite
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Use the fuzzy matcher for everything
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
 " Set up some custom ignores
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer', 
-      \ 'ignore_pattern', 
-      \ 'git5/.*/review/,/google/obj/')
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer', 'ignore_pattern', 'git5/.*/review/')
+
 " The prefix key.
 nnoremap    [unite]   <Nop>
 nmap    <space> [unite]
@@ -947,9 +989,12 @@ nnoremap <silent> [unite]s
 
 nnoremap <silent> [unite]z :<C-u>Unite -buffer-name=snippets snippet<CR>
 
-" Start insert.
+" Start in insert mode
 let g:unite_enable_start_insert = 1
 let g:unite_enable_short_source_names = 1
+
+" Open in bottom right
+let g:unite_split_rule = "botright"
 
 augroup unite
   autocmd!
@@ -958,6 +1003,7 @@ augroup unite
     " Overwrite settings.
 
     nmap <buffer> <ESC>      <Plug>(unite_exit)
+    imap <buffer> <ESC> <Plug>(unite_exit)
     imap <buffer> jj      <Plug>(unite_insert_leave)
 
     imap <buffer><expr> j unite#smart_map('j', '')
@@ -977,6 +1023,8 @@ augroup unite
     " imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
     nmap <buffer> <C-r> <Plug>(unite_redraw)
     imap <buffer> <C-r> <Plug>(unite_redraw)
+    inoremap <silent><buffer><expr> <c-s> unite#do_action('split')
+    inoremap <silent><buffer><expr> <c-v> unite#do_action('vsplit')
     nnoremap <silent><buffer><expr> l
           \ unite#smart_map('l', unite#do_action('default'))
 
@@ -995,7 +1043,7 @@ augroup END
 
 let g:unite_source_file_mru_limit = 200
 let g:unite_cursor_line_highlight = 'TabLineSel'
-let g:unite_abbr_highlight = 'TabLine'
+" let g:unite_abbr_highlight = 'TabLine'
 
 " For optimize.
 let g:unite_source_file_mru_filename_format = ''
@@ -1031,3 +1079,10 @@ function! Refactor()
 endfunction
 " Locally (local to block) rename a variable
 nnoremap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>[{V%:s/<C-R>//<c-r>z/g<cr>`x
+
+command! -nargs=+ Silent
+      \ | execute ':silent !'.<q-args>
+      \ | execute ':redraw!'
+
+" Format json using python. This needs some better error checking
+command! -nargs=0 -range=% Format <line1>,<line2>!python -c "import sys, json; print json.dumps(json.load(sys.stdin), sort_keys=True, indent=2)"

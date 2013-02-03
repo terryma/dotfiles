@@ -296,6 +296,8 @@ case "$TERM" in
     # For some reason up and down arrows take you to the beginning of the line.
     # Remap them explicitly
     bindkey -M viins '\eOA'  up-line-or-history
+    bindkey -M viins '^[[A'  up-line-or-history
+    bindkey -M viins '^[[B'  down-line-or-history
     bindkey -M viins '\eOB'  down-line-or-history
 
     # VI MODE KEYBINDINGS (cmd mode)
