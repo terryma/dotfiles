@@ -966,14 +966,18 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer', 'ignore
 nnoremap    [unite]   <Nop>
 nmap    <space> [unite]
 
+" General fuzzy search
 nnoremap <silent> [unite]c :<C-u>UniteWithCurrentDir
       \ -buffer-name=files buffer file_mru bookmark file_rec/async<CR>
 nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir
       \ -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
+" Quick registers
 nnoremap <silent> [unite]r :<C-u>Unite
       \ -buffer-name=register register<CR>
+" Quick outline
 nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
-nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=resume resume<CR>
+" nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=resume resume<CR>
+" Quickly switch lcd
 nnoremap <silent> [unite]d
       \ :<C-u>Unite -buffer-name=files -default-action=lcd directory_mru<CR>
 nnoremap <silent> [unite]ma
@@ -981,6 +985,8 @@ nnoremap <silent> [unite]ma
 nnoremap <silent> [unite]me
       \ :<C-u>Unite output:message<CR>
 nnoremap  [unite]f  :<C-u>Unite source<CR>
+" Quick grep from cwd
+nnoremap [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
 
 nnoremap <silent> [unite]s
       \ :<C-u>Unite -buffer-name=files -no-split
