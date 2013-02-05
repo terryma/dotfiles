@@ -132,12 +132,12 @@ nnoremap <silent> <leader>1 :set paste!<cr>
 " ✓ <Leader>2: Toggle Tagbar
 nnoremap <leader>2 :TagbarToggle<cr>
 
-" ✓ <Leader>3: Run the visually selected code in python and replace it with the
+" ✓ <Leader>3: Open tasklist
+nnoremap <Leader>3 <Plug>TaskList
+
+" ✓ <Leader>0: Run the visually selected code in python and replace it with the
 " output
 vnoremap <silent> <leader>0 :!python<cr>
-
-" <Leader>3: Open tasklist
-nnoremap <Leader>3 :TaskList<cr>
 
 " ✓ <Leader>tab: Toggles NERDTree
 nnoremap <leader><tab> :NERDTreeToggle<cr>
@@ -153,30 +153,31 @@ nnoremap <leader>e :e! ~/.dotfiles/.vimrc<cr>
 
 " ✓ <Leader>r: QuickRun's default keymap
 
-" <leader>t: TaskList's default keymap
+" <Leader>t: EasyMotion
 
-" <leader>o: only
+" <Leader>o: only
 nnoremap <leader>o :only<cr>
 
 " ✓ <leader>af: find the highlighted word or the word under cursor on the
 " current buffer using ack (a for ack)
-vnoremap <leader>af y:<c-u>Ack! -Q '<c-r>"' %<cr>
-nnoremap <leader>af :Ack! -Q '<c-r><c-w>' %<cr>
+" Unite line is superior than this
+" vnoremap <leader>af y:<c-u>Ack! -Q '<c-r>"' %<cr>
+" nnoremap <leader>af :Ack! -Q '<c-r><c-w>' %<cr>
 
-nnoremap <leader>as :Ack! -Qu ''<left>
+" nnoremap <leader>as :Ack! -Qu ''<left>
 
 " ✓ <leader>ad: search the highlighted word or the word under cursor using ack
 " (s for search)
-vnoremap <leader>ad y:<c-u>Ack! -Qu '<c-r>"'<cr>
-nnoremap <leader>ad :Ack! -Qu '<c-r><c-w>'<cr>
+" Unite line is superior than this
+" vnoremap <leader>ad y:<c-u>Ack! -Qu '<c-r>"'<cr>
+" nnoremap <leader>ad :Ack! -Qu '<c-r><c-w>'<cr>
 
 " <Leader>s: Spell checking shortcuts
 
 " ✓ <leader>d: copy line down (d for duplicate)
 nnoremap <leader>d mzyyp`zj
 
-" <Leader>f: NERDTreeFind
-nnoremap <silent> <leader>f :NERDTreeFind<cr> :wincmd p<cr>
+" <Leader>f: EasyMotion
 
 " <Leader>g: Fugitive shortcuts
 
@@ -187,13 +188,13 @@ nnoremap <silent> <leader>f :NERDTreeFind<cr> :wincmd p<cr>
 " ✓ <Leader>cd: Switch to the directory of the open buffer
 nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
 
-" <Leader>v: quick vertical split
-nnoremap <leader>v :vsp<cr>
+" <Leader>v: unused
 
 " <Leader>b: toggle between last two buffers
 nnoremap <leader>b <c-^>
 
-" <Leader>n: unused
+" <Leader>n: NERDTreeFind
+nnoremap <silent> <leader>n :NERDTreeFind<cr> :wincmd p<cr>
 
 " <Leader>p: Copy the full path of the current file to the clipboard
 nnoremap <silent> <leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
@@ -203,6 +204,10 @@ nnoremap <silent> <leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
 " nnoremap <leader>. :call UltiSnips_ListSnippets()<cr>
 
 " <Leader><space>: unused
+
+" <Leader>F: EasyMotion
+
+" <Leader>T: EasyMotion
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Command mode key mappings
@@ -335,16 +340,12 @@ nnoremap - <c-x>
 
 " ✓ Ctrl-w: Window management
 
-" TODO Ctrl-e: Scroll down, move the cursor as well
-" This is mapped to Shift-J, remap to something else?
-nnoremap <c-e> 3<c-e>3j
+" TODO Ctrl-e: unused (original remapped to J)
 
 " Ctrl-r: Easier search and replace. Redo is remapped to U
 nnoremap <c-r> :%s/<c-r><c-w>//gc<left><left><left>
 
-" Ctrl-y: Scroll up, move the cursor as well
-" TODO This is mapped to Shift-K, remap to something else?
-nnoremap <c-y> 3<c-y>3k
+" TODO Ctrl-y: unused (original remapped to K)
 
 " Ctrl-t: Go back in tag stack
 
@@ -362,8 +363,7 @@ augroup lasttab
   autocmd TabLeave * let g:lasttab = tabpagenr()
 augroup END
 
-" TODO Ctrl-u: Scroll half a screen up
-" Do I use this much?
+" Ctrl-u: Scroll half a screen up
 
 " ✓ Ctrl-i: Go forward in the jumplist, also realign the screen
 nnoremap <c-i> <c-i>zzzv
@@ -371,29 +371,20 @@ nnoremap <c-i> <c-i>zzzv
 " ✓ Ctrl-o: Go back in the jumplist, also realign the screen
 nnoremap <c-o> <c-o>zzzv
 
-" ✓ Ctrl-p: Open CtrlP
-nnoremap <c-p><c-p> :CtrlP<cr>
-nnoremap <c-p><c-t> :CtrlPBufTag<cr>
-nnoremap <c-p><c-l> :CtrlPLine<cr>
-nnoremap <c-p><c-b> :CtrlPBookmarkDir<cr>
+" TODO Ctrl-p: unused
 
 " ✓ Ctrl-[: Esc
 
 " ✓ Ctrl-]: Go forward in tag stack
 
-" ✓ Ctrl-a: Select all
-nnoremap <c-a> ggvGg_
+" TODO Ctrl-a: unused
 
-" TODO Ctrl-s: Save
-" Hitting ;w<cr> are pretty simple, remap to something more useful?
-nnoremap <c-s> :w<cr>
+" TODO Ctrl-s: unused
 
-" TODO Ctrl-d: Scroll half a screen down
-" Do I use this much?
+" Ctrl-d: Scroll half a screen down
 
-" TODO Ctrl-f: Scroll one full screen down
-" Do I use this much?
-nnoremap <c-f> :CtrlPLine<cr>
+" Ctrl-f: Scroll one full screen down
+nnoremap <c-f> zz<c-f>zz
 
 " Ctrl-g: Prints current file name. 1Ctrl-g prints the full path
 " TODO Do I use this much? Can we just have the full path displayed at all time?
@@ -417,8 +408,9 @@ noremap <c-l> <c-w>l
 " ✓ Ctrl-v: Paste system clipboard
 nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
 
-" ✓ Ctrl-b: CtrlP buffer mode
-nnoremap <c-b> :CtrlPBuffer<cr>
+" ✓ Ctrl-b: Scroll one full screen back
+" Strange, backward one screen seems to be off by one
+nnoremap <c-b> zz<c-b>kzz
 
 " ✓ Ctrl-n: Multichange default mapping
 
@@ -554,6 +546,10 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " l: Right
 " ;: Command mode
 noremap ; :
+" ::: Remap to ;, repeat last fFtT
+nnoremap :: ;
+" :": Remap to ,, repeat last fFtT in opposite direction
+nnoremap :" ,
 " ': Go to mark
 " z: Many functions
 " x: Delete char
@@ -890,10 +886,10 @@ hi link EasyMotionTarget WarningMsg
 hi link EasyMotionShade  Comment
 
 " Replace the normal fFtF keys with EasyMotion
-let g:EasyMotion_mapping_f = 'f'
-let g:EasyMotion_mapping_F = 'F'
-let g:EasyMotion_mapping_t = 't'
-let g:EasyMotion_mapping_T = 'T'
+let g:EasyMotion_mapping_f = '<Leader>f'
+let g:EasyMotion_mapping_F = '<Leader>F'
+let g:EasyMotion_mapping_t = '<Leader>t'
+let g:EasyMotion_mapping_T = '<Leader>T'
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Neocomplcache and Neosnippets
@@ -960,7 +956,7 @@ let g:calendar_options="fdc=0 nornu"
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
 " Set up some custom ignores
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer', 'ignore_pattern', 'git5/.*/review/')
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep', 'ignore_pattern', 'git5/.*/review/')
 
 " The prefix key.
 nnoremap    [unite]   <Nop>
@@ -984,9 +980,12 @@ nnoremap <silent> [unite]ma
       \ :<C-u>Unite mapping<CR>
 nnoremap <silent> [unite]me
       \ :<C-u>Unite output:message<CR>
+" Quick sources, remapped to something else since f for sources is unintuitive
 nnoremap  [unite]f  :<C-u>Unite source<CR>
 " Quick grep from cwd
 nnoremap [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
+" Quick line
+nnoremap [unite]l :<C-u>Unite -buffer-name=search line<CR>
 
 nnoremap <silent> [unite]s
       \ :<C-u>Unite -buffer-name=files -no-split
