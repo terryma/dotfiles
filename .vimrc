@@ -124,58 +124,74 @@ let g:maplocalleader = ","
 " Order by key location
 
 " <Leader>``: Force quit all
-nnoremap <leader>`` :qa!<cr>
+nnoremap <Leader>`` :qa!<cr>
 
 " ✓ <Leader>1: Toggle between paste mode
-nnoremap <silent> <leader>1 :set paste!<cr>
+nnoremap <silent> <Leader>1 :set paste!<cr>
 
 " ✓ <Leader>2: Toggle Tagbar
-nnoremap <leader>2 :TagbarToggle<cr>
+nnoremap <Leader>2 :TagbarToggle<cr>
 
-" ✓ <Leader>3: Open tasklist
+" ✓ <Leader>3: Open Tasklist
 nnoremap <Leader>3 <Plug>TaskList
 
 " ✓ <Leader>0: Run the visually selected code in python and replace it with the
 " output
-vnoremap <silent> <leader>0 :!python<cr>
+vnoremap <silent> <Leader>0 :!python<cr>
 
 " ✓ <Leader>tab: Toggles NERDTree
-nnoremap <leader><tab> :NERDTreeToggle<cr>
+nnoremap <Leader><tab> :NERDTreeToggle<cr>
 
 " ✓ <Leader>q: Quit all, very useful in vimdiff
-nnoremap <leader>q :qa<cr>
+nnoremap <Leader>q :qa<cr>
 
-" ✓ <Leader>w: Save
-nnoremap <leader>w :w<cr>
+" ✓ <Leader>w: Save all
+nnoremap <Leader>w :wa<cr>
 
 " ✓ <Leader>e: Fast editing of the .vimrc
-nnoremap <leader>e :e! ~/.dotfiles/.vimrc<cr>
+nnoremap <Leader>e :e! ~/.dotfiles/.vimrc<cr>
 
 " ✓ <Leader>r: QuickRun's default keymap
 
-" <Leader>t: EasyMotion
+" ✓ <Leader>t: EasyMotion
 
-" <Leader>o: only
-nnoremap <leader>o :only<cr>
+" TODO <Leader> y
 
-" ✓ <leader>af: find the highlighted word or the word under cursor on the
+" TODO <Leader> u
+
+" ✓ <Leader>o: only
+nnoremap <Leader>o :only<cr>
+
+" TODO <Leader> p
+
+" ✓ <Leader>af: find the highlighted word or the word under cursor on the
 " current buffer using ack (a for ack)
 " Unite line is superior than this
-" vnoremap <leader>af y:<c-u>Ack! -Q '<c-r>"' %<cr>
-" nnoremap <leader>af :Ack! -Q '<c-r><c-w>' %<cr>
+vnoremap <Leader>af y:<C-u>Unite grep:%::<C-r>"<CR>
+nnoremap <Leader>af :Unite grep:%::<C-r><C-w><CR>
+" vnoremap <Leader>af y:<c-u>Ack! -Q '<c-r>"' %<cr>
+" nnoremap <Leader>af :Ack! -Q '<c-r><c-w>' %<cr>
 
-" nnoremap <leader>as :Ack! -Qu ''<left>
+" <Leader>aa: Search in the current directory using Unite grep
+nnoremap <Leader>aa :Unite grep:.<CR>
+" <Leader>as: Search in the current buffer using Unite grep
+nnoremap <Leader>as :Unite grep:%<CR>
+" nnoremap <Leader>as :Ack! -Qu ''<left>
 
-" ✓ <leader>ad: search the highlighted word or the word under cursor using ack
+" ✓ <Leader>ad: search the highlighted word or the word under cursor using ack
 " (s for search)
+" <Leader>ad: Search the highlighted word or the word under cursor using Unite
+" grep
+vnoremap <Leader>ad y:<C-u>Unite grep:.::<C-r>"<CR>
+nnoremap <Leader>ad :Unite grep:.::<C-r><C-w><CR>
 " Unite line is superior than this
-" vnoremap <leader>ad y:<c-u>Ack! -Qu '<c-r>"'<cr>
-" nnoremap <leader>ad :Ack! -Qu '<c-r><c-w>'<cr>
+" vnoremap <Leader>ad y:<c-u>Ack! -Qu '<c-r>"'<cr>
+" nnoremap <Leader>ad :Ack! -Qu '<c-r><c-w>'<cr>
 
 " <Leader>s: Spell checking shortcuts
 
-" ✓ <leader>d: copy line down (d for duplicate)
-nnoremap <leader>d mzyyp`zj
+" ✓ <Leader>d: copy line down (d for duplicate)
+nnoremap <Leader>d mzyyp`zj
 
 " <Leader>f: EasyMotion
 
@@ -186,22 +202,22 @@ nnoremap <leader>d mzyyp`zj
 " <Leader>x: unused
 
 " ✓ <Leader>cd: Switch to the directory of the open buffer
-nnoremap <leader>cd :cd %:p:h<cr>:pwd<cr>
+nnoremap <Leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " <Leader>v: unused
 
 " <Leader>b: toggle between last two buffers
-nnoremap <leader>b <c-^>
+nnoremap <Leader>b <c-^>
 
 " <Leader>n: NERDTreeFind
-nnoremap <silent> <leader>n :NERDTreeFind<cr> :wincmd p<cr>
+nnoremap <silent> <Leader>n :NERDTreeFind<cr> :wincmd p<cr>
 
 " <Leader>p: Copy the full path of the current file to the clipboard
-nnoremap <silent> <leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
+nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
       \ path '".expand("%:p")."' to clipboard"<cr>
 
 " ✓ <Leader>.: List all the snippets for the current files
-" nnoremap <leader>. :call UltiSnips_ListSnippets()<cr>
+" nnoremap <Leader>. :call UltiSnips_ListSnippets()<cr>
 
 " <Leader><space>: unused
 
@@ -210,7 +226,7 @@ nnoremap <silent> <leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
 " <Leader>T: EasyMotion
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Command mode key mappings
+" Command line mode key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Bash like keys for the command line
 cnoremap <c-a> <home>
@@ -784,17 +800,26 @@ set clipboard-=autoselect
 set cino=(0
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Autocommands
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+augroup autocommands
+  autocmd!
+  " q quits in help pages
+  autocmd FileType help map q :q<cr>
+augroup END
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Spell checking
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 "Pressing ,ss will toggle and untoggle spell checking
-nnoremap <leader>ss :setlocal spell!<cr>
+nnoremap <Leader>ss :setlocal spell!<cr>
 
-"Shortcuts using <leader>
-nnoremap <leader>sn ]s
-nnoremap <leader>sp [s
-nnoremap <leader>sa zg
-nnoremap <leader>s? z=
-nnoremap <leader>s1 1z=
+"Shortcuts using <Leader>
+nnoremap <Leader>sn ]s
+nnoremap <Leader>sp [s
+nnoremap <Leader>sa zg
+nnoremap <Leader>s? z=
+nnoremap <Leader>s1 1z=
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " NERDTree
@@ -843,7 +868,7 @@ endfunction
 let NERDSpaceDelims=1
 
 " \\: Toggle comment
-map \\ <leader>c<space>
+map \\ <Leader>c<space>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Powerline
@@ -862,13 +887,13 @@ let g:syntastic_mode_map = { 'mode': 'active',
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Fugitive
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap <leader>gb :Gblame<cr>
-nnoremap <leader>gc :Gcommit<cr>
-nnoremap <leader>gd :Gdiff<cr>
-nnoremap <leader>gp :Git push<cr>
-nnoremap <leader>gr :Gremove<cr>
-nnoremap <leader>gs :Gstatus<cr>
-nnoremap <leader>gw :Gwrite<cr>
+nnoremap <Leader>gb :Gblame<cr>
+nnoremap <Leader>gc :Gcommit<cr>
+nnoremap <Leader>gd :Gdiff<cr>
+nnoremap <Leader>gp :Git push<cr>
+nnoremap <Leader>gr :Gremove<cr>
+nnoremap <Leader>gs :Gstatus<cr>
+nnoremap <Leader>gw :Gwrite<cr>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " CtrlP
@@ -1054,11 +1079,15 @@ let g:unite_cursor_line_highlight = 'TabLineSel'
 let g:unite_source_file_mru_filename_format = ''
 
 " For ack.
-if executable('ack-grep')
-  let g:unite_source_grep_command = 'ack-grep'
-  let g:unite_source_grep_default_opts = '--no-heading --no-color -a'
-  let g:unite_source_grep_recursive_opt = ''
-endif
+" if executable('ack-grep')
+  " let g:unite_source_grep_command = 'ack-grep'
+  " let g:unite_source_grep_default_opts = '--no-heading --no-color -a'
+  " let g:unite_source_grep_recursive_opt = ''
+" elseif executable('ack')
+  " let g:unite_source_grep_command = 'ack'
+  " let g:unite_source_grep_default_opts = '--no-heading --no-color -a'
+  " let g:unite_source_grep_recursive_opt = ''
+" endif
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Indent Guides
