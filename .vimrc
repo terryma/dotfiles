@@ -587,8 +587,6 @@ nmap <c-a> viwS
 nnoremap <c-s><c-s> :Unite grep:.::<C-r><C-w><CR>
 " ✓ Ctrl-sd: Find word in current directory (prompt for word)
 nnoremap <c-s><c-d> :Unite grep:.<CR>
-" ✓ Ctrl-sf: Find word under cursor in the current buffer (file)
-nnoremap <c-s><c-f> :Unite grep:%::<C-r><C-w><CR>
 
 " ✓ Ctrl-d: Scroll half a screen down
 
@@ -1005,8 +1003,8 @@ nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
 " Quick help
 nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
 
-" Quick line
-nnoremap <silent> [unite]l :<C-u>Unite -buffer-name=search line<CR>
+" Quick line using the word under cursor
+nnoremap <silent> [unite]l :<C-u>UniteWithCursorWord -buffer-name=search line<CR>
 
 " Quick snippet
 nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
@@ -1145,7 +1143,7 @@ let g:quickrun_config['*'] = {
       \ 'runner/vimproc/updatetime' : 100,
       \ 'outputter' : 'buffer',
       \ 'runner' : 'vimproc',
-      \ 'running_mark' : '',
+      \ 'running_mark' : 'ﾊﾞﾝ（∩`･ω･）ﾊﾞﾝﾊﾞﾝﾊﾞﾝﾊﾞﾝﾞﾝ',
       \ 'into' : 1,
       \ 'runmode' : 'async:remote:vimproc'
       \}
