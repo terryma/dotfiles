@@ -211,9 +211,6 @@ set backspace=eol,start,indent
 set ignorecase
 set smartcase
 
-" Highlight search result
-set hlsearch
-
 " Make search act like search in modern browsers
 set incsearch
 
@@ -238,8 +235,8 @@ set colorcolumn=+1
 " Lower the delay of escaping out of other modes
 set timeout timeoutlen=1000 ttimeoutlen=0
 
+" Fix meta-keys which generate <Esc>a .. <Esc>z
 if !has('gui_running')
-  " Fix meta-keys which generate <Esc>a .. <Esc>z
   let c='a'
   while c <= 'z'
     exec "set <M-".c.">=\e".c
@@ -257,8 +254,6 @@ if has("macunix")
   set gfn=menlo\ for\ powerline:h12
 elseif has("unix")
   set gfn=Ubuntu\ Mono\ for\ Powerline\ 12
-elseif has("win32")
-  set gfn=consolas:h12
 endif
 
 " 256bit terminal
@@ -273,10 +268,7 @@ try
 catch
 endtry
 
-" Sets default file formats
-set fileformats=unix,dos,mac 
-
-" Turn backup off, since most stuff is in SVN, git anyway...
+" Turn backup off
 set nobackup
 set nowritebackup
 set noswapfile
@@ -291,18 +283,16 @@ set smarttab
 " Text display settings
 set linebreak
 set textwidth=80
-set autoindent 
-set nowrap 
+set autoindent
+set nowrap
 set whichwrap+=h,l,<,>,[,]
 
 set guitablabel=%t
 
 set clipboard-=autoselect
 
-" Sensible indent after parentheses
-set cino=(0
-
-" Spelling highlights
+" Spelling highlights. Use underline in term to prevent cursorline highlights
+" from interfering
 if !has("gui_running")
   hi clear SpellBad
   hi SpellBad cterm=underline ctermfg=red
@@ -335,8 +325,6 @@ let mapleader = ","
 let g:mapleader = ","
 let maplocalleader = ","
 let g:maplocalleader = ","
-
-" Order by key location
 
 " <Leader>``: Force quit all
 nnoremap <Leader>`` :qa!<cr>
@@ -448,7 +436,7 @@ nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
 " <Leader>T: EasyMotion
 
 "===============================================================================
-" Command line mode key mappings
+" Command-line Mode Key Mappings
 "===============================================================================
 
 " Bash like keys for the command line
@@ -470,18 +458,18 @@ cnoremap <m-l> <s-right>
 cnoremap <c-v> <c-r>"
 
 " w!: Change ro files to rw
-function! s:chmodonwrite()
-  if v:cmdbang
-    silent !chmod u+w %
-  endif
-endfunction
-autocmd MyAutoCmd bufwrite * call s:chmodonwrite()
+" function! s:chmodonwrite()
+  " if v:cmdbang
+    " silent !chmod u+w %
+  " endif
+" endfunction
+" autocmd MyAutoCmd bufwrite * call s:chmodonwrite()
 
 " w!!: Writes using sudo
 cnoremap w!! w !sudo tee % >/dev/null
 
 "===============================================================================
-" Normal Mode Shift key mappings
+" Normal Mode Shift Key Mappings
 "===============================================================================
 
 " ✓ Q: Closes the window
@@ -925,6 +913,7 @@ let g:ctrlp_working_path_mode = 'ra'
 " EasyMotion
 "===============================================================================
 
+" Tweak the colors
 hi link EasyMotionTarget WarningMsg
 hi link EasyMotionShade  Comment
 
