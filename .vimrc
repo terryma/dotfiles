@@ -22,8 +22,9 @@ NeoBundle 'Shougo/vimproc', { 'build': {
 
 " Fuzzy search
 NeoBundle 'Shougo/unite.vim'
-NeoBundle 'h1mesuke/unite-outline'
-NeoBundle 'tsukkee/unite-help'
+NeoBundle 'Shougo/unite-outline'
+NeoBundle 'Shougo/unite-help'
+NeoBundle 'Shougo/unite-session'
 NeoBundle 'mileszs/ack.vim'
 
 " Code completion
@@ -74,9 +75,6 @@ NeoBundle 'Raimondi/vim_search_objects'
 NeoBundle 'xolox/vim-easytags'
 NeoBundle 'majutsushi/tagbar'
 
-" Sessions
-NeoBundle 'xolox/vim-session'
-
 " Misc
 NeoBundle 'vim-scripts/BufOnly.vim'
 NeoBundle 'vim-scripts/TaskList.vim'
@@ -84,6 +82,7 @@ NeoBundle 'AndrewRadev/multichange.vim'
 NeoBundle 'kana/vim-submode'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'sjl/gundo.vim'
+" NeoBundle 'Shougo/echodoc'
 
 " Status line
 NeoBundle 'terryma/vim-powerline', {'rev':'develop'}
@@ -106,6 +105,7 @@ NeoBundle 'vim-scripts/wombat256.vim'
 " NeoBundle 'kien/ctrlp.vim'
 " NeoBundle 'mattn/calendar-vim'
 " NeoBundle 'sjl/clam.vim'
+" NeoBundle 'xolox/vim-session'
 
 filetype plugin indent on
 syntax enable
@@ -302,17 +302,23 @@ if !has("gui_running")
   hi SpellRare cterm=underline ctermfg=blue
 endif
 
+" Use a low updatetime. This is used by CursorHold
+set updatetime=1000
+
 "===============================================================================
 " Function key mappings
 "===============================================================================
 
-" <F1>: Help
-nnoremap <F1> :<C-u>UniteWithCursorWord help<CR>
+" ✓ <F1>: Help
+nmap <F1> [unite]h
 
-" <F2>: Open Vimfiler
+" ✓ <F2>: Open Vimfiler
 
-" <F3>: Gundo
+" ✓ <F3>: Gundo
 nnoremap <F3> :<C-u>GundoToggle<CR>
+
+" ✓ <F4>: Save session
+nnoremap <F4> :<C-u>UniteSessionSave 
 
 "===============================================================================
 " Leader key mappings
@@ -324,7 +330,7 @@ let g:mapleader = ","
 let maplocalleader = ","
 let g:maplocalleader = ","
 
-" <Leader>``: Force quit all
+" ✓ <Leader>``: Force quit all
 nnoremap <Leader>`` :qa!<cr>
 
 " ✓ <Leader>1: Toggle between paste mode
@@ -365,31 +371,7 @@ nnoremap <Leader>o :only<cr>
 
 " TODO <Leader> p
 
-" ✓ <Leader>af: find the highlighted word or the word under cursor on the
-" current buffer using ack (a for ack)
-" Unite line is superior than this
-vnoremap <Leader>af y:<C-u>Unite grep:%::<C-r>"<CR>
-nnoremap <Leader>af :Unite grep:%::<C-r><C-w><CR>
-" vnoremap <Leader>af y:<c-u>Ack! -Q '<c-r>"' %<cr>
-" nnoremap <Leader>af :Ack! -Q '<c-r><c-w>' %<cr>
-
-" <Leader>aa: Search in the current directory using Unite grep
-nnoremap <Leader>aa :Unite grep:.<CR>
-" <Leader>as: Search in the current buffer using Unite grep
-nnoremap <Leader>as :Unite grep:%<CR>
-" nnoremap <Leader>as :Ack! -Qu ''<left>
-
-" ✓ <Leader>ad: search the highlighted word or the word under cursor using ack
-" (s for search)
-" <Leader>ad: Search the highlighted word or the word under cursor using Unite
-" grep
-vnoremap <Leader>ad y:<C-u>Unite grep:.::<C-r>"<CR>
-nnoremap <Leader>ad :Unite grep:.::<C-r><C-w><CR>
-" Unite line As superior than this
-" vnoremap <Leader>ad y:<c-u>Ack! -Qu '<c-r>"'<cr>
-" nnoremap <Lewder>ad :Ack! -Qu '<c-r><c-w>'<cr>
-
-" <Leader>s: Spell checking shortcuts
+" ✓ <Leader>s: Spell checking shortcuts
 nnoremap <Leader>ss :setlocal spell!<cr>
 nnoremap <Leader>sj ]s
 nnoremap <Leader>sk [s
@@ -400,38 +382,34 @@ nnoremap <Leader>sf z=
 " ✓ <Leader>d: copy line down (d for duplicate)
 nnoremap <Leader>d mzyyp`zj
 
-" <Leader>f: EasyMotion
+" ✓ <Leader>f: EasyMotion
 
-" <Leader>g: Fugitive shortcuts
+" ✓ <Leader>g: Fugitive shortcuts
 
 " <Leader>z: unused
 
 " <Leader>x: unused
 
-" <Leader>c*: NERDCommenter mappings
+" ✓ <Leader>c*: NERDCommenter mappings
 " ✓ <Leader>cd: Switch to the directory of the open buffer
 nnoremap <Leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " <Leader>v: unused
 
-" <Leader>b: toggle between last two buffers
-nnoremap <Leader>b <c-^>
+" <Leader>b: unused
 
-" <Leader>n: NERDTreeFind
+" ✓ <Leader>n: NERDTreeFind
 nnoremap <silent> <Leader>n :NERDTreeFind<cr> :wincmd p<cr>
 
-" <Leader>p: Copy the full path of the current file to the clipboard
+" ✓ <Leader>p: Copy the full path of the current file to the clipboard
 nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
       \ path '".expand("%:p")."' to clipboard"<cr>
 
-" ✓ <Leader>.: List all the snippets for the current files
-" nnoremap <Leader>. :call UltiSnips_ListSnippets()<cr>
-
 " <Leader><space>: unused
 
-" <Leader>F: EasyMotion
+" ✓ <Leader>F: EasyMotion
 
-" <Leader>T: EasyMotion
+" ✓ <Leader>T: EasyMotion
 
 "===============================================================================
 " Command-line Mode Key Mappings
@@ -544,7 +522,7 @@ noremap L $
 " ✓ N: Find next occurrence backward
 nnoremap N Nzzzv
 
-" TODO M: Move cursor to mid screen
+" ✓ M: Move cursor to mid screen
 
 " ✓ <: Indent left
 
@@ -552,25 +530,25 @@ nnoremap N Nzzzv
 
 " ✓ ?: Search backwards
 
-" +/-: Increment number
+" ✓ +/-: Increment number
 nnoremap + <c-a>
 nnoremap - <c-x>
 
 "===============================================================================
-" Normal Mode Ctrl key mappings
+" Normal Mode Ctrl Key Mappings
 "===============================================================================
 
 " ✓ Ctrl-q: Visual block mode
 
 " ✓ Ctrl-w: Window management
 
-" Ctrl-e: Unite outline
+" ✓ Ctrl-e: Unite outline
 nmap <c-e> [unite]o
 
 " Ctrl-r: Easier search and replace. Redo is remapped to U
 nnoremap <c-r> :%s/<c-r><c-w>//gc<left><left><left>
 
-" Ctrl-y: Unite line
+" ✓ Ctrl-y: Unite line
 nmap <c-y> [unite]l
 
 " Ctrl-t: Go back in tag stack
@@ -586,7 +564,7 @@ let g:lasttab = 1
 nnoremap <c-t><c-t> :exe "tabn ".g:lasttab<cr>
 autocmd MyAutoCmd TabLeave * let g:lasttab = tabpagenr()
 
-" Ctrl-u: Scroll half a screen up
+" ✓ Ctrl-u: Scroll half a screen up
 
 " ✓ Ctrl-i: Go forward in the jumplist, also realign the screen
 nnoremap <c-i> <c-i>zzzv
@@ -594,29 +572,30 @@ nnoremap <c-i> <c-i>zzzv
 " ✓ Ctrl-o: Go back in the jumplist, also realign the screen
 nnoremap <c-o> <c-o>zzzv
 
-" TODO Ctrl-p: unused
+" ✓ Ctrl-p: Go to previous buffer
+nnoremap <c-p> <c-^>
 
 " ✓ Ctrl-[: Esc
 
 " ✓ Ctrl-]: Go forward in tag stack
 
-" Ctrl-a: Surround shortcut
+" ✓ Ctrl-a: Surround shortcut
 nmap <c-a> viwS
 
-" Ctrl-s: Search commands
-" Ctrl-ss: Find word under cursor in current directory
+" ✓ Ctrl-s: Search commands
+" ✓ Ctrl-ss: Find word under cursor in current directory
 nnoremap <c-s><c-s> :Unite grep:.::<C-r><C-w><CR>
-" Ctrl-sd: Find word in current directory (prompt for word)
+" ✓ Ctrl-sd: Find word in current directory (prompt for word)
 nnoremap <c-s><c-d> :Unite grep:.<CR>
-" Ctrl-sf: Find word under cursor in the current buffer (file)
+" ✓ Ctrl-sf: Find word under cursor in the current buffer (file)
 nnoremap <c-s><c-f> :Unite grep:%::<C-r><C-w><CR>
 
-" Ctrl-d: Scroll half a screen down
+" ✓ Ctrl-d: Scroll half a screen down
 
-" Ctrl-f: Scroll one full screen down
+" ✓ Ctrl-f: Scroll one full screen down
 nnoremap <c-f> zz<c-f>zz
 
-" Ctrl-g: Prints current file name. 1Ctrl-g prints the full path
+" ✓ Ctrl-g: Prints current file name. 1Ctrl-g prints the full path
 nnoremap <c-g> 1<c-g>
 
 " ✓ Ctrl-[hjkl]: Smart way to move around windows
@@ -631,9 +610,9 @@ noremap <c-l> <c-w>l
 
 " ✓ Ctrl-z: This is the command key for tmux
 
-" Ctrl-x: Zencoding leader key
+" ✓ Ctrl-x: Zencoding leader key
 
-" Ctrl-c: Quick Vimshell
+" ✓ Ctrl-c: Quick Vimshell
 nnoremap <silent> <c-c> :<C-u>VimShellBufferDir -popup<CR>
 
 " ✓ Ctrl-v: Paste system clipboard
@@ -653,48 +632,71 @@ nnoremap <c-b> zz<c-b>kzz
 
 " ✓ Ctrl-/: Vim can't map this
 
-" Ctrl-Space: [unite]c is very often used, map to that
-nmap <c-space> [unite]c
+" ✓ Ctrl-Space: [unite]<space> is very often used, map to that
+nmap <c-space> [unite]<space>
 nmap <c-@> <c-space>
 
 "===============================================================================
-" Insert Mode Ctrl key mappings
+" Insert Mode Ctrl Key Mappings
 "===============================================================================
 
-" Ctrl-[hjkl]: Move in insert mode
+" Ctrl-w: Delete previous word
+
+" Ctrl-e: Go to end of line
+inoremap <c-e> <esc>A
+
+" Ctrl-r: Insert register
+
+" Ctrl-t: Indent shiftwidth
+
+" Ctrl-y: Insert char above cursor
+
+" Ctrl-u: Delete til beginning of line
+
+" Ctrl-i: Tab
+
+" Ctrl-o: Execute one normal mode command
+
+" Ctrl-p: Auto complete previous
+
+" Ctrl-a: Go to begin of line
+inoremap <c-a> <esc>I
+
+" Ctrl-s: Used by vim-surround
+
+" Ctrl-d: Unindent shiftwidth
+
+" TODO Ctrl-f: 
+
+" Ctrl-g: 
+
+" Ctrl-[hjkl]: Move cursor
 inoremap <c-h> <left>
 inoremap <expr> <c-j> pumvisible() ? "\<c-n>" : "\<down>"
 inoremap <expr> <c-k> pumvisible() ? "\<c-p>" : "\<up>"
 inoremap <c-l> <right>
 
-" Disable Ctrl-C, that's a bad habit, use Ctrl-[, capslock, or jk instead
+" ✓ Ctrl-z: This is the command key for tmux
 
-" TODO Map it to something useful
-inoremap <c-c> <nop>
+" Ctrl-c: Inserts line below
+inoremap <c-c> <c-o>o
 
-" Ctrl-backspace: Delete previous word (Doesn't work in terminal)
-inoremap <c-bs> <c-w>
-
-" Ctrl-w: Delete previous word
-" Ctrl-r: Insert register
-" Ctrl-u: Delete til beginning of line
-" Ctrl-o: Insert Normal mode
-" Ctrl-p: Auto complete previous
-
-" basic readline shortcuts
-inoremap <c-a> <esc>I
-inoremap <c-e> <esc>A
-
-" Scroll faster & move cursor too
-vnoremap <c-e> 3<c-e>3j
-vnoremap <c-y> 3<c-y>3k
-
-" Copy and paste to the system clipboard using Ctrl-C and Ctrl-V
-" Disable this in normal node since it conflicts with visual block mode
-" The 'g' right after the register name means leave the cursor after the text
-" Notice that clipboard=unnamed is not set for OSX, since we want the clipboard
-" copy/paste to be explicit
+" Ctrl-v: Paste to the system clipboard
 inoremap <c-v> <esc>:set paste<cr><esc>"+gp:set nopaste<cr>a
+
+" TODO Ctrl-b:
+
+" Ctrl-n: Auto complete next
+
+" Ctrl-m: Same as Enter
+
+" TODO Ctrl-space:
+
+"===============================================================================
+" Visual Mode Ctrl Key Mappings
+"===============================================================================
+
+" Ctrl-c: Copy to the system clipboard
 vnoremap <c-c> "+y
 
 " Ctrl-r: Easier search and replace
@@ -784,9 +786,9 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " l: Right
 " ;: Command mode
 noremap ; :
-" ::: Remap to ;, repeat last fFtT
+" ::: Remap to ';', repeat last fFtT
 nnoremap :: ;
-" :": Remap to ,, repeat last fFtT in opposite direction
+" :": Remap to ',', repeat last fFtT in opposite direction
 nnoremap :" ,
 " ': Go to mark
 " z: Many functions
@@ -800,23 +802,17 @@ nnoremap n nzzzv
 " ,: Leader
 " .: Repeat last command
 " /" Search
-
-" Disable arrow keys, they're evil
-" nmap <up> <nop>
-" nmap <down> <nop>
-" nmap <left> <nop>
-" nmap <right> <nop>
 " Up Down Left Right resize splits
 nnoremap <up> <c-w>+
 nnoremap <down> <c-w>-
 nnoremap <left> <c-w><
 nnoremap <right> <c-w>>
 
-" Enter: Add new line
-" nnoremap <cr> o<esc>
+" Enter: Toggle search highlight
+nnoremap <cr> :set hlsearch! hlsearch?<cr>
 
-" Backspace: Toggle search highlight
-nnoremap <bs> :set hlsearch! hlsearch?<cr>
+" Backspace: Toggle number
+nnoremap <bs> :<C-u>NumbersToggle<CR>
 
 "===============================================================================
 " Visual Mode Key Mappings
@@ -847,7 +843,9 @@ vnoremap . :normal.<cr>
 "===============================================================================
 
 " q quits in help pages
-autocmd MyAutoCmd FileType help map q :q<cr> | map <esc> :q<cr>
+autocmd MyAutoCmd FileType help
+      \ map <buffer> q :q<cr> |
+      \ map <buffer> <esc> :q<cr>
 
 "===============================================================================
 " NERDTree
@@ -878,6 +876,7 @@ let g:Powerline_symbols = 'fancy'
 " Syntastic
 "===============================================================================
 
+" TODO(terryma): Update these settings
 " Syntastic settings
 let g:syntastic_mode_map = { 'mode': 'active',
             \ 'active_filetypes': ['ruby', 'php'],
@@ -896,16 +895,6 @@ nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
 " Quickly stage and commit the current file. Useful for editing .vimrc
 nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>
-
-"===============================================================================
-" CtrlP
-"===============================================================================
-
-" Show hidden files
-let g:ctrlp_show_hidden=1
-" Show up to 20 lines
-let g:ctrlp_max_height=20
-let g:ctrlp_working_path_mode = 'ra'
 
 "===============================================================================
 " EasyMotion
@@ -934,8 +923,8 @@ let g:neocomplcache_enable_camel_case_completion = 1
 " Use underscore completion.
 let g:neocomplcache_enable_underbar_completion = 1
 " Sets minimum char length of syntax keyword.
-" AutoComplPop like behavior.
 let g:neocomplcache_min_syntax_length = 1
+" AutoComplPop like behavior.
 let g:neocomplcache_enable_auto_select = 1
 let g:snips_author = "Terry Ma"
 
@@ -963,28 +952,6 @@ endif
 let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets,~/.dotfiles/.vim/snippets'
 
 "===============================================================================
-" Clam
-"===============================================================================
-
-" nnoremap ! :Clam<space>
-" vnoremap ! :ClamVisual<space>
-
-"===============================================================================
-" VimSessions
-"===============================================================================
-
-" Automatically save and load sessions
-let g:session_autosave="yes"
-let g:session_autoload="yes"
-let g:session_command_aliases = 1
-
-"===============================================================================
-" Calendar
-"===============================================================================
-
-let g:calendar_options="fdc=0 nornu"
-
-"===============================================================================
 " Unite
 "===============================================================================
 
@@ -1006,8 +973,11 @@ nnoremap [unite] <Nop>
 nmap <space> [unite]
 
 " General fuzzy search
-nnoremap <silent> [unite]c :<C-u>Unite
+nnoremap <silent> [unite]<space> :<C-u>Unite
       \ -buffer-name=files buffer file_mru bookmark file_rec/async<CR>
+
+" Quick commands
+nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
 
 " Fuzzy search from current buffer
 nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir
@@ -1032,11 +1002,17 @@ nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
 " Quick grep from cwd
 nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
 
+" Quick help
+nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
+
 " Quick line
 nnoremap <silent> [unite]l :<C-u>Unite -buffer-name=search line<CR>
 
 " Quick snippet
 nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
+
+" Quick sessions (projects)
+nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=sessions session<CR>
 
 " Custom Unite settings
 autocmd MyAutoCmd FileType unite call s:unite_settings()
@@ -1097,8 +1073,8 @@ let g:unite_source_file_mru_limit = 200
 let g:unite_cursor_line_highlight = 'TabLineSel'
 " let g:unite_abbr_highlight = 'TabLine'
 
-" For optimize.
-let g:unite_source_file_mru_filename_format = ''
+let g:unite_source_file_mru_filename_format = ':~:.'
+let g:unite_source_file_mru_time_format = ''
 
 " For ack.
 if executable('ack-grep')
@@ -1110,6 +1086,16 @@ elseif executable('ack')
   let g:unite_source_grep_default_opts = '--no-heading --no-color -a'
   let g:unite_source_grep_recursive_opt = ''
 endif
+
+"===============================================================================
+" Unite Sessions
+"===============================================================================
+
+" Save session automatically.
+let g:unite_source_session_enable_auto_save = 1
+
+" Load session automatically.
+autocmd MyAutoCmd VimEnter * UniteSessionLoad
 
 "===============================================================================
 " Vimfiler
@@ -1152,14 +1138,17 @@ function! s:vimshell_settings()
 endfunction
 
 "===============================================================================
-" Indent Guides
+" QuickRun
 "===============================================================================
-
-" if !has('gui_running')
-  " let g:indent_guides_auto_colors = 0
-  " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=236
-  " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=237
-" endif
+let g:quickrun_config = {}
+let g:quickrun_config['*'] = {
+      \ 'runner/vimproc/updatetime' : 100,
+      \ 'outputter' : 'buffer',
+      \ 'runner' : 'vimproc',
+      \ 'running_mark' : '',
+      \ 'into' : 1,
+      \ 'runmode' : 'async:remote:vimproc'
+      \}
 
 "===============================================================================
 " Zencoding
