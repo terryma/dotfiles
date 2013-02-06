@@ -122,6 +122,199 @@ catch
 endtry
 
 "===============================================================================
+" General Settings
+"===============================================================================
+
+" Set augroup.
+augroup MyAutoCmd
+  autocmd!
+augroup END
+
+syntax on
+
+" Turn on the mouse, since it doesn't play well with tmux anyway. This way I can
+" scroll in the terminal
+set mouse=a
+
+set virtualedit=onemore
+
+" Use relative numbering to help with motion
+set relativenumber
+
+" Always splits to the right and below
+set splitright
+set splitbelow
+
+" Turn on line highlighting
+set cursorline
+
+set background=dark
+
+" Colorschemes
+" colorscheme jellybeans
+" colorscheme base16-tomorrow
+colorscheme Tomorrow-Night
+
+" Sets how many lines of history vim has to remember
+set history=10000
+
+" Set to auto read when a file is changed from the outside
+set autoread
+
+" Set to auto write file
+set autowrite
+
+" Display unprintable chars
+set list
+set listchars=tab:>.,trail:.,extends:#,nbsp:.
+
+" Enables the /g flag on :s substitutions by default
+" set gdefault
+
+" Minimal number of screen lines to keep above and below the cursor
+set scrolloff=10
+
+set numberwidth=6
+
+" Open all folds initially
+set foldmethod=indent
+set foldlevelstart=99
+
+" Show mode
+set showmode
+
+" Auto complete setting
+set completeopt=longest,menuone,preview
+
+" Set completion mode. First tab completes as much as possible, second tab shows
+" list of options
+set wildmode=longest,list,full
+set wildmenu "turn on wild menu
+set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
+set wildignore+=*DS_Store*
+set wildignore+=vendor/rails/**
+set wildignore+=vendor/cache/**
+set wildignore+=*.gem
+set wildignore+=log/**
+set wildignore+=tmp/**
+set wildignore+=*.png,*.jpg,*.gif
+set wildignore+=*.so,*.swp,*.zip,*/.Trash/**,*.pdf,*.dmg,*/Library/**,*/.rbenv/**
+set wildignore+=*/.nx/**,*.app
+
+" Allow changing buffer without saving it first 
+set hidden
+
+" Set backspace config
+set backspace=eol,start,indent
+
+" Case insensitive search
+set ignorecase
+set smartcase
+
+" Highlight search result
+set hlsearch
+
+" Make search act like search in modern browsers
+set incsearch
+
+set magic
+
+" Show matching braces
+set showmatch
+
+" Turn off sound
+set vb
+set t_vb=
+
+" Always show the statusline
+set laststatus=2
+
+" Explicitly set encoding to utf-8
+set encoding=utf-8
+
+" Column width indicator
+set colorcolumn=+1 
+
+" Lower the delay of escaping out of other modes
+set timeout timeoutlen=1000 ttimeoutlen=0
+
+if !has('gui_running')
+  " Fix meta-keys which generate <Esc>a .. <Esc>z
+  let c='a'
+  while c <= 'z'
+    exec "set <M-".c.">=\e".c
+    exec "imap \e".c." <M-".c.">"
+    let c = nr2char(1+char2nr(c))
+  endw
+endif
+
+" Reload vimrc when edited, also reload the powerline color
+autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
+      \ so $MYVIMRC | call Pl#Load() | if has('gui_running') | so $MYGVIMRC | endif
+
+" Set font according to system
+if has("macunix")
+  set gfn=menlo\ for\ powerline:h12
+elseif has("unix")
+  set gfn=Ubuntu\ Mono\ for\ Powerline\ 12
+elseif has("win32")
+  set gfn=consolas:h12
+endif
+
+" 256bit terminal
+set t_Co=256
+
+" Disable menu and toolbar
+set go-=T
+set go-=m
+
+try
+  lang en_us
+catch
+endtry
+
+" Sets default file formats
+set fileformats=unix,dos,mac 
+
+" Turn backup off, since most stuff is in SVN, git anyway...
+set nobackup
+set nowritebackup
+set noswapfile
+
+" Tab settings
+set expandtab
+set shiftwidth=2
+set tabstop=8
+set softtabstop=2
+set smarttab
+
+" Text display settings
+set linebreak
+set textwidth=80
+set autoindent 
+set nowrap 
+set whichwrap+=h,l,<,>,[,]
+
+set guitablabel=%t
+
+set clipboard-=autoselect
+
+" Sensible indent after parentheses
+set cino=(0
+
+" Spelling highlights
+if !has("gui_running")
+  hi clear SpellBad
+  hi SpellBad cterm=underline ctermfg=red
+  hi clear SpellCap
+  hi SpellCap cterm=underline ctermfg=blue
+  hi clear SpellLocal
+  hi SpellLocal cterm=underline ctermfg=blue
+  hi clear SpellRare
+  hi SpellRare cterm=underline ctermfg=blue
+endif
+
+"===============================================================================
 " Function key mappings
 "===============================================================================
 
@@ -277,15 +470,12 @@ cnoremap <m-l> <s-right>
 cnoremap <c-v> <c-r>"
 
 " w!: Change ro files to rw
-function! g:chmodonwrite()
+function! s:chmodonwrite()
   if v:cmdbang
     silent !chmod u+w %
   endif
 endfunction
-augroup chmodonwrite
-  autocmd!
-  autocmd bufwrite * call g:chmodonwrite()
-augroup END
+autocmd MyAutoCmd bufwrite * call s:chmodonwrite()
 
 " w!!: Writes using sudo
 cnoremap w!! w !sudo tee % >/dev/null
@@ -388,14 +578,14 @@ nnoremap - <c-x>
 
 " ✓ Ctrl-w: Window management
 
-" Ctrl-e: Unite line
-nmap <c-e> [unite]l
+" Ctrl-e: Unite outline
+nmap <c-e> [unite]o
 
 " Ctrl-r: Easier search and replace. Redo is remapped to U
 nnoremap <c-r> :%s/<c-r><c-w>//gc<left><left><left>
 
-" Ctrl-y: Unite outline
-nmap <c-y> [unite]o
+" Ctrl-y: Unite line
+nmap <c-y> [unite]l
 
 " Ctrl-t: Go back in tag stack
 
@@ -408,10 +598,7 @@ nnoremap <c-t><c-k> :tabnext<cr>
 nnoremap <c-t><c-l> :tabnext<cr>
 let g:lasttab = 1
 nnoremap <c-t><c-t> :exe "tabn ".g:lasttab<cr>
-augroup lasttab
-  autocmd!
-  autocmd TabLeave * let g:lasttab = tabpagenr()
-augroup END
+autocmd MyAutoCmd TabLeave * let g:lasttab = tabpagenr()
 
 " Ctrl-u: Scroll half a screen up
 
@@ -460,7 +647,8 @@ noremap <c-l> <c-w>l
 
 " Ctrl-x: Zencoding leader key
 
-" TODO Ctrl-c: unused
+" Ctrl-c: Quick Vimshell
+nnoremap <silent> <c-c> :<C-u>VimShellBufferDir -popup<CR>
 
 " ✓ Ctrl-v: Paste system clipboard
 nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
@@ -580,10 +768,9 @@ call submode#map('scroll', 'n', '', 'j', '<c-e>')
 call submode#map('scroll', 'n', '', 'k', '<c-y>')
 
 "===============================================================================
-" General key mappings
+" Normal Mode Key Mappings
 "===============================================================================
 
-" Normal Mode:
 " q: Record macros
 " w: Move word forward
 " e: Move to end of word
@@ -596,7 +783,8 @@ call submode#map('scroll', 'n', '', 'k', '<c-y>')
 " p: Paste
 " [: Many functions
 " ]: Many functions
-" \: Comment
+" \: Toggle comment
+nmap \ <Leader>c<space>
 " a: Insert after cursor
 " s: Substitute
 " d: Delete
@@ -644,230 +832,36 @@ nnoremap <right> <c-w>>
 " Backspace: Toggle search highlight
 nnoremap <bs> :set hlsearch! hlsearch?<cr>
 
-" Visual Mode:
-" Paste in visual mode should not replace the default register with the deleted
-" text
+"===============================================================================
+" Visual Mode Key Mappings
+"===============================================================================
+
+" p: Paste in visual mode should not replace the default register with the
+" deleted text
 vnoremap p "_dP
 
-" Highlight visual selections
-vnoremap * y:let @/ = @"<cr>
+" \: Toggle comment
+vmap \ <Leader>c<space>
 
-" Make backspace work sanely in visual mode
+" *: Highlight visual selections
+vnoremap <silent> * y:let @/ = @"<cr>
+
+" <bs>: Delete selected
 vnoremap <bs> x
 
-" Reselect visual block after indent
+" <|>: Reselect visual block after indent
 vnoremap < <gv
 vnoremap > >gv
 
-" . repeats the last command on every line
+" .: repeats the last command on every line
 vnoremap . :normal.<cr>
-
-" Restart vim with Ctrl-Alt-R when in gui
-if has('gui_running')
-  nmap <C-M-r> :RestartVim<CR>
-endif
-
-"===============================================================================
-" General Settings
-"===============================================================================
-
-syntax on
-
-" Turn on the mouse, since it doesn't play well with tmux anyway. This way I can
-" scroll in the terminal
-set mouse=a
-
-set virtualedit=onemore
-
-" Use relative numbering to help with motion
-set relativenumber
-
-" Always splits to the right and below
-set splitright
-set splitbelow
-
-" Turn on line highlighting
-set cursorline
-
-set background=dark
-
-" Colorschemes
-" colorscheme jellybeans
-" colorscheme base16-tomorrow
-colorscheme Tomorrow-Night
-
-" Sets how many lines of history vim has to remember
-set history=10000
-
-" Set to auto read when a file is changed from the outside
-set autoread
-
-" Set to auto write file
-set autowrite
-
-" Display unprintable chars
-set list
-set listchars=tab:>.,trail:.,extends:#,nbsp:.
-
-" Enables the /g flag on :s substitutions by default
-" set gdefault
-
-" Minimal number of screen lines to keep above and below the cursor
-set scrolloff=10
-
-set numberwidth=6
-
-" Open all folds initially
-set foldmethod=indent
-set foldlevelstart=99
-
-" Show mode
-set showmode
-
-" Auto complete setting
-set completeopt=longest,menuone,preview
-
-" Set completion mode. First tab completes as much as possible, second tab shows
-" list of options
-set wildmode=longest,list,full
-set wildmenu "turn on wild menu
-set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
-set wildignore+=*DS_Store*
-set wildignore+=vendor/rails/**
-set wildignore+=vendor/cache/**
-set wildignore+=*.gem
-set wildignore+=log/**
-set wildignore+=tmp/**
-set wildignore+=*.png,*.jpg,*.gif
-set wildignore+=*.so,*.swp,*.zip,*/.Trash/**,*.pdf,*.dmg,*/Library/**,*/.rbenv/**
-set wildignore+=*/.nx/**,*.app
-
-" Allow changing buffer without saving it first 
-set hidden
-
-" Set backspace config
-set backspace=eol,start,indent
-
-" Case insensitive search
-set ignorecase
-set smartcase
-
-" Highlight search result
-set hlsearch
-
-" Make search act like search in modern browsers
-set incsearch
-
-set magic
-
-" Show matching braces
-set showmatch
-
-" Turn off sound
-set vb
-set t_vb=
-
-" Always show the statusline
-set laststatus=2
-
-" Explicitly set encoding to utf-8
-set encoding=utf-8
-
-" Column width indicator
-set colorcolumn=+1 
-
-" Lower the delay of escaping out of other modes
-set timeout timeoutlen=1000 ttimeoutlen=0
-
-if !has('gui_running')
-  " Fix meta-keys which generate <Esc>a .. <Esc>z
-  let c='a'
-  while c <= 'z'
-    exec "set <M-".c.">=\e".c
-    exec "imap \e".c." <M-".c.">"
-    let c = nr2char(1+char2nr(c))
-  endw
-endif
-
-
-" Reload vimrc when edited, also reload the powerline color
-augroup myvimrc
-  au!
-  au BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc so $MYVIMRC
-        \ | call Pl#Load() | if has('gui_running') | so $MYGVIMRC | endif
-augroup END
-
-" Set font according to system
-if has("macunix")
-  set gfn=menlo\ for\ powerline:h12
-elseif has("unix")
-  set gfn=Ubuntu\ Mono\ for\ Powerline\ 12
-elseif has("win32")
-  set gfn=consolas:h12
-endif
-
-" 256bit terminal
-set t_Co=256
-
-" Disable menu and toolbar
-set go-=T
-set go-=m
-
-try
-  lang en_us
-catch
-endtry
-
-" Sets default file formats
-set fileformats=unix,dos,mac 
-
-" Turn backup off, since most stuff is in SVN, git anyway...
-set nobackup
-set nowritebackup
-set noswapfile
-
-" Tab settings
-set expandtab
-set shiftwidth=2
-set tabstop=8
-set softtabstop=2
-set smarttab
-
-" Text display settings
-set linebreak
-set textwidth=80
-set autoindent 
-set nowrap 
-set whichwrap+=h,l,<,>,[,]
-
-set guitablabel=%t
-
-set clipboard-=autoselect
-
-" Sensible indent after parentheses
-set cino=(0
-
-" Spelling highlights
-if !has("gui_running")
-  hi clear SpellBad
-  hi SpellBad cterm=underline ctermfg=red
-  hi clear SpellCap
-  hi SpellCap cterm=underline ctermfg=blue
-  hi clear SpellLocal
-  hi SpellLocal cterm=underline ctermfg=blue
-  hi clear SpellRare
-  hi SpellRare cterm=underline ctermfg=blue
-endif
 
 "===============================================================================
 " Autocommands
 "===============================================================================
 
-augroup autocommands
-  autocmd!
-  " q quits in help pages
-  autocmd FileType help map q :q<cr> | map <esc> :q<cr>
-augroup END
+" q quits in help pages
+autocmd MyAutoCmd FileType help map q :q<cr> | map <esc> :q<cr>
 
 "===============================================================================
 " NERDTree
@@ -876,49 +870,16 @@ augroup END
 let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
-" only start if no file is specified (this appears to cause powerline to not
-" show up correctly inside of tmux for some strange reason. Disable it for now
-" autocmd vimenter * if !argc() | NERDTree | wincmd p | endif
-" close vim if the only window open is nerdtree
-augroup nerdtreeclose
-  autocmd!
-  autocmd BufEnter * if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
-augroup END
-
-" returns true iff is NERDTree open/active
-function! rc:isNTOpen()
-  return exists("t:NERDTreeBufName") && (bufwinnr(t:NERDTreeBufName) != -1)
-endfunction
-
-" returns true iff focused window is NERDTree window
-function! rc:isNTFocused()
-  return -1 != match(expand('%'), 'NERD_Tree') 
-endfunction 
-
-" calls NERDTreeFind iff NERDTree is active, current window contains a modifiable file, and we're not in vimdiff
-function! rc:syncTree()
-  if &modifiable && rc:isNTOpen() && !rc:isNTFocused() && strlen(expand('%')) > 0 && !&diff
-    NERDTreeFind
-    wincmd p
-  endif
-endfunction
-
-" This currently doesn't work very well with quickrun and vimshell. Disable
-" until I can figure out how to fix it
-" augroup nerdtree_autosync
-  " autocmd!
-  " autocmd BufEnter * call rc:syncTree()
-" augroup END
+" Close vim if the only window open is nerdtree
+autocmd MyAutoCmd BufEnter * 
+      \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 "===============================================================================
-" NERD Commenter
+" NERDCommenter
 "===============================================================================
 
 " Always leave a space between the comment character and the comment
 let NERDSpaceDelims=1
-
-" \\: Toggle comment
-map \ <Leader>c<space>
 
 "===============================================================================
 " Powerline
@@ -947,6 +908,7 @@ nnoremap <Leader>gp :Git push<cr>
 nnoremap <Leader>gr :Gremove<cr>
 nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
+nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>
 
 "===============================================================================
 " CtrlP
@@ -996,8 +958,7 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expan
 imap <expr><cr> neocomplcache#smart_close_popup() . "\<CR>"
 
 " Enable omni completion. Not required if they are already set elsewhere in .vimrc
-augroup omnicomplete
-  autocmd!
+augroup MyAutoCmd
   autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
   autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
   autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
@@ -1089,57 +1050,48 @@ nnoremap <silent> [unite]l :<C-u>Unite -buffer-name=search line<CR>
 " Quick snippet
 nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
 
-" nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=resume resume<CR>
-" nnoremap <silent> [unite]me :<C-u>Unite output:message<CR>
-" nnoremap <silent> [unite]s
-      " \ :<C-u>Unite -buffer-name=files -no-split
-      " \ jump_point file_point buffer_tab
-      " \ file_rec:! file file/new file_mru<CR>
+" Custom Unite settings
+autocmd MyAutoCmd FileType unite call s:unite_settings()
+function! s:unite_settings()"{{{
 
-augroup unite
-  autocmd!
-  autocmd FileType unite call s:unite_my_settings()
-  function! s:unite_my_settings()"{{{
+  " TODO Customize these mappings
+  nmap <buffer> <ESC> <Plug>(unite_exit)
+  imap <buffer> <ESC> <Plug>(unite_exit)
+  imap <buffer> jj <Plug>(unite_insert_leave)
 
-    " TODO Customize these mappings
-    nmap <buffer> <ESC> <Plug>(unite_exit)
-    imap <buffer> <ESC> <Plug>(unite_exit)
-    imap <buffer> jj <Plug>(unite_insert_leave)
+  imap <buffer><expr> j unite#smart_map('j', '')
+  imap <buffer> <TAB> <Plug>(unite_select_next_line)
+  imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+  imap <buffer> '     <Plug>(unite_quick_match_default_action)
+  nmap <buffer> '     <Plug>(unite_quick_match_default_action)
+  imap <buffer><expr> x
+        \ unite#smart_map('x', "\<Plug>(unite_quick_match_choose_action)")
+  nmap <buffer> x     <Plug>(unite_quick_match_choose_action)
+  nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+  imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
+  imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+  nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
+  nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
+  " nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+  " imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
+  nmap <buffer> <C-r> <Plug>(unite_redraw)
+  imap <buffer> <C-r> <Plug>(unite_redraw)
+  inoremap <silent><buffer><expr> <c-s> unite#do_action('split')
+  inoremap <silent><buffer><expr> <c-v> unite#do_action('vsplit')
+  nnoremap <silent><buffer><expr> l
+        \ unite#smart_map('l', unite#do_action('default'))
 
-    imap <buffer><expr> j unite#smart_map('j', '')
-    imap <buffer> <TAB> <Plug>(unite_select_next_line)
-    imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
-    imap <buffer> '     <Plug>(unite_quick_match_default_action)
-    nmap <buffer> '     <Plug>(unite_quick_match_default_action)
-    imap <buffer><expr> x
-          \ unite#smart_map('x', "\<Plug>(unite_quick_match_choose_action)")
-    nmap <buffer> x     <Plug>(unite_quick_match_choose_action)
-    nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-    imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-    imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
-    nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
-    nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
-    " nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-    " imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-    nmap <buffer> <C-r> <Plug>(unite_redraw)
-    imap <buffer> <C-r> <Plug>(unite_redraw)
-    inoremap <silent><buffer><expr> <c-s> unite#do_action('split')
-    inoremap <silent><buffer><expr> <c-v> unite#do_action('vsplit')
-    nnoremap <silent><buffer><expr> l
-          \ unite#smart_map('l', unite#do_action('default'))
+  let unite = unite#get_current_unite()
+  if unite.buffer_name =~# '^search'
+    nnoremap <silent><buffer><expr> r     unite#do_action('replace')
+  else
+    nnoremap <silent><buffer><expr> r     unite#do_action('rename')
+  endif
 
-    let unite = unite#get_current_unite()
-    if unite.buffer_name =~# '^search'
-      nnoremap <silent><buffer><expr> r     unite#do_action('replace')
-    else
-      nnoremap <silent><buffer><expr> r     unite#do_action('rename')
-    endif
-
-    nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
-    nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
-          \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
-  endfunction"}}}
-augroup END
+  nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
+  nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
+        \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
+endfunction"}}}
 
 " Start in insert mode
 let g:unite_enable_start_insert = 1
@@ -1196,9 +1148,19 @@ let g:vimfiler_safe_mode_by_default = 0
 let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_directory_display_top = 1
 
-autocmd! FileType vimfiler call g:my_vimfiler_settings()
-function! g:my_vimfiler_settings()
+autocmd MyAutoCmd FileType vimfiler call s:vimfiler_settings()
+function! s:vimfiler_settings()
   nmap     <buffer><expr><CR>  vimfiler#smart_cursor_map("\<PLUG>(vimfiler_expand_tree)", "e")
+endfunction
+
+"===============================================================================
+" VimShell
+"===============================================================================
+let g:vimshell_prompt = "% "
+let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
+autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
+function! s:vimshell_settings()
+  call vimshell#altercmd#define('g', 'git')
 endfunction
 
 "===============================================================================
