@@ -908,6 +908,7 @@ nnoremap <Leader>gp :Git push<cr>
 nnoremap <Leader>gr :Gremove<cr>
 nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
+" Quickly stage and commit the current file. Useful for editing .vimrc
 nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>
 
 "===============================================================================
