@@ -13,7 +13,12 @@ call neobundle#rc(expand('~/.vim/bundle/'))
 " Let NeoBundle manage NeoBundle
 NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'Shougo/vimproc'
+NeoBundle 'Shougo/vimproc', { 'build': {
+      \   'windows': 'make -f make_mingw32.mak',
+      \   'cygwin': 'make -f make_cygwin.mak',
+      \   'mac': 'make -f make_mac.mak',
+      \   'unix': 'make -f make_unix.mak',
+      \ } }
 
 " Fuzzy search
 NeoBundle 'Shougo/unite.vim'
@@ -35,6 +40,7 @@ NeoBundle 'scrooloose/nerdcommenter'
 
 " File browsing
 NeoBundle 'scrooloose/nerdtree'
+NeoBundle 'Shougo/vimfiler'
 
 " Syntax checker
 NeoBundle 'scrooloose/syntastic'
@@ -395,7 +401,13 @@ nnoremap <c-o> <c-o>zzzv
 
 " TODO Ctrl-a: unused
 
-" TODO Ctrl-s: unused
+" Ctrl-s: Search commands
+" Ctrl-ss: Find word under cursor in current directory
+nnoremap <c-s><c-s> :Unite grep:.::<C-r><C-w><CR>
+" Ctrl-sd: Find word in current directory (prompt for word)
+nnoremap <c-s><c-d> :Unite grep:.<CR>
+" Ctrl-sf: Find word under cursor in the current buffer (file)
+nnoremap <c-s><c-f> :Unite grep:%::<C-r><C-w><CR>
 
 " Ctrl-d: Scroll half a screen down
 
@@ -968,10 +980,11 @@ vnoremap ! :ClamVisual<space>
 " Automatically save and load sessions
 let g:session_autosave="yes"
 let g:session_autoload="yes"
+let g:session_command_aliases = 1
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Calendar
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 let g:calendar_options="fdc=0 nornu"
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -981,7 +994,11 @@ let g:calendar_options="fdc=0 nornu"
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
 " Set up some custom ignores
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep', 'ignore_pattern', 'git5/.*/review/')
+call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+      \ 'ignore_pattern', join([
+      \ 'git5/.*/review/',
+      \ 'google/obj/',
+      \ ], '\|'))
 
 " The prefix key.
 nnoremap    [unite]   <Nop>
@@ -996,7 +1013,7 @@ nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir
 nnoremap <silent> [unite]r :<C-u>Unite
       \ -buffer-name=register register<CR>
 " Quick outline
-nnoremap <silent> [unite]o :<C-u>Unite outline<CR>
+nnoremap <silent> [unite]o :<C-u>Unite -buffer-name=outline -vertical -winwidth=45 outline<CR>
 " nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=resume resume<CR>
 " Quickly switch lcd
 nnoremap <silent> [unite]d
@@ -1079,16 +1096,44 @@ let g:unite_cursor_line_highlight = 'TabLineSel'
 let g:unite_source_file_mru_filename_format = ''
 
 " For ack.
-" if executable('ack-grep')
-  " let g:unite_source_grep_command = 'ack-grep'
-  " let g:unite_source_grep_default_opts = '--no-heading --no-color -a'
-  " let g:unite_source_grep_recursive_opt = ''
-" elseif executable('ack')
-  " let g:unite_source_grep_command = 'ack'
-  " let g:unite_source_grep_default_opts = '--no-heading --no-color -a'
-  " let g:unite_source_grep_recursive_opt = ''
-" endif
+if executable('ack-grep')
+  let g:unite_source_grep_command = 'ack-grep'
+  let g:unite_source_grep_default_opts = '--no-heading --no-color -a'
+  let g:unite_source_grep_recursive_opt = ''
+elseif executable('ack')
+  let g:unite_source_grep_command = 'ack'
+  let g:unite_source_grep_default_opts = '--no-heading --no-color -a'
+  let g:unite_source_grep_recursive_opt = ''
+endif
 
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Vimfiler
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" TODO Look into Vimfiler more
+" Example at: https://github.com/hrsh7th/dotfiles/blob/master/vim/.vimrc
+nnoremap <expr><F2> g:my_open_explorer_command()
+function! g:my_open_explorer_command()
+  return printf(":\<C-u>VimFilerBufferDir -buffer-name=%s -split -auto-cd -toggle -no-quit -winwidth=%s\<CR>",
+        \ g:my_vimfiler_explorer_name,
+        \ g:my_vimfiler_winwidth)
+endfunction
+
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_tree_leaf_icon = ' '
+let g:vimfiler_tree_opened_icon = '▾'
+let g:vimfiler_tree_closed_icon = '▸'
+let g:vimfiler_file_icon = '-'
+let g:vimfiler_marked_file_icon = '*'
+let g:my_vimfiler_explorer_name = 'explorer'
+let g:my_vimfiler_winwidth = 25
+let g:vimfiler_safe_mode_by_default = 0
+let g:vimfiler_as_default_explorer = 1
+let g:vimfiler_directory_display_top = 1
+
+autocmd! FileType vimfiler call g:my_vimfiler_settings()
+function! g:my_vimfiler_settings()
+  nmap     <buffer><expr><CR>  vimfiler#smart_cursor_map("\<PLUG>(vimfiler_expand_tree)", "e")
+endfunction
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Indent Guides
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
