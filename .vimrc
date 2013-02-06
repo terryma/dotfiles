@@ -1,9 +1,9 @@
 " Disable vi-compatibility
 set nocompatible
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " NeoBundle
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 if has ('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
@@ -23,6 +23,7 @@ NeoBundle 'Shougo/vimproc', { 'build': {
 " Fuzzy search
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'h1mesuke/unite-outline'
+NeoBundle 'tsukkee/unite-help'
 NeoBundle 'mileszs/ack.vim'
 
 " Code completion
@@ -111,17 +112,31 @@ syntax enable
 
 NeoBundleCheck
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Google specific settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 try
   source ~/.vimrc.google
 catch
 endtry
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+" Function key mappings
+"===============================================================================
+
+" <F1>: Help
+nnoremap <F1> :<C-u>UniteWithCursorWord help<CR>
+
+" <F2>: Open Vimfiler
+
+" <F3>: Gundo
+nnoremap <F3> :<C-u>GundoToggle<CR>
+
+"===============================================================================
 " Leader key mappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Map leader and localleader key to comma
 let mapleader = ","
 let g:mapleader = ","
@@ -191,11 +206,17 @@ nnoremap <Leader>as :Unite grep:%<CR>
 " grep
 vnoremap <Leader>ad y:<C-u>Unite grep:.::<C-r>"<CR>
 nnoremap <Leader>ad :Unite grep:.::<C-r><C-w><CR>
-" Unite line is superior than this
+" Unite line As superior than this
 " vnoremap <Leader>ad y:<c-u>Ack! -Qu '<c-r>"'<cr>
-" nnoremap <Leader>ad :Ack! -Qu '<c-r><c-w>'<cr>
+" nnoremap <Lewder>ad :Ack! -Qu '<c-r><c-w>'<cr>
 
 " <Leader>s: Spell checking shortcuts
+nnoremap <Leader>ss :setlocal spell!<cr>
+nnoremap <Leader>sj ]s
+nnoremap <Leader>sk [s
+nnoremap <Leader>sa zg]s
+nnoremap <Leader>sd 1z=
+nnoremap <Leader>sf z=
 
 " ✓ <Leader>d: copy line down (d for duplicate)
 nnoremap <Leader>d mzyyp`zj
@@ -233,9 +254,10 @@ nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
 
 " <Leader>T: EasyMotion
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Command line mode key mappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Bash like keys for the command line
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
@@ -268,9 +290,10 @@ augroup END
 " w!!: Writes using sudo
 cnoremap w!! w !sudo tee % >/dev/null
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Normal Mode Shift key mappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " ✓ Q: Closes the window
 nnoremap Q :q<cr>
 
@@ -283,7 +306,7 @@ nnoremap Q :q<cr>
 " ✓ T: Finds till backwards
 
 " ✓ Y: Remove join lines to this, Y looks like a join of two lines into one
-nnoremap Y J
+noremap Y J
 
 " ✓ U: Redos since 'u' undos
 nnoremap U <c-r>
@@ -357,31 +380,34 @@ nnoremap N Nzzzv
 nnoremap + <c-a>
 nnoremap - <c-x>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Normal Mode Ctrl key mappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " ✓ Ctrl-q: Visual block mode
 
 " ✓ Ctrl-w: Window management
 
-" TODO Ctrl-e: unused (original remapped to J)
+" Ctrl-e: Unite line
+nmap <c-e> [unite]l
 
 " Ctrl-r: Easier search and replace. Redo is remapped to U
 nnoremap <c-r> :%s/<c-r><c-w>//gc<left><left><left>
 
-" TODO Ctrl-y: unused (original remapped to K)
+" Ctrl-y: Unite outline
+nmap <c-y> [unite]o
 
 " Ctrl-t: Go back in tag stack
 
 " Ctrl-t*: Tab operations
-nnoremap <c-t>n :tabnew<cr>
-nnoremap <c-t>w :tabclose<cr>
-nnoremap <c-t>j :tabprev<cr>
-nnoremap <c-t>h :tabprev<cr>
-nnoremap <c-t>k :tabnext<cr>
-nnoremap <c-t>l :tabnext<cr>
+nnoremap <c-t><c-n> :tabnew<cr>
+nnoremap <c-t><c-w> :tabclose<cr>
+nnoremap <c-t><c-j> :tabprev<cr>
+nnoremap <c-t><c-h> :tabprev<cr>
+nnoremap <c-t><c-k> :tabnext<cr>
+nnoremap <c-t><c-l> :tabnext<cr>
 let g:lasttab = 1
-nnoremap <c-t>t :exe "tabn ".g:lasttab<cr>
+nnoremap <c-t><c-t> :exe "tabn ".g:lasttab<cr>
 augroup lasttab
   autocmd!
   autocmd TabLeave * let g:lasttab = tabpagenr()
@@ -401,7 +427,8 @@ nnoremap <c-o> <c-o>zzzv
 
 " ✓ Ctrl-]: Go forward in tag stack
 
-" TODO Ctrl-a: unused
+" Ctrl-a: Surround shortcut
+nmap <c-a> viwS
 
 " Ctrl-s: Search commands
 " Ctrl-ss: Find word under cursor in current directory
@@ -417,7 +444,7 @@ nnoremap <c-s><c-f> :Unite grep:%::<C-r><C-w><CR>
 nnoremap <c-f> zz<c-f>zz
 
 " Ctrl-g: Prints current file name. 1Ctrl-g prints the full path
-" TODO Do I use this much? Can we just have the full path displayed at all time?
+nnoremap <c-g> 1<c-g>
 
 " ✓ Ctrl-[hjkl]: Smart way to move around windows
 noremap <c-h> <c-w>h
@@ -427,7 +454,7 @@ noremap <c-l> <c-w>l
 
 " ✓ Ctrl-;: Vim can't map this
 
-" ✓ Ctrl-': Go to mark
+" ✓ Ctrl-': Vim can't map this
 
 " ✓ Ctrl-z: This is the command key for tmux
 
@@ -447,16 +474,19 @@ nnoremap <c-b> zz<c-b>kzz
 " ✓ Ctrl-m: Same as Enter
 
 " ✓ Ctrl-,: Vim can't map this
+
 " ✓ Ctrl-.: Vim can't map this
+
 " ✓ Ctrl-/: Vim can't map this
 
 " Ctrl-Space: [unite]c is very often used, map to that
 nmap <c-space> [unite]c
 nmap <c-@> <c-space>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Insert Mode Ctrl key mappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Ctrl-[hjkl]: Move in insert mode
 inoremap <c-h> <left>
 inoremap <expr> <c-j> pumvisible() ? "\<c-n>" : "\<down>"
@@ -499,9 +529,10 @@ vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
 " Ctrl-s: Easier substitue
 vnoremap <c-s> :s/\%V//g<left><left><left>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Meta key mappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Normal Mode
 " Alt-[hl]: Move word in normal mode
 nnoremap <m-h> hgEl
@@ -537,9 +568,10 @@ inoremap <m-l> <esc>Ea
 " Alt-n: Toggle line numbers
 nnoremap <m-n> :NumbersToggle<cr>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Space key mappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Space is also the leader key for Unite actions
 " Space-[jk] scrolls the page
 call submode#enter_with('scroll', 'n', '', '<space>j', '<c-e>')
@@ -547,9 +579,10 @@ call submode#enter_with('scroll', 'n', '', '<space>k', '<c-y>')
 call submode#map('scroll', 'n', '', 'j', '<c-e>')
 call submode#map('scroll', 'n', '', 'k', '<c-y>')
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " General key mappings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Normal Mode:
 " q: Record macros
 " w: Move word forward
@@ -605,7 +638,6 @@ nnoremap <down> <c-w>-
 nnoremap <left> <c-w><
 nnoremap <right> <c-w>>
 
-
 " Enter: Add new line
 " nnoremap <cr> o<esc>
 
@@ -635,9 +667,10 @@ if has('gui_running')
   nmap <C-M-r> :RestartVim<CR>
 endif
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " General Settings
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 syntax on
 
 " Turn on the mouse, since it doesn't play well with tmux anyway. This way I can
@@ -814,31 +847,32 @@ set clipboard-=autoselect
 " Sensible indent after parentheses
 set cino=(0
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" Spelling highlights
+if !has("gui_running")
+  hi clear SpellBad
+  hi SpellBad cterm=underline ctermfg=red
+  hi clear SpellCap
+  hi SpellCap cterm=underline ctermfg=blue
+  hi clear SpellLocal
+  hi SpellLocal cterm=underline ctermfg=blue
+  hi clear SpellRare
+  hi SpellRare cterm=underline ctermfg=blue
+endif
+
+"===============================================================================
 " Autocommands
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 augroup autocommands
   autocmd!
   " q quits in help pages
-  autocmd FileType help map q :q<cr>
+  autocmd FileType help map q :q<cr> | map <esc> :q<cr>
 augroup END
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Spell checking
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-"Pressing ,ss will toggle and untoggle spell checking
-nnoremap <Leader>ss :setlocal spell!<cr>
-
-"Shortcuts using <Leader>
-nnoremap <Leader>sn ]s
-nnoremap <Leader>sp [s
-nnoremap <Leader>sa zg
-nnoremap <Leader>s? z=
-nnoremap <Leader>s1 1z=
-
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " NERDTree
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
@@ -876,32 +910,36 @@ endfunction
   " autocmd BufEnter * call rc:syncTree()
 " augroup END
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " NERD Commenter
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Always leave a space between the comment character and the comment
 let NERDSpaceDelims=1
 
 " \\: Toggle comment
 map \ <Leader>c<space>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Powerline
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Use the fancy version of Powerline symbols
 let g:Powerline_symbols = 'fancy'
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Syntastic
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Syntastic settings
 let g:syntastic_mode_map = { 'mode': 'active',
             \ 'active_filetypes': ['ruby', 'php'],
             \ 'passive_filetypes': ['puppet'] }
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Fugitive
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 nnoremap <Leader>gb :Gblame<cr>
 nnoremap <Leader>gc :Gcommit<cr>
 nnoremap <Leader>gd :Gdiff<cr>
@@ -910,18 +948,20 @@ nnoremap <Leader>gr :Gremove<cr>
 nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " CtrlP
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Show hidden files
 let g:ctrlp_show_hidden=1
 " Show up to 20 lines
 let g:ctrlp_max_height=20
 let g:ctrlp_working_path_mode = 'ra'
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " EasyMotion
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 hi link EasyMotionTarget WarningMsg
 hi link EasyMotionShade  Comment
 
@@ -931,9 +971,10 @@ let g:EasyMotion_mapping_F = '<Leader>F'
 let g:EasyMotion_mapping_t = '<Leader>t'
 let g:EasyMotion_mapping_T = '<Leader>T'
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Neocomplcache and Neosnippets
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Launches neocomplcache automatically on vim startup.
 let g:neocomplcache_enable_at_startup = 1
 " Use smartcase.
@@ -943,9 +984,10 @@ let g:neocomplcache_enable_camel_case_completion = 1
 " Use underscore completion.
 let g:neocomplcache_enable_underbar_completion = 1
 " Sets minimum char length of syntax keyword.
-let g:neocomplcache_min_syntax_length = 1
 " AutoComplPop like behavior.
+let g:neocomplcache_min_syntax_length = 1
 let g:neocomplcache_enable_auto_select = 1
+let g:snips_author = "Terry Ma"
 
 " Tab always completes the suggestion
 imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? neocomplcache#close_popup() : "\<TAB>"
@@ -971,30 +1013,37 @@ endif
 " Tell Neosnippets to use the snipmate snippets
 let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets,~/.dotfiles/.vim/snippets'
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Clam
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-nnoremap ! :Clam<space>
-vnoremap ! :ClamVisual<space>
+"===============================================================================
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" nnoremap ! :Clam<space>
+" vnoremap ! :ClamVisual<space>
+
+"===============================================================================
 " VimSessions
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Automatically save and load sessions
 let g:session_autosave="yes"
 let g:session_autoload="yes"
 let g:session_command_aliases = 1
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Calendar
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 let g:calendar_options="fdc=0 nornu"
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Unite
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " Use the fuzzy matcher for everything
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
+
+" Use the rank sorter for everything
+call unite#filters#sorter_default#use(['sorter_rank'])
 
 " Set up some custom ignores
 call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
@@ -1003,62 +1052,63 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ 'google/obj/',
       \ ], '\|'))
 
-" The prefix key.
-nnoremap    [unite]   <Nop>
-nmap    <space> [unite]
+" Map space to the prefix for Unite
+nnoremap [unite] <Nop>
+nmap <space> [unite]
 
 " General fuzzy search
-nnoremap <silent> [unite]c :<C-u>UniteWithCurrentDir
+nnoremap <silent> [unite]c :<C-u>Unite
       \ -buffer-name=files buffer file_mru bookmark file_rec/async<CR>
+
+" Fuzzy search from current buffer
 nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir
       \ -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
+
 " Quick registers
-nnoremap <silent> [unite]r :<C-u>Unite
-      \ -buffer-name=register register<CR>
+nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
+
 " Quick outline
 nnoremap <silent> [unite]o :<C-u>Unite -buffer-name=outline -vertical -winwidth=45 outline<CR>
-" nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=resume resume<CR>
+
 " Quickly switch lcd
 nnoremap <silent> [unite]d
-      \ :<C-u>Unite -buffer-name=files -default-action=lcd directory_mru<CR>
-nnoremap <silent> [unite]ma
-      \ :<C-u>Unite mapping<CR>
-nnoremap <silent> [unite]me
-      \ :<C-u>Unite output:message<CR>
-" Quick sources, remapped to something else since f for sources is unintuitive
-nnoremap  [unite]f  :<C-u>Unite source<CR>
+      \ :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory_mru<CR>
+
+" Quick mappings
+nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mappings mapping<CR>
+
+" Quick sources
+nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
+
 " Quick grep from cwd
-nnoremap [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
+nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
+
 " Quick line
-nnoremap [unite]l :<C-u>Unite -buffer-name=search line<CR>
+nnoremap <silent> [unite]l :<C-u>Unite -buffer-name=search line<CR>
 
-nnoremap <silent> [unite]s
-      \ :<C-u>Unite -buffer-name=files -no-split
-      \ jump_point file_point buffer_tab
-      \ file_rec:! file file/new file_mru<CR>
+" Quick snippet
+nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
 
-nnoremap <silent> [unite]z :<C-u>Unite -buffer-name=snippets snippet<CR>
-
-" Start in insert mode
-let g:unite_enable_start_insert = 1
-let g:unite_enable_short_source_names = 1
-
-" Open in bottom right
-let g:unite_split_rule = "botright"
+" nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=resume resume<CR>
+" nnoremap <silent> [unite]me :<C-u>Unite output:message<CR>
+" nnoremap <silent> [unite]s
+      " \ :<C-u>Unite -buffer-name=files -no-split
+      " \ jump_point file_point buffer_tab
+      " \ file_rec:! file file/new file_mru<CR>
 
 augroup unite
   autocmd!
   autocmd FileType unite call s:unite_my_settings()
   function! s:unite_my_settings()"{{{
-    " Overwrite settings.
 
-    nmap <buffer> <ESC>      <Plug>(unite_exit)
+    " TODO Customize these mappings
+    nmap <buffer> <ESC> <Plug>(unite_exit)
     imap <buffer> <ESC> <Plug>(unite_exit)
-    imap <buffer> jj      <Plug>(unite_insert_leave)
+    imap <buffer> jj <Plug>(unite_insert_leave)
 
     imap <buffer><expr> j unite#smart_map('j', '')
-    imap <buffer> <TAB>   <Plug>(unite_select_next_line)
-    imap <buffer> <C-w>     <Plug>(unite_delete_backward_path)
+    imap <buffer> <TAB> <Plug>(unite_select_next_line)
+    imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
     imap <buffer> '     <Plug>(unite_quick_match_default_action)
     nmap <buffer> '     <Plug>(unite_quick_match_default_action)
     imap <buffer><expr> x
@@ -1091,6 +1141,18 @@ augroup unite
   endfunction"}}}
 augroup END
 
+" Start in insert mode
+let g:unite_enable_start_insert = 1
+
+" Enable short source name in window
+" let g:unite_enable_short_source_names = 1
+
+" Open in bottom right
+let g:unite_split_rule = "botright"
+
+" Shorten the default update date of 500ms
+let g:unite_update_time = 200
+
 let g:unite_source_file_mru_limit = 200
 let g:unite_cursor_line_highlight = 'TabLineSel'
 " let g:unite_abbr_highlight = 'TabLine'
@@ -1109,9 +1171,10 @@ elseif executable('ack')
   let g:unite_source_grep_recursive_opt = ''
 endif
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Vimfiler
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " TODO Look into Vimfiler more
 " Example at: https://github.com/hrsh7th/dotfiles/blob/master/vim/.vimrc
 nnoremap <expr><F2> g:my_open_explorer_command()
@@ -1138,23 +1201,26 @@ function! g:my_vimfiler_settings()
   nmap     <buffer><expr><CR>  vimfiler#smart_cursor_map("\<PLUG>(vimfiler_expand_tree)", "e")
 endfunction
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " Indent Guides
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-if !has('gui_running')
-  let g:indent_guides_auto_colors = 0
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=236
-  autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=237
-endif
+"===============================================================================
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" if !has('gui_running')
+  " let g:indent_guides_auto_colors = 0
+  " autocmd VimEnter,Colorscheme * :hi IndentGuidesOdd ctermbg=236
+  " autocmd VimEnter,Colorscheme * :hi IndentGuidesEven ctermbg=237
+" endif
+
+"===============================================================================
 " Zencoding
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 let g:user_zen_leader_key = '<c-x>'
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 " My functions
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+
 " function! Refactor()
   " call inputsave()
   " let @z=input("What do you want to rename '" . @z . "' to? ")
@@ -1168,4 +1234,5 @@ command! -nargs=+ Silent
       \ | execute ':redraw!'
 
 " Format json using python. This needs some better error checking
-command! -nargs=0 -range=% Format <line1>,<line2>!python -c "import sys, json; print json.dumps(json.load(sys.stdin), sort_keys=True, indent=2)"
+command! -nargs=0 -range=% Format 
+      \ <line1>,<line2>!python -c "import sys, json; print json.dumps(json.load(sys.stdin), sort_keys=True, indent=2)"
