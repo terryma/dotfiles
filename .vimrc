@@ -82,6 +82,7 @@ NeoBundle 'vim-scripts/TaskList.vim'
 NeoBundle 'AndrewRadev/multichange.vim'
 NeoBundle 'kana/vim-submode'
 NeoBundle 'myusuf3/numbers.vim'
+NeoBundle 'sjl/gundo.vim'
 
 " Status line
 NeoBundle 'terryma/vim-powerline', {'rev':'develop'}
@@ -207,6 +208,7 @@ nnoremap <Leader>d mzyyp`zj
 
 " <Leader>x: unused
 
+" <Leader>c*: NERDCommenter mappings
 " ✓ <Leader>cd: Switch to the directory of the open buffer
 nnoremap <Leader>cd :cd %:p:h<cr>:pwd<cr>
 
@@ -538,7 +540,8 @@ nnoremap <m-n> :NumbersToggle<cr>
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Space key mappings
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-" Space-jk scrolls the page
+" Space is also the leader key for Unite actions
+" Space-[jk] scrolls the page
 call submode#enter_with('scroll', 'n', '', '<space>j', '<c-e>')
 call submode#enter_with('scroll', 'n', '', '<space>k', '<c-y>')
 call submode#map('scroll', 'n', '', 'j', '<c-e>')
@@ -880,7 +883,7 @@ endfunction
 let NERDSpaceDelims=1
 
 " \\: Toggle comment
-map \\ <Leader>c<space>
+map \ <Leader>c<space>
 
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Powerline
@@ -1134,6 +1137,7 @@ autocmd! FileType vimfiler call g:my_vimfiler_settings()
 function! g:my_vimfiler_settings()
   nmap     <buffer><expr><CR>  vimfiler#smart_cursor_map("\<PLUG>(vimfiler_expand_tree)", "e")
 endfunction
+
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " Indent Guides
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
@@ -1151,13 +1155,13 @@ let g:user_zen_leader_key = '<c-x>'
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
 " My functions
 """"""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
-function! Refactor()
-  call inputsave()
-  let @z=input("What do you want to rename '" . @z . "' to? ")
-  call inputrestore()
-endfunction
-" Locally (local to block) rename a variable
-nnoremap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>[{V%:s/<C-R>//<c-r>z/g<cr>`x
+" function! Refactor()
+  " call inputsave()
+  " let @z=input("What do you want to rename '" . @z . "' to? ")
+  " call inputrestore()
+" endfunction
+" " Locally (local to block) rename a variable
+" nnoremap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>[{V%:s/<C-R>//<c-r>z/g<cr>`x
 
 command! -nargs=+ Silent
       \ | execute ':silent !'.<q-args>
