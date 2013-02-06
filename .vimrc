@@ -23,7 +23,7 @@ NeoBundle 'Shougo/vimproc', { 'build': {
 " Fuzzy search
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'h1mesuke/unite-outline'
-NeoBundle 'tsukkee/unite-help'
+NeoBundle 'Shougo/unite-help'
 NeoBundle 'mileszs/ack.vim'
 
 " Code completion
@@ -849,7 +849,9 @@ vnoremap . :normal.<cr>
 "===============================================================================
 
 " q quits in help pages
-autocmd MyAutoCmd FileType help map q :q<cr> | map <esc> :q<cr>
+autocmd MyAutoCmd FileType help
+      \ map <buffer> q :q<cr> |
+      \ map <buffer> <esc> :q<cr>
 
 "===============================================================================
 " NERDTree
