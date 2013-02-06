@@ -113,11 +113,11 @@ syntax enable
 NeoBundleCheck
 
 "===============================================================================
-" Google specific settings
+" Local settings
 "===============================================================================
 
 try
-  source ~/.vimrc.google
+  source ~/.vimrc.local
 catch
 endtry
 
@@ -125,7 +125,7 @@ endtry
 " General Settings
 "===============================================================================
 
-" Set augroup.
+" Set augroup
 augroup MyAutoCmd
   autocmd!
 augroup END
@@ -136,6 +136,7 @@ syntax on
 " scroll in the terminal
 set mouse=a
 
+" Give one virtual space at end of line
 set virtualedit=onemore
 
 " Use relative numbering to help with motion
@@ -151,8 +152,6 @@ set cursorline
 set background=dark
 
 " Colorschemes
-" colorscheme jellybeans
-" colorscheme base16-tomorrow
 colorscheme Tomorrow-Night
 
 " Sets how many lines of history vim has to remember
@@ -168,12 +167,11 @@ set autowrite
 set list
 set listchars=tab:>.,trail:.,extends:#,nbsp:.
 
-" Enables the /g flag on :s substitutions by default
-" set gdefault
-
 " Minimal number of screen lines to keep above and below the cursor
 set scrolloff=10
 
+" Width of the number column on the left hand side, needs a little extra to show
+" the marks
 set numberwidth=6
 
 " Open all folds initially
