@@ -753,6 +753,9 @@ call submode#enter_with('scroll', 'n', '', '<space>k', '<c-y>')
 call submode#map('scroll', 'n', '', 'j', '<c-e>')
 call submode#map('scroll', 'n', '', 'k', '<c-y>')
 
+" Space-=: Resize windows
+nnoremap <space>= <c-w>=
+
 "===============================================================================
 " Normal Mode Key Mappings
 "===============================================================================
@@ -1077,11 +1080,12 @@ let g:unite_source_file_mru_time_format = ''
 " For ack.
 if executable('ack-grep')
   let g:unite_source_grep_command = 'ack-grep'
-  let g:unite_source_grep_default_opts = '--no-heading --no-color -a'
+  " Match whole word only. This might/might not be a good idea
+  let g:unite_source_grep_default_opts = '--no-heading --no-color -a -w'
   let g:unite_source_grep_recursive_opt = ''
 elseif executable('ack')
   let g:unite_source_grep_command = 'ack'
-  let g:unite_source_grep_default_opts = '--no-heading --no-color -a'
+  let g:unite_source_grep_default_opts = '--no-heading --no-color -a -w'
   let g:unite_source_grep_recursive_opt = ''
 endif
 
@@ -1092,8 +1096,13 @@ endif
 " Save session automatically.
 let g:unite_source_session_enable_auto_save = 1
 
-" Load session automatically.
-autocmd MyAutoCmd VimEnter * UniteSessionLoad
+" Load session automatically if no file is specified
+autocmd MyAutoCmd VimEnter * call s:on_enter()
+function s:on_enter()
+  if !argc()
+    UniteSessionLoad
+  endif
+endfunction
 
 "===============================================================================
 " Vimfiler

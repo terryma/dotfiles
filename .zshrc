@@ -268,22 +268,65 @@ case "$TERM" in
     bindkey '^[[Z' reverse-menu-complete
 
     # VI MODE KEYBINDINGS (ins mode)
-    bindkey -M viins '^a'    beginning-of-line
-    bindkey -M viins '^e'    end-of-line
-    bindkey -M viins -s '^b' "←\n" # C-b move to previous directory (in history)
-    bindkey -M viins -s '^f' "→\n" # C-f move to next directory (in history)
-    bindkey -M viins '^k'    kill-line
-    bindkey -M viins '^r'    history-incremental-pattern-search-backward
-    bindkey -M viins '^s'    history-incremental-pattern-search-forward
-    bindkey -M viins '^p'    history-beginning-search-backward
-    bindkey -M viins '^n'    history-beginning-search-forward
-    bindkey -M viins '^y'    yank
-    bindkey -M viins '^w'    backward-kill-word
+
+    # Marking, yanking, and pasting in insert mode
+    # Ctrl-t to set the mark, use movement commands to select the region, yank
+    # the region using Ctrl-y, and paste the region using Ctrl-p
+
+    # Backspace: Delete previous char
+    bindkey -M viins '^?'    backward-delete-char
+    # Ctrl-q: Delete next word
+    bindkey -M viins '^q' kill-word
+    # Ctrl-w: Delete previous word
+    bindkey -M viins '^w' backward-kill-word
+    # Ctrl-e: Move to the end of line
+    bindkey -M viins '^e' end-of-line
+    # Ctrl-r: Search backwards in history
+    bindkey -M viins '^r' history-incremental-pattern-search-backward
+    # Ctrl-t: Set mark
+    bindkey -M viins '^t' set-mark-command
+    # Ctrl-y: Copy the area from the cursor to the mark to the kill buffer
+    bindkey -M viins '^y' copy-region-as-kill
+    # Ctrl-u: Deletes everything before cursor (u is on left)
+    bindkey -M viins '^u' backward-kill-line
+    # Ctrl-o: Deletes everything after cursor (o is on right) (Commonly Ctrl-k)
+    bindkey -M viins '^o' kill-line
+    # Ctrl-p: Insert the contents of the kill buffer at the cursor
+    bindkey -M viins '^p' yank
+    # Ctrl-a: Go to the beginning of line
+    bindkey -M viins '^a' beginning-of-line
+    # Ctrl-s: Search forwards in history
+    bindkey -M viins '^s' history-incremental-pattern-search-forward
+    # Ctrl-d: Exit
+    # Ctrl-f: Move to next directory in history
+    bindkey -M viins -s '^f' "→\r"
+    # TODO Ctrl-g: unused
+    # Ctrl-h: Move one character to the left
+    bindkey -M viins '^h' backward-char
+    # Ctrl-j: Go down in history
+    bindkey -M viins '^j' down-line-or-history
+    # Ctrl-k: Go up in history
+    bindkey -M viins '^k' up-line-or-history
+    # Ctrl-l: Move one character to the right
+    bindkey -M viins '^l' forward-char
+    # Ctrl-z: Tmux command key
+    # Ctrl-x: Delete character under cursor
+    bindkey -M viins '^x' delete-char
+    # Ctrl-c: Terminates
+    # Ctrl-b: Move to previous directory in history
+    bindkey -M viins -s '^b' "←\r" # C-b move to previous directory (in history)
+    # Ctrl-m: Same as Enter
+    # Ctrl-n: Clear the entire screen (cleaN)
+    bindkey -M viins '^n' clear-screen
+
+    # Alt-h: Move one word to the left
+    bindkey -M viins '^[h' backward-word
+    # Alt-l: Move one word to the right
+    bindkey -M viins '^[l' forward-word
+
+    # TODO Clean these up at some point
     bindkey -M viins '^[[33~' backward-kill-word
     bindkey -M viins '^[[3;5~' kill-word        # Ctrl-Delete
-    bindkey -M viins '^u'    backward-kill-line
-    bindkey -M viins '^h'    backward-delete-char
-    bindkey -M viins '^?'    backward-delete-char
     bindkey -M viins '^_'    undo
     bindkey -M viins '^x^l'  history-beginning-search-backward-then-append
     bindkey -M viins '^x^r'  redisplay
@@ -293,12 +336,12 @@ case "$TERM" in
     bindkey -M viins '\ef'   forward-word      # Alt-f
     bindkey -M viins '\eb'   backward-word     # Alt-b
     bindkey -M viins '\ed'   kill-word         # Alt-d
-    # For some reason up and down arrows take you to the beginning of the line.
-    # Remap them explicitly
+
+    # Up/Down arrow keys: Go up or down in history
     bindkey -M viins '\eOA'  up-line-or-history
     bindkey -M viins '^[[A'  up-line-or-history
-    bindkey -M viins '^[[B'  down-line-or-history
     bindkey -M viins '\eOB'  down-line-or-history
+    bindkey -M viins '^[[B'  down-line-or-history
 
     # VI MODE KEYBINDINGS (cmd mode)
     bindkey -M vicmd 'ca'    change-around
