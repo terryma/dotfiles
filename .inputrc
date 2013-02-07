@@ -1,0 +1,21 @@
+set editing-mode vi
+set keymap vi-insert
+"\C-q": kill-word
+"\C-w": backward-kill-word
+"\C-e": end-of-line
+"\C-r": reverse-search-history
+"\C-t": set-mark
+"\C-y": copy-region-as-kill
+"\C-u": unix-line-discard
+"\C-o": kill-line
+"\C-p": yank
+"\C-a": beginning-of-line
+"\C-s": forward-search-history
+"\C-h": backward-char
+"\C-j": next-history
+"\C-k": previous-history
+"\C-l": forward-char
+"\C-x": delete-char
+"\C-n": clear-screen
+"h": backward-word
+"l": forward-word
