@@ -68,21 +68,12 @@ NeoBundle 'goldfeld/vim-seek'
 NeoBundle 'tpope/vim-surround'
 NeoBundle 'tpope/vim-repeat'
 NeoBundle 'kana/vim-textobj-user'
-NeoBundle 'kana/vim-textobj-entire'
-NeoBundle 'Raimondi/vim_search_objects'
+NeoBundle 'kana/vim-textobj-entire' " ae, ie
+NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
 
 " Tags
 NeoBundle 'xolox/vim-easytags'
 NeoBundle 'majutsushi/tagbar'
-
-" Misc
-NeoBundle 'vim-scripts/BufOnly.vim'
-NeoBundle 'vim-scripts/TaskList.vim'
-NeoBundle 'AndrewRadev/multichange.vim'
-NeoBundle 'kana/vim-submode'
-NeoBundle 'myusuf3/numbers.vim'
-NeoBundle 'sjl/gundo.vim'
-" NeoBundle 'Shougo/echodoc'
 
 " Status line
 NeoBundle 'terryma/vim-powerline', {'rev':'develop'}
@@ -97,6 +88,19 @@ NeoBundle 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
 NeoBundle 'rainux/vim-desert-warm-256'
 NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'vim-scripts/wombat256.vim'
+
+" Misc
+NeoBundle 'vim-scripts/BufOnly.vim'
+NeoBundle 'vim-scripts/TaskList.vim'
+NeoBundle 'AndrewRadev/multichange.vim'
+NeoBundle 'kana/vim-submode'
+NeoBundle 'kana/vim-scratch'
+NeoBundle 'myusuf3/numbers.vim'
+NeoBundle 'sjl/gundo.vim'
+NeoBundle 'kana/vim-smartinput'
+NeoBundle 't9md/vim-quickhl'
+NeoBundle 'kana/vim-arpeggio'
+" NeoBundle 'Shougo/echodoc'
 
 " Ones that I don't really use anymore
 " NeoBundle 'klen/python-mode'
@@ -146,8 +150,11 @@ set relativenumber
 set splitright
 set splitbelow
 
-" Turn on line highlighting
-set cursorline
+" Turn on cursorline only on active window
+augroup MyAutoCmd
+    autocmd WinLeave * setlocal nocursorline
+    autocmd WinEnter,BufRead * setlocal cursorline
+augroup END
 
 set background=dark
 
@@ -184,9 +191,7 @@ set showmode
 " Auto complete setting
 set completeopt=longest,menuone,preview
 
-" Set completion mode. First tab completes as much as possible, second tab shows
-" list of options
-set wildmode=longest,list,full
+set wildmode=list:longest,full
 set wildmenu "turn on wild menu
 set wildignore=*.o,*.obj,*~ "stuff to ignore when tab completing
 set wildignore+=*DS_Store*
@@ -582,11 +587,12 @@ nnoremap <c-p> <c-^>
 " ✓ Ctrl-a: Surround shortcut
 nmap <c-a> viwS
 
-" ✓ Ctrl-s: Search commands
 " ✓ Ctrl-ss: Find word under cursor in current directory
 nnoremap <c-s><c-s> :Unite grep:.::<C-r><C-w><CR>
 " ✓ Ctrl-sd: Find word in current directory (prompt for word)
 nnoremap <c-s><c-d> :Unite grep:.<CR>
+" ✓ Ctrl-sb: Open ScratchBuffer
+nmap <c-s><c-b> <Plug>(scratch-open)
 
 " ✓ Ctrl-d: Scroll half a screen down
 
@@ -755,6 +761,19 @@ call submode#map('scroll', 'n', '', 'k', '<c-y>')
 
 " Space-=: Resize windows
 nnoremap <space>= <c-w>=
+
+" Space-m: quickhl
+nmap <space>m <Plug>(quickhl-toggle)
+xmap <space>m <Plug>(quickhl-toggle)
+nmap <space>M <Plug>(quickhl-reset)
+xmap <space>M <Plug>(quickhl-reset)
+
+"===============================================================================
+" Arpeggio Mappings
+"===============================================================================
+
+" call arpeggio#load()
+" Arpeggioimap fj <Esc>
 
 "===============================================================================
 " Normal Mode Key Mappings
@@ -995,7 +1014,7 @@ nnoremap <silent> [unite]d
       \ :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory_mru<CR>
 
 " Quick mappings
-nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mappings mapping<CR>
+" nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mappings mapping<CR>
 
 " Quick sources
 nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
@@ -1097,8 +1116,8 @@ endif
 let g:unite_source_session_enable_auto_save = 1
 
 " Load session automatically if no file is specified
-autocmd MyAutoCmd VimEnter * call s:on_enter()
-function s:on_enter()
+autocmd MyAutoCmd VimEnter * call s:unite_session_on_enter()
+function! s:unite_session_on_enter()
   if !argc()
     UniteSessionLoad
   endif
@@ -1137,6 +1156,7 @@ endfunction
 "===============================================================================
 " VimShell
 "===============================================================================
+
 let g:vimshell_prompt = "% "
 let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
 autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
@@ -1147,6 +1167,7 @@ endfunction
 "===============================================================================
 " QuickRun
 "===============================================================================
+
 let g:quickrun_config = {}
 let g:quickrun_config['*'] = {
       \ 'runner/vimproc/updatetime' : 100,
@@ -1162,6 +1183,28 @@ let g:quickrun_config['*'] = {
 "===============================================================================
 
 let g:user_zen_leader_key = '<c-x>'
+
+"===============================================================================
+" ScratchBuffer
+"===============================================================================
+
+autocmd MyAutoCmd User PluginScratchInitializeAfter
+\ call s:on_User_plugin_scratch_initialize_after()
+
+function! s:on_User_plugin_scratch_initialize_after()
+  map <buffer> <CR>  <Plug>(scratch-evaluate!)
+endfunction
+let g:scratch_show_command = 'hide buffer'
+
+"===============================================================================
+" Quickhl
+"===============================================================================
+
+" let g:quickhl_colors = [
+      " \ "gui=bold ctermfg=255 ctermbg=153 guifg=#ffffff guibg=#0a7383",
+      " \ "gui=bold guibg=#a07040 guifg=#ffffff",
+      " \ "gui=bold guibg=#4070a0 guifg=#ffffff",
+      " \ ]
 
 "===============================================================================
 " My functions
