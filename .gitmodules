@@ -17,3 +17,6 @@
 [submodule ".zsh/vimpager"]
 	path = .zsh/vimpager
 	url = https://github.com/rkitover/vimpager.git
+[submodule ".themes/konsole-tomorrow-theme"]
+	path = .themes/konsole-tomorrow-theme
+	url = https://github.com/dram/konsole-tomorrow-theme.git
