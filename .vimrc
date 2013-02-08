@@ -682,6 +682,8 @@ inoremap <c-l> <right>
 
 " ✓ Ctrl-z: This is the command key for tmux
 
+" Ctrl-x: Zencoding
+
 " Ctrl-c: Inserts line below
 inoremap <c-c> <c-o>o
 
@@ -863,7 +865,7 @@ vnoremap . :normal.<cr>
 "===============================================================================
 
 " q quits in help pages
-autocmd MyAutoCmd FileType help
+autocmd MyAutoCmd FileType help,quickrun
       \ map <buffer> q :q<cr> |
       \ map <buffer> <esc> :q<cr>
 
@@ -1140,13 +1142,13 @@ let g:vimfiler_as_default_explorer = 1
 let g:vimfiler_tree_leaf_icon = ' '
 let g:vimfiler_tree_opened_icon = '▾'
 let g:vimfiler_tree_closed_icon = '▸'
-let g:vimfiler_file_icon = '-'
-let g:vimfiler_marked_file_icon = '*'
+" let g:vimfiler_file_icon = ' '
+let g:vimfiler_marked_file_icon = '✓'
+" let g:vimfiler_readonly_file_icon = ' '
 let g:my_vimfiler_explorer_name = 'explorer'
-let g:my_vimfiler_winwidth = 25
+let g:my_vimfiler_winwidth = 30
 let g:vimfiler_safe_mode_by_default = 0
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_directory_display_top = 1
+" let g:vimfiler_directory_display_top = 1
 
 autocmd MyAutoCmd FileType vimfiler call s:vimfiler_settings()
 function! s:vimfiler_settings()
