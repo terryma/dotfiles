@@ -986,6 +986,7 @@ call unite#filters#sorter_default#use(['sorter_rank'])
 " Set up some custom ignores
 call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ 'ignore_pattern', join([
+      \ '\.git/',
       \ 'git5/.*/review/',
       \ 'google/obj/',
       \ ], '\|'))
