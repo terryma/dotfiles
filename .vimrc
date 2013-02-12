@@ -97,7 +97,7 @@ NeoBundle 'kana/vim-submode'
 NeoBundle 'kana/vim-scratch'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'sjl/gundo.vim'
-NeoBundle 'kana/vim-smartinput'
+" NeoBundle 'kana/vim-smartinput'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 'kana/vim-arpeggio'
 " NeoBundle 'Shougo/echodoc'
@@ -756,10 +756,10 @@ nnoremap <m-n> :NumbersToggle<cr>
 
 " Space is also the leader key for Unite actions
 " Space-[jk] scrolls the page
-call submode#enter_with('scroll', 'n', '', '<space>j', '<c-e>')
-call submode#enter_with('scroll', 'n', '', '<space>k', '<c-y>')
-call submode#map('scroll', 'n', '', 'j', '<c-e>')
-call submode#map('scroll', 'n', '', 'k', '<c-y>')
+call submode#enter_with('scroll', 'n', '', '<space>j', '3<c-e>')
+call submode#enter_with('scroll', 'n', '', '<space>k', '3<c-y>')
+call submode#map('scroll', 'n', '', 'j', '3<c-e>')
+call submode#map('scroll', 'n', '', 'k', '3<c-y>')
 
 " Space-=: Resize windows
 nnoremap <space>= <c-w>=
@@ -1227,4 +1227,4 @@ command! -nargs=+ Silent
 
 " Format json using python. This needs some better error checking
 command! -nargs=0 -range=% Format 
-      \ <line1>,<line2>!python -c "import sys, json; print json.dumps(json.load(sys.stdin), sort_keys=True, indent=2)"
+      \ <line1>,<line2>!python -c "import sys, json, collections; print json.dumps(json.load(sys.stdin, object_pairs_hook=collections.OrderedDict), sort_keys=False, indent=2)"
