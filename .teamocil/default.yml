@@ -1,0 +1,16 @@
+session:
+  name: "work"
+  windows:
+    - name: "chat"
+      clear: true
+      splits:
+        - cmd: "weechat-curses"
+    - name: "vim"
+      clear: true
+      splits:
+        - cmd: "vim"
+    - name: "git5"
+      clear: true
+      root: "~/git5"
+      splits:
+        - cmd: "l"
