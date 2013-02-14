@@ -1,4 +1,7 @@
-################################################################################
+# Source local zsh config first
+for config (~/.zsh/*.zsh) source $config
+
+###############################################################################
 # Oh My Zsh
 ################################################################################
 ZSH=$HOME/.oh-my-zsh
@@ -51,15 +54,9 @@ if [ -f /usr/local/heroku/bin/heroku ]; then
 fi
 export KEYTIMEOUT=1
 
-# Source all other zsh files where vars like PATH could be overwritten
-for config (~/.zsh/*.zsh) source $config
-
 ################################################################################
 # Aliases
 ################################################################################
-# fasd aliases
-alias v='f -e vim'
-
 # p4merge
 if [[ "$(uname)" == "Darwin" ]]; then
   alias p4merge='/Applications/p4merge.app/Contents/MacOS/p4merge'
@@ -91,6 +88,7 @@ if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
 ################################################################################
 # fasd
 ################################################################################
+alias v='f -e vim'
 fasd_cache="$HOME/.fasd-init-bash"
 if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
   fasd --init posix-alias zsh-{hook,ccomp,ccomp-install,wcomp,wcomp-install} >| "$fasd_cache"
@@ -98,6 +96,11 @@ fi
 source "$fasd_cache"
 unset fasd_cache
 
+################################################################################
+# Teamocil
+################################################################################
+alias t="teamocil --here"
+compctl -g '~/.teamocil/*(:t:r)' teamocil
 
 ################################################################################
 # ZLE Widgets

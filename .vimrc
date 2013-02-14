@@ -51,11 +51,10 @@ NeoBundle 'scrooloose/syntastic'
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'Shougo/vimshell'
 
-" Html
-NeoBundle 'mattn/zencoding-vim'
-
-" Markdown
-NeoBundle 'tpope/vim-markdown'
+" File types
+NeoBundle 'mattn/zencoding-vim' "HTML
+NeoBundle 'tpope/vim-markdown' "Markdown
+NeoBundle 'vim-scripts/deb.vim' "Debian packages
 
 " Git
 NeoBundle 'tpope/vim-fugitive'
@@ -314,15 +313,15 @@ set updatetime=1000
 " Function key mappings
 "===============================================================================
 
-" ✓ <F1>: Help
+" <F1>: Help
 nmap <F1> [unite]h
 
-" ✓ <F2>: Open Vimfiler
+" <F2>: Open Vimfiler
 
-" ✓ <F3>: Gundo
+" <F3>: Gundo
 nnoremap <F3> :<C-u>GundoToggle<CR>
 
-" ✓ <F4>: Save session
+" <F4>: Save session
 nnoremap <F4> :<C-u>UniteSessionSave 
 
 "===============================================================================
@@ -335,48 +334,48 @@ let g:mapleader = ","
 let maplocalleader = ","
 let g:maplocalleader = ","
 
-" ✓ <Leader>``: Force quit all
+" <Leader>``: Force quit all
 nnoremap <Leader>`` :qa!<cr>
 
-" ✓ <Leader>1: Toggle between paste mode
+" <Leader>1: Toggle between paste mode
 nnoremap <silent> <Leader>1 :set paste!<cr>
 
-" ✓ <Leader>2: Toggle Tagbar
+" <Leader>2: Toggle Tagbar
 nnoremap <Leader>2 :TagbarToggle<cr>
 
-" ✓ <Leader>3: Open Tasklist
+" <Leader>3: Open Tasklist
 nnoremap <Leader>3 <Plug>TaskList
 
-" ✓ <Leader>0: Run the visually selected code in python and replace it with the
+" <Leader>0: Run the visually selected code in python and replace it with the
 " output
 vnoremap <silent> <Leader>0 :!python<cr>
 
-" ✓ <Leader>tab: Toggles NERDTree
+" <Leader>tab: Toggles NERDTree
 nnoremap <Leader><tab> :NERDTreeToggle<cr>
 
-" ✓ <Leader>q: Quit all, very useful in vimdiff
+" <Leader>q: Quit all, very useful in vimdiff
 nnoremap <Leader>q :qa<cr>
 
-" ✓ <Leader>w: Save all
+" <Leader>w: Save all
 nnoremap <Leader>w :wa<cr>
 
-" ✓ <Leader>e: Fast editing of the .vimrc
+" <Leader>e: Fast editing of the .vimrc
 nnoremap <Leader>e :e! ~/.dotfiles/.vimrc<cr>
 
-" ✓ <Leader>r: QuickRun's default keymap
+" <Leader>r: QuickRun's default keymap
 
-" ✓ <Leader>t: EasyMotion
+" <Leader>t: EasyMotion
 
 " TODO <Leader> y
 
 " TODO <Leader> u
 
-" ✓ <Leader>o: only
+" <Leader>o: only
 nnoremap <Leader>o :only<cr>
 
 " TODO <Leader> p
 
-" ✓ <Leader>s: Spell checking shortcuts
+" <Leader>s: Spell checking shortcuts
 nnoremap <Leader>ss :setlocal spell!<cr>
 nnoremap <Leader>sj ]s
 nnoremap <Leader>sk [s
@@ -384,37 +383,37 @@ nnoremap <Leader>sa zg]s
 nnoremap <Leader>sd 1z=
 nnoremap <Leader>sf z=
 
-" ✓ <Leader>d: copy line down (d for duplicate)
+" <Leader>d: copy line down (d for duplicate)
 nnoremap <Leader>d mzyyp`zj
 
-" ✓ <Leader>f: EasyMotion
+" <Leader>f: EasyMotion
 
-" ✓ <Leader>g: Fugitive shortcuts
+" <Leader>g: Fugitive shortcuts
 
 " <Leader>z: unused
 
 " <Leader>x: unused
 
-" ✓ <Leader>c*: NERDCommenter mappings
-" ✓ <Leader>cd: Switch to the directory of the open buffer
+" <Leader>c*: NERDCommenter mappings
+" <Leader>cd: Switch to the directory of the open buffer
 nnoremap <Leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " <Leader>v: unused
 
 " <Leader>b: unused
 
-" ✓ <Leader>n: NERDTreeFind
+" <Leader>n: NERDTreeFind
 nnoremap <silent> <Leader>n :NERDTreeFind<cr> :wincmd p<cr>
 
-" ✓ <Leader>p: Copy the full path of the current file to the clipboard
+" <Leader>p: Copy the full path of the current file to the clipboard
 nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
       \ path '".expand("%:p")."' to clipboard"<cr>
 
 " <Leader><space>: unused
 
-" ✓ <Leader>F: EasyMotion
+" <Leader>F: EasyMotion
 
-" ✓ <Leader>T: EasyMotion
+" <Leader>T: EasyMotion
 
 "===============================================================================
 " Command-line Mode Key Mappings
@@ -453,32 +452,32 @@ cnoremap w!! w !sudo tee % >/dev/null
 " Normal Mode Shift Key Mappings
 "===============================================================================
 
-" ✓ Q: Closes the window
+" Q: Closes the window
 nnoremap Q :q<cr>
 
-" ✓ W: Move word forward
+" W: Move word forward
 
-" ✓ E: Move to end of word forward
+" E: Move to end of word forward
 
-" ✓ R: Replace mode
+" R: Replace mode
 
-" ✓ T: Finds till backwards
+" T: Finds till backwards
 
-" ✓ Y: Remove join lines to this, Y looks like a join of two lines into one
+" Y: Remove join lines to this, Y looks like a join of two lines into one
 noremap Y J
 
-" ✓ U: Redos since 'u' undos
+" U: Redos since 'u' undos
 nnoremap U <c-r>
 
-" ✓ I: Insert at beginning of line
+" I: Insert at beginning of line
 
-" ✓ O: Insert line above
+" O: Insert line above
 
-" ✓ P: Paste above line
+" P: Paste above line
 
-" ✓ {: Beginning of paragraph
+" {: Beginning of paragraph
 
-" ✓ }: End of paragraph
+" }: End of paragraph
 
 " _ : Quick horizontal splits
 nnoremap _ :sp<cr>
@@ -486,56 +485,56 @@ nnoremap _ :sp<cr>
 " | : Quick vertical splits
 nnoremap <bar> :vsp<cr>
 
-" ✓ A: Insert at end of line
+" A: Insert at end of line
 
-" ✓ S: Deletes the line and puts us in insert mode
+" S: Deletes the line and puts us in insert mode
 
-" ✓ D: Deletes til the end of line
+" D: Deletes til the end of line
 
-" ✓ F: Finds backwards
+" F: Finds backwards
 
-" ✓ G: Go to end of file
+" G: Go to end of file
 
-" ✓ H: Go to beginning of line
+" H: Go to beginning of line
 noremap H ^
 
-" ✓ J: Scroll down, Ctrl-e is a little difficult to reach
+" J: Scroll down, Ctrl-e is a little difficult to reach
 noremap J 3<c-e>3j
 
-" ✓ K: Scroll up, Ctrl-y is a difficult to reach
+" K: Scroll up, Ctrl-y is a difficult to reach
 noremap K 3<c-y>3k
 
-" ✓ L: Go to end of line
+" L: Go to end of line
 noremap L $
 
-" ✓ :: Go to command-line mode. Since ; is also used to go to command-line mode,
+" :: Go to command-line mode. Since ; is also used to go to command-line mode,
 " : should be mapped to what ; used to do (next when doing fFtT). But since
 " we're using EasyMotion to replace what fFtT used to do, it renders ; obsolete
 
-" ✓ ": Handles registers
+" ": Handles registers
 
 " TODO Z: Nothing by itself, ZZ = :x<cr>
 
-" ✓ X: Deletes character backward
+" X: Deletes character backward
 
-" ✓ C: Deletes rest of line and go to insert mode
+" C: Deletes rest of line and go to insert mode
 
-" ✓ V: Visual line mode
+" V: Visual line mode
 
-" ✓ B: Move word backward
+" B: Move word backward
 
-" ✓ N: Find next occurrence backward
+" N: Find next occurrence backward
 nnoremap N Nzzzv
 
-" ✓ M: Move cursor to mid screen
+" M: Move cursor to mid screen
 
-" ✓ <: Indent left
+" <: Indent left
 
-" ✓ >: Indent right
+" >: Indent right
 
-" ✓ ?: Search backwards
+" ?: Search backwards
 
-" ✓ +/-: Increment number
+" +/-: Increment number
 nnoremap + <c-a>
 nnoremap - <c-x>
 
@@ -543,17 +542,17 @@ nnoremap - <c-x>
 " Normal Mode Ctrl Key Mappings
 "===============================================================================
 
-" ✓ Ctrl-q: Visual block mode
+" Ctrl-q: Visual block mode
 
-" ✓ Ctrl-w: Window management
+" Ctrl-w: Window management
 
-" ✓ Ctrl-e: Unite outline
+" Ctrl-e: Unite outline
 nmap <c-e> [unite]o
 
 " Ctrl-r: Easier search and replace. Redo is remapped to U
 nnoremap <c-r> :%s/<c-r><c-w>//gc<left><left><left>
 
-" ✓ Ctrl-y: Unite line
+" Ctrl-y: Unite line
 nmap <c-y> [unite]l
 
 " Ctrl-t: Go back in tag stack
@@ -569,74 +568,74 @@ let g:lasttab = 1
 nnoremap <c-t><c-t> :exe "tabn ".g:lasttab<cr>
 autocmd MyAutoCmd TabLeave * let g:lasttab = tabpagenr()
 
-" ✓ Ctrl-u: Scroll half a screen up
+" Ctrl-u: Scroll half a screen up
 
-" ✓ Ctrl-i: Go forward in the jumplist, also realign the screen
+" Ctrl-i: Go forward in the jumplist, also realign the screen
 nnoremap <c-i> <c-i>zzzv
 
-" ✓ Ctrl-o: Go back in the jumplist, also realign the screen
+" Ctrl-o: Go back in the jumplist, also realign the screen
 nnoremap <c-o> <c-o>zzzv
 
-" ✓ Ctrl-p: Go to previous buffer
+" Ctrl-p: Go to previous buffer
 nnoremap <c-p> <c-^>
 
-" ✓ Ctrl-[: Esc
+" Ctrl-[: Esc
 
-" ✓ Ctrl-]: Go forward in tag stack
+" Ctrl-]: Go forward in tag stack
 
-" ✓ Ctrl-a: Surround shortcut
+" Ctrl-a: Surround shortcut
 nmap <c-a> viwS
 
-" ✓ Ctrl-ss: Find word under cursor in current directory
+" Ctrl-ss: Find word under cursor in current directory
 nnoremap <c-s><c-s> :Unite grep:.::<C-r><C-w><CR>
-" ✓ Ctrl-sd: Find word in current directory (prompt for word)
+" Ctrl-sd: Find word in current directory (prompt for word)
 nnoremap <c-s><c-d> :Unite grep:.<CR>
-" ✓ Ctrl-sb: Open ScratchBuffer
+" Ctrl-sb: Open ScratchBuffer
 nmap <c-s><c-b> <Plug>(scratch-open)
 
-" ✓ Ctrl-d: Scroll half a screen down
+" Ctrl-d: Scroll half a screen down
 
-" ✓ Ctrl-f: Scroll one full screen down
+" Ctrl-f: Scroll one full screen down
 nnoremap <c-f> zz<c-f>zz
 
-" ✓ Ctrl-g: Prints current file name. 1Ctrl-g prints the full path
+" Ctrl-g: Prints current file name. 1Ctrl-g prints the full path
 nnoremap <c-g> 1<c-g>
 
-" ✓ Ctrl-[hjkl]: Smart way to move around windows
+" Ctrl-[hjkl]: Smart way to move around windows
 noremap <c-h> <c-w>h
 noremap <c-j> <c-w>j
 noremap <c-k> <c-w>k
 noremap <c-l> <c-w>l
 
-" ✓ Ctrl-;: Vim can't map this
+" Ctrl-;: Vim can't map this
 
-" ✓ Ctrl-': Vim can't map this
+" Ctrl-': Vim can't map this
 
-" ✓ Ctrl-z: This is the command key for tmux
+" Ctrl-z: This is the command key for tmux
 
-" ✓ Ctrl-x: Zencoding leader key
+" Ctrl-x: Zencoding leader key
 
-" ✓ Ctrl-c: Quick Vimshell
+" Ctrl-c: Quick Vimshell
 nnoremap <silent> <c-c> :<C-u>VimShellBufferDir -popup<CR>
 
-" ✓ Ctrl-v: Paste system clipboard
+" Ctrl-v: Paste system clipboard
 nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
 
-" ✓ Ctrl-b: Scroll one full screen back
+" Ctrl-b: Scroll one full screen back
 " Strange, backward one screen seems to be off by one
 nnoremap <c-b> zz<c-b>kzz
 
-" ✓ Ctrl-n: Multichange default mapping
+" Ctrl-n: Multichange default mapping
 
-" ✓ Ctrl-m: Same as Enter
+" Ctrl-m: Same as Enter
 
-" ✓ Ctrl-,: Vim can't map this
+" Ctrl-,: Vim can't map this
 
-" ✓ Ctrl-.: Vim can't map this
+" Ctrl-.: Vim can't map this
 
-" ✓ Ctrl-/: Vim can't map this
+" Ctrl-/: Vim can't map this
 
-" ✓ Ctrl-Space: [unite]<space> is very often used, map to that
+" Ctrl-Space: [unite]<space> is very often used, map to that
 nmap <c-space> [unite]<space>
 nmap <c-@> <c-space>
 
@@ -680,7 +679,7 @@ inoremap <expr> <c-j> pumvisible() ? "\<c-n>" : "\<down>"
 inoremap <expr> <c-k> pumvisible() ? "\<c-p>" : "\<up>"
 inoremap <c-l> <right>
 
-" ✓ Ctrl-z: This is the command key for tmux
+" Ctrl-z: This is the command key for tmux
 
 " Ctrl-x: Zencoding
 
@@ -746,9 +745,6 @@ vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
 " Alt-[hl]: Move word in insert mode
 inoremap <m-h> <esc>gEa
 inoremap <m-l> <esc>Ea
-
-" Alt-n: Toggle line numbers
-nnoremap <m-n> :NumbersToggle<cr>
 
 "===============================================================================
 " Space key mappings
@@ -1092,7 +1088,7 @@ let g:unite_split_rule = "botright"
 " Shorten the default update date of 500ms
 let g:unite_update_time = 200
 
-let g:unite_source_file_mru_limit = 200
+let g:unite_source_file_mru_limit = 20
 let g:unite_cursor_line_highlight = 'TabLineSel'
 " let g:unite_abbr_highlight = 'TabLine'
 
@@ -1118,11 +1114,11 @@ endif
 " Save session automatically.
 let g:unite_source_session_enable_auto_save = 1
 
-" Load session automatically if no file is specified
+" Pop up session selection if no file is specified
 autocmd MyAutoCmd VimEnter * call s:unite_session_on_enter()
 function! s:unite_session_on_enter()
   if !argc()
-    UniteSessionLoad
+    Unite -buffer-name=sessions session
   endif
 endfunction
 
