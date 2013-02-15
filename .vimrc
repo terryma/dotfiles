@@ -158,7 +158,9 @@ augroup END
 set background=dark
 
 " Colorschemes
-colorscheme Tomorrow-Night
+" colorscheme Tomorrow-Night
+" colorscheme Tomorrow-Night-Bright
+colorscheme jellybeans
 
 " Sets how many lines of history vim has to remember
 set history=10000

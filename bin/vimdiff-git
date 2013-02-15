@@ -1,2 +1,2 @@
 #!/bin/sh
-vimdiff "$2" "$5" > /dev/tty
+vimdiff "$5" "$2" > /dev/tty

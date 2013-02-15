@@ -277,7 +277,7 @@ case "$TERM" in
     # the region using Ctrl-y, and paste the region using Ctrl-p
 
     # Backspace: Delete previous char
-    bindkey -M viins '^?'    backward-delete-char
+    bindkey -M viins '^?' backward-delete-char
     # Ctrl-q: Delete next word
     bindkey -M viins '^q' kill-word
     # Ctrl-w: Delete previous word
@@ -303,7 +303,8 @@ case "$TERM" in
     # Ctrl-d: Exit
     # Ctrl-f: Move to next directory in history
     bindkey -M viins -s '^f' "→\r"
-    # TODO Ctrl-g: unused
+    # Ctrl-g: Undo
+    bindkey -M viins '^g' undo
     # Ctrl-h: Move one character to the left
     bindkey -M viins '^h' backward-char
     # Ctrl-j: Go down in history
@@ -322,23 +323,12 @@ case "$TERM" in
     # Ctrl-n: Clear the entire screen (cleaN)
     bindkey -M viins '^n' clear-screen
 
-    # Alt-h: Move one word to the left
-    bindkey -M viins '^[h' backward-word
-    # Alt-l: Move one word to the right
-    bindkey -M viins '^[l' forward-word
+    # Alt-j: Move one word to the left
+    bindkey -M viins '^[j' backward-word
+    # Alt-k: Move one word to the right
+    bindkey -M viins '^[k' forward-word
 
-    # TODO Clean these up at some point
-    bindkey -M viins '^[[33~' backward-kill-word
-    bindkey -M viins '^[[3;5~' kill-word        # Ctrl-Delete
     bindkey -M viins '^_'    undo
-    bindkey -M viins '^x^l'  history-beginning-search-backward-then-append
-    bindkey -M viins '^x^r'  redisplay
-    bindkey -M viins '\eOH'  beginning-of-line # Home
-    bindkey -M viins '\eOF'  end-of-line       # End
-    bindkey -M viins '\e[2~' overwrite-mode    # Insert
-    bindkey -M viins '\ef'   forward-word      # Alt-f
-    bindkey -M viins '\eb'   backward-word     # Alt-b
-    bindkey -M viins '\ed'   kill-word         # Alt-d
 
     # Up/Down arrow keys: Go up or down in history
     bindkey -M viins '\eOA'  up-line-or-history
