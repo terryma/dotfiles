@@ -105,6 +105,12 @@ compctl -g '~/.teamocil/*(:t:r)' teamocil
 ################################################################################
 # ZLE Widgets
 ################################################################################
+# Auto ls after each directory change
+function chpwd() {
+    emulate -L zsh
+    l
+}
+
 # Zsh's history-beginning-search-backward is very close to Vim's C-x C-l
 history-beginning-search-backward-then-append() {
   zle history-beginning-search-backward
