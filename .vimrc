@@ -354,6 +354,7 @@ vnoremap <silent> <Leader>0 :!python<cr>
 
 " <Leader>tab: Toggles NERDTree
 nnoremap <Leader><tab> :NERDTreeToggle<cr>
+" nnoremap <expr><Leader><tab> g:my_open_explorer_command()
 
 " <Leader>q: Quit all, very useful in vimdiff
 nnoremap <Leader>q :qa<cr>
@@ -618,7 +619,7 @@ noremap <c-l> <c-w>l
 " Ctrl-x: Zencoding leader key
 
 " Ctrl-c: Quick Vimshell
-nnoremap <silent> <c-c> :<C-u>VimShellBufferDir -popup<CR>
+nnoremap <silent> <c-c> :<C-u>VimShellBufferDir -popup -toggle<CR>
 
 " Ctrl-v: Paste system clipboard
 nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
@@ -996,6 +997,9 @@ nmap <space> [unite]
 " General fuzzy search
 nnoremap <silent> [unite]<space> :<C-u>Unite
       \ -buffer-name=files buffer file_mru bookmark file_rec/async<CR>
+
+" Quick file search
+nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file_rec/async<CR>
 
 " Quick commands
 nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
