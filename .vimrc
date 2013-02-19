@@ -850,7 +850,8 @@ vmap \ <Leader>c<space>
 vnoremap <silent> * y:let @/ = @"<cr>
 
 " <bs>: Delete selected
-vnoremap <bs> x
+" This conflicts with neosnippets. Don't enable it
+" vnoremap <bs> x
 
 " <|>: Reselect visual block after indent
 vnoremap < <gv
@@ -859,14 +860,17 @@ vnoremap > >gv
 " .: repeats the last command on every line
 vnoremap . :normal.<cr>
 
+" @: repeats macro on every line
+vnoremap @ :normal@
+
 "===============================================================================
 " Autocommands
 "===============================================================================
 
 " q quits in help pages
 autocmd MyAutoCmd FileType help,quickrun
-      \ map <buffer> q :q<cr> |
-      \ map <buffer> <esc> :q<cr>
+      \ map <silent> <buffer> q :q<cr>|
+      \ map <silent> <buffer> <esc> :q<cr>
 
 "===============================================================================
 " NERDTree
