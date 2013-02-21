@@ -99,6 +99,8 @@ NeoBundle 'sjl/gundo.vim'
 " NeoBundle 'kana/vim-smartinput'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 'kana/vim-arpeggio'
+NeoBundle 'mattn/webapi-vim'
+NeoBundle 'mattn/gist-vim'
 " NeoBundle 'Shougo/echodoc'
 
 " Ones that I don't really use anymore

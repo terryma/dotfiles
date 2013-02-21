@@ -78,6 +78,7 @@ alias zless=$PAGER
 
 alias ←="pushd -q +1"
 alias →="pushd -q -0"
+alias .="cd ~/.dotfiles;ls -al"
 
 ################################################################################
 # Ruby
