@@ -52,7 +52,7 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'Shougo/vimshell'
 
 " File types
-NeoBundle 'mattn/zencoding-vim' "HTML
+" NeoBundle 'mattn/zencoding-vim' "HTML
 NeoBundle 'tpope/vim-markdown' "Markdown
 NeoBundle 'vim-scripts/deb.vim' "Debian packages
 
@@ -102,7 +102,7 @@ NeoBundle 'kana/vim-arpeggio'
 " NeoBundle 'Shougo/echodoc'
 
 " Ones that I don't really use anymore
-" NeoBundle 'klen/python-mode'
+NeoBundle 'klen/python-mode'
 " NeoBundle 'nathanaelkane/vim-indent-guides'
 " NeoBundle 'hynek/vim-python-pep8-indent'
 " NeoBundle 'kien/ctrlp.vim'
@@ -593,8 +593,6 @@ nmap <c-a> viwS
 nnoremap <c-s><c-s> :Unite grep:.::<C-r><C-w><CR>
 " Ctrl-sd: Find word in current directory (prompt for word)
 nnoremap <c-s><c-d> :Unite grep:.<CR>
-" Ctrl-sb: Open ScratchBuffer
-nmap <c-s><c-b> <Plug>(scratch-open)
 
 " Ctrl-d: Scroll half a screen down
 
@@ -616,7 +614,7 @@ noremap <c-l> <c-w>l
 
 " Ctrl-z: This is the command key for tmux
 
-" Ctrl-x: Zencoding leader key
+" Ctrl-x:
 
 " Ctrl-c: Quick Vimshell
 nnoremap <silent> <c-c> :<C-u>VimShellBufferDir -popup -toggle<CR>
@@ -684,7 +682,8 @@ inoremap <c-l> <right>
 
 " Ctrl-z: This is the command key for tmux
 
-" Ctrl-x: Zencoding
+" Ctrl-x: Delete char under curosr
+inoremap <c-x> <c-o>x
 
 " Ctrl-c: Inserts line below
 inoremap <c-c> <c-o>o
@@ -768,6 +767,9 @@ nmap <space>m <Plug>(quickhl-toggle)
 xmap <space>m <Plug>(quickhl-toggle)
 nmap <space>M <Plug>(quickhl-reset)
 xmap <space>M <Plug>(quickhl-reset)
+
+" Space-t: ScratchBuffer (temp)
+nmap <space>t <Plug>(scratch-open)
 
 "===============================================================================
 " Arpeggio Mappings
@@ -1069,8 +1071,8 @@ function! s:unite_settings()"{{{
   " imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
   nmap <buffer> <C-r> <Plug>(unite_redraw)
   imap <buffer> <C-r> <Plug>(unite_redraw)
-  inoremap <silent><buffer><expr> <c-s> unite#do_action('split')
-  inoremap <silent><buffer><expr> <c-v> unite#do_action('vsplit')
+  nmap <silent><buffer><expr> <c-s> unite#do_action('split')
+  nmap <silent><buffer><expr> <c-v> unite#do_action('vsplit')
   nnoremap <silent><buffer><expr> l
         \ unite#smart_map('l', unite#do_action('default'))
 
@@ -1191,7 +1193,7 @@ let g:quickrun_config['*'] = {
 " Zencoding
 "===============================================================================
 
-let g:user_zen_leader_key = '<c-x>'
+" let g:user_zen_leader_key = '<space>x'
 
 "===============================================================================
 " ScratchBuffer
