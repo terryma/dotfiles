@@ -591,6 +591,9 @@ nnoremap <c-p> <c-^>
 
 " Ctrl-]: Go forward in tag stack
 
+" Ctrl-\: Quick VimShell
+nnoremap <silent> <c-\> :<C-u>VimShellBufferDir -popup -toggle<CR>
+
 " Ctrl-a: Surround shortcut
 nmap <c-a> viwS
 
@@ -604,10 +607,10 @@ nnoremap <c-s><c-d> :Unite grep:.<CR>
 " Ctrl-f: Scroll one full screen down
 nnoremap <c-f> zz<c-f>zz
 
-" Ctrl-g: Prints current file name. 1Ctrl-g prints the full path
+" Ctrl-g: Prints current file name
 nnoremap <c-g> 1<c-g>
 
-" Ctrl-[hjkl]: Smart way to move around windows
+" Ctrl-[hjkl]: Move around splits
 noremap <c-h> <c-w>h
 noremap <c-j> <c-w>j
 noremap <c-k> <c-w>k
@@ -619,10 +622,9 @@ noremap <c-l> <c-w>l
 
 " Ctrl-z: This is the command key for tmux
 
-" Ctrl-x:
+" Ctrl-x: Rope
 
-" Ctrl-c: Quick Vimshell
-nnoremap <silent> <c-c> :<C-u>VimShellBufferDir -popup -toggle<CR>
+" Ctrl-c: Rope
 
 " Ctrl-v: Paste system clipboard
 nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
@@ -925,7 +927,7 @@ nnoremap <Leader>gp :Git push<cr>
 nnoremap <Leader>gr :Gremove<cr>
 nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
-" Quickly stage and commit the current file. Useful for editing .vimrc
+" Quickly stage, commit, and push the current file. Useful for editing .vimrc
 nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>
 
 "===============================================================================
