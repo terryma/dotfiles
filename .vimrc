@@ -520,9 +520,8 @@ noremap L $
 
 " ": Handles registers
 
-map ZZ <Nop>
-" ZX: %
-noremap ZX %
+" Z: Jump to match. Easier to reach than %
+noremap Z %
 
 " X: Deletes character backward
 
