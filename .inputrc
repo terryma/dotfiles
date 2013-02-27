@@ -17,5 +17,6 @@ set keymap vi-insert
 "\C-l": forward-char
 "\C-x": delete-char
 "\C-n": clear-screen
+"\C-_": undo
 "h": backward-word
 "l": forward-word

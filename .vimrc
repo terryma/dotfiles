@@ -69,6 +69,8 @@ NeoBundle 'tpope/vim-repeat'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-entire' " ae, ie
 NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
+NeoBundle 'kana/vim-textobj-line' " al, il
+NeoBundle 'lucapette/vim-textobj-underscore' " a_, i_
 
 " Tags
 NeoBundle 'xolox/vim-easytags'
@@ -518,7 +520,9 @@ noremap L $
 
 " ": Handles registers
 
-" TODO Z: Nothing by itself, ZZ = :x<cr>
+map ZZ <Nop>
+" ZX: %
+noremap ZX %
 
 " X: Deletes character backward
 
@@ -766,10 +770,10 @@ call submode#map('scroll', 'n', '', 'k', '3<c-y>')
 nnoremap <space>= <c-w>=
 
 " Space-m: quickhl
-nmap <space>m <Plug>(quickhl-toggle)
-xmap <space>m <Plug>(quickhl-toggle)
-nmap <space>M <Plug>(quickhl-reset)
-xmap <space>M <Plug>(quickhl-reset)
+" nmap <space>m <Plug>(quickhl-toggle)
+" xmap <space>m <Plug>(quickhl-toggle)
+" nmap <space>M <Plug>(quickhl-reset)
+" xmap <space>M <Plug>(quickhl-reset)
 
 "===============================================================================
 " Arpeggio Mappings
@@ -1006,6 +1010,9 @@ nnoremap <silent> [unite]<space> :<C-u>Unite
 
 " Quick file search
 nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file_rec/async<CR>
+
+" Quick MRU search
+nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
 
 " Quick commands
 nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>

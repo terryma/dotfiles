@@ -65,6 +65,8 @@ fi
 # Open file in existing  gvim
 alias gvir='gvim --remote'
 
+alias gbs='git branches'
+
 # Enable reattach-to-user-namespace on Mac. See
 # https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/issues/8
 if [[ "$(uname)" == "Darwin" ]]; then
@@ -330,6 +332,10 @@ case "$TERM" in
     # Ctrl-n: Clear the entire screen (cleaN)
     bindkey -M viins '^n' clear-screen
 
+    # Ctrl-]: Move one word to the left
+    bindkey -M viins '^]' backward-word
+    # Ctrl-\: Move one word to the right
+    bindkey -M viins '^\' forward-word
     # Alt-j: Move one word to the left
     bindkey -M viins '^[j' backward-word
     # Alt-k: Move one word to the right
