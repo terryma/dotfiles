@@ -1,0 +1,16 @@
+snippet     header
+abbr        header
+options     head
+        #!/bin/bash
+        #
+        # Copyright 2013 Google Inc. All Rights Reserved.
+        # Author: terryma@google.com (Terry Ma)
+        #
+        # ${1:Description of what this script does.}
+
+        source gbash.sh || exit
+
+        gbash::init_google "$@"
+        set -- "${GBASH_ARGV[@]}"
+
+        ${2}
