@@ -52,7 +52,7 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'Shougo/vimshell'
 
 " File types
-NeoBundle 'mattn/zencoding-vim' "HTML
+" NeoBundle 'mattn/zencoding-vim' "HTML
 NeoBundle 'tpope/vim-markdown' "Markdown
 NeoBundle 'vim-scripts/deb.vim' "Debian packages
 
@@ -106,7 +106,7 @@ NeoBundle 'mattn/gist-vim'
 " NeoBundle 'Shougo/echodoc'
 
 " Ones that I don't really use anymore
-" NeoBundle 'klen/python-mode'
+NeoBundle 'klen/python-mode'
 " NeoBundle 'nathanaelkane/vim-indent-guides'
 " NeoBundle 'hynek/vim-python-pep8-indent'
 " NeoBundle 'kien/ctrlp.vim'
@@ -520,9 +520,8 @@ noremap L $
 
 " ": Handles registers
 
-map ZZ <Nop>
-" ZX: %
-noremap ZX %
+" Z: Jump to match. Easier to reach than %
+noremap Z %
 
 " X: Deletes character backward
 
@@ -592,6 +591,9 @@ nnoremap <c-p> <c-^>
 
 " Ctrl-]: Go forward in tag stack
 
+" Ctrl-\: Quick VimShell
+nnoremap <silent> <c-\> :<C-u>VimShellBufferDir -popup -toggle<CR>
+
 " Ctrl-a: Surround shortcut
 nmap <c-a> viwS
 
@@ -599,18 +601,16 @@ nmap <c-a> viwS
 nnoremap <c-s><c-s> :Unite grep:.::<C-r><C-w><CR>
 " Ctrl-sd: Find word in current directory (prompt for word)
 nnoremap <c-s><c-d> :Unite grep:.<CR>
-" Ctrl-sb: Open ScratchBuffer
-nmap <c-s><c-b> <Plug>(scratch-open)
 
 " Ctrl-d: Scroll half a screen down
 
 " Ctrl-f: Scroll one full screen down
 nnoremap <c-f> zz<c-f>zz
 
-" Ctrl-g: Prints current file name. 1Ctrl-g prints the full path
+" Ctrl-g: Prints current file name
 nnoremap <c-g> 1<c-g>
 
-" Ctrl-[hjkl]: Smart way to move around windows
+" Ctrl-[hjkl]: Move around splits
 noremap <c-h> <c-w>h
 noremap <c-j> <c-w>j
 noremap <c-k> <c-w>k
@@ -622,10 +622,9 @@ noremap <c-l> <c-w>l
 
 " Ctrl-z: This is the command key for tmux
 
-" Ctrl-x: Zencoding leader key
+" Ctrl-x: Rope
 
-" Ctrl-c: Quick Vimshell
-nnoremap <silent> <c-c> :<C-u>VimShellBufferDir -popup -toggle<CR>
+" Ctrl-c: Rope
 
 " Ctrl-v: Paste system clipboard
 nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
@@ -690,7 +689,8 @@ inoremap <c-l> <right>
 
 " Ctrl-z: This is the command key for tmux
 
-" Ctrl-x: Zencoding
+" Ctrl-x: Delete char under curosr
+inoremap <c-x> <c-o>x
 
 " Ctrl-c: Inserts line below
 inoremap <c-c> <c-o>o
@@ -774,6 +774,9 @@ nnoremap <space>= <c-w>=
 " xmap <space>m <Plug>(quickhl-toggle)
 " nmap <space>M <Plug>(quickhl-reset)
 " xmap <space>M <Plug>(quickhl-reset)
+
+" Space-t: ScratchBuffer (temp)
+nmap <space>t <Plug>(scratch-open)
 
 "===============================================================================
 " Arpeggio Mappings
@@ -924,8 +927,8 @@ nnoremap <Leader>gp :Git push<cr>
 nnoremap <Leader>gr :Gremove<cr>
 nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
-" Quickly stage and commit the current file. Useful for editing .vimrc
-nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>
+" Quickly stage, commit, and push the current file. Useful for editing .vimrc
+nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>:Git push<cr>
 
 "===============================================================================
 " EasyMotion
@@ -1078,8 +1081,8 @@ function! s:unite_settings()"{{{
   " imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
   nmap <buffer> <C-r> <Plug>(unite_redraw)
   imap <buffer> <C-r> <Plug>(unite_redraw)
-  inoremap <silent><buffer><expr> <c-s> unite#do_action('split')
-  inoremap <silent><buffer><expr> <c-v> unite#do_action('vsplit')
+  nmap <silent><buffer><expr> <c-s> unite#do_action('split')
+  nmap <silent><buffer><expr> <c-v> unite#do_action('vsplit')
   nnoremap <silent><buffer><expr> l
         \ unite#smart_map('l', unite#do_action('default'))
 
@@ -1200,7 +1203,7 @@ let g:quickrun_config['*'] = {
 " Zencoding
 "===============================================================================
 
-let g:user_zen_leader_key = '<c-x>'
+" let g:user_zen_leader_key = '<space>x'
 
 "===============================================================================
 " ScratchBuffer
