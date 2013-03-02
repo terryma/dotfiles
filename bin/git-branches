@@ -1,11 +1,36 @@
-#!/usr/bin/perl
- 
-$output= `git branch`;
- 
-foreach my $line (split(/^/, $output)) {
-    my ($is_current, $name) = split(/\s+/, $line);
-    my $description = `git config branch.$name.description`;
- 
-    $description =~ s/\s+$//;
-    printf("%1s %-22s %s\n", $is_current, $name, $description);
+#!/usr/bin/python
+
+import subprocess
+import textwrap
+
+output = subprocess.check_output(['git', 'branch']).strip()
+
+COLORS = {
+    'BLUE'  : '\033[94m',
+    'GREEN' : '\033[92m',
+    'YELLOW': '\033[93m'
 }
+
+def color(text, color):
+  color_code = COLORS.get(color, COLORS['BLUE'])
+  return color_code + text + '\033[0m'
+
+for line in output.split('\n'):
+  if line:
+    parts = line.split()
+    branch = parts[-1]
+    is_current = len(parts) > 1
+    try:
+      description = subprocess.check_output(['git', 'config',
+                                             'branch.{0}.description'.format(branch)]).strip()
+    except Exception:
+      description = "<no description>"
+
+    description = textwrap.fill(description, width=75, initial_indent='     ',
+                                subsequent_indent='     ')
+
+    if is_current:
+      print "* " + color(branch, 'GREEN')
+    else:
+      print "  " + color(branch, 'BLUE')
+    print description

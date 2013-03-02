@@ -106,7 +106,7 @@ NeoBundle 'mattn/gist-vim'
 " NeoBundle 'Shougo/echodoc'
 
 " Ones that I don't really use anymore
-NeoBundle 'klen/python-mode'
+" NeoBundle 'klen/python-mode'
 " NeoBundle 'nathanaelkane/vim-indent-guides'
 " NeoBundle 'hynek/vim-python-pep8-indent'
 " NeoBundle 'kien/ctrlp.vim'
@@ -876,8 +876,8 @@ vnoremap @ :normal@
 " Autocommands
 "===============================================================================
 
-" q quits in help pages
-autocmd MyAutoCmd FileType help,quickrun
+" q quits in certain page types
+autocmd MyAutoCmd FileType help,quickrun,qf
       \ map <silent> <buffer> q :q<cr>|
       \ map <silent> <buffer> <esc> :q<cr>
 
@@ -1110,7 +1110,7 @@ let g:unite_split_rule = "botright"
 " Shorten the default update date of 500ms
 let g:unite_update_time = 200
 
-let g:unite_source_file_mru_limit = 20
+let g:unite_source_file_mru_limit = 1000
 let g:unite_cursor_line_highlight = 'TabLineSel'
 " let g:unite_abbr_highlight = 'TabLine'
 

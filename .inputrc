@@ -11,11 +11,13 @@ set keymap vi-insert
 "\C-p": yank
 "\C-a": beginning-of-line
 "\C-s": forward-search-history
+"\C-f": forward-word
 "\C-h": backward-char
 "\C-j": next-history
 "\C-k": previous-history
 "\C-l": forward-char
 "\C-x": delete-char
+"\C-b": backward-word
 "\C-n": clear-screen
 "\C-_": undo
 "h": backward-word

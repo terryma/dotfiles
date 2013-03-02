@@ -65,7 +65,9 @@ fi
 # Open file in existing  gvim
 alias gvir='gvim --remote'
 
+# Git
 alias gbs='git branches'
+alias gbed='git branch --edit-description'
 
 # Enable reattach-to-user-namespace on Mac. See
 # https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/issues/8
