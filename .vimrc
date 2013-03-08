@@ -724,9 +724,6 @@ vnoremap <c-s> :s/\%V//g<left><left><left>
 "===============================================================================
 
 " Normal Mode
-" Alt-[hl]: Move word in normal mode
-nnoremap <m-h> hgEl
-nnoremap <m-l> El
 
 " Alt-[jk]: Move current line up or down
 nnoremap <silent> <m-j> mz:m+<cr>`z
@@ -737,9 +734,6 @@ nnoremap <m-o> g;
 
 " Alt-i: Jump forward in the changelist
 nnoremap <m-i> g,
-
-" Alt-t: Open CtrlP's tag search, similar to Eclipse's Ctrl-o
-nnoremap <m-t> :CtrlPBufTag<cr>
 
 " Insert Mode
 " Alt-[jk]: Move current line up or down
@@ -855,8 +849,8 @@ vnoremap p "_dP
 " \: Toggle comment
 vmap \ <Leader>c<space>
 
-" *: Highlight visual selections
-vnoremap <silent> * y:let @/ = @"<cr>
+" <cr>: Highlight visual selections
+vnoremap <silent> <CR> y:let @/ = @"<cr>:set hlsearch<cr>
 
 " <bs>: Delete selected
 " This conflicts with neosnippets. Don't enable it
@@ -880,6 +874,9 @@ vnoremap @ :normal@
 autocmd MyAutoCmd FileType help,quickrun,qf
       \ map <silent> <buffer> q :q<cr>|
       \ map <silent> <buffer> <esc> :q<cr>
+
+" json = javascript syntax highlight
+autocmd MyAutoCmd FileType json setlocal syntax=javascript
 
 "===============================================================================
 " NERDTree
