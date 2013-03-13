@@ -314,8 +314,8 @@ case "$TERM" in
     bindkey -M viins '^s' history-incremental-pattern-search-forward
     # Ctrl-d: Delete next word
     bindkey -M viins '^d' kill-word
-    # Ctrl-f: Go down in history
-    bindkey -M viins '^f' down-line-or-history
+    # Ctrl-f: Go up in history
+    bindkey -M viins '^f' up-line-or-history
     # Ctrl-g: Undo
     bindkey -M viins '^g' undo
     # Ctrl-h: Move one word to the left
@@ -335,8 +335,8 @@ case "$TERM" in
     bindkey -M viins '^x' delete-char
     # Ctrl-c: Terminates
     # Ctrl-v: TODO
-    # Ctrl-b: Go up in history
-    bindkey -M viins '^b' up-line-or-history
+    # Ctrl-b: Go down in history
+    bindkey -M viins '^b' down-line-or-history
     # Ctrl-m: Same as Enter
     # Ctrl-n: Clear the entire screen (cleaN)
     bindkey -M viins '^n' clear-screen

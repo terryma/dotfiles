@@ -628,11 +628,11 @@ noremap <c-l> <c-w>l
 
 " Ctrl-v: Paste system clipboard
 nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
-if has("unix")
-  " This works much more reliably when trying to paste from Vim remotely
-  " TODO Maybe only do this through a remote connection?
-  nnoremap <silent> <c-v> :r!xsel -b<CR>
-endif
+" if has("unix")
+  " " This works much more reliably when trying to paste from Vim remotely
+  " " TODO Maybe only do this through a remote connection?
+  " nnoremap <silent> <c-v> :r!xsel -b<CR>
+" endif
 
 " Ctrl-b: Scroll one full screen back
 " Strange, backward one screen seems to be off by one
@@ -716,11 +716,11 @@ inoremap <c-c> <c-o>o
 
 " Ctrl-c: Copy to the system clipboard
 vnoremap <c-c> "+y
-if has("unix")
-  " This works much more reliably when trying to copy from Vim remotely
-  " TODO Maybe only do this through a remote connection?
-  vnoremap <silent> <c-c> :w !xsel -i -b<CR><CR>
-endif
+" if has("unix")
+  " " This works much more reliably when trying to copy from Vim remotely
+  " " TODO Maybe only do this through a remote connection?
+  " vnoremap <silent> <c-c> :w !xsel -i -b<CR><CR>
+" endif
 
 " Ctrl-r: Easier search and replace
 vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
