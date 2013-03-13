@@ -861,8 +861,8 @@ vmap \ <Leader>c<space>
 vnoremap <silent> <CR> y:let @/ = @"<cr>:set hlsearch<cr>
 
 " <bs>: Delete selected
-" This conflicts with neosnippets. Don't enable it
-" vnoremap <bs> x
+" Don't map to vnoremap, since it conflicts with Neosnippet in SELECT mode
+xnoremap <bs> x
 
 " <|>: Reselect visual block after indent
 vnoremap < <gv
