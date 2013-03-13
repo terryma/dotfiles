@@ -31,6 +31,8 @@ alias hyper ctrl;shift;alt;cmd
 # Hyper+w: Activate windows hint
 bind w:${hyper} hint asdfghjkl;'
 
+bind r:${hyper} relaunch
+
 # Hyper+h: Move window to left half
 bind h:${hyper} ${lefthalf}
 
@@ -52,6 +54,6 @@ bind t:${hyper} focus 'iTerm'
 # Hyper+n: Switches to personal notes in nvAlt, mapped in nvAlt itself
 # Hyper+m: Switches to work notes in nvAlt, mapped in nvAlt itself
 
-# bind l:alt,cmd layout 1monitor
+bind space:${hyper} layout 1monitor
 
 # source: load configs from another file
