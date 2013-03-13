@@ -1,0 +1,59 @@
+# config: global configurations
+config defaultToCurrentScreen true
+config windowHintsShowIcons true
+config windowHintsIgnoreHiddenWindows false
+config windowHintsSpread true
+
+# alias: create alias variables
+alias full move screenOriginX;screenOriginY screenSizeX;screenSizeY
+alias lefthalf move screenOriginX;screenOriginY screenSizeX/2;screenSizeY
+alias righthalf move screenOriginX+screenSizeX/2;screenOriginY screenSizeX/2;screenSizeY
+alias topleft corner top-left resize:screenSizeX/2;screenSizeY/2
+alias topright corner top-right resize:screenSizeX/2;screenSizeY/2
+alias bottomleft corner bottom-left resize:screenSizeX/2;screenSizeY/2
+alias bottomright corner bottom-right resize:screenSizeX/2;screenSizeY/2
+
+# layout: create layout
+layout 1monitor 'iTerm':REPEAT ${righthalf}
+layout 1monitor 'Google Chrome':REPEAT ${lefthalf}
+
+# default: default certain screen configurations to layouts
+
+# bind: binds a key to an action
+
+###############################################################################
+# Key Bindings
+# #############################################################################
+
+# Hyper key
+alias hyper ctrl;shift;alt;cmd
+
+# Hyper+w: Activate windows hint
+bind w:${hyper} hint asdfghjkl;'
+
+bind r:${hyper} relaunch
+
+# Hyper+h: Move window to left half
+bind h:${hyper} ${lefthalf}
+
+# Hyper+j: Move focus left
+bind j:${hyper} focus left
+
+# Hyper+k: Move focus right
+bind k:${hyper} focus right
+
+# Hyper+l: Move window to right half
+bind l:${hyper} ${righthalf}
+
+# Hyper+Return: Move window full screen
+bind return:${hyper} ${full}
+
+# Application switcher
+bind b:${hyper} focus 'Google Chrome'
+bind t:${hyper} focus 'iTerm'
+# Hyper+n: Switches to personal notes in nvAlt, mapped in nvAlt itself
+# Hyper+m: Switches to work notes in nvAlt, mapped in nvAlt itself
+
+bind space:${hyper} layout 1monitor
+
+# source: load configs from another file

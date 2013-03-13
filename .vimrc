@@ -291,7 +291,13 @@ set whichwrap+=h,l,<,>,[,]
 
 set guitablabel=%t
 
-set clipboard-=autoselect
+" Writes to the unnamed register also writes to the * and + registers. This
+" makes it easy to interact with the system clipboard
+if has ('unnamedplus')
+  set clipboard=unnamedplus
+else
+  set clipboard=unnamed
+endif
 
 " Spelling highlights. Use underline in term to prevent cursorline highlights
 " from interfering
@@ -728,6 +734,9 @@ vnoremap <c-s> :s/\%V//g<left><left><left>
 
 " Normal Mode
 
+" Alt-d: Duplicate line
+nnoremap <m-d> mzyyp`zj
+
 " Alt-[jk]: Move current line up or down
 nnoremap <silent> <m-j> mz:m+<cr>`z
 nnoremap <silent> <m-k> mz:m-2<cr>`z
@@ -747,10 +756,6 @@ imap <m-k> <esc><m-k>a
 " Alt-[jk]: Move selections up or down
 vnoremap <m-j> :m'>+<cr>`<my`>mzgv`yo`z
 vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
-
-" Alt-[hl]: Move word in insert mode
-inoremap <m-h> <esc>gEa
-inoremap <m-l> <esc>Ea
 
 "===============================================================================
 " Space key mappings
@@ -868,6 +873,16 @@ vnoremap . :normal.<cr>
 
 " @: repeats macro on every line
 vnoremap @ :normal@
+
+"===============================================================================
+" Operator Pending Mode Key Mappings
+"===============================================================================
+
+" I almost never use w and W by themselves
+onoremap w iw
+onoremap W iW
+vnoremap w iw
+vnoremap W iW
 
 "===============================================================================
 " Autocommands

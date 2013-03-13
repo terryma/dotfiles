@@ -42,7 +42,7 @@ autoload zmv
 ################################################################################
 # Vars
 ################################################################################
-export PATH=~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python
+export PATH=~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python:$PATH
 export EDITOR=vim
 # Use vimpager as PAGER
 export VIMPAGER_RC=~/.dotfiles/.zsh/.vimpagerrc
@@ -303,6 +303,7 @@ case "$TERM" in
     bindkey -M viins '^y' copy-region-as-kill
     # Ctrl-u: Deletes everything before cursor (u is on left)
     bindkey -M viins '^u' backward-kill-line
+    # Ctrl-i: Same as tab
     # Ctrl-o: Deletes everything after cursor (o is on right) (Commonly Ctrl-k)
     bindkey -M viins '^o' kill-line
     # Ctrl-p: Insert the contents of the kill buffer at the cursor
@@ -311,37 +312,39 @@ case "$TERM" in
     bindkey -M viins '^a' beginning-of-line
     # Ctrl-s: Search forwards in history
     bindkey -M viins '^s' history-incremental-pattern-search-forward
-    # Ctrl-d: Exit
-    # Ctrl-f: Move to next directory in history
-    bindkey -M viins -s '^f' "→\r"
+    # Ctrl-d: Delete next word
+    bindkey -M viins '^d' kill-word
+    # Ctrl-f: Go down in history
+    bindkey -M viins '^f' down-line-or-history
     # Ctrl-g: Undo
     bindkey -M viins '^g' undo
-    # Ctrl-h: Move one character to the left
-    bindkey -M viins '^h' backward-char
-    # Ctrl-j: Go down in history
-    bindkey -M viins '^j' down-line-or-history
-    # Ctrl-k: Go up in history
-    bindkey -M viins '^k' up-line-or-history
-    # Ctrl-l: Move one character to the right
-    bindkey -M viins '^l' forward-char
+    # Ctrl-h: Move one word to the left
+    bindkey -M viins '^h' backward-word
+    # Ctrl-j: Move one character to the left
+    bindkey -M viins '^j' backward-char
+    # Ctrl-k: Move one character to the right
+    bindkey -M viins '^k' forward-char
+    # Ctrl-l: Move one word to the right
+    bindkey -M viins '^l' forward-word
+    # Ctrl-]: TODO
+    # bindkey -M viins '^]'
+    # Ctrl-\: TODO
+    # bindkey -M viins '^\'
     # Ctrl-z: Tmux command key
     # Ctrl-x: Delete character under cursor
     bindkey -M viins '^x' delete-char
     # Ctrl-c: Terminates
-    # Ctrl-b: Move to previous directory in history
-    bindkey -M viins -s '^b' "←\r" # C-b move to previous directory (in history)
+    # Ctrl-v: TODO
+    # Ctrl-b: Go up in history
+    bindkey -M viins '^b' up-line-or-history
     # Ctrl-m: Same as Enter
     # Ctrl-n: Clear the entire screen (cleaN)
     bindkey -M viins '^n' clear-screen
 
-    # Ctrl-]: Move one word to the left
-    bindkey -M viins '^]' backward-word
-    # Ctrl-\: Move one word to the right
-    bindkey -M viins '^\' forward-word
-    # Alt-j: Move one word to the left
-    bindkey -M viins '^[j' backward-word
-    # Alt-k: Move one word to the right
-    bindkey -M viins '^[k' forward-word
+    # Alt-k: Move to next directory in history
+    bindkey -M viins -s '^[k' "→\r"
+    # Alt-j: Move to previous directory in history
+    bindkey -M viins -s '^[j' "←\r"
 
     bindkey -M viins '^_'    undo
 
