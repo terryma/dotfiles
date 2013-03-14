@@ -5,8 +5,8 @@ config windowHintsIgnoreHiddenWindows false
 config windowHintsSpread true
 
 # Monitor Aliases
-alias mon-laptop 1920x1080
-alias mon-thunderbolt 2560x1600
+alias mon-retina 1920x1200
+alias mon-30in 2560x1600
 
 # alias: create alias variables
 alias full move screenOriginX;screenOriginY screenSizeX;screenSizeY
@@ -16,18 +16,22 @@ alias topleft corner top-left resize:screenSizeX/2;screenSizeY/2
 alias topright corner top-right resize:screenSizeX/2;screenSizeY/2
 alias bottomleft corner bottom-left resize:screenSizeX/2;screenSizeY/2
 alias bottomright corner bottom-right resize:screenSizeX/2;screenSizeY/2
+alias contact-list corner top-right
+alias chat-window corner bottom-left resize:screenSizeX/4;screenSizeY/2
 
-# layout: create layout
+# Layout when using a single monitor
 layout 1monitor 'iTerm':REPEAT ${righthalf}
 layout 1monitor 'Google Chrome':REPEAT ${lefthalf}
+layout 1monitor 'Adium':IGNORE_FAIL,TITLE_ORDER_REGEX=Contacts ${contact-list} | ${chat-window}
+layout 1monitor 'nvALT':REPEAT ${righthalf}
 
-# default: default certain screen configurations to layouts
-
-# bind: binds a key to an action
+# Default Layouts
+default 1monitor resolutions:${mon-retina}
+default 1monitor resolutions:${mon-30in}
 
 ###############################################################################
 # Key Bindings
-# #############################################################################
+###############################################################################
 
 # Hyper key
 alias hyper ctrl;shift;alt;cmd
