@@ -627,6 +627,8 @@ noremap <c-l> <c-w>l
 " Ctrl-c: Rope
 
 " Ctrl-v: Paste system clipboard
+" NOTE: This shouldn't be needed anymore since we've turned on
+" clipboard=unnamedplus
 nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
 " if has("unix")
   " " This works much more reliably when trying to paste from Vim remotely
@@ -715,6 +717,8 @@ inoremap <c-c> <c-o>o
 "===============================================================================
 
 " Ctrl-c: Copy to the system clipboard
+" NOTE: This shouldn't be necessary anymore since we're turned on
+" clipboard=unnamedplus
 vnoremap <c-c> "+y
 " if has("unix")
   " " This works much more reliably when trying to copy from Vim remotely
