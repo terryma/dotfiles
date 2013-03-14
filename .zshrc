@@ -119,28 +119,44 @@ function chpwd() {
 # Copy selected region to CLIPBOARD
 function x-copy-region-as-kill() {
   zle copy-region-as-kill
-  # TODO: This will only work in Linux
-  print -rn $CUTBUFFER | xclip -i -selection clipboard
+  # TODO(terryma): Refactor
+  if [[ "$(uname)" == "Linux" ]]; then
+    print -rn $CUTBUFFER | xclip -i -selection clipboard
+  elif [[ "$(uname)" == "Darwin" ]] ; then
+    print -rn $CUTBUFFER | pbcopy
+  fi
 }
 zle -N x-copy-region-as-kill
 
 # Kill region goes to CLIPBOARD
 function x-kill-region() {
   zle kill-region
-  print -rn $CUTBUFFER | xclip -i -selection clipboard
+  if [[ "$(uname)" == "Linux" ]]; then
+    print -rn $CUTBUFFER | xclip -i -selection clipboard
+  elif [[ "$(uname)" == "Darwin" ]] ; then
+    print -rn $CUTBUFFER | pbcopy
+  fi
 }
 zle -N x-kill-region
 
 # Paste x CLIPBOARD
 function x-yank() {
-  CUTBUFFER=$(xclip -o -selection clipboard)
+  if [[ "$(uname)" == "Linux" ]]; then
+    CUTBUFFER=$(xclip -o -selection clipboard)
+  elif [[ "$(uname)" == "Darwin" ]] ; then
+    CUTBUFFER=$(pbpaste)
+  fi
   zle yank
 }
 zle -N x-yank
 
 function x-vi-yank-whole-line() {
   zle vi-yank-whole-line
-  print -rn $CUTBUFFER | xclip -i -selection clipboard
+  if [[ "$(uname)" == "Linux" ]]; then
+    print -rn $CUTBUFFER | xclip -i -selection clipboard
+  elif [[ "$(uname)" == "Darwin" ]] ; then
+    print -rn $CUTBUFFER | pbcopy
+  fi
 }
 zle -N x-vi-yank-whole-line
 
