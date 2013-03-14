@@ -222,6 +222,7 @@ set smartcase
 " Make search act like search in modern browsers
 set incsearch
 
+" Make regex a little easier to type
 set magic
 
 " Show matching braces
@@ -256,13 +257,6 @@ endif
 " Reload vimrc when edited, also reload the powerline color
 autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
       \ so $MYVIMRC | call Pl#Load() | if has('gui_running') | so $MYGVIMRC | endif
-
-" Set font according to system
-if has("macunix")
-  set gfn=menlo\ for\ powerline:h12
-elseif has("unix")
-  set gfn=Ubuntu\ Mono\ for\ Powerline\ 12
-endif
 
 " 256bit terminal
 set t_Co=256
@@ -633,7 +627,14 @@ noremap <c-l> <c-w>l
 " Ctrl-c: Rope
 
 " Ctrl-v: Paste system clipboard
+" NOTE: This shouldn't be needed anymore since we've turned on
+" clipboard=unnamedplus
 nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
+" if has("unix")
+  " " This works much more reliably when trying to paste from Vim remotely
+  " " TODO Maybe only do this through a remote connection?
+  " nnoremap <silent> <c-v> :r!xsel -b<CR>
+" endif
 
 " Ctrl-b: Scroll one full screen back
 " Strange, backward one screen seems to be off by one
@@ -695,15 +696,14 @@ inoremap <c-l> <right>
 
 " Ctrl-z: This is the command key for tmux
 
-" Ctrl-x: Delete char under curosr
-inoremap <c-x> <c-o>x
+" Ctrl-x: Delete char under cursor. (If we simply use x, it wouldn't delete
+" newline chars
+inoremap <c-x> <right><c-o>X
 
 " Ctrl-c: Inserts line below
 inoremap <c-c> <c-o>o
 
-" Ctrl-v: Paste to the system clipboard
-inoremap <c-v> <esc>:set paste<cr><esc>"+gp:set nopaste<cr>a
-
+" TODO Ctrl-v:
 " TODO Ctrl-b:
 
 " Ctrl-n: Auto complete next
@@ -717,7 +717,14 @@ inoremap <c-v> <esc>:set paste<cr><esc>"+gp:set nopaste<cr>a
 "===============================================================================
 
 " Ctrl-c: Copy to the system clipboard
+" NOTE: This shouldn't be necessary anymore since we're turned on
+" clipboard=unnamedplus
 vnoremap <c-c> "+y
+" if has("unix")
+  " " This works much more reliably when trying to copy from Vim remotely
+  " " TODO Maybe only do this through a remote connection?
+  " vnoremap <silent> <c-c> :w !xsel -i -b<CR><CR>
+" endif
 
 " Ctrl-r: Easier search and replace
 vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
@@ -858,8 +865,8 @@ vmap \ <Leader>c<space>
 vnoremap <silent> <CR> y:let @/ = @"<cr>:set hlsearch<cr>
 
 " <bs>: Delete selected
-" This conflicts with neosnippets. Don't enable it
-" vnoremap <bs> x
+" Don't map to vnoremap, since it conflicts with Neosnippet in SELECT mode
+xnoremap <bs> x
 
 " <|>: Reselect visual block after indent
 vnoremap < <gv
@@ -1024,7 +1031,7 @@ nnoremap <silent> [unite]<space> :<C-u>Unite
       \ -buffer-name=files buffer file_mru bookmark file_rec/async<CR>
 
 " Quick file search
-nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file_rec/async<CR>
+nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file_rec/async file/new<CR>
 
 " Quick MRU search
 nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
@@ -1032,9 +1039,11 @@ nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
 " Quick commands
 nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
 
+" Quick bookmarks
+nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 " Fuzzy search from current buffer
-nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir
-      \ -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
+" nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir
+      " \ -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
 
 " Quick registers
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>

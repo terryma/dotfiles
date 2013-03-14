@@ -116,6 +116,34 @@ function chpwd() {
     l
 }
 
+# Copy selected region to CLIPBOARD
+function x-copy-region-as-kill() {
+  zle copy-region-as-kill
+  # TODO: This will only work in Linux
+  print -rn $CUTBUFFER | xclip -i -selection clipboard
+}
+zle -N x-copy-region-as-kill
+
+# Kill region goes to CLIPBOARD
+function x-kill-region() {
+  zle kill-region
+  print -rn $CUTBUFFER | xclip -i -selection clipboard
+}
+zle -N x-kill-region
+
+# Paste x CLIPBOARD
+function x-yank() {
+  CUTBUFFER=$(xclip -o -selection clipboard)
+  zle yank
+}
+zle -N x-yank
+
+function x-vi-yank-whole-line() {
+  zle vi-yank-whole-line
+  print -rn $CUTBUFFER | xclip -i -selection clipboard
+}
+zle -N x-vi-yank-whole-line
+
 # Zsh's history-beginning-search-backward is very close to Vim's C-x C-l
 history-beginning-search-backward-then-append() {
   zle history-beginning-search-backward
@@ -289,8 +317,8 @@ case "$TERM" in
 
     # Backspace: Delete previous char
     bindkey -M viins '^?' backward-delete-char
-    # Ctrl-q: Delete next word
-    bindkey -M viins '^q' kill-word
+    # Ctrl-q: Quoted insert (Default is Ctrl-v)
+    bindkey -M viins '^q' quoted-insert
     # Ctrl-w: Delete previous word
     bindkey -M viins '^w' backward-kill-word
     # Ctrl-e: Move to the end of line
@@ -300,22 +328,22 @@ case "$TERM" in
     # Ctrl-t: Set mark
     bindkey -M viins '^t' set-mark-command
     # Ctrl-y: Copy the area from the cursor to the mark to the kill buffer
-    bindkey -M viins '^y' copy-region-as-kill
+    bindkey -M viins '^y' x-copy-region-as-kill
     # Ctrl-u: Deletes everything before cursor (u is on left)
     bindkey -M viins '^u' backward-kill-line
     # Ctrl-i: Same as tab
     # Ctrl-o: Deletes everything after cursor (o is on right) (Commonly Ctrl-k)
     bindkey -M viins '^o' kill-line
-    # Ctrl-p: Insert the contents of the kill buffer at the cursor
-    bindkey -M viins '^p' yank
+    # Ctrl-p: TODO
+    # bindkey -M viins '^p'
     # Ctrl-a: Go to the beginning of line
     bindkey -M viins '^a' beginning-of-line
     # Ctrl-s: Search forwards in history
     bindkey -M viins '^s' history-incremental-pattern-search-forward
     # Ctrl-d: Delete next word
     bindkey -M viins '^d' kill-word
-    # Ctrl-f: Go down in history
-    bindkey -M viins '^f' down-line-or-history
+    # Ctrl-f: Go up in history
+    bindkey -M viins '^f' up-line-or-history
     # Ctrl-g: Undo
     bindkey -M viins '^g' undo
     # Ctrl-h: Move one word to the left
@@ -334,12 +362,15 @@ case "$TERM" in
     # Ctrl-x: Delete character under cursor
     bindkey -M viins '^x' delete-char
     # Ctrl-c: Terminates
-    # Ctrl-v: TODO
-    # Ctrl-b: Go up in history
-    bindkey -M viins '^b' up-line-or-history
+    # Ctrl-v: Insert the contents of the kill buffer at the cursor
+    bindkey -M viins '^v' x-yank
+    # Ctrl-b: Go down in history
+    bindkey -M viins '^b' down-line-or-history
     # Ctrl-m: Same as Enter
     # Ctrl-n: Clear the entire screen (cleaN)
     bindkey -M viins '^n' clear-screen
+    # Ctrl-Space: Quickly yank the entire line into the x CLIPBOARD
+    bindkey -M viins '^@' x-vi-yank-whole-line
 
     # Alt-k: Move to next directory in history
     bindkey -M viins -s '^[k' "→\r"
