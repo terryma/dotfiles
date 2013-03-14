@@ -1,8 +1,12 @@
-# config: global configurations
+# Configs
 config defaultToCurrentScreen true
 config windowHintsShowIcons true
 config windowHintsIgnoreHiddenWindows false
 config windowHintsSpread true
+
+# Monitor Aliases
+alias mon-laptop 1920x1080
+alias mon-thunderbolt 2560x1600
 
 # alias: create alias variables
 alias full move screenOriginX;screenOriginY screenSizeX;screenSizeY
