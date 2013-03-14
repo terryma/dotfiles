@@ -53,8 +53,8 @@ bind k:${hyper} focus right
 # Hyper+l: Move window to right half
 bind l:${hyper} ${righthalf}
 
-# Hyper+Return: Move window full screen
-bind return:${hyper} ${full}
+# Hyper+Space: Move window full screen
+bind space:${hyper} ${full}
 
 # Application switcher
 bind b:${hyper} focus 'Google Chrome'
@@ -62,6 +62,7 @@ bind t:${hyper} focus 'iTerm'
 # Hyper+n: Switches to personal notes in nvAlt, mapped in nvAlt itself
 # Hyper+m: Switches to work notes in nvAlt, mapped in nvAlt itself
 
-bind space:${hyper} layout 1monitor
+# Hyper+Enter: Reset the default layout and focus Chrome and iTerm
+bind return:${hyper} sequence layout 1monitor | focus 'Google Chrome' | focus 'iTerm'
 
 # source: load configs from another file
