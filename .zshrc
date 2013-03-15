@@ -42,7 +42,7 @@ autoload zmv
 ################################################################################
 # Vars
 ################################################################################
-export PATH=~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python:$PATH
+export PATH=~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/local/share/python:/usr/local/share/npm/bin:$PATH
 export EDITOR=vim
 # Use vimpager as PAGER
 export VIMPAGER_RC=~/.dotfiles/.zsh/.vimpagerrc
@@ -51,6 +51,9 @@ export VISUAL=vim
 export P4DIFF="gvimdiff -f -R"
 if [ -f /usr/local/heroku/bin/heroku ]; then
   export PATH=/usr/local/heroku/bin:$PATH
+fi
+if [ -d /usr/local/lib/node_modules ]; then
+  export NODE_PATH=/usr/local/share/npm/lib/node_modules
 fi
 export KEYTIMEOUT=1
 
@@ -89,6 +92,11 @@ alias .="cd ~/.dotfiles"
 ################################################################################
 # Initialize rbenv
 if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+
+# Important. Under Mac OS X, make sure to disable /usr/libexec/path_helper to
+# prevent non-interactive zsh to have the wrong path. See
+# https://github.com/dotphiles/dotzsh#mac-os-x
+# run 'sudo chmod ugo-x /usr/libexec/path_helper'
 
 ################################################################################
 # fasd
@@ -360,8 +368,8 @@ case "$TERM" in
     bindkey -M viins '^d' kill-word
     # Ctrl-f: Go up in history
     bindkey -M viins '^f' up-line-or-history
-    # Ctrl-g: Undo
-    bindkey -M viins '^g' undo
+    # Ctrl-g: Go down in history
+    bindkey -M viins '^g' down-line-or-history
     # Ctrl-h: Move one word to the left
     bindkey -M viins '^h' backward-word
     # Ctrl-j: Move one character to the left
@@ -380,8 +388,8 @@ case "$TERM" in
     # Ctrl-c: Terminates
     # Ctrl-v: Insert the contents of the kill buffer at the cursor
     bindkey -M viins '^v' x-yank
-    # Ctrl-b: Go down in history
-    bindkey -M viins '^b' down-line-or-history
+    # Ctrl-b: TODO
+    # bindkey -M viins '^b' down-line-or-history
     # Ctrl-m: Same as Enter
     # Ctrl-n: Clear the entire screen (cleaN)
     bindkey -M viins '^n' clear-screen

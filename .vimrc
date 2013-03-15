@@ -25,6 +25,7 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
 NeoBundle 'Shougo/unite-help'
 NeoBundle 'Shougo/unite-session'
+NeoBundle 'thinca/vim-unite-history'
 NeoBundle 'mileszs/ack.vim'
 
 " Code completion
@@ -53,7 +54,9 @@ NeoBundle 'Shougo/vimshell'
 
 " File types
 " NeoBundle 'mattn/zencoding-vim' "HTML
+NeoBundle 'rstacruz/sparkup', {'rtp': 'vim'}
 NeoBundle 'tpope/vim-markdown' "Markdown
+NeoBundle 'suan/vim-instant-markdown' "Markdown
 NeoBundle 'vim-scripts/deb.vim' "Debian packages
 
 " Git
@@ -98,14 +101,14 @@ NeoBundle 'kana/vim-submode'
 NeoBundle 'kana/vim-scratch'
 NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'sjl/gundo.vim'
-" NeoBundle 'kana/vim-smartinput'
 NeoBundle 't9md/vim-quickhl'
-NeoBundle 'kana/vim-arpeggio'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mattn/gist-vim'
-" NeoBundle 'Shougo/echodoc'
 
 " Ones that I don't really use anymore
+" NeoBundle 'kana/vim-arpeggio'
+" NeoBundle 'kana/vim-smartinput'
+" NeoBundle 'Shougo/echodoc'
 " NeoBundle 'klen/python-mode'
 " NeoBundle 'nathanaelkane/vim-indent-guides'
 " NeoBundle 'hynek/vim-python-pep8-indent'
@@ -557,8 +560,8 @@ nnoremap - <c-x>
 " Ctrl-e: Unite outline
 nmap <c-e> [unite]o
 
-" Ctrl-r: Easier search and replace. Redo is remapped to U
-nnoremap <c-r> :%s/<c-r><c-w>//gc<left><left><left>
+" Ctrl-r: Command history using Unite, this matches my muscle memory in zsh
+nmap <c-r> [unite];
 
 " Ctrl-y: Unite line
 nmap <c-y> [unite]l
@@ -601,6 +604,8 @@ nmap <c-a> viwS
 nnoremap <c-s><c-s> :Unite grep:.::<C-r><C-w><CR>
 " Ctrl-sd: Find word in current directory (prompt for word)
 nnoremap <c-s><c-d> :Unite grep:.<CR>
+" Ctrl-sr: Easier search and replace
+nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
 
 " Ctrl-d: Scroll half a screen down
 
@@ -686,7 +691,7 @@ inoremap <c-a> <esc>I
 
 " TODO Ctrl-f: 
 
-" Ctrl-g: 
+" TODO Ctrl-g:
 
 " Ctrl-[hjkl]: Move cursor
 inoremap <c-h> <left>
@@ -704,13 +709,14 @@ inoremap <c-x> <right><c-o>X
 inoremap <c-c> <c-o>o
 
 " TODO Ctrl-v:
+
 " TODO Ctrl-b:
 
 " Ctrl-n: Auto complete next
 
 " Ctrl-m: Same as Enter
 
-" TODO Ctrl-space:
+" Ctrl-space: This is the execute map for Sparkup
 
 "===============================================================================
 " Visual Mode Ctrl Key Mappings
@@ -811,7 +817,8 @@ nmap <space>t <Plug>(scratch-open)
 nmap \ <Leader>c<space>
 " a: Insert after cursor
 " s: Substitute
-" d: Delete
+" d: Delete into the blackhole register to not clobber the last yank
+nnoremap d "_d
 " f: Find 
 " g: Many functions
 " gp to visually select pasted text
@@ -829,7 +836,8 @@ nnoremap :" ,
 " ': Go to mark
 " z: Many functions
 " x: Delete char
-" c: Change
+" c: Change into the blackhole register to not clobber the last yank
+nnoremap c "_c
 " v: Visual mode
 " b: Move word backward
 " n: Next, keep search matches in the middle of the window
@@ -858,13 +866,17 @@ nnoremap <bs> :<C-u>NumbersToggle<CR>
 " deleted text
 vnoremap p "_dP
 
+" d: Delete into the blackhole register to not clobber the last yank. To 'cut',
+" use 'x' instead
+vnoremap d "_d
+
 " \: Toggle comment
 vmap \ <Leader>c<space>
 
-" <cr>: Highlight visual selections
+" Enter: Highlight visual selections
 vnoremap <silent> <CR> y:let @/ = @"<cr>:set hlsearch<cr>
 
-" <bs>: Delete selected
+" Backspace: Delete selected
 " Don't map to vnoremap, since it conflicts with Neosnippet in SELECT mode
 xnoremap <bs> x
 
@@ -1048,6 +1060,9 @@ nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 " Quick registers
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
 
+" Quick yank history
+nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
+
 " Quick outline
 nnoremap <silent> [unite]o :<C-u>Unite -buffer-name=outline -vertical -winwidth=45 outline<CR>
 
@@ -1075,6 +1090,9 @@ nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
 
 " Quick sessions (projects)
 nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=sessions session<CR>
+
+" Quick commands
+nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history history/command command<CR>
 
 " Custom Unite settings
 autocmd MyAutoCmd FileType unite call s:unite_settings()
@@ -1124,6 +1142,9 @@ let g:unite_enable_start_insert = 1
 
 " Enable short source name in window
 " let g:unite_enable_short_source_names = 1
+
+" Enable history yank source
+let g:unite_source_history_yank_enable = 1
 
 " Open in bottom right
 let g:unite_split_rule = "botright"
@@ -1221,12 +1242,6 @@ let g:quickrun_config['*'] = {
       \}
 
 "===============================================================================
-" Zencoding
-"===============================================================================
-
-" let g:user_zen_leader_key = '<space>x'
-
-"===============================================================================
 " ScratchBuffer
 "===============================================================================
 
@@ -1242,11 +1257,23 @@ let g:scratch_show_command = 'hide buffer'
 " Quickhl
 "===============================================================================
 
-" let g:quickhl_colors = [
-      " \ "gui=bold ctermfg=255 ctermbg=153 guifg=#ffffff guibg=#0a7383",
-      " \ "gui=bold guibg=#a07040 guifg=#ffffff",
-      " \ "gui=bold guibg=#4070a0 guifg=#ffffff",
-      " \ ]
+let g:quickhl_colors = [
+      \ "gui=bold ctermfg=255 ctermbg=153 guifg=#ffffff guibg=#0a7383",
+      \ "gui=bold guibg=#a07040 guifg=#ffffff",
+      \ "gui=bold guibg=#4070a0 guifg=#ffffff",
+      \ ]
+
+"===============================================================================
+" Instant Markdown
+"===============================================================================
+
+let g:instant_markdown_slow = 1
+
+"===============================================================================
+" Sparkup
+"===============================================================================
+
+let g:sparkupExecuteMapping = '<c-@>'
 
 "===============================================================================
 " My functions
