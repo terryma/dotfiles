@@ -1,0 +1,15 @@
+session:
+  name: "laptop"
+  windows:
+    - name: "personal notes"
+      clear: true
+      splits:
+        - cmd: "vim -c 'UniteSessionLoad personal-notes' -c 'let g:start_session_from_cmdline = 1'"
+    - name: "work notes"
+      clear: true
+      splits:
+        - cmd: "vim -c 'UniteSessionLoad work-notes' -c 'let g:start_session_from_cmdline = 1'"
+    - name: "scratch"
+      clear: true
+      splits:
+        - cmd: "date"
