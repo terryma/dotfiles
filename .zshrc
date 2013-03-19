@@ -309,7 +309,7 @@ case "$TERM" in
     # Ctrl-q: Quoted insert (Default is Ctrl-v)
     bindkey -M viins '^q' quoted-insert
     # Ctrl-w: Delete previous word
-    bindkey -M viins '^w' backward-kill-word
+    bindkey -M viins '^w' vi-backward-kill-word
     # Ctrl-e: Move to the end of line
     bindkey -M viins '^e' end-of-line
     # Ctrl-r: Search backwards in history
@@ -336,13 +336,13 @@ case "$TERM" in
     # Ctrl-g: Undo
     bindkey -M viins '^g' undo
     # Ctrl-h: Move one word to the left
-    bindkey -M viins '^h' backward-word
+    bindkey -M viins '^h' vi-backward-word
     # Ctrl-j: Move one character to the left
     bindkey -M viins '^j' backward-char
     # Ctrl-k: Move one character to the right
     bindkey -M viins '^k' forward-char
     # Ctrl-l: Move one word to the right
-    bindkey -M viins '^l' forward-word
+    bindkey -M viins '^l' vi-forward-word
     # Ctrl-]: TODO
     # bindkey -M viins '^]'
     # Ctrl-\: TODO
@@ -374,6 +374,8 @@ case "$TERM" in
     bindkey -M viins '\eOB'  down-line-or-history
     bindkey -M viins '^[[B'  down-line-or-history
 
+    # TODO: I really don't use the vi mode that much. Either learn to use them
+    # or get rid of the mappings and go back to Emacs mode
     # VI MODE KEYBINDINGS (cmd mode)
     bindkey -M vicmd 'ca'    change-around
     bindkey -M vicmd 'ci'    change-in
