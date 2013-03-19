@@ -244,9 +244,9 @@ set colorcolumn=+1
 " Lower the delay of escaping out of other modes
 set timeout timeoutlen=1000 ttimeoutlen=0
 
-" Fix meta-keys which generate <Esc>a .. <Esc>z
+" Fix meta-keys which generate <Esc>A .. <Esc>z
 if !has('gui_running')
-  let c='a'
+  let c='A'
   while c <= 'z'
     exec "set <M-".c.">=\e".c
     exec "imap \e".c." <M-".c.">"
@@ -429,17 +429,16 @@ nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
 " Bash like keys for the command line
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
-cnoremap <c-j> <down>
-cnoremap <c-k> <up>
+cnoremap <c-j> <left>
+cnoremap <c-k> <right>
 
-" Ctrl-[hl]: Move left/right by character
-cnoremap <c-h> <left>
-cnoremap <c-l> <right>
+" Ctrl-[hl]: Move left/right by word
+cnoremap <c-h> <s-left>
+cnoremap <c-l> <s-right>
 
-" Alt-[hl]: Moves left/right by word, since Shift-left/right are used by tmux
-" to switch panes
-cnoremap <m-h> <s-left>
-cnoremap <m-l> <s-right>
+cnoremap <c-@> <c-f>
+cnoremap <c-f> <up>
+cnoremap <c-b> <down>
 
 " Paste to command mode using Ctrl-V
 cnoremap <c-v> <c-r>"
@@ -744,6 +743,11 @@ nnoremap <m-d> mzyyp`zj
 " Alt-[jk]: Move current line up or down
 nnoremap <silent> <m-j> mz:m+<cr>`z
 nnoremap <silent> <m-k> mz:m-2<cr>`z
+
+" Alt-Shift-j: Duplicate line (I have three mappings for this now, which one am
+" I most comfortable hitting? TODO)
+nnoremap <silent> <m-J> mzyyp`zj
+nnoremap <silent> <m-K> mzyyp`z
 
 " Alt-o: Jump back in the changelist
 nnoremap <m-o> g;

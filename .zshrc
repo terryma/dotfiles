@@ -283,17 +283,6 @@ zle -N change-around
 ################################################################################
 case "$TERM" in
   *xterm*|screen-256color)
-    # alt + arrows (Alt-arrow is used to switch panes in tmux)
-    # bindkey '[d' backward-word
-    # bindkey '[c' forward-word
-    # bindkey '^[[1;3d' backward-word
-    # bindkey '^[[1;3c' forward-word
-
-    # ctrl + arrows
-    bindkey '^[od' backward-word
-    bindkey '^[oc' forward-word
-    bindkey '^[[1;5D' backward-word
-    bindkey '^[[1;5C' forward-word
 
     # home / end
     bindkey '^[[1~' beginning-of-line
