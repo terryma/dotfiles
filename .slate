@@ -1,8 +1,12 @@
-# config: global configurations
+# Configs
 config defaultToCurrentScreen true
 config windowHintsShowIcons true
 config windowHintsIgnoreHiddenWindows false
 config windowHintsSpread true
+
+# Monitor Aliases
+alias mon-retina 1920x1200
+alias mon-30in 2560x1600
 
 # alias: create alias variables
 alias full move screenOriginX;screenOriginY screenSizeX;screenSizeY
@@ -12,18 +16,22 @@ alias topleft corner top-left resize:screenSizeX/2;screenSizeY/2
 alias topright corner top-right resize:screenSizeX/2;screenSizeY/2
 alias bottomleft corner bottom-left resize:screenSizeX/2;screenSizeY/2
 alias bottomright corner bottom-right resize:screenSizeX/2;screenSizeY/2
+alias contact-list corner top-right
+alias chat-window corner bottom-left resize:screenSizeX/4;screenSizeY/2
 
-# layout: create layout
+# Layout when using a single monitor
 layout 1monitor 'iTerm':REPEAT ${righthalf}
 layout 1monitor 'Google Chrome':REPEAT ${lefthalf}
+layout 1monitor 'Adium':IGNORE_FAIL,TITLE_ORDER_REGEX=Contacts ${contact-list} | ${chat-window}
+layout 1monitor 'nvALT':REPEAT ${righthalf}
 
-# default: default certain screen configurations to layouts
-
-# bind: binds a key to an action
+# Default Layouts
+default 1monitor resolutions:${mon-retina}
+default 1monitor resolutions:${mon-30in}
 
 ###############################################################################
 # Key Bindings
-# #############################################################################
+###############################################################################
 
 # Hyper key
 alias hyper ctrl;shift;alt;cmd
@@ -45,8 +53,8 @@ bind k:${hyper} focus right
 # Hyper+l: Move window to right half
 bind l:${hyper} ${righthalf}
 
-# Hyper+Return: Move window full screen
-bind return:${hyper} ${full}
+# Hyper+f: Move window full screen
+bind f:${hyper} ${full}
 
 # Application switcher
 bind b:${hyper} focus 'Google Chrome'
@@ -54,6 +62,7 @@ bind t:${hyper} focus 'iTerm'
 # Hyper+n: Switches to personal notes in nvAlt, mapped in nvAlt itself
 # Hyper+m: Switches to work notes in nvAlt, mapped in nvAlt itself
 
-bind space:${hyper} layout 1monitor
+# Hyper+Enter: Reset the default layout and focus Chrome and iTerm
+bind return:${hyper} sequence layout 1monitor | focus 'Google Chrome' | focus 'iTerm'
 
 # source: load configs from another file
