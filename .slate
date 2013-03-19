@@ -53,8 +53,8 @@ bind k:${hyper} focus right
 # Hyper+l: Move window to right half
 bind l:${hyper} ${righthalf}
 
-# Hyper+Space: Move window full screen
-bind space:${hyper} ${full}
+# Hyper+f: Move window full screen
+bind f:${hyper} ${full}
 
 # Application switcher
 bind b:${hyper} focus 'Google Chrome'

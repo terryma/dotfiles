@@ -56,6 +56,7 @@ NeoBundle 'Shougo/vimshell'
 " NeoBundle 'mattn/zencoding-vim' "HTML
 NeoBundle 'rstacruz/sparkup', {'rtp': 'vim'}
 NeoBundle 'tpope/vim-markdown' "Markdown
+" NeoBundle 'plasticboy/vim-markdown' "Markdown
 NeoBundle 'suan/vim-instant-markdown' "Markdown
 NeoBundle 'vim-scripts/deb.vim' "Debian packages
 
@@ -429,20 +430,21 @@ nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
 " Command-line Mode Key Mappings
 "===============================================================================
 
-" Bash like keys for the command line
+" Bash like keys for the command line. These resemble personal zsh mappings
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
-cnoremap <c-j> <down>
-cnoremap <c-k> <up>
+cnoremap <c-j> <left>
+cnoremap <c-k> <right>
 
-" Ctrl-[hl]: Move left/right by character
-cnoremap <c-h> <left>
-cnoremap <c-l> <right>
+" Ctrl-[hl]: Move left/right by word
+cnoremap <c-h> <s-left>
+cnoremap <c-l> <s-right>
 
-" Alt-[hl]: Moves left/right by word, since Shift-left/right are used by tmux
-" to switch panes
-cnoremap <m-h> <s-left>
-cnoremap <m-l> <s-right>
+" Ctrl-Space: Show history
+cnoremap <c-@> <c-f>
+
+cnoremap <c-f> <up>
+cnoremap <c-b> <down>
 
 " Paste to command mode using Ctrl-V
 cnoremap <c-v> <c-r>"
@@ -1181,7 +1183,7 @@ let g:unite_source_session_enable_auto_save = 1
 " Pop up session selection if no file is specified
 autocmd MyAutoCmd VimEnter * call s:unite_session_on_enter()
 function! s:unite_session_on_enter()
-  if !argc()
+  if !argc() && !exists("g:start_session_from_cmdline")
     Unite -buffer-name=sessions session
   endif
 endfunction
@@ -1274,6 +1276,32 @@ let g:instant_markdown_slow = 1
 "===============================================================================
 
 let g:sparkupExecuteMapping = '<c-@>'
+
+"===============================================================================
+" Markdown
+"===============================================================================
+" These are ammended on top of the existing markdown settings from
+" tpope/vim-markdown
+autocmd MyAutoCmd FileType markdown call s:markdown_settings()
+function! s:markdown_settings()
+  " Auto insert bullet when constructing lists
+  setlocal comments=b:-
+  setlocal formatoptions+=ro
+  setlocal wrap
+  setlocal tw=0
+  inoremap <buffer> <Tab> <C-t>
+  " Since completion is off, reassign tab and shift-tab to indent and unindent
+  " in insert mode
+  inoremap <buffer> [Z <C-d>
+endfunction
+
+  " Turn off completion, it's more disruptive than helpful
+function! s:markdown_disable_autocomplete()
+  if &ft ==# 'markdown'
+    :NeoComplCacheLock
+  endif
+endfunction
+autocmd MyAutoCmd BufEnter * call s:markdown_disable_autocomplete()
 
 "===============================================================================
 " My functions
