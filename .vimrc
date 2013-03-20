@@ -100,7 +100,7 @@ NeoBundle 'vim-scripts/TaskList.vim'
 NeoBundle 'AndrewRadev/multichange.vim'
 NeoBundle 'kana/vim-submode'
 NeoBundle 'kana/vim-scratch'
-NeoBundle 'myusuf3/numbers.vim'
+" NeoBundle 'myusuf3/numbers.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 'mattn/webapi-vim'
@@ -151,7 +151,8 @@ set mouse=a
 set virtualedit=onemore
 
 " Use relative numbering to help with motion
-set relativenumber
+" set relativenumber
+set number
 
 " Always splits to the right and below
 set splitright
@@ -177,11 +178,26 @@ set history=10000
 set autoread
 
 " Set to auto write file
-set autowrite
+set autowriteall
 
 " Display unprintable chars
 set list
-set listchars=tab:>.,trail:.,extends:#,nbsp:.
+" set listchars=tab:>.,trail:.,extends:#,nbsp:.
+" set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
+set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
+set showbreak=↪
+
+" listchar=trail is not as flexible, use the below to highlight trailing
+" whitespace
+highlight ExtraWhitespace ctermbg=red guibg=red
+match ExtraWhitespace /\s\+$/
+autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
+autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
+autocmd InsertLeave * match ExtraWhitespace /\s\+$/
+autocmd BufWinLeave * call clearmatches()
+
+" Save when losing focus
+" autocmd MyAutoCmd FocusLost * :silient! wall
 
 " Minimal number of screen lines to keep above and below the cursor
 set scrolloff=10
@@ -510,10 +526,13 @@ nnoremap <bar> :vsp<cr>
 noremap H ^
 
 " J: Scroll down, Ctrl-e is a little difficult to reach
-noremap J 3<c-e>3j
+" noremap J 3<c-e>3j
+" Experiment: J: B, since it's easier for me to hit
+noremap J B
+noremap K W
 
 " K: Scroll up, Ctrl-y is a difficult to reach
-noremap K 3<c-y>3k
+" noremap K 3<c-y>3k
 
 " L: Go to end of line
 noremap L $
@@ -581,6 +600,9 @@ nnoremap <c-t><c-t> :exe "tabn ".g:lasttab<cr>
 autocmd MyAutoCmd TabLeave * let g:lasttab = tabpagenr()
 
 " Ctrl-u: Scroll half a screen up
+" Experiment: Scroll 3 lines up
+noremap <c-u> 3<c-y>3k
+noremap <c-d> 3<c-e>3j
 
 " Ctrl-i: Go forward in the jumplist, also realign the screen
 nnoremap <c-i> <c-i>zzzv
@@ -709,7 +731,8 @@ inoremap <c-x> <right><c-o>X
 " Ctrl-c: Inserts line below
 inoremap <c-c> <c-o>o
 
-" TODO Ctrl-v:
+" Ctrl-v: Paste
+inoremap <c-v> <c-o>p
 
 " TODO Ctrl-b:
 
