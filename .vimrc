@@ -23,6 +23,7 @@ NeoBundle 'Shougo/vimproc', { 'build': {
 " Fuzzy search
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
+" NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'Shougo/unite-help'
 NeoBundle 'Shougo/unite-session'
 NeoBundle 'thinca/vim-unite-history'
@@ -266,12 +267,16 @@ set timeout timeoutlen=1000 ttimeoutlen=0
 
 " Fix meta-keys which generate <Esc>A .. <Esc>z
 if !has('gui_running')
-  let c='A'
+  let c='a'
   while c <= 'z'
     exec "set <M-".c.">=\e".c
     exec "imap \e".c." <M-".c.">"
     let c = nr2char(1+char2nr(c))
   endw
+  " Explicitly set these Alt-Shift-J and Alt-Shift-K. Setting the whole A-Z
+  " range messes up the mouse scrollwheel somehow.
+  exec "set <M-J>=J"
+  exec "set <M-K>=K"
 endif
 
 " Reload vimrc when edited, also reload the powerline color
@@ -550,7 +555,7 @@ noremap Z %
 
 " C: Deletes rest of line and go to insert mode
 
-" V: Visual line mode
+" V: Visual line modj
 
 " B: Move word backward
 
@@ -638,11 +643,16 @@ nnoremap <c-f> zz<c-f>zz
 " Ctrl-g: Prints current file name
 nnoremap <c-g> 1<c-g>
 
+" EXPERIMENT: Ctrl-h Move around splits
+
 " Ctrl-[hjkl]: Move around splits
-noremap <c-h> <c-w>h
-noremap <c-j> <c-w>j
-noremap <c-k> <c-w>k
-noremap <c-l> <c-w>l
+nnoremap <c-h> <c-w>w
+nnoremap <c-l> <c-w>w
+
+" Ctrl-j: Move down
+" Ctrl-k: Move up
+nnoremap <c-j> 3<c-e>3j
+nnoremap <c-k> 3<c-y>3k
 
 " Ctrl-;: Vim can't map this
 
@@ -1093,7 +1103,7 @@ nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
 nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
 
 " Quick outline
-nnoremap <silent> [unite]o :<C-u>Unite -buffer-name=outline -vertical -winwidth=45 outline<CR>
+nnoremap <silent> [unite]o :<C-u>Unite -buffer-name=outline -vertical outline<CR>
 
 " Quickly switch lcd
 nnoremap <silent> [unite]d
