@@ -197,9 +197,6 @@ autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
 autocmd InsertLeave * match ExtraWhitespace /\s\+$/
 autocmd BufWinLeave * call clearmatches()
 
-" Save when losing focus
-" autocmd MyAutoCmd FocusLost * :silient! wall
-
 " Minimal number of screen lines to keep above and below the cursor
 set scrolloff=10
 
@@ -273,10 +270,11 @@ if !has('gui_running')
     exec "imap \e".c." <M-".c.">"
     let c = nr2char(1+char2nr(c))
   endw
-  " Explicitly set these Alt-Shift-J and Alt-Shift-K. Setting the whole A-Z
-  " range messes up the mouse scrollwheel somehow.
-  exec "set <M-J>=J"
-  exec "set <M-K>=K"
+  " Map these two on its own to enable Alt-Shift-J and Alt-Shift-K. If I map the
+  " whole spectrum of A-Z, it screws up mouse scrolling somehow. Mouse events
+  " must be interpreted as some form of escape sequence that interferes.
+  exec 'set <M-J>=J'
+  exec 'set <M-K>=K'
 endif
 
 " Reload vimrc when edited, also reload the powerline color
@@ -858,7 +856,12 @@ nmap \ <Leader>c<space>
 " s: Substitute
 " d: Delete into the blackhole register to not clobber the last yank
 nnoremap d "_d
-" f: Find 
+" f: Find. Also support repeating with .
+nnoremap <Plug>OriginalSemicolon ;
+nnoremap f :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>f
+nnoremap t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
+nnoremap F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
+nnoremap T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
 " g: Many functions
 " gp to visually select pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
