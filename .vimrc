@@ -4,6 +4,7 @@ set nocompatible
 "===============================================================================
 " NeoBundle
 "===============================================================================
+
 if has ('vim_starting')
   set runtimepath+=~/.vim/bundle/neobundle.vim/
 endif
@@ -23,7 +24,6 @@ NeoBundle 'Shougo/vimproc', { 'build': {
 " Fuzzy search
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
-" NeoBundle 'h1mesuke/unite-outline'
 NeoBundle 'Shougo/unite-help'
 NeoBundle 'Shougo/unite-session'
 NeoBundle 'thinca/vim-unite-history'
@@ -54,10 +54,8 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'Shougo/vimshell'
 
 " File types
-" NeoBundle 'mattn/zencoding-vim' "HTML
-NeoBundle 'rstacruz/sparkup', {'rtp': 'vim'}
+NeoBundle 'rstacruz/sparkup', {'rtp': 'vim'} "HTML
 NeoBundle 'tpope/vim-markdown' "Markdown
-" NeoBundle 'plasticboy/vim-markdown' "Markdown
 NeoBundle 'suan/vim-instant-markdown' "Markdown
 NeoBundle 'vim-scripts/deb.vim' "Debian packages
 
@@ -96,12 +94,10 @@ NeoBundle 'nanotech/jellybeans.vim'
 NeoBundle 'vim-scripts/wombat256.vim'
 
 " Misc
-NeoBundle 'vim-scripts/BufOnly.vim'
-NeoBundle 'vim-scripts/TaskList.vim'
-NeoBundle 'AndrewRadev/multichange.vim'
 NeoBundle 'kana/vim-submode'
 NeoBundle 'kana/vim-scratch'
-" NeoBundle 'myusuf3/numbers.vim'
+NeoBundle 'vim-scripts/BufOnly.vim'
+NeoBundle 'AndrewRadev/multichange.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 'mattn/webapi-vim'
@@ -109,6 +105,8 @@ NeoBundle 'mattn/gist-vim'
 NeoBundle 'koron/nyancat-vim'
 
 " Ones that I don't really use anymore
+" NeoBundle 'vim-scripts/TaskList.vim'
+" NeoBundle 'myusuf3/numbers.vim'
 " NeoBundle 'kana/vim-arpeggio'
 " NeoBundle 'kana/vim-smartinput'
 " NeoBundle 'Shougo/echodoc'
@@ -126,7 +124,7 @@ syntax enable
 NeoBundleCheck
 
 "===============================================================================
-" Local settings
+" Local Settings
 "===============================================================================
 
 try
@@ -152,8 +150,7 @@ set mouse=a
 " Give one virtual space at end of line
 set virtualedit=onemore
 
-" Use relative numbering to help with motion
-" set relativenumber
+" Turn on line number
 set number
 
 " Always splits to the right and below
@@ -162,8 +159,8 @@ set splitbelow
 
 " Turn on cursorline only on active window
 augroup MyAutoCmd
-    autocmd WinLeave * setlocal nocursorline
-    autocmd WinEnter,BufRead * setlocal cursorline
+  autocmd WinLeave * setlocal nocursorline
+  autocmd WinEnter,BufRead * setlocal cursorline
 augroup END
 
 set background=dark
@@ -184,8 +181,6 @@ set autowriteall
 
 " Display unprintable chars
 set list
-" set listchars=tab:>.,trail:.,extends:#,nbsp:.
-" set listchars=tab:▸\ ,eol:¬,extends:❯,precedes:❮
 set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
 set showbreak=↪
 
@@ -340,7 +335,7 @@ endif
 set updatetime=1000
 
 "===============================================================================
-" Function key mappings
+" Function Key Mappings
 "===============================================================================
 
 " <F1>: Help
@@ -371,10 +366,7 @@ nnoremap <Leader>`` :qa!<cr>
 nnoremap <silent> <Leader>1 :set paste!<cr>
 
 " <Leader>2: Toggle Tagbar
-nnoremap <Leader>2 :TagbarToggle<cr>
-
-" <Leader>3: Open Tasklist
-nnoremap <Leader>3 <Plug>TaskList
+nnoremap <silent> <Leader>2 :TagbarToggle<cr>
 
 " <Leader>0: Run the visually selected code in python and replace it with the
 " output
@@ -382,7 +374,6 @@ vnoremap <silent> <Leader>0 :!python<cr>
 
 " <Leader>tab: Toggles NERDTree
 nnoremap <Leader><tab> :NERDTreeToggle<cr>
-" nnoremap <expr><Leader><tab> g:my_open_explorer_command()
 
 " <Leader>q: Quit all, very useful in vimdiff
 nnoremap <Leader>q :qa<cr>
@@ -406,6 +397,8 @@ nnoremap <Leader>o :only<cr>
 
 " TODO <Leader> p
 
+" <Leader>a: TODO
+
 " <Leader>s: Spell checking shortcuts
 nnoremap <Leader>ss :setlocal spell!<cr>
 nnoremap <Leader>sj ]s
@@ -414,24 +407,23 @@ nnoremap <Leader>sa zg]s
 nnoremap <Leader>sd 1z=
 nnoremap <Leader>sf z=
 
-" <Leader>d: copy line down (d for duplicate)
-nnoremap <Leader>d mzyyp`zj
+" <Leader>d: TODO
 
 " <Leader>f: EasyMotion
 
 " <Leader>g: Fugitive shortcuts
 
-" <Leader>z: unused
+" <Leader>z: TODO
 
-" <Leader>x: unused
+" <Leader>x: TODO
 
 " <Leader>c*: NERDCommenter mappings
 " <Leader>cd: Switch to the directory of the open buffer
 nnoremap <Leader>cd :cd %:p:h<cr>:pwd<cr>
 
-" <Leader>v: unused
+" <Leader>v: TODO
 
-" <Leader>b: unused
+" <Leader>b: TODO
 
 " <Leader>n: NERDTreeFind
 nnoremap <silent> <Leader>n :NERDTreeFind<cr> :wincmd p<cr>
@@ -440,7 +432,7 @@ nnoremap <silent> <Leader>n :NERDTreeFind<cr> :wincmd p<cr>
 nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
       \ path '".expand("%:p")."' to clipboard"<cr>
 
-" <Leader><space>: unused
+" <Leader><space>: TODO
 
 " <Leader>F: EasyMotion
 
@@ -483,10 +475,13 @@ cnoremap w!! w !sudo tee % >/dev/null
 " Normal Mode Shift Key Mappings
 "===============================================================================
 
+" Shift-Tab: NERDTree
+nnoremap [Z :NERDTreeToggle<CR>
+
 " Q: Closes the window
 nnoremap Q :q<cr>
 
-" W: Move word forward (TODO Replaced by W, maybe remap?)
+" W: Move word forward (TODO Replaced by K, maybe remap?)
 
 " E: Move to end of word forward
 
@@ -518,7 +513,7 @@ nnoremap <bar> :vsp<cr>
 
 " A: Insert at end of line
 
-" S: Deletes the line and puts us in insert mode
+" S: Vim-seek backward
 
 " D: Deletes til the end of line
 
@@ -526,8 +521,9 @@ nnoremap <bar> :vsp<cr>
 
 " G: Go to end of file
 
-" H: Go to beginning of line
-noremap H ^
+" H: Go to beginning of line. Repeated invocation goes to previous line
+" noremap H 0
+noremap <expr> H getpos('.')[2] == 1 ? 'k' : '0'
 
 " J: Move WORD backward. This is just more natural to me
 noremap J B
@@ -535,12 +531,20 @@ noremap J B
 " K: Move WORD forward. This is just more natural to me
 noremap K W
 
-" L: Go to end of line
-noremap L g_
+" L: Go to end of line. Repeated invocation goes to next line
+" noremap L g_
+noremap <expr> L <SID>end_of_line()
+function! s:end_of_line()
+  let l = len(getline('.'))
+  if (l == 0 || l == getpos('.')[2])
+    return 'jg_'
+  else
+    return 'g_'
+endfunction
 
-" :: Go to command-line mode. Since ; is also used to go to command-line mode,
-" : should be mapped to what ; used to do (next when doing fFtT). But since
-" we're using EasyMotion to replace what fFtT used to do, it renders ; obsolete
+" :: Remap to ,. After all the remapping, ; goes to command mode, . repeats
+" fFtT, : repeats it backward, and , is the leader
+noremap : ,
 
 " ": Handles registers
 
@@ -600,6 +604,7 @@ autocmd MyAutoCmd TabLeave * let g:lasttab = tabpagenr()
 nmap <c-y> [unite]y
 
 " Ctrl-u: Scroll half a screen up
+" TODO Don't like this at all, seems to lose context easily. Prefer C-j/k
 
 " Ctrl-i: Go forward in the jumplist, also realign the screen
 nnoremap <c-i> <c-i>zzzv
@@ -630,8 +635,10 @@ nmap <c-s><c-f> [unite]l
 nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
 
 " Ctrl-d: Scroll half a screen down
+" TODO Don't like this at all, seems to lose context easily. Prefer C-j/k
 
 " Ctrl-f: Scroll one full screen down
+" TODO Don't like this at all, seems to lose context easily. Prefer C-j/k
 nnoremap <c-f> zz<c-f>zz
 
 " Ctrl-g: Prints current file name
@@ -642,12 +649,13 @@ nnoremap <c-g> 1<c-g>
 " and h means 'left', Ctrl-h makes the most sense.
 nnoremap <c-h> <c-w>w
 
-" Ctrl-l: Out(l)ine or (L)ist
+" Ctrl-l: Out(l)ine
 nmap <c-l> [unite]o
 
-" Ctrl-j: Scroll + Move down through the file
-" Ctrl-k: Move up
+" Ctrl-j: Scroll + move down through the file
 nnoremap <c-j> 3<c-e>3j
+
+" Ctrl-k: Scroll + move up through the file
 nnoremap <c-k> 3<c-y>3k
 
 " Ctrl-;: Vim can't map this
@@ -667,6 +675,7 @@ nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
 
 " Ctrl-b: Scroll one full screen back
 " Strange, backward one screen seems to be off by one
+" TODO Don't like this at all, seems to lose context easily. Prefer C-j/k
 nnoremap <c-b> zz<c-b>kzz
 
 " Ctrl-n: Multichange default mapping
@@ -883,10 +892,6 @@ nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
 " l: Right
 " ;: Command mode
 noremap ; :
-" ::: Remap to ';', repeat last fFtT
-nnoremap :: ;
-" :": Remap to ',', repeat last fFtT in opposite direction
-nnoremap :" ,
 " ': Go to mark
 " z: Many functions
 " x: Delete char
@@ -960,8 +965,8 @@ xnoremap W iW
 
 " q quits in certain page types
 autocmd MyAutoCmd FileType help,quickrun,qf
-      \ map <silent> <buffer> q :q<cr>|
-      \ map <silent> <buffer> <esc> :q<cr>
+      \ noremap <silent> <buffer> q :q<cr>|
+      \ noremap <silent> <buffer> <esc> :q<cr>
 
 " json = javascript syntax highlight
 autocmd MyAutoCmd FileType json setlocal syntax=javascript
@@ -1033,7 +1038,6 @@ nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>:Git push<cr>
 hi link EasyMotionTarget WarningMsg
 hi link EasyMotionShade  Comment
 
-" Replace the normal fFtF keys with EasyMotion
 let g:EasyMotion_mapping_f = '<Leader>f'
 let g:EasyMotion_mapping_F = '<Leader>F'
 let g:EasyMotion_mapping_t = '<Leader>t'
@@ -1150,7 +1154,7 @@ nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history history/command comm
 
 " Custom Unite settings
 autocmd MyAutoCmd FileType unite call s:unite_settings()
-function! s:unite_settings()"{{{
+function! s:unite_settings()
 
   " TODO Customize these mappings
   nmap <buffer> <ESC> <Plug>(unite_exit)
@@ -1194,7 +1198,7 @@ function! s:unite_settings()"{{{
   if unite.buffer_name =~# '^outline'
     imap <buffer> <C-l> <Plug>(unite_exit)
   endif
-endfunction"}}}
+endfunction
 
 " Start in insert mode
 let g:unite_enable_start_insert = 1
