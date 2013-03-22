@@ -106,6 +106,7 @@ NeoBundle 'sjl/gundo.vim'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mattn/gist-vim'
+NeoBundle 'koron/nyancat-vim'
 
 " Ones that I don't really use anymore
 " NeoBundle 'kana/vim-arpeggio'
@@ -257,7 +258,7 @@ set laststatus=2
 set encoding=utf-8
 
 " Column width indicator
-set colorcolumn=+1 
+set colorcolumn=+1
 
 " Lower the delay of escaping out of other modes
 set timeout timeoutlen=1000 ttimeoutlen=0
@@ -485,7 +486,7 @@ cnoremap w!! w !sudo tee % >/dev/null
 " Q: Closes the window
 nnoremap Q :q<cr>
 
-" W: Move word forward
+" W: Move word forward (TODO Replaced by W, maybe remap?)
 
 " E: Move to end of word forward
 
@@ -528,17 +529,14 @@ nnoremap <bar> :vsp<cr>
 " H: Go to beginning of line
 noremap H ^
 
-" J: Scroll down, Ctrl-e is a little difficult to reach
-" noremap J 3<c-e>3j
-" Experiment: J: B, since it's easier for me to hit
+" J: Move WORD backward. This is just more natural to me
 noremap J B
+
+" K: Move WORD forward. This is just more natural to me
 noremap K W
 
-" K: Scroll up, Ctrl-y is a difficult to reach
-" noremap K 3<c-y>3k
-
 " L: Go to end of line
-noremap L $
+noremap L g_
 
 " :: Go to command-line mode. Since ; is also used to go to command-line mode,
 " : should be mapped to what ; used to do (next when doing fFtT). But since
@@ -549,18 +547,18 @@ noremap L $
 " Z: Jump to match. Easier to reach than %
 noremap Z %
 
-" X: Deletes character backward
+" X: Deletes character backward (When was the last time I actually used this?)
 
 " C: Deletes rest of line and go to insert mode
 
-" V: Visual line modj
+" V: Visual line mode
 
-" B: Move word backward
+" B: Move word backward (TODO Replaced by J, maybe remap?)
 
 " N: Find next occurrence backward
 nnoremap N Nzzzv
 
-" M: Move cursor to mid screen
+" M: Move cursor to mid screen (When was the last time I actually used this?)
 
 " <: Indent left
 
@@ -580,18 +578,14 @@ nnoremap - <c-x>
 
 " Ctrl-w: Window management
 
-" Ctrl-e: Unite outline
-nmap <c-e> [unite]o
+" Ctrl-e: TODO
 
 " Ctrl-r: Command history using Unite, this matches my muscle memory in zsh
 nmap <c-r> [unite];
 
-" Ctrl-y: Unite line
-nmap <c-y> [unite]l
-
 " Ctrl-t: Go back in tag stack
 
-" Ctrl-t*: Tab operations
+" Ctrl-t*: Tab operations (When was the last time I used tabs?)
 nnoremap <c-t><c-n> :tabnew<cr>
 nnoremap <c-t><c-w> :tabclose<cr>
 nnoremap <c-t><c-j> :tabprev<cr>
@@ -602,10 +596,10 @@ let g:lasttab = 1
 nnoremap <c-t><c-t> :exe "tabn ".g:lasttab<cr>
 autocmd MyAutoCmd TabLeave * let g:lasttab = tabpagenr()
 
+" Ctrl-y: Yanks
+nmap <c-y> [unite]y
+
 " Ctrl-u: Scroll half a screen up
-" Experiment: Scroll 3 lines up
-noremap <c-u> 3<c-y>3k
-noremap <c-d> 3<c-e>3j
 
 " Ctrl-i: Go forward in the jumplist, also realign the screen
 nnoremap <c-i> <c-i>zzzv
@@ -613,7 +607,7 @@ nnoremap <c-i> <c-i>zzzv
 " Ctrl-o: Go back in the jumplist, also realign the screen
 nnoremap <c-o> <c-o>zzzv
 
-" Ctrl-p: Go to previous buffer
+" Ctrl-p: Go to (p)revious buffer
 nnoremap <c-p> <c-^>
 
 " Ctrl-[: Esc
@@ -623,14 +617,16 @@ nnoremap <c-p> <c-^>
 " Ctrl-\: Quick VimShell
 nnoremap <silent> <c-\> :<C-u>VimShellBufferDir -popup -toggle<CR>
 
-" Ctrl-a: Surround shortcut
+" Ctrl-a: Quickly surround word
 nmap <c-a> viwS
 
-" Ctrl-ss: Find word under cursor in current directory
+" Ctrl-ss: (S)earch word under cur(s)or in current directory
 nnoremap <c-s><c-s> :Unite grep:.::<C-r><C-w><CR>
-" Ctrl-sd: Find word in current directory (prompt for word)
+" Ctrl-sd: (S)earch word in current (d)irectory (prompt for word)
 nnoremap <c-s><c-d> :Unite grep:.<CR>
-" Ctrl-sr: Easier search and replace
+" Ctrl-sf: Quickly (s)earch in (f)ile
+nmap <c-s><c-f> [unite]l
+" Ctrl-sr: Easier (s)earch and (r)eplace
 nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
 
 " Ctrl-d: Scroll half a screen down
@@ -641,16 +637,18 @@ nnoremap <c-f> zz<c-f>zz
 " Ctrl-g: Prints current file name
 nnoremap <c-g> 1<c-g>
 
-" EXPERIMENT: Ctrl-h Move around splits
-
-" Ctrl-[hjkl]: Move around splits
+" Ctrl-h: Rotate through the splits. I don't ever use enough splits to justify
+" wasting 4 very easy to hit keys for them. Since vim rotates counter-clockwise,
+" and h means 'left', Ctrl-h makes the most sense.
 nnoremap <c-h> <c-w>w
-nnoremap <c-l> <c-w>w
 
-" Ctrl-j: Move down
+" Ctrl-l: Out(l)ine or (L)ist
+nmap <c-l> [unite]o
+
+" Ctrl-j: Scroll + Move down through the file
 " Ctrl-k: Move up
-noremap <c-j> 3<c-e>3j
-noremap <c-k> 3<c-y>3k
+nnoremap <c-j> 3<c-e>3j
+nnoremap <c-k> 3<c-y>3k
 
 " Ctrl-;: Vim can't map this
 
@@ -666,11 +664,6 @@ noremap <c-k> 3<c-y>3k
 " NOTE: This shouldn't be needed anymore since we've turned on
 " clipboard=unnamedplus
 nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
-" if has("unix")
-  " " This works much more reliably when trying to paste from Vim remotely
-  " " TODO Maybe only do this through a remote connection?
-  " nnoremap <silent> <c-v> :r!xsel -b<CR>
-" endif
 
 " Ctrl-b: Scroll one full screen back
 " Strange, backward one screen seems to be off by one
@@ -686,13 +679,14 @@ nnoremap <c-b> zz<c-b>kzz
 
 " Ctrl-/: Vim can't map this
 
-" Ctrl-Space: [unite]<space> is very often used, map to that
-nmap <c-space> [unite]<space>
-nmap <c-@> <c-space>
+" Ctrl-Space: Quick scratch buffer
+nmap <C-@> <Plug>(scratch-open)
 
 "===============================================================================
 " Insert Mode Ctrl Key Mappings
 "===============================================================================
+
+" Ctrl-q: Quoted insert. Useful for doing key binding
 
 " Ctrl-w: Delete previous word
 
@@ -704,6 +698,7 @@ inoremap <c-e> <esc>A
 " Ctrl-t: Indent shiftwidth
 
 " Ctrl-y: Insert char above cursor
+" TODO: When do I ever use this?
 
 " Ctrl-u: Delete til beginning of line
 
@@ -712,22 +707,34 @@ inoremap <c-e> <esc>A
 " Ctrl-o: Execute one normal mode command
 
 " Ctrl-p: Auto complete previous
+" TODO: When do I ever use this?
 
 " Ctrl-a: Go to begin of line
 inoremap <c-a> <esc>I
 
 " Ctrl-s: Used by vim-surround
+" TODO: When do I ever use this?
 
 " Ctrl-d: Unindent shiftwidth
 
-" TODO Ctrl-f: 
+" Ctrl-f: Move cursor up. This is consistent with my mapping in zsh where Ctrl-f
+" goes up in history
+inoremap <expr> <c-f> pumvisible() ? "\<C-e>\<Up>" : "\<Up>"
 
-" TODO Ctrl-g:
+" Ctrl-g: Move cursor down. This is consistent with my mapping in zsh where
+" Ctrl-g goes down in history
+inoremap <expr> <c-g> pumvisible() ? "\<C-e>\<Down>" : "\<Down>"
 
-" Ctrl-[hjkl]: Move cursor
+" Ctrl-h: Move cursor left
 inoremap <c-h> <left>
-inoremap <expr> <c-j> pumvisible() ? "\<c-n>" : "\<down>"
-inoremap <expr> <c-k> pumvisible() ? "\<c-p>" : "\<up>"
+
+" Ctrl-j: Move down in completion popup
+inoremap <expr> <c-j> pumvisible() ? "\<c-n>" : ""
+
+" Ctrl-k: Move up in completion popup
+inoremap <expr> <c-k> pumvisible() ? "\<c-p>" : ""
+
+" Ctrl-l: Move cursor right
 inoremap <c-l> <right>
 
 " Ctrl-z: This is the command key for tmux
@@ -758,11 +765,6 @@ inoremap <c-v> <c-o>p
 " NOTE: This shouldn't be necessary anymore since we're turned on
 " clipboard=unnamedplus
 vnoremap <c-c> "+y
-" if has("unix")
-  " " This works much more reliably when trying to copy from Vim remotely
-  " " TODO Maybe only do this through a remote connection?
-  " vnoremap <silent> <c-c> :w !xsel -i -b<CR><CR>
-" endif
 
 " Ctrl-r: Easier search and replace
 vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
@@ -771,21 +773,19 @@ vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
 vnoremap <c-s> :s/\%V//g<left><left><left>
 
 "===============================================================================
-" Meta key mappings
+" Normal Mode Meta Key Mappings
 "===============================================================================
 
-" Normal Mode
-
-" Alt-d: Duplicate line
-nnoremap <m-d> mzyyp`zj
-
-" Alt-[jk]: Move current line up or down
+" Alt-j: Move current line up
 nnoremap <silent> <m-j> mz:m+<cr>`z
+
+" Alt-k: Move current line down
 nnoremap <silent> <m-k> mz:m-2<cr>`z
 
-" Alt-Shift-j: Duplicate line (I have three mappings for this now, which one am
-" I most comfortable hitting? TODO)
+" Alt-Shift-j: Duplicate line down
 nnoremap <silent> <m-J> mzyyp`zj
+
+" Alt-Shift-k: Duplicate line up
 nnoremap <silent> <m-K> mzyyp`z
 
 " Alt-o: Jump back in the changelist
@@ -794,14 +794,24 @@ nnoremap <m-o> g;
 " Alt-i: Jump forward in the changelist
 nnoremap <m-i> g,
 
-" Insert Mode
-" Alt-[jk]: Move current line up or down
+"===============================================================================
+" Insert Mode Meta Key Mappings
+"===============================================================================
+
+" Alt-j: Move current line up
 imap <m-j> <esc><m-j>a
+
+" Alt-k: Move current line down
 imap <m-k> <esc><m-k>a
 
-" Visual Mode
-" Alt-[jk]: Move selections up or down
+"===============================================================================
+" Visual Mode Meta Key Mappings
+"===============================================================================
+
+" Alt-j: Move selections up
 vnoremap <m-j> :m'>+<cr>`<my`>mzgv`yo`z
+
+" Alt-k: Move selections down
 vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 "===============================================================================
@@ -899,8 +909,8 @@ nnoremap <right> <c-w>>
 " Enter: Toggle search highlight
 nnoremap <cr> :set hlsearch! hlsearch?<cr>
 
-" Backspace: Toggle number
-nnoremap <bs> :<C-u>NumbersToggle<CR>
+" Backspace: TODO
+" nnoremap <bs>
 
 "===============================================================================
 " Visual Mode Key Mappings
@@ -920,9 +930,9 @@ vmap \ <Leader>c<space>
 " Enter: Highlight visual selections
 vnoremap <silent> <CR> y:let @/ = @"<cr>:set hlsearch<cr>
 
-" Backspace: Delete selected
+" Backspace: Delete selected and go into insert mode
 " Don't map to vnoremap, since it conflicts with Neosnippet in SELECT mode
-xnoremap <bs> x
+xnoremap <bs> c
 
 " <|>: Reselect visual block after indent
 vnoremap < <gv
@@ -941,8 +951,8 @@ vnoremap @ :normal@
 " I almost never use w and W by themselves
 onoremap w iw
 onoremap W iW
-vnoremap w iw
-vnoremap W iW
+xnoremap w iw
+xnoremap W iW
 
 "===============================================================================
 " Autocommands
@@ -955,6 +965,16 @@ autocmd MyAutoCmd FileType help,quickrun,qf
 
 " json = javascript syntax highlight
 autocmd MyAutoCmd FileType json setlocal syntax=javascript
+
+" Enable omni completion
+augroup MyAutoCmd
+  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+augroup END
 
 "===============================================================================
 " NERDTree
@@ -1042,16 +1062,6 @@ imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expan
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 " Enter always performs a literal enter
 imap <expr><cr> neocomplcache#smart_close_popup() . "\<CR>"
-
-" Enable omni completion. Not required if they are already set elsewhere in .vimrc
-augroup MyAutoCmd
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-augroup END
 
 if has('conceal')
   set conceallevel=2 concealcursor=i
@@ -1179,6 +1189,11 @@ function! s:unite_settings()"{{{
   nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
   nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
         \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
+
+  " Using Ctrl-l to trigger outline, so close it using the same keystroke
+  if unite.buffer_name =~# '^outline'
+    imap <buffer> <C-l> <Plug>(unite_exit)
+  endif
 endfunction"}}}
 
 " Start in insert mode
