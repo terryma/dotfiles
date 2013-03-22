@@ -367,6 +367,7 @@ case "$TERM" in
     bindkey -M viins '^k' forward-char
     # Ctrl-l: Move one word to the right
     bindkey -M viins '^l' vi-forward-word
+    # Ctrl-[: Same as Escape
     # Ctrl-]: TODO
     # bindkey -M viins '^]'
     # Ctrl-\: TODO
@@ -375,10 +376,10 @@ case "$TERM" in
     # Ctrl-x: Delete character under cursor
     bindkey -M viins '^x' delete-char
     # Ctrl-c: Terminates
-    # Ctrl-v: Insert the contents of the kill buffer at the cursor
+    # Ctrl-v: Insert the contents of the clipboard at the cursor
     bindkey -M viins '^v' x-yank
     # Ctrl-b: TODO
-    # bindkey -M viins '^b' down-line-or-history
+    # bindkey -M viins '^b'
     # Ctrl-m: Same as Enter
     # Ctrl-n: Clear the entire screen (cleaN)
     bindkey -M viins '^n' clear-screen

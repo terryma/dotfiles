@@ -649,8 +649,8 @@ nnoremap <c-l> <c-w>w
 
 " Ctrl-j: Move down
 " Ctrl-k: Move up
-nnoremap <c-j> 3<c-e>3j
-nnoremap <c-k> 3<c-y>3k
+noremap <c-j> 3<c-e>3j
+noremap <c-k> 3<c-y>3k
 
 " Ctrl-;: Vim can't map this
 
@@ -856,12 +856,14 @@ nmap \ <Leader>c<space>
 " s: Substitute
 " d: Delete into the blackhole register to not clobber the last yank
 nnoremap d "_d
+" dd: I use this often to yank a single line, retain its original behavior
+nnoremap dd dd
 " f: Find. Also support repeating with .
 nnoremap <Plug>OriginalSemicolon ;
-nnoremap f :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>f
-nnoremap t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
-nnoremap F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
-nnoremap T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
+nnoremap <silent> f :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>f
+nnoremap <silent> t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
+nnoremap <silent> F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
+nnoremap <silent> T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
 " g: Many functions
 " gp to visually select pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
@@ -1333,6 +1335,16 @@ function! s:markdown_settings()
   " Since completion is off, reassign tab and shift-tab to indent and unindent
   " in insert mode
   inoremap <buffer> [Z <C-d>
+  " Make the delete key in insert mode delete the bullet point in 1 keystroke
+  inoremap <buffer> <bs> <C-r>=<SID>markdown_delete_key()<CR>
+endfunction
+
+function! s:markdown_delete_key()
+  if getline(".") =~ '^\s*- $'
+    return "\<bs>\<bs>"
+  else
+    return "\<bs>"
+  endif
 endfunction
 
   " Turn off completion, it's more disruptive than helpful
