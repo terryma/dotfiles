@@ -54,7 +54,7 @@ NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'Shougo/vimshell'
 
 " File types
-NeoBundle 'rstacruz/sparkup', {'rtp': 'vim'} "HTML
+" NeoBundle 'rstacruz/sparkup', {'rtp': 'vim'} "HTML
 NeoBundle 'tpope/vim-markdown' "Markdown
 NeoBundle 'suan/vim-instant-markdown' "Markdown
 NeoBundle 'vim-scripts/deb.vim' "Debian packages
@@ -485,7 +485,7 @@ nnoremap Q :q<cr>
 
 " E: Move to end of word forward
 
-" R: Replace mode
+" R: Replace mode (When do I ever use this?)
 
 " T: Finds till backwards
 
@@ -622,8 +622,8 @@ nnoremap <c-p> <c-^>
 " Ctrl-\: Quick VimShell
 nnoremap <silent> <c-\> :<C-u>VimShellBufferDir -popup -toggle<CR>
 
-" Ctrl-a: Quickly surround word
-nmap <c-a> viwS
+" Ctrl-a: Select all
+nnoremap <c-a> ggVG
 
 " Ctrl-ss: (S)earch word under cur(s)or in current directory
 nnoremap <c-s><c-s> :Unite grep:.::<C-r><C-w><CR>
@@ -633,6 +633,8 @@ nnoremap <c-s><c-d> :Unite grep:.<CR>
 nmap <c-s><c-f> [unite]l
 " Ctrl-sr: Easier (s)earch and (r)eplace
 nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
+" Ctrl-sw: Quickly surround word
+nmap <c-s><c-w> ysiw
 
 " Ctrl-d: Scroll half a screen down
 " TODO Don't like this at all, seems to lose context easily. Prefer C-j/k
@@ -649,14 +651,14 @@ nnoremap <c-g> 1<c-g>
 " and h means 'left', Ctrl-h makes the most sense.
 nnoremap <c-h> <c-w>w
 
-" Ctrl-l: Out(l)ine
-nmap <c-l> [unite]o
-
 " Ctrl-j: Scroll + move down through the file
 nnoremap <c-j> 3<c-e>3j
 
 " Ctrl-k: Scroll + move up through the file
 nnoremap <c-k> 3<c-y>3k
+
+" Ctrl-l: Out(l)ine
+nmap <c-l> [unite]o
 
 " Ctrl-;: Vim can't map this
 
@@ -764,7 +766,7 @@ inoremap <c-v> <c-o>p
 
 " Ctrl-m: Same as Enter
 
-" Ctrl-space: This is the execute map for Sparkup
+" Ctrl-space: TODO
 
 "===============================================================================
 " Visual Mode Ctrl Key Mappings
@@ -1242,6 +1244,7 @@ endif
 let g:unite_source_session_enable_auto_save = 1
 
 " Pop up session selection if no file is specified
+" TODO: Why does this not work when Vim isn't run from tmux???!
 autocmd MyAutoCmd VimEnter * call s:unite_session_on_enter()
 function! s:unite_session_on_enter()
   if !argc() && !exists("g:start_session_from_cmdline")
@@ -1331,12 +1334,6 @@ let g:quickhl_colors = [
 "===============================================================================
 
 let g:instant_markdown_slow = 1
-
-"===============================================================================
-" Sparkup
-"===============================================================================
-
-let g:sparkupExecuteMapping = '<c-@>'
 
 "===============================================================================
 " Markdown
