@@ -355,16 +355,16 @@ case "$TERM" in
     bindkey -M viins '^s' history-incremental-pattern-search-forward
     # Ctrl-d: Delete next word
     bindkey -M viins '^d' kill-word
-    # Ctrl-f: Go up in history
-    bindkey -M viins '^f' up-line-or-history
-    # Ctrl-g: Go down in history
-    bindkey -M viins '^g' down-line-or-history
+    # Ctrl-f: Move one character to the left
+    bindkey -M viins '^f' backward-char
+    # Ctrl-g: Move one character to the right
+    bindkey -M viins '^g' forward-char
     # Ctrl-h: Move one word to the left
     bindkey -M viins '^h' vi-backward-word
-    # Ctrl-j: Move one character to the left
-    bindkey -M viins '^j' backward-char
-    # Ctrl-k: Move one character to the right
-    bindkey -M viins '^k' forward-char
+    # Ctrl-j: Go down in history
+    bindkey -M viins '^j' down-line-or-history
+    # Ctrl-k: Go up in history
+    bindkey -M viins '^k' up-line-or-history
     # Ctrl-l: Move one word to the right
     bindkey -M viins '^l' vi-forward-word
     # Ctrl-[: Same as Escape

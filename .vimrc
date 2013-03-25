@@ -350,7 +350,7 @@ nnoremap <F3> :<C-u>GundoToggle<CR>
 nnoremap <F4> :<C-u>UniteSessionSave 
 
 "===============================================================================
-" Leader key mappings
+" Leader Key Mappings
 "===============================================================================
 
 " Map leader and localleader key to comma
@@ -395,7 +395,9 @@ nnoremap <Leader>e :e! ~/.dotfiles/.vimrc<cr>
 " <Leader>o: only
 nnoremap <Leader>o :only<cr>
 
-" TODO <Leader> p
+" <Leader>p: Copy the full path of the current file to the clipboard
+nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
+      \ path '".expand("%:p")."' to clipboard"<cr>
 
 " <Leader>a: TODO
 
@@ -428,9 +430,8 @@ nnoremap <Leader>cd :cd %:p:h<cr>:pwd<cr>
 " <Leader>n: NERDTreeFind
 nnoremap <silent> <Leader>n :NERDTreeFind<cr> :wincmd p<cr>
 
-" <Leader>p: Copy the full path of the current file to the clipboard
-nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
-      \ path '".expand("%:p")."' to clipboard"<cr>
+" <Leader>m: Maximize current split
+nnoremap <Leader>m <C-w>_<C-w><Bar>
 
 " <Leader><space>: TODO
 
@@ -445,8 +446,6 @@ nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
 " Bash like keys for the command line. These resemble personal zsh mappings
 cnoremap <c-a> <home>
 cnoremap <c-e> <end>
-cnoremap <c-j> <left>
-cnoremap <c-k> <right>
 
 " Ctrl-[hl]: Move left/right by word
 cnoremap <c-h> <s-left>
@@ -456,6 +455,11 @@ cnoremap <c-l> <s-right>
 cnoremap <c-@> <c-f>
 cnoremap <c-f> <up>
 cnoremap <c-b> <down>
+
+cnoremap <c-j> <Down>
+cnoremap <c-k> <Up>
+cnoremap <c-f> <left>
+cnoremap <c-g> <right>
 
 " Paste to command mode using Ctrl-V
 cnoremap <c-v> <c-r>"
@@ -481,7 +485,7 @@ nnoremap [Z :NERDTreeToggle<CR>
 " Q: Closes the window
 nnoremap Q :q<cr>
 
-" W: Move word forward (TODO Replaced by K, maybe remap?)
+" W: Move word forward (TODO Replaced by <C-L>, maybe remap?)
 
 " E: Move to end of word forward
 
@@ -523,24 +527,24 @@ nnoremap <bar> :vsp<cr>
 
 " H: Go to beginning of line. Repeated invocation goes to previous line
 " noremap H 0
-noremap <expr> H getpos('.')[2] == 1 ? 'k' : '0'
+" FIXME(terryma): Replaced by <C-A> Remap?
+" noremap <expr> H getpos('.')[2] == 1 ? 'k' : '0'
 
-" J: Move WORD backward. This is just more natural to me
-noremap J B
+" J: TODO
 
-" K: Move WORD forward. This is just more natural to me
-noremap K W
+" K: TODO
 
 " L: Go to end of line. Repeated invocation goes to next line
 " noremap L g_
-noremap <expr> L <SID>end_of_line()
-function! s:end_of_line()
-  let l = len(getline('.'))
-  if (l == 0 || l == getpos('.')[2])
-    return 'jg_'
-  else
-    return 'g_'
-endfunction
+" FIXME(terryma): Replaced by <C-E> Remap?
+" noremap <expr> L <SID>end_of_line()
+" function! s:end_of_line()
+  " let l = len(getline('.'))
+  " if (l == 0 || l == getpos('.')[2])
+    " return 'jg_'
+  " else
+    " return 'g_'
+" endfunction
 
 " :: Remap to ,. After all the remapping, ; goes to command mode, . repeats
 " fFtT, : repeats it backward, and , is the leader
@@ -557,7 +561,7 @@ noremap Z %
 
 " V: Visual line mode
 
-" B: Move word backward (TODO Replaced by J, maybe remap?)
+" B: Move word backward (TODO Replaced by <C-H>, maybe remap?)
 
 " N: Find next occurrence backward
 nnoremap N Nzzzv
@@ -582,7 +586,8 @@ nnoremap - <c-x>
 
 " Ctrl-w: Window management
 
-" Ctrl-e: TODO
+" Ctrl-e: Move to end of line. Consistent with zsh
+noremap <c-e> $
 
 " Ctrl-r: Command history using Unite, this matches my muscle memory in zsh
 nmap <c-r> [unite];
@@ -622,9 +627,11 @@ nnoremap <c-p> <c-^>
 " Ctrl-\: Quick VimShell
 nnoremap <silent> <c-\> :<C-u>VimShellBufferDir -popup -toggle<CR>
 
-" Ctrl-a: Select all
-nnoremap <c-a> ggVG
+" Ctrl-a: Move to beginning of line. Consistent with zsh
+noremap <c-a> 0
 
+" Ctrl-sa: (S)elect (a)ll
+nnoremap <c-s><c-a> :keepjumps normal ggVG<CR>
 " Ctrl-ss: (S)earch word under cur(s)or in current directory
 nnoremap <c-s><c-s> :Unite grep:.::<C-r><C-w><CR>
 " Ctrl-sd: (S)earch word in current (d)irectory (prompt for word)
@@ -646,10 +653,8 @@ nnoremap <c-f> zz<c-f>zz
 " Ctrl-g: Prints current file name
 nnoremap <c-g> 1<c-g>
 
-" Ctrl-h: Rotate through the splits. I don't ever use enough splits to justify
-" wasting 4 very easy to hit keys for them. Since vim rotates counter-clockwise,
-" and h means 'left', Ctrl-h makes the most sense.
-nnoremap <c-h> <c-w>w
+" Ctrl-h: Move WORD back. Consistent with zsh
+noremap <c-h> B
 
 " Ctrl-j: Scroll + move down through the file
 nnoremap <c-j> 3<c-e>3j
@@ -657,8 +662,8 @@ nnoremap <c-j> 3<c-e>3j
 " Ctrl-k: Scroll + move up through the file
 nnoremap <c-k> 3<c-y>3k
 
-" Ctrl-l: Out(l)ine
-nmap <c-l> [unite]o
+" Ctrl-l: Move WORD forward. Consistent with zsh
+noremap <c-l> W
 
 " Ctrl-;: Vim can't map this
 
@@ -668,7 +673,9 @@ nmap <c-l> [unite]o
 
 " Ctrl-x: Rope
 
-" Ctrl-c: Rope
+" Ctrl-c: (C)ycle through the splits. I don't ever use enough splits to justify
+" wasting 4 very easy to hit keys for them.
+nnoremap <c-c> <c-w>w
 
 " Ctrl-v: Paste system clipboard
 " NOTE: This shouldn't be needed anymore since we've turned on
@@ -728,31 +735,32 @@ inoremap <c-a> <esc>I
 
 " Ctrl-d: Unindent shiftwidth
 
-" Ctrl-f: Move cursor up. This is consistent with my mapping in zsh where Ctrl-f
-" goes up in history
-inoremap <expr> <c-f> pumvisible() ? "\<C-e>\<Up>" : "\<Up>"
+" Ctrl-f: Move cursor left
+inoremap <c-f> <Left>
 
-" Ctrl-g: Move cursor down. This is consistent with my mapping in zsh where
-" Ctrl-g goes down in history
-inoremap <expr> <c-g> pumvisible() ? "\<C-e>\<Down>" : "\<Down>"
+" Ctrl-g: Move cursor right
+" Surround.vim maps these things that I don't use
+silent! iunmap <C-G>s
+silent! iunmap <C-G>S
+inoremap <c-g> <Right>
 
-" Ctrl-h: Move cursor left
-inoremap <c-h> <left>
+" Ctrl-h: Move WORD left
+inoremap <c-h> <c-o>B
 
-" Ctrl-j: Move down in completion popup
-inoremap <expr> <c-j> pumvisible() ? "\<c-n>" : ""
+" Ctrl-j: Move cursor up
+inoremap <expr> <c-j> pumvisible() ? "\<C-e>\<Down>" : "\<Down>"
 
-" Ctrl-k: Move up in completion popup
-inoremap <expr> <c-k> pumvisible() ? "\<c-p>" : ""
+" Ctrl-k: Move cursor up
+inoremap <expr> <c-k> pumvisible() ? "\<C-e>\<Up>" : "\<Up>"
 
-" Ctrl-l: Move cursor right
-inoremap <c-l> <right>
+" Ctrl-l: Move WORD right
+inoremap <c-l> <c-o>W
 
 " Ctrl-z: This is the command key for tmux
 
 " Ctrl-x: Delete char under cursor. (If we simply use x, it wouldn't delete
 " newline chars
-inoremap <c-x> <right><c-o>X
+" inoremap <c-x> <right><c-o>X
 
 " Ctrl-c: Inserts line below
 inoremap <c-c> <c-o>o
@@ -955,20 +963,14 @@ vnoremap @ :normal@
 " Operator Pending Mode Key Mappings
 "===============================================================================
 
-" I almost never use w and W by themselves
-onoremap w iw
-onoremap W iW
-xnoremap w iw
-xnoremap W iW
-
 "===============================================================================
 " Autocommands
 "===============================================================================
 
-" q quits in certain page types
+" q quits in certain page types. Don't map esc, that interferes with mouse input
 autocmd MyAutoCmd FileType help,quickrun,qf
       \ noremap <silent> <buffer> q :q<cr>|
-      \ noremap <silent> <buffer> <esc> :q<cr>
+      \ noremap <silent> <buffer> <esc><esc> :q<cr>
 
 " json = javascript syntax highlight
 autocmd MyAutoCmd FileType json setlocal syntax=javascript
@@ -981,6 +983,7 @@ augroup MyAutoCmd
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+  autocmd FileType java setlocal omnifunc=eclim#java#complete#CodeComplete
 augroup END
 
 "===============================================================================
@@ -1075,6 +1078,12 @@ endif
 
 " Tell Neosnippets to use the snipmate snippets
 let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets,~/.dotfiles/.vim/snippets'
+
+if !exists('g:neocomplcache_force_omni_patterns')
+  let g:neocomplcache_force_omni_patterns = {}
+endif
+let g:neocomplcache_force_omni_patterns.java = '\%(\.\)\h\w*'
+" let g:neocomplcache_force_omni_patterns.java = '.'
 
 "===============================================================================
 " Unite
