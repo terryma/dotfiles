@@ -1092,7 +1092,12 @@ let g:neocomplcache_min_syntax_length = 1
 let g:neocomplcache_enable_auto_select = 1
 let g:snips_author = "Terry Ma"
 
-" Tab always completes the suggestion
+" <Tab>'s function is overloaded depending on the context:
+" - If the current word is a snippet, then expand that snippet
+" - If we're in the middle of a snippet, tab jumps to the next placeholder text
+" - If the competion menu is visible, enter the currently selected entry and
+"   close the popup
+" - If none of the above is true, simply do what <Tab> does originally
 imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? neocomplcache#close_popup() : "\<TAB>"
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 " Enter always performs a literal enter
