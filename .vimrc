@@ -47,7 +47,7 @@ NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Shougo/vimfiler'
 
 " Syntax checker
-NeoBundle 'scrooloose/syntastic'
+" NeoBundle 'scrooloose/syntastic'
 
 " Shell
 NeoBundle 'thinca/vim-quickrun'
@@ -208,7 +208,7 @@ set foldlevelstart=99
 set showmode
 
 " Auto complete setting
-set completeopt=longest,menuone,preview
+set completeopt=longest,menuone
 
 set wildmode=list:longest,full
 set wildmenu "turn on wild menu
@@ -624,8 +624,8 @@ nnoremap <c-p> <c-^>
 
 " Ctrl-]: Go forward in tag stack
 
-" Ctrl-\: Quick VimShell
-nnoremap <silent> <c-\> :<C-u>VimShellBufferDir -popup -toggle<CR>
+" Ctrl-\: Quick outline
+nmap <silent> <c-\> [unite]o
 
 " Ctrl-a: Move to beginning of line. Consistent with zsh
 noremap <c-a> 0
@@ -986,6 +986,32 @@ augroup MyAutoCmd
   autocmd FileType java setlocal omnifunc=eclim#java#complete#CodeComplete
 augroup END
 
+" Ok this requires some explanation. I couldn't get Neocomplcache and Eclim to
+" play nice with each other. When Neocomplcache triggers omni_complete under
+" Eclim, everything just blows up. I tried to configure omni_patterns using
+" Neocomplcache, but nothing I tried worked. What eventually worked is disabling
+" omni_complete from the Neocomplcache sources for java files, and trigger it
+" manually with Ctrl-Space. Neocomplcache also has this strange behavior where
+" it overrides the completeopt flag to always remove 'longest'. In order for
+" Ctrl-Space to trigger sane behavior of autocomplete and not always select the
+" first entry by default, I need to temporarily set completeopt to include
+" longest when the key is triggered. Theoratically I could call
+" neocomplcache#start_manual_complete, but I think that requires the
+" omni_patterns to set correctly and I couldn't get that to work
+function! s:disable_neocomplcache_for_java()
+  if &ft ==# 'java'
+    :NeoComplCacheLockSource omni_complete
+    inoremap <buffer> <c-@> <C-R>=<SID>java_omni_complete()<CR>
+  endif
+endfunction
+
+function! s:java_omni_complete()
+  setlocal completeopt+=longest
+  return "\<C-X>\<C-O>"
+endfunction
+
+autocmd MyAutoCmd BufEnter * call s:disable_neocomplcache_for_java()
+
 "===============================================================================
 " NERDTree
 "===============================================================================
@@ -1079,11 +1105,17 @@ endif
 " Tell Neosnippets to use the snipmate snippets
 let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets,~/.dotfiles/.vim/snippets'
 
-if !exists('g:neocomplcache_force_omni_patterns')
-  let g:neocomplcache_force_omni_patterns = {}
-endif
-let g:neocomplcache_force_omni_patterns.java = '\%(\.\)\h\w*'
+" These are the battle scars of me trying to get omni_patterns to work correctly
+" so Neocomplcache and Eclim could co-exist peacefully. No cigar.
+" if !exists('g:neocomplcache_force_omni_patterns')
+  " let g:neocomplcache_force_omni_patterns = {}
+" endif
+" if !exists('g:neocomplcache_omni_patterns')
+  " let g:neocomplcache_omni_patterns = {}
+" endif
+" let g:neocomplcache_force_omni_patterns.java = '\%(\.\)\h\w*'
 " let g:neocomplcache_force_omni_patterns.java = '.'
+" let g:neocomplcache_omni_patterns.java = '\%(\.\)\h\w*'
 
 "===============================================================================
 " Unite
@@ -1205,9 +1237,9 @@ function! s:unite_settings()
   nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
         \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
 
-  " Using Ctrl-l to trigger outline, so close it using the same keystroke
+  " Using Ctrl-\ to trigger outline, so close it using the same keystroke
   if unite.buffer_name =~# '^outline'
-    imap <buffer> <C-l> <Plug>(unite_exit)
+    imap <buffer> <C-\> <Plug>(unite_exit)
   endif
 endfunction
 
@@ -1372,7 +1404,7 @@ function! s:markdown_delete_key()
   endif
 endfunction
 
-  " Turn off completion, it's more disruptive than helpful
+" Turn off completion, it's more disruptive than helpful
 function! s:markdown_disable_autocomplete()
   if &ft ==# 'markdown'
     :NeoComplCacheLock
