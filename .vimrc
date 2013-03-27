@@ -663,7 +663,9 @@ nnoremap <c-j> 3<c-e>3j
 nnoremap <c-k> 3<c-y>3k
 
 " Ctrl-l: Move word forward. Consistent with zsh
-noremap <c-l> w
+" Move to the beginning of the next word really throws me off, since I'm more
+" used to the cursor moving to the space between two words.
+noremap <c-l> el
 
 " Ctrl-;: Vim can't map this
 
