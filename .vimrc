@@ -56,7 +56,7 @@ NeoBundle 'Shougo/vimshell'
 " File types
 " NeoBundle 'rstacruz/sparkup', {'rtp': 'vim'} "HTML
 NeoBundle 'tpope/vim-markdown' "Markdown
-NeoBundle 'suan/vim-instant-markdown' "Markdown
+NeoBundle 'terryma/vim-instant-markdown' "Markdown
 NeoBundle 'vim-scripts/deb.vim' "Debian packages
 
 " Git
@@ -653,8 +653,8 @@ nnoremap <c-f> zz<c-f>zz
 " Ctrl-g: Prints current file name
 nnoremap <c-g> 1<c-g>
 
-" Ctrl-h: Move WORD back. Consistent with zsh
-noremap <c-h> B
+" Ctrl-h: Move word back. Consistent with zsh
+noremap <c-h> b
 
 " Ctrl-j: Scroll + move down through the file
 nnoremap <c-j> 3<c-e>3j
@@ -662,8 +662,8 @@ nnoremap <c-j> 3<c-e>3j
 " Ctrl-k: Scroll + move up through the file
 nnoremap <c-k> 3<c-y>3k
 
-" Ctrl-l: Move WORD forward. Consistent with zsh
-noremap <c-l> W
+" Ctrl-l: Move word forward. Consistent with zsh
+noremap <c-l> w
 
 " Ctrl-;: Vim can't map this
 
@@ -744,8 +744,8 @@ silent! iunmap <C-G>s
 silent! iunmap <C-G>S
 inoremap <c-g> <Right>
 
-" Ctrl-h: Move WORD left
-inoremap <c-h> <c-o>B
+" Ctrl-h: Move word left
+inoremap <c-h> <c-o>b
 
 " Ctrl-j: Move cursor up
 inoremap <expr> <c-j> pumvisible() ? "\<C-e>\<Down>" : "\<Down>"
@@ -753,8 +753,8 @@ inoremap <expr> <c-j> pumvisible() ? "\<C-e>\<Down>" : "\<Down>"
 " Ctrl-k: Move cursor up
 inoremap <expr> <c-k> pumvisible() ? "\<C-e>\<Up>" : "\<Up>"
 
-" Ctrl-l: Move WORD right
-inoremap <c-l> <c-o>W
+" Ctrl-l: Move word right
+inoremap <c-l> <c-o>w
 
 " Ctrl-z: This is the command key for tmux
 
@@ -958,6 +958,12 @@ vnoremap . :normal.<cr>
 
 " @: repeats macro on every line
 vnoremap @ :normal@
+
+" Tab: Indent
+xmap <Tab> >
+
+" shift-tab: unindent
+xmap <s-tab> <
 
 "===============================================================================
 " Operator Pending Mode Key Mappings
@@ -1379,7 +1385,8 @@ let g:quickhl_colors = [
 " Instant Markdown
 "===============================================================================
 
-let g:instant_markdown_slow = 1
+" let g:instant_markdown_slow = 1
+let g:instant_markdown_autostart = 0
 
 "===============================================================================
 " Markdown
@@ -1396,9 +1403,12 @@ function! s:markdown_settings()
   inoremap <buffer> <Tab> <C-t>
   " Since completion is off, reassign tab and shift-tab to indent and unindent
   " in insert mode
-  inoremap <buffer> [Z <C-d>
+  inoremap <buffer> <S-Tab> <C-d>
   " Make the delete key in insert mode delete the bullet point in 1 keystroke
   inoremap <buffer> <bs> <C-r>=<SID>markdown_delete_key()<CR>
+  " Alt-p: Instant preview
+  inoremap <buffer> <m-p> <C-O>:InstantMarkdownPreview<CR>
+  nnoremap <buffer> <m-p> :InstantMarkdownPreview<CR>
 endfunction
 
 function! s:markdown_delete_key()
