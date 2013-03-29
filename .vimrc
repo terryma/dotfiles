@@ -271,6 +271,9 @@ if !has('gui_running')
   " must be interpreted as some form of escape sequence that interferes.
   exec 'set <M-J>=J'
   exec 'set <M-K>=K'
+
+  " Tab is mapped to Alt-t, which is mapped from iTerm
+  exec 'set <Tab>=t'
 endif
 
 " Reload vimrc when edited, also reload the powerline color
@@ -334,6 +337,9 @@ endif
 " Use a low updatetime. This is used by CursorHold
 set updatetime=1000
 
+" I like my word boundary to be a little bigger than the default
+set iskeyword+=<,>,[,],:,-,`,!,,
+
 "===============================================================================
 " Function Key Mappings
 "===============================================================================
@@ -347,7 +353,7 @@ nmap <F1> [unite]h
 nnoremap <F3> :<C-u>GundoToggle<CR>
 
 " <F4>: Save session
-nnoremap <F4> :<C-u>UniteSessionSave 
+nnoremap <F4> :<C-u>UniteSessionSave
 
 "===============================================================================
 " Leader Key Mappings
@@ -526,25 +532,21 @@ nnoremap <bar> :vsp<cr>
 " G: Go to end of file
 
 " H: Go to beginning of line. Repeated invocation goes to previous line
-" noremap H 0
-" FIXME(terryma): Replaced by <C-A> Remap?
-" noremap <expr> H getpos('.')[2] == 1 ? 'k' : '0'
+noremap <expr> H getpos('.')[2] == 1 ? 'k' : '0'
 
 " J: TODO
 
 " K: TODO
 
 " L: Go to end of line. Repeated invocation goes to next line
-" noremap L g_
-" FIXME(terryma): Replaced by <C-E> Remap?
-" noremap <expr> L <SID>end_of_line()
-" function! s:end_of_line()
-  " let l = len(getline('.'))
-  " if (l == 0 || l == getpos('.')[2])
-    " return 'jg_'
-  " else
-    " return 'g_'
-" endfunction
+noremap <expr> L <SID>end_of_line()
+function! s:end_of_line()
+  let l = len(getline('.'))
+  if (l == 0 || l == getpos('.')[2])
+    return 'jg_'
+  else
+    return 'g_'
+endfunction
 
 " :: Remap to ,. After all the remapping, ; goes to command mode, . repeats
 " fFtT, : repeats it backward, and , is the leader
@@ -805,11 +807,19 @@ vnoremap <c-s> :s/\%V//g<left><left><left>
 " Normal Mode Meta Key Mappings
 "===============================================================================
 
+" Alt-a: Select all
+nnoremap <m-a> ggVG
+
+" Note in iTerm2, Ctrl-Delete is mapped to send Esc+d, which triggers this
+" mapping
+" Alt-d: Delete previous word
+nnoremap <m-d> db
+
 " Alt-j: Move current line up
-nnoremap <silent> <m-j> mz:m+<cr>`z
+nnoremap <silent> <m-j> mz:m+<cr>`z==
 
 " Alt-k: Move current line down
-nnoremap <silent> <m-k> mz:m-2<cr>`z
+nnoremap <silent> <m-k> mz:m-2<cr>`z==
 
 " Alt-Shift-j: Duplicate line down
 nnoremap <silent> <m-J> mzyyp`zj
@@ -826,6 +836,11 @@ nnoremap <m-i> g,
 "===============================================================================
 " Insert Mode Meta Key Mappings
 "===============================================================================
+
+" Note in iTerm2, Ctrl-Delete is mapped to send Esc+d, which triggers this
+" mapping
+" Alt-d: Delete previous word
+inoremap <m-d> <c-w>
 
 " Alt-j: Move current line up
 imap <m-j> <esc><m-j>a
@@ -934,8 +949,11 @@ nnoremap <right> <c-w>>
 " Enter: Toggle search highlight
 nnoremap <cr> :set hlsearch! hlsearch?<cr>
 
-" Backspace: TODO
-" nnoremap <bs>
+" Backspace: Act like normal backspace
+nnoremap <bs> X
+
+" Tab: Go to matching element
+nnoremap <Tab> %
 
 "===============================================================================
 " Visual Mode Key Mappings
