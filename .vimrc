@@ -657,10 +657,10 @@ nnoremap <c-g> 1<c-g>
 noremap <c-h> b
 
 " Ctrl-j: Scroll + move down through the file
-nnoremap <c-j> 3<c-e>3j
+noremap <c-j> 3<c-e>3j
 
 " Ctrl-k: Scroll + move up through the file
-nnoremap <c-k> 3<c-y>3k
+noremap <c-k> 3<c-y>3k
 
 " Ctrl-l: Move word forward. Consistent with zsh
 " Move to the beginning of the next word really throws me off, since I'm more
@@ -698,7 +698,8 @@ nnoremap <c-b> zz<c-b>kzz
 
 " Ctrl-.: Vim can't map this
 
-" Ctrl-/: Vim can't map this
+" Ctrl-/: A more powerful '/'
+nmap <c-_> [unite]l
 
 " Ctrl-Space: Quick scratch buffer
 nmap <C-@> <Plug>(scratch-open)
@@ -709,7 +710,8 @@ nmap <C-@> <Plug>(scratch-open)
 
 " Ctrl-q: Quoted insert. Useful for doing key binding
 
-" Ctrl-w: Delete previous word
+" Ctrl-w: Delete previous word, create undo point
+inoremap <c-w> <c-g>u<c-w>
 
 " Ctrl-e: Go to end of line
 inoremap <c-e> <esc>A
@@ -721,7 +723,8 @@ inoremap <c-e> <esc>A
 " Ctrl-y: Insert char above cursor
 " TODO: When do I ever use this?
 
-" Ctrl-u: Delete til beginning of line
+" Ctrl-u: Delete til beginning of line, create undo point
+inoremap <c-u> <c-g>u<c-u>
 
 " Ctrl-i: Tab
 
@@ -779,6 +782,9 @@ inoremap <c-v> <c-g>u<c-o>p
 " Ctrl-m: Same as Enter
 
 " Ctrl-space: TODO
+
+" Ctrl-/: Undo
+inoremap <c-_> <c-o>u
 
 "===============================================================================
 " Visual Mode Ctrl Key Mappings
@@ -1362,6 +1368,13 @@ let g:quickrun_config['*'] = {
       \ 'into' : 1,
       \ 'runmode' : 'async:remote:vimproc'
       \}
+" QuickRun triggers markdown preview
+let g:quickrun_config.markdown = {
+      \ 'runner': 'vimscript',
+      \ 'command': ':InstantMarkdownPreview',
+      \ 'exec': '%C',
+      \ 'outputter': 'null'
+      \}
 
 "===============================================================================
 " ScratchBuffer
@@ -1410,9 +1423,6 @@ function! s:markdown_settings()
   inoremap <buffer> <S-Tab> <C-d>
   " Make the delete key in insert mode delete the bullet point in 1 keystroke
   inoremap <silent> <buffer> <bs> <C-r>=<SID>markdown_delete_key()<CR>
-  " Alt-p: Instant preview
-  inoremap <silent> <buffer> <m-p> <C-O>:InstantMarkdownPreview<CR>
-  nnoremap <silent> <buffer> <m-p> :InstantMarkdownPreview<CR>
 endfunction
 
 function! s:markdown_delete_key()
