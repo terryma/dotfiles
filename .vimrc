@@ -665,7 +665,7 @@ nnoremap <c-k> 3<c-y>3k
 " Ctrl-l: Move word forward. Consistent with zsh
 " Move to the beginning of the next word really throws me off, since I'm more
 " used to the cursor moving to the space between two words.
-noremap <c-l> el
+noremap <c-l> hel
 
 " Ctrl-;: Vim can't map this
 
@@ -682,7 +682,8 @@ nnoremap <c-c> <c-w>w
 " Ctrl-v: Paste system clipboard
 " NOTE: This shouldn't be needed anymore since we've turned on
 " clipboard=unnamedplus
-nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
+" nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
+nnoremap <c-v> p
 
 " Ctrl-b: Scroll one full screen back
 " Strange, backward one screen seems to be off by one
@@ -767,8 +768,9 @@ inoremap <c-l> <c-o>w
 " Ctrl-c: Inserts line below
 inoremap <c-c> <c-o>o
 
-" Ctrl-v: Paste
-inoremap <c-v> <c-o>p
+" Ctrl-v: Paste. For some reason, <c-o> is not creating an undo point in the
+" mapping
+inoremap <c-v> <c-g>u<c-o>p
 
 " TODO Ctrl-b:
 
@@ -1407,10 +1409,10 @@ function! s:markdown_settings()
   " in insert mode
   inoremap <buffer> <S-Tab> <C-d>
   " Make the delete key in insert mode delete the bullet point in 1 keystroke
-  inoremap <buffer> <bs> <C-r>=<SID>markdown_delete_key()<CR>
+  inoremap <silent> <buffer> <bs> <C-r>=<SID>markdown_delete_key()<CR>
   " Alt-p: Instant preview
-  inoremap <buffer> <m-p> <C-O>:InstantMarkdownPreview<CR>
-  nnoremap <buffer> <m-p> :InstantMarkdownPreview<CR>
+  inoremap <silent> <buffer> <m-p> <C-O>:InstantMarkdownPreview<CR>
+  nnoremap <silent> <buffer> <m-p> :InstantMarkdownPreview<CR>
 endfunction
 
 function! s:markdown_delete_key()
