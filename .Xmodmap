@@ -1,0 +1,8 @@
+! Both Command and Option act as Alt. Since I'm only using Eclipse through X11
+! at this moment, this suits my need
+keycode 63 = Alt_L
+keycode 71 = Alt_R
+clear mod1
+clear mod2
+add mod1 = Alt_L
+add mod1 = Alt_R
