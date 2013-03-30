@@ -9,7 +9,8 @@ ZSH_THEME="agnoster"
 DISABLE_AUTO_TITLE="true"
 COMPLETION_WAITING_DOTS="true"
 DEFAULT_USER=$USER
-plugins=(git brew osx vi-mode)
+# plugins=(git brew osx vi-mode)
+plugins=(git brew osx)
 source $ZSH/oh-my-zsh.sh
 
 ################################################################################
@@ -308,125 +309,78 @@ zle -N change-around
 case "$TERM" in
   *xterm*|screen-256color)
 
-    # home / end
-    bindkey '^[[1~' beginning-of-line
-    bindkey '^[[4~' end-of-line
-
-    # delete
-    bindkey '^[[3~' delete-char
-
-    # page up / page down
-    bindkey '^[[5~' history-beginning-search-backward
-    bindkey '^[[6~' history-beginning-search-forward
-
-    # shift + tab
-    bindkey '^[[Z' reverse-menu-complete
-
-    # VI MODE KEYBINDINGS (ins mode)
-
     # Marking, yanking, and pasting in insert mode
     # Ctrl-t to set the mark, use movement commands to select the region, yank
     # the region using Ctrl-y, and paste the region using Ctrl-p
 
+    # In iTerm, <Tab> sends Alt-t
+    bindkey 't' expand-or-complete
+    # In iTerm, <Ctrl-BS> sends Alt-d
+    bindkey 'd' vi-backward-kill-word
     # Backspace: Delete previous char
-    bindkey -M viins '^?' backward-delete-char
+    bindkey '^?' backward-delete-char
     # Ctrl-q: Quoted insert (Default is Ctrl-v)
-    bindkey -M viins '^q' quoted-insert
+    bindkey '^q' quoted-insert
     # Ctrl-w: Delete previous word
-    bindkey -M viins '^w' vi-backward-kill-word
+    bindkey '^w' vi-backward-kill-word
     # Ctrl-e: Move to the end of line
-    bindkey -M viins '^e' end-of-line
+    bindkey '^e' end-of-line
     # Ctrl-r: Search backwards in history
-    bindkey -M viins '^r' history-incremental-pattern-search-backward
+    bindkey '^r' history-incremental-pattern-search-backward
     # Ctrl-t: Set mark
-    bindkey -M viins '^t' set-mark-command
+    bindkey '^t' set-mark-command
     # Ctrl-y: Copy the area from the cursor to the mark to the kill buffer
-    bindkey -M viins '^y' x-copy-region-as-kill
+    bindkey '^y' x-copy-region-as-kill
     # Ctrl-u: Deletes everything before cursor (u is on left)
-    bindkey -M viins '^u' backward-kill-line
+    bindkey '^u' backward-kill-line
     # Ctrl-i: Same as tab
     # Ctrl-o: Deletes everything after cursor (o is on right) (Commonly Ctrl-k)
-    bindkey -M viins '^o' kill-line
+    bindkey '^o' kill-line
     # Ctrl-p: TODO
-    # bindkey -M viins '^p'
+    # bindkey '^p'
     # Ctrl-a: Go to the beginning of line
-    bindkey -M viins '^a' beginning-of-line
+    bindkey '^a' beginning-of-line
     # Ctrl-s: Search forwards in history
-    bindkey -M viins '^s' history-incremental-pattern-search-forward
+    bindkey '^s' history-incremental-pattern-search-forward
     # Ctrl-d: Delete next word
-    bindkey -M viins '^d' kill-word
+    bindkey '^d' kill-word
     # Ctrl-f: Move one character to the left
-    bindkey -M viins '^f' backward-char
+    bindkey '^f' backward-char
     # Ctrl-g: Move one character to the right
-    bindkey -M viins '^g' forward-char
+    bindkey '^g' forward-char
     # Ctrl-h: Move one word to the left
-    bindkey -M viins '^h' vi-backward-word
+    bindkey '^h' vi-backward-word
     # Ctrl-j: Go down in history
-    bindkey -M viins '^j' down-line-or-history
+    bindkey '^j' down-line-or-history
     # Ctrl-k: Go up in history
-    bindkey -M viins '^k' up-line-or-history
+    bindkey '^k' up-line-or-history
     # Ctrl-l: Move one word to the right
-    bindkey -M viins '^l' vi-forward-word
+    bindkey '^l' vi-forward-word
     # Ctrl-[: Same as Escape
     # Ctrl-]: TODO
-    # bindkey -M viins '^]'
+    # bindkey '^]'
     # Ctrl-\: TODO
-    # bindkey -M viins '^\'
+    # bindkey '^\'
     # Ctrl-z: Tmux command key
     # Ctrl-x: Delete character under cursor
-    bindkey -M viins '^x' delete-char
+    bindkey '^x' delete-char
     # Ctrl-c: Terminates
     # Ctrl-v: Insert the contents of the clipboard at the cursor
-    bindkey -M viins '^v' x-yank
+    bindkey '^v' x-yank
     # Ctrl-b: TODO
-    # bindkey -M viins '^b'
+    # bindkey '^b'
     # Ctrl-m: Same as Enter
     # Ctrl-n: Clear the entire screen (cleaN)
-    bindkey -M viins '^n' clear-screen
+    bindkey '^n' clear-screen
     # Ctrl-Space: Quickly yank the entire line into the x CLIPBOARD
-    bindkey -M viins '^@' x-vi-yank-whole-line
+    bindkey '^@' x-vi-yank-whole-line
 
     # Alt-k: Move to next directory in history
-    bindkey -M viins -s '^[k' "→\r"
+    bindkey -s '^[k' "→\r"
     # Alt-j: Move to previous directory in history
-    bindkey -M viins -s '^[j' "←\r"
+    bindkey -s '^[j' "←\r"
 
-    bindkey -M viins '^_'    undo
-
-    # Up/Down arrow keys: Go up or down in history
-    bindkey -M viins '\eOA'  up-line-or-history
-    bindkey -M viins '^[[A'  up-line-or-history
-    bindkey -M viins '\eOB'  down-line-or-history
-    bindkey -M viins '^[[B'  down-line-or-history
-
-    # TODO: I really don't use the vi mode that much. Either learn to use them
-    # or get rid of the mappings and go back to Emacs mode
-    # VI MODE KEYBINDINGS (cmd mode)
-    bindkey -M vicmd 'ca'    change-around
-    bindkey -M vicmd 'ci'    change-in
-    bindkey -M vicmd 'da'    delete-around
-    bindkey -M vicmd 'di'    delete-in
-    bindkey -M vicmd 'ga'    what-cursor-position
-    bindkey -M vicmd 'gg'    beginning-of-history
-    bindkey -M vicmd 'G '    end-of-history
-    bindkey -M vicmd '^a'    beginning-of-line
-    bindkey -M vicmd '^e'    end-of-line
-    bindkey -M vicmd '^k'    kill-line
-    bindkey -M vicmd '^r'    history-incremental-pattern-search-backward
-    bindkey -M vicmd '^s'    history-incremental-pattern-search-forward
-    bindkey -M vicmd '^p'    history-beginning-search-backward
-    bindkey -M vicmd '^n'    history-beginning-search-forward
-    bindkey -M vicmd '^y'    yank
-    bindkey -M vicmd '^w'    backward-kill-word
-    bindkey -M vicmd '^u'    backward-kill-line
-    bindkey -M vicmd '/'     vi-history-search-forward
-    bindkey -M vicmd '?'     vi-history-search-backward
-    bindkey -M vicmd '^_'    undo
-    bindkey -M vicmd '\ef'   forward-word                      # Alt-f
-    bindkey -M vicmd '\eb'   backward-word                     # Alt-b
-    bindkey -M vicmd '\ed'   kill-word                         # Alt-d
-    bindkey -M vicmd '\e[5~' history-beginning-search-backward # PageUp
-    bindkey -M vicmd '\e[6~' history-beginning-search-forward  # PageDown
+    bindkey '^_' undo
   ;;
 esac
 
@@ -435,9 +389,9 @@ esac
 ################################################################################
 # vim mode indicator in prompt
 # (http://superuser.com/questions/151803/how-do-i-customize-zshs-vim-mode)
-vim_ins_mode="%{$fg[cyan]%}[INS]%{$reset_color%}"
-vim_cmd_mode="%{$fg[green]%}[CMD]%{$reset_color%}"
-vim_mode=$vim_ins_mode
+# vim_ins_mode="%{$fg[cyan]%}[INS]%{$reset_color%}"
+# vim_cmd_mode="%{$fg[green]%}[CMD]%{$reset_color%}"
+# vim_mode=$vim_ins_mode
 
 function zle-keymap-select {
   vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
