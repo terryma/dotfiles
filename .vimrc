@@ -854,7 +854,7 @@ nnoremap <m-i> g,
 "===============================================================================
 
 " Alt-d: Delete previous word. HACK ALERT! Ctrl-Delete sends d in iTerm2
-inoremap <m-d> <c-w>
+inoremap <m-d> <c-g>u<c-w>
 
 " Alt-j: Move current line up
 imap <m-j> <esc><m-j>a
