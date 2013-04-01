@@ -280,9 +280,6 @@ if !has('gui_running')
   " must be interpreted as some form of escape sequence that interferes.
   exec 'set <M-J>=J'
   exec 'set <M-K>=K'
-
-  " Tab is mapped to Alt-t, which is mapped from iTerm
-  exec 'set <Tab>=t'
 endif
 
 " Reload vimrc when edited, also reload the powerline color
@@ -424,7 +421,8 @@ nnoremap <Leader>sa zg]s
 nnoremap <Leader>sd 1z=
 nnoremap <Leader>sf z=
 
-" <Leader>d: TODO
+" <Leader>d: Delte the current buffer
+nnoremap <Leader>d :bdelete<CR>
 
 " <Leader>f: EasyMotion
 
@@ -622,14 +620,14 @@ nmap <c-y> [unite]y
 " Ctrl-u: Scroll half a screen up
 " TODO Don't like this at all, seems to lose context easily. Prefer C-j/k
 
-" Ctrl-i: Go forward in the jumplist, also realign the screen
-nnoremap <c-i> <c-i>zzzv
+" Ctrl-i: Go forward in the jumplist, also realigns screen. See mapping for
+" <M-s>
 
 " Ctrl-o: Go back in the jumplist, also realign the screen
 nnoremap <c-o> <c-o>zzzv
 
-" Ctrl-p: Go to (p)revious buffer
-nnoremap <c-p> <c-^>
+" Ctrl-p: Previous buffer with Minibufexplorer
+nnoremap <c-p> :MBEbp<CR>
 
 " Ctrl-[: Esc
 
@@ -701,7 +699,8 @@ nnoremap <c-v> p
 " TODO Don't like this at all, seems to lose context easily. Prefer C-j/k
 nnoremap <c-b> zz<c-b>kzz
 
-" Ctrl-n: Multichange default mapping
+" Ctrl-n: Next buffer using Minibufexplorer
+nnoremap <c-n> :MBEbn<CR>
 
 " Ctrl-m: Same as Enter
 
@@ -819,16 +818,22 @@ vnoremap <c-s> :s/\%V//g<left><left><left>
 " Alt-a: Select all
 nnoremap <m-a> ggVG
 
-" Note in iTerm2, Ctrl-Delete is mapped to send Esc+d, which triggers this
-" mapping
-" Alt-d: Delete previous word
+" Alt-s: Go back in changelist. HACK ALERT! Ctrl-i generates s with iTerm2
+nnoremap <m-s> <c-i>zzzv
+
+" Alt-d: Delete previous word. HACK ALERT! Ctrl-Delete generates d with
+" iTerm2
 nnoremap <m-d> db
+
+" Alt-h: Go to previous tmux window
 
 " Alt-j: Move current line up
 nnoremap <silent> <m-j> mz:m+<cr>`z==
 
 " Alt-k: Move current line down
 nnoremap <silent> <m-k> mz:m-2<cr>`z==
+
+" Alt-l: Go to next tmux window
 
 " Alt-Shift-j: Duplicate line down
 nnoremap <silent> <m-J> mzyyp`zj
@@ -842,13 +847,13 @@ nnoremap <m-o> g;
 " Alt-i: Jump forward in the changelist
 nnoremap <m-i> g,
 
+" Alt-n: Open new tmux window
+
 "===============================================================================
 " Insert Mode Meta Key Mappings
 "===============================================================================
 
-" Note in iTerm2, Ctrl-Delete is mapped to send Esc+d, which triggers this
-" mapping
-" Alt-d: Delete previous word
+" Alt-d: Delete previous word. HACK ALERT! Ctrl-Delete sends d in iTerm2
 inoremap <m-d> <c-w>
 
 " Alt-j: Move current line up
@@ -1486,14 +1491,11 @@ map J <Plug>(expand_region_shrink)
 " Minibufexplorer
 "===============================================================================
 
-" let g:miniBufExplSplitBelow=0
-" let g:miniBufExplMaxSize=1
-let g:miniBufExplVSplit = 20
+let g:miniBufExplVSplit=30
 let g:miniBufExplShowBufNumbers=0
 let g:miniBufExplCheckDupeBufs = 0
 let g:miniBufExplMapCTabSwitchBufs = 1
-noremap <c-p> :MBEbp<CR>
-noremap <c-n> :MBEbn<CR>
+let g:miniBufExplorerMoreThanOne=4 " This prevents the explorer to open for vimdiff 
 
 "===============================================================================
 " My functions
