@@ -35,6 +35,7 @@ NeoBundle 'Shougo/neocomplcache'
 " Snippets
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'honza/snipmate-snippets'
+" NeoBundle 'SirVer/ultisnips'
 
 " Marks
 NeoBundle 'kshenoy/vim-signature'
@@ -45,6 +46,7 @@ NeoBundle 'scrooloose/nerdcommenter'
 " File browsing
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Shougo/vimfiler'
+NeoBundle 'fholgado/minibufexpl.vim'
 
 " Syntax checker
 " NeoBundle 'scrooloose/syntastic'
@@ -73,7 +75,9 @@ NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-entire' " ae, ie
 NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
 NeoBundle 'kana/vim-textobj-line' " al, il
+NeoBundle 'kana/vim-textobj-indent' " ai, ii, aI, iI
 NeoBundle 'lucapette/vim-textobj-underscore' " a_, i_
+NeoBundle 'terryma/vim-expand-region'
 
 " Tags
 NeoBundle 'xolox/vim-easytags'
@@ -97,7 +101,7 @@ NeoBundle 'vim-scripts/wombat256.vim'
 NeoBundle 'kana/vim-submode'
 NeoBundle 'kana/vim-scratch'
 NeoBundle 'vim-scripts/BufOnly.vim'
-NeoBundle 'AndrewRadev/multichange.vim'
+" NeoBundle 'AndrewRadev/multichange.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 'mattn/webapi-vim'
@@ -117,6 +121,9 @@ NeoBundle 'koron/nyancat-vim'
 " NeoBundle 'mattn/calendar-vim'
 " NeoBundle 'sjl/clam.vim'
 " NeoBundle 'xolox/vim-session'
+
+" Load local plugins, nice for doing development
+" execute 'NeoBundleLocal' '~/code/vim'
 
 filetype plugin indent on
 syntax enable
@@ -185,13 +192,15 @@ set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
 set showbreak=↪
 
 " listchar=trail is not as flexible, use the below to highlight trailing
-" whitespace
+" whitespace. Don't do it for unite windows or readonly files
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
-autocmd BufWinEnter * match ExtraWhitespace /\s\+$/
-autocmd InsertEnter * match ExtraWhitespace /\s\+\%#\@<!$/
-autocmd InsertLeave * match ExtraWhitespace /\s\+$/
-autocmd BufWinLeave * call clearmatches()
+augroup MyAutoCmd
+  autocmd BufWinEnter * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+$/ | endif
+  autocmd InsertEnter * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+\%#\@<!$/ | endif
+  autocmd InsertLeave * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+$/ | endif
+  autocmd BufWinLeave * if &modifiable && &ft!='unite' | call clearmatches() | endif
+augroup END
 
 " Minimal number of screen lines to keep above and below the cursor
 set scrolloff=10
@@ -534,9 +543,9 @@ nnoremap <bar> :vsp<cr>
 " H: Go to beginning of line. Repeated invocation goes to previous line
 noremap <expr> H getpos('.')[2] == 1 ? 'k' : '0'
 
-" J: TODO
+" J: expand-region
 
-" K: TODO
+" K: shrink-region
 
 " L: Go to end of line. Repeated invocation goes to next line
 noremap <expr> L <SID>end_of_line()
@@ -1003,8 +1012,10 @@ xmap <s-tab> <
 
 " q quits in certain page types. Don't map esc, that interferes with mouse input
 autocmd MyAutoCmd FileType help,quickrun,qf
+      \ if (!&modifiable) |
       \ noremap <silent> <buffer> q :q<cr>|
-      \ noremap <silent> <buffer> <esc><esc> :q<cr>
+      \ noremap <silent> <buffer> <esc><esc> :q<cr>|
+      \ endif
 
 " json = javascript syntax highlight
 autocmd MyAutoCmd FileType json setlocal syntax=javascript
@@ -1214,7 +1225,7 @@ nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
 nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
 
 " Quick line using the word under cursor
-nnoremap <silent> [unite]l :<C-u>UniteWithCursorWord -buffer-name=search line<CR>
+nnoremap <silent> [unite]l :<C-u>UniteWithCursorWord -buffer-name=search_file line<CR>
 
 " Quick MRU search
 nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
@@ -1279,6 +1290,11 @@ function! s:unite_settings()
   " Using Ctrl-\ to trigger outline, so close it using the same keystroke
   if unite.buffer_name =~# '^outline'
     imap <buffer> <C-\> <Plug>(unite_exit)
+  endif
+
+  " Using Ctrl-/ to trigger line, close it using same keystroke
+  if unite.buffer_name =~# '^search_file'
+    imap <buffer> <C-_> <Plug>(unite_exit)
   endif
 endfunction
 
@@ -1458,6 +1474,26 @@ function! s:markdown_disable_autocomplete()
   endif
 endfunction
 autocmd MyAutoCmd BufEnter * call s:markdown_disable_autocomplete()
+
+"===============================================================================
+" Expand Region
+"===============================================================================
+
+map K <Plug>(expand_region_expand)
+map J <Plug>(expand_region_shrink)
+
+"===============================================================================
+" Minibufexplorer
+"===============================================================================
+
+" let g:miniBufExplSplitBelow=0
+" let g:miniBufExplMaxSize=1
+let g:miniBufExplVSplit = 20
+let g:miniBufExplShowBufNumbers=0
+let g:miniBufExplCheckDupeBufs = 0
+let g:miniBufExplMapCTabSwitchBufs = 1
+noremap <c-p> :MBEbp<CR>
+noremap <c-n> :MBEbn<CR>
 
 "===============================================================================
 " My functions
