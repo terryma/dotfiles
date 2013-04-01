@@ -232,7 +232,7 @@ set wildignore+=*.png,*.jpg,*.gif
 set wildignore+=*.so,*.swp,*.zip,*/.Trash/**,*.pdf,*.dmg,*/Library/**,*/.rbenv/**
 set wildignore+=*/.nx/**,*.app
 
-" Allow changing buffer without saving it first 
+" Allow changing buffer without saving it first
 set hidden
 
 " Set backspace config
@@ -346,6 +346,17 @@ set updatetime=1000
 " I like my word boundary to be a little bigger than the default
 set iskeyword+=<,>,[,],:,-,`,!,,
 
+" Cursor settings. This makes terminal vim sooo much nicer!
+" Tmux will only forward escape sequences to the terminal if surrounded by a DCS
+" sequence
+if exists('$TMUX')
+  let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+else
+  let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+endif
+
 "===============================================================================
 " Function Key Mappings
 "===============================================================================
@@ -421,7 +432,7 @@ nnoremap <Leader>sa zg]s
 nnoremap <Leader>sd 1z=
 nnoremap <Leader>sf z=
 
-" <Leader>d: Delte the current buffer
+" <Leader>d: Delete the current buffer
 nnoremap <Leader>d :bdelete<CR>
 
 " <Leader>f: EasyMotion
@@ -448,6 +459,9 @@ nnoremap <Leader>m <C-w>_<C-w><Bar>
 
 " <Leader><space>: TODO
 
+" <Leader>,: TODO
+" Map this to something common, since it's so easy to type
+
 " <Leader>F: EasyMotion
 
 " <Leader>T: EasyMotion
@@ -466,15 +480,16 @@ cnoremap <c-l> <s-right>
 
 " Ctrl-Space: Show history
 cnoremap <c-@> <c-f>
-cnoremap <c-f> <up>
-cnoremap <c-b> <down>
 
-cnoremap <c-j> <Down>
-cnoremap <c-k> <Up>
+cnoremap <c-j> <down>
+cnoremap <c-k> <up>
 cnoremap <c-f> <left>
 cnoremap <c-g> <right>
 
-" Paste to command mode using Ctrl-V
+" Ctrl-Delete: Delete previous word. HACK ALERT! Ctrl-Delete sends d in iTerm2
+cnoremap <m-d> <c-w>
+
+" Ctrl-v: Paste
 cnoremap <c-v> <c-r>"
 
 " w!: Change ro files to rw
@@ -493,7 +508,7 @@ cnoremap w!! w !sudo tee % >/dev/null
 "===============================================================================
 
 " Shift-Tab: NERDTree
-nnoremap [Z :NERDTreeToggle<CR>
+nnoremap <S-Tab> :NERDTreeToggle<CR>
 
 " Q: Closes the window
 nnoremap Q :q<cr>
@@ -542,17 +557,19 @@ nnoremap <bar> :vsp<cr>
 noremap <expr> H getpos('.')[2] == 1 ? 'k' : '0'
 
 " J: expand-region
+map K <Plug>(expand_region_expand)
 
 " K: shrink-region
+map J <Plug>(expand_region_shrink)
 
 " L: Go to end of line. Repeated invocation goes to next line
 noremap <expr> L <SID>end_of_line()
 function! s:end_of_line()
   let l = len(getline('.'))
-  if (l == 0 || l == getpos('.')[2])
-    return 'jg_'
+  if (l == 0 || l == getpos('.')[2]-1)
+    return 'jg_l'
   else
-    return 'g_'
+    return 'g_l'
 endfunction
 
 " :: Remap to ,. After all the remapping, ; goes to command mode, . repeats
@@ -561,8 +578,7 @@ noremap : ,
 
 " ": Handles registers
 
-" Z: Jump to match. Easier to reach than %
-noremap Z %
+" Z: TODO
 
 " X: Deletes character backward (When was the last time I actually used this?)
 
@@ -595,7 +611,7 @@ nnoremap - <c-x>
 
 " Ctrl-w: Window management
 
-" Ctrl-e: Move to end of line. Consistent with zsh
+" Ctrl-e: Ended up using L. Remap TODO
 noremap <c-e> $
 
 " Ctrl-r: Command history using Unite, this matches my muscle memory in zsh
@@ -627,7 +643,7 @@ nmap <c-y> [unite]y
 nnoremap <c-o> <c-o>zzzv
 
 " Ctrl-p: Previous buffer with Minibufexplorer
-nnoremap <c-p> :MBEbp<CR>
+nnoremap <silent> <c-p> :MBEbp<CR>
 
 " Ctrl-[: Esc
 
@@ -636,7 +652,7 @@ nnoremap <c-p> :MBEbp<CR>
 " Ctrl-\: Quick outline
 nmap <silent> <c-\> [unite]o
 
-" Ctrl-a: Move to beginning of line. Consistent with zsh
+" Ctrl-a: Ended up using H. Remap TODO
 noremap <c-a> 0
 
 " Ctrl-sa: (S)elect (a)ll
@@ -672,9 +688,7 @@ noremap <c-j> 3<c-e>3j
 noremap <c-k> 3<c-y>3k
 
 " Ctrl-l: Move word forward. Consistent with zsh
-" Move to the beginning of the next word really throws me off, since I'm more
-" used to the cursor moving to the space between two words.
-noremap <c-l> hel
+noremap <c-l> w
 
 " Ctrl-;: Vim can't map this
 
@@ -688,19 +702,14 @@ noremap <c-l> hel
 " wasting 4 very easy to hit keys for them.
 nnoremap <c-c> <c-w>w
 
-" Ctrl-v: Paste system clipboard
-" NOTE: This shouldn't be needed anymore since we've turned on
-" clipboard=unnamedplus
-" nnoremap <c-v> :set paste<cr>"+gP:set nopaste<cr>
+" Ctrl-v: Paste (works with system clipboard due to clipboard setting earlier)
 nnoremap <c-v> p
 
-" Ctrl-b: Scroll one full screen back
-" Strange, backward one screen seems to be off by one
-" TODO Don't like this at all, seems to lose context easily. Prefer C-j/k
-nnoremap <c-b> zz<c-b>kzz
+" Ctrl-b: Go (b)ack. Go to previously buffer
+nnoremap <c-b> <c-^>
 
 " Ctrl-n: Next buffer using Minibufexplorer
-nnoremap <c-n> :MBEbn<CR>
+nnoremap <silent> <c-n> :MBEbn<CR>
 
 " Ctrl-m: Same as Enter
 
@@ -783,9 +792,9 @@ inoremap <c-c> <c-o>o
 
 " Ctrl-v: Paste. For some reason, <c-o> is not creating an undo point in the
 " mapping
-inoremap <c-v> <c-g>u<c-o>p
+inoremap <c-v> <c-g>u<c-o>gP
 
-" TODO Ctrl-b:
+" Ctrl-b: TODO
 
 " Ctrl-n: Auto complete next
 
@@ -800,10 +809,8 @@ inoremap <c-_> <c-o>u
 " Visual Mode Ctrl Key Mappings
 "===============================================================================
 
-" Ctrl-c: Copy to the system clipboard
-" NOTE: This shouldn't be necessary anymore since we're turned on
-" clipboard=unnamedplus
-vnoremap <c-c> "+y
+" Ctrl-c: Copy (works with system clipboard due to clipboard setting)
+vnoremap <c-c> y`]
 
 " Ctrl-r: Easier search and replace
 vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
@@ -873,7 +880,7 @@ vnoremap <m-j> :m'>+<cr>`<my`>mzgv`yo`z
 vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 "===============================================================================
-" Space key mappings
+" Space Key Mappings
 "===============================================================================
 
 " Space is also the leader key for Unite actions
@@ -916,6 +923,7 @@ nmap <space>t <Plug>(scratch-open)
 " i: Insert before cursor
 " o: Insert line below cursor
 " p: Paste
+nnoremap p gp
 " [: Many functions
 " ]: Many functions
 " \: Toggle comment
@@ -972,6 +980,9 @@ nnoremap <Tab> %
 "===============================================================================
 " Visual Mode Key Mappings
 "===============================================================================
+
+" y: Yank and go to end of selection
+vnoremap y y`]
 
 " p: Paste in visual mode should not replace the default register with the
 " deleted text
@@ -1481,13 +1492,6 @@ endfunction
 autocmd MyAutoCmd BufEnter * call s:markdown_disable_autocomplete()
 
 "===============================================================================
-" Expand Region
-"===============================================================================
-
-map K <Plug>(expand_region_expand)
-map J <Plug>(expand_region_shrink)
-
-"===============================================================================
 " Minibufexplorer
 "===============================================================================
 
@@ -1495,7 +1499,19 @@ let g:miniBufExplVSplit=30
 let g:miniBufExplShowBufNumbers=0
 let g:miniBufExplCheckDupeBufs = 0
 let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplorerMoreThanOne=4 " This prevents the explorer to open for vimdiff 
+let g:miniBufExplorerMoreThanOne=4 " This prevents the explorer to open for vimdiff
+
+"===============================================================================
+" Expand Region
+"===============================================================================
+
+call expand_region#custom_text_objects({
+      \ 'a]'  :1,
+      \ 'ab'  :1,
+      \ 'aB'  :1,
+      \ 'ii'  :0,
+      \ 'ai'  :0,
+      \})
 
 "===============================================================================
 " My functions
@@ -1516,3 +1532,4 @@ command! -nargs=+ Silent
 " Format json using python. This needs some better error checking
 command! -nargs=0 -range=% Format 
       \ <line1>,<line2>!python -c "import sys, json, collections; print json.dumps(json.load(sys.stdin, object_pairs_hook=collections.OrderedDict), sort_keys=False, indent=2)"
+
