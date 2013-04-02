@@ -38,6 +38,7 @@ NeoBundle 'Shougo/neocomplcache'
 NeoBundle 'Shougo/neosnippet'
 NeoBundle 'honza/snipmate-snippets'
 " NeoBundle 'SirVer/ultisnips'
+" NeoBundle 'JazzCore/neocomplcache-ultisnips'
 
 " Marks
 NeoBundle 'kshenoy/vim-signature'
@@ -250,8 +251,9 @@ set ignorecase
 set smartcase
 
 " Set sensible heights for splits
-set winheight=30
-set winminheight=5
+set winheight=50
+" Setting this causes problems with Unite-outline. Don't really need it
+" set winminheight=5
 
 " Make search act like search in modern browsers
 set incsearch
@@ -1157,6 +1159,7 @@ let g:neocomplcache_max_list=10
 " - If none of the above is true, simply do what <Tab> does originally
 imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? neocomplcache#close_popup() : "\<TAB>"
 smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+
 " Enter always performs a literal enter
 imap <expr><cr> neocomplcache#smart_close_popup() . "\<CR>"
 
@@ -1279,6 +1282,7 @@ nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
 
 " Quick bookmarks
 nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
+
 " Fuzzy search from current buffer
 " nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir
       " \ -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
@@ -1290,32 +1294,25 @@ nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history history/command comm
 autocmd MyAutoCmd FileType unite call s:unite_settings()
 function! s:unite_settings()
 
-  " TODO Customize these mappings
   nmap <buffer> <ESC> <Plug>(unite_exit)
   imap <buffer> <ESC> <Plug>(unite_exit)
+  " imap <buffer> <c-j> <Plug>(unite_select_next_line)
+  imap <buffer> <c-j> <Plug>(unite_insert_leave)
+  nmap <buffer> <c-j> <Plug>(unite_loop_cursor_down)
+  nmap <buffer> <c-k> <Plug>(unite_loop_cursor_up)
+  imap <buffer> <c-a> <Plug>(unite_choose_action)
+  imap <buffer> <Tab> <Plug>(unite_exit_insert)
   imap <buffer> jj <Plug>(unite_insert_leave)
-
-  imap <buffer><expr> j unite#smart_map('j', '')
-  imap <buffer> <TAB> <Plug>(unite_select_next_line)
-  imap <buffer> <C-w> <Plug>(unite_delete_backward_path)
+  imap <buffer> <C-w> <Plug>(unite_delete_backward_word)
+  imap <buffer> <C-u> <Plug>(unite_delete_backward_path)
   imap <buffer> '     <Plug>(unite_quick_match_default_action)
   nmap <buffer> '     <Plug>(unite_quick_match_default_action)
-  imap <buffer><expr> x
-        \ unite#smart_map('x', "\<Plug>(unite_quick_match_choose_action)")
-  nmap <buffer> x     <Plug>(unite_quick_match_choose_action)
-  nmap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-  imap <buffer> <C-z>     <Plug>(unite_toggle_transpose_window)
-  imap <buffer> <C-y>     <Plug>(unite_narrowing_path)
-  nmap <buffer> <C-y>     <Plug>(unite_narrowing_path)
-  nmap <buffer> <C-j>     <Plug>(unite_toggle_auto_preview)
-  " nmap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
-  " imap <buffer> <C-r>     <Plug>(unite_narrowing_input_history)
   nmap <buffer> <C-r> <Plug>(unite_redraw)
   imap <buffer> <C-r> <Plug>(unite_redraw)
-  nmap <silent><buffer><expr> <c-s> unite#do_action('split')
-  nmap <silent><buffer><expr> <c-v> unite#do_action('vsplit')
-  nnoremap <silent><buffer><expr> l
-        \ unite#smart_map('l', unite#do_action('default'))
+  inoremap <silent><buffer><expr> <C-s> unite#do_action('split')
+  nnoremap <silent><buffer><expr> <C-s> unite#do_action('split')
+  inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+  nnoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
 
   let unite = unite#get_current_unite()
   if unite.buffer_name =~# '^search'
@@ -1325,8 +1322,6 @@ function! s:unite_settings()
   endif
 
   nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
-  nnoremap <buffer><expr> S      unite#mappings#set_current_filters(
-        \ empty(unite#mappings#get_current_filters()) ? ['sorter_reverse'] : [])
 
   " Using Ctrl-\ to trigger outline, so close it using the same keystroke
   if unite.buffer_name =~# '^outline'
