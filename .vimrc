@@ -31,6 +31,8 @@ NeoBundle 'mileszs/ack.vim'
 
 " Code completion
 NeoBundle 'Shougo/neocomplcache'
+" NeoBundle 'vim-scripts/AutoComplPop'
+" NeoBundle 'Valloric/YouCompleteMe'
 
 " Snippets
 NeoBundle 'Shougo/neosnippet'
@@ -59,7 +61,7 @@ NeoBundle 'Shougo/vimshell'
 " NeoBundle 'rstacruz/sparkup', {'rtp': 'vim'} "HTML
 NeoBundle 'tpope/vim-markdown' "Markdown
 NeoBundle 'terryma/vim-instant-markdown' "Markdown
-NeoBundle 'vim-scripts/deb.vim' "Debian packages
+" NeoBundle 'vim-scripts/deb.vim' "Debian packages
 
 " Git
 NeoBundle 'tpope/vim-fugitive'
@@ -80,7 +82,7 @@ NeoBundle 'lucapette/vim-textobj-underscore' " a_, i_
 NeoBundle 'terryma/vim-expand-region'
 
 " Tags
-NeoBundle 'xolox/vim-easytags'
+" NeoBundle 'xolox/vim-easytags'
 NeoBundle 'majutsushi/tagbar'
 
 " Status line
@@ -125,6 +127,8 @@ NeoBundle 'koron/nyancat-vim'
 " Load local plugins, nice for doing development
 " execute 'NeoBundleLocal' '~/code/vim'
 
+" NeoBundle 'sjl/vitality.vim'
+
 filetype plugin indent on
 syntax enable
 
@@ -150,6 +154,16 @@ augroup END
 
 syntax on
 
+" This took a while to figure out. Neocomplcache + iTerm + the CursorShape
+" fix is causing the completion menu popup to flash the first result. Tested it
+" with AutoComplPop and the behavior doesn't exist, so it's isolated to
+" Neocomplcache... :( Dug into the source for both and saw that AutoComplPop is
+" setting lazyredraw to be on during automatic popup...
+set lazyredraw
+
+" Solid line for vsplit separator
+set fcs=vert:│
+
 " Turn on the mouse, since it doesn't play well with tmux anyway. This way I can
 " scroll in the terminal
 set mouse=a
@@ -163,12 +177,6 @@ set number
 " Always splits to the right and below
 set splitright
 set splitbelow
-
-" Turn on cursorline only on active window
-augroup MyAutoCmd
-  autocmd WinLeave * setlocal nocursorline
-  autocmd WinEnter,BufRead * setlocal cursorline
-augroup END
 
 set background=dark
 
@@ -205,16 +213,15 @@ augroup END
 " Minimal number of screen lines to keep above and below the cursor
 set scrolloff=10
 
-" Width of the number column on the left hand side, needs a little extra to show
-" the marks
-set numberwidth=6
+" Min width of the number column to the left
+set numberwidth=1
 
 " Open all folds initially
 set foldmethod=indent
 set foldlevelstart=99
 
-" Show mode
-set showmode
+" No need to show mode due to Powerline
+set noshowmode
 
 " Auto complete setting
 set completeopt=longest,menuone
@@ -242,6 +249,10 @@ set backspace=eol,start,indent
 set ignorecase
 set smartcase
 
+" Set sensible heights for splits
+set winheight=30
+set winminheight=5
+
 " Make search act like search in modern browsers
 set incsearch
 
@@ -250,6 +261,9 @@ set magic
 
 " Show matching braces
 set showmatch
+
+" Show incomplete commands
+set showcmd
 
 " Turn off sound
 set vb
@@ -316,8 +330,6 @@ set textwidth=80
 set autoindent
 set nowrap
 set whichwrap+=h,l,<,>,[,]
-
-set guitablabel=%t
 
 " Writes to the unnamed register also writes to the * and + registers. This
 " makes it easy to interact with the system clipboard
@@ -457,7 +469,8 @@ nnoremap <silent> <Leader>n :NERDTreeFind<cr> :wincmd p<cr>
 " <Leader>m: Maximize current split
 nnoremap <Leader>m <C-w>_<C-w><Bar>
 
-" <Leader><space>: TODO
+" <Leader><space>: Change directory
+nmap <Leader><Space> [unite]d
 
 " <Leader>,: TODO
 " Map this to something common, since it's so easy to type
@@ -652,8 +665,8 @@ nnoremap <silent> <c-p> :MBEbp<CR>
 " Ctrl-\: Quick outline
 nmap <silent> <c-\> [unite]o
 
-" Ctrl-a: Ended up using H. Remap TODO
-noremap <c-a> 0
+" Ctrl-a: Search for (a)ll files
+nmap <c-a> [unite]f
 
 " Ctrl-sa: (S)elect (a)ll
 nnoremap <c-s><c-a> :keepjumps normal ggVG<CR>
@@ -671,9 +684,8 @@ nmap <c-s><c-w> ysiw
 " Ctrl-d: Scroll half a screen down
 " TODO Don't like this at all, seems to lose context easily. Prefer C-j/k
 
-" Ctrl-f: Scroll one full screen down
-" TODO Don't like this at all, seems to lose context easily. Prefer C-j/k
-nnoremap <c-f> zz<c-f>zz
+" Ctrl-f: Find buffer and recently used files
+nmap <c-f> [unite]u
 
 " Ctrl-g: Prints current file name
 nnoremap <c-g> 1<c-g>
@@ -1026,6 +1038,12 @@ xmap <s-tab> <
 " Autocommands
 "===============================================================================
 
+" Turn on cursorline only on active window
+augroup MyAutoCmd
+  autocmd WinLeave * setlocal nocursorline
+  autocmd WinEnter,BufRead * setlocal cursorline
+augroup END
+
 " q quits in certain page types. Don't map esc, that interferes with mouse input
 autocmd MyAutoCmd FileType help,quickrun,qf
       \ if (!&modifiable) |
@@ -1047,31 +1065,8 @@ augroup MyAutoCmd
   autocmd FileType java setlocal omnifunc=eclim#java#complete#CodeComplete
 augroup END
 
-" Ok this requires some explanation. I couldn't get Neocomplcache and Eclim to
-" play nice with each other. When Neocomplcache triggers omni_complete under
-" Eclim, everything just blows up. I tried to configure omni_patterns using
-" Neocomplcache, but nothing I tried worked. What eventually worked is disabling
-" omni_complete from the Neocomplcache sources for java files, and trigger it
-" manually with Ctrl-Space. Neocomplcache also has this strange behavior where
-" it overrides the completeopt flag to always remove 'longest'. In order for
-" Ctrl-Space to trigger sane behavior of autocomplete and not always select the
-" first entry by default, I need to temporarily set completeopt to include
-" longest when the key is triggered. Theoratically I could call
-" neocomplcache#start_manual_complete, but I think that requires the
-" omni_patterns to set correctly and I couldn't get that to work
-function! s:disable_neocomplcache_for_java()
-  if &ft ==# 'java'
-    :NeoComplCacheLockSource omni_complete
-    inoremap <buffer> <c-@> <C-R>=<SID>java_omni_complete()<CR>
-  endif
-endfunction
-
-function! s:java_omni_complete()
-  setlocal completeopt+=longest
-  return "\<C-X>\<C-O>"
-endfunction
-
-autocmd MyAutoCmd BufEnter * call s:disable_neocomplcache_for_java()
+" Diff mode settings
+" au MyAutoCmd FilterWritePre * if &diff | exe 'nnoremap <c-p> [c' | exe 'nnoremap <c-n> ]c' | endif
 
 "===============================================================================
 " NERDTree
@@ -1148,11 +1143,12 @@ let g:neocomplcache_enable_camel_case_completion = 1
 " Use underscore completion.
 let g:neocomplcache_enable_underbar_completion = 1
 " Sets minimum char length of syntax keyword.
-let g:neocomplcache_min_syntax_length = 1
+let g:neocomplcache_min_syntax_length = 4
+let g:neocomplcache_min_keyword_length = 4
 " AutoComplPop like behavior.
 let g:neocomplcache_enable_auto_select = 1
 let g:snips_author = "Terry Ma"
-
+let g:neocomplcache_max_list=10
 " <Tab>'s function is overloaded depending on the context:
 " - If the current word is a snippet, then expand that snippet
 " - If we're in the middle of a snippet, tab jumps to the next placeholder text
@@ -1164,9 +1160,9 @@ smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expan
 " Enter always performs a literal enter
 imap <expr><cr> neocomplcache#smart_close_popup() . "\<CR>"
 
-if has('conceal')
-  set conceallevel=2 concealcursor=i
-endif
+" if has('conceal')
+  " set conceallevel=2 concealcursor=i
+" endif
 
 " Tell Neosnippets to use the snipmate snippets
 let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets,~/.dotfiles/.vim/snippets'
@@ -1182,6 +1178,32 @@ let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets,~
 " let g:neocomplcache_force_omni_patterns.java = '\%(\.\)\h\w*'
 " let g:neocomplcache_force_omni_patterns.java = '.'
 " let g:neocomplcache_omni_patterns.java = '\%(\.\)\h\w*'
+
+" Ok this requires some explanation. I couldn't get Neocomplcache and Eclim to
+" play nice with each other. When Neocomplcache triggers omni_complete under
+" Eclim, everything just blows up. I tried to configure omni_patterns using
+" Neocomplcache, but nothing I tried worked. What eventually worked is disabling
+" omni_complete from the Neocomplcache sources for java files, and trigger it
+" manually with Ctrl-Space. Neocomplcache also has this strange behavior where
+" it overrides the completeopt flag to always remove 'longest'. In order for
+" Ctrl-Space to trigger sane behavior of autocomplete and not always select the
+" first entry by default, I need to temporarily set completeopt to include
+" longest when the key is triggered. Theoratically I could call
+" neocomplcache#start_manual_complete, but I think that requires the
+" omni_patterns to set correctly and I couldn't get that to work
+function! s:disable_neocomplcache_for_java()
+  if &ft ==# 'java'
+    :NeoComplCacheLockSource omni_complete
+    inoremap <buffer> <c-@> <C-R>=<SID>java_omni_complete()<CR>
+  endif
+endfunction
+
+function! s:java_omni_complete()
+  setlocal completeopt+=longest
+  return "\<C-X>\<C-O>"
+endfunction
+
+" autocmd MyAutoCmd BufEnter * call s:disable_neocomplcache_for_java()
 
 "===============================================================================
 " Unite
@@ -1211,6 +1233,9 @@ nnoremap <silent> [unite]<space> :<C-u>Unite
 
 " Quick registers
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
+
+" Quick buffer and mru
+nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=buffers buffer file_mru<CR>
 
 " Quick yank history
 nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
