@@ -169,140 +169,6 @@ function x-vi-yank-whole-line() {
 }
 zle -N x-vi-yank-whole-line
 
-# Zsh's history-beginning-search-backward is very close to Vim's C-x C-l
-history-beginning-search-backward-then-append() {
-  zle history-beginning-search-backward
-  zle vi-add-eol
-}
-zle -N history-beginning-search-backward-then-append
-
-# Delete all characters between a pair of characters. Mimics vim's "di" text object functionality
-delete-in() {
-
-  # Create locally-scoped variables we'll need
-  local CHAR LCHAR RCHAR LSEARCH RSEARCH COUNT
-
-  # Read the character to indicate which text object we're deleting
-  read -k CHAR
-
-  if [ "$CHAR" = "w" ]
-  then
-    # diw, delete the word
-
-    # find the beginning of the word under the cursor
-    zle vi-backward-word
-
-    # set the left side of the delete region at this point
-    LSEARCH=$CURSOR
-
-    # find the end of the word under the cursor
-    zle vi-forward-word
-
-    # set the right side of the delete region at this point
-    RSEARCH=$CURSOR
-
-    # Set the BUFFER to everything except the word we are removing
-    RBUFFER="$BUFFER[$RSEARCH+1,${#BUFFER}]"
-    LBUFFER="$LBUFFER[1,$LSEARCH]"
-
-    return
-
-  # diw was unique.  For everything else, we just have to define the
-  # characters to the left and right of the cursor to be removed
-  elif [ "$CHAR" = "(" ] || [ "$CHAR" = ")" ]
-  then
-    # di), delete inside of a pair of parenthesis
-    LCHAR="("
-    RCHAR=")"
-
-  elif [ "$CHAR" = "[" ] || [ "$CHAR" = "]" ]
-  then
-    # di], delete inside of a pair of square brackets
-    LCHAR="["
-    RCHAR="]"
-
-  elif [ $CHAR = "{" ] || [ $CHAR = "}" ]
-  then
-    # di}, delete inside of a pair of braces
-    LCHAR="{"
-    RCHAR="}"
-
-  else
-    # The character entered does not have a special definition.
-    # Simply find the first instance to the left and right of the cursor.
-    LCHAR="$CHAR"
-    RCHAR="$CHAR"
-  fi
-
-  # Find the first instance of LCHAR to the left of the cursor and the
-  # first instance of RCHAR to the right of the cursor, and remove everything in between.
-  # Begin the search for the left-sided character directly the left of the cursor
-  LSEARCH=${#LBUFFER}
-
-  # Keep going left until we find the character or hit the beginning of the buffer
-  while [ "$LSEARCH" -gt 0 ] && [ "$LBUFFER[$LSEARCH]" != "$LCHAR" ]
-  do
-    LSEARCH=$(expr $LSEARCH - 1)
-  done
-
-  # If we hit the beginning of the command line without finding the character, abort
-  if [ "$LBUFFER[$LSEARCH]" != "$LCHAR" ]
-  then
-    return
-  fi
-
-  # start the search directly to the right of the cursor
-  RSEARCH=0
-
-  # Keep going right until we find the character or hit the end of the buffer
-  while [ "$RSEARCH" -lt $(expr ${#RBUFFER} + 1 ) ] && [ "$RBUFFER[$RSEARCH]" != "$RCHAR" ]
-  do
-    RSEARCH=$(expr $RSEARCH + 1)
-  done
-
-  # If we hit the end of the command line without finding the character, abort
-  if [ "$RBUFFER[$RSEARCH]" != "$RCHAR" ]
-  then
-    return
-  fi
-
-  # Set the BUFFER to everything except the text we are removing
-  RBUFFER="$RBUFFER[$RSEARCH,${#RBUFFER}]"
-  LBUFFER="$LBUFFER[1,$LSEARCH]"
-}
-
-zle -N delete-in
-
-# Delete all characters between a pair of characters and then go to insert mode
-# Mimics vim's "ci" text object functionality.
-change-in() {
-  zle delete-in
-  zle vi-insert
-}
-zle -N change-in
-
-# Delete all characters between a pair of characters as well as the surrounding
-# characters themselves. Mimics vim's "da" text object functionality
-delete-around() {
-  zle delete-in
-  zle vi-backward-char
-  zle vi-delete-char
-  zle vi-delete-char
-}
-zle -N delete-around
-
-# Delete all characters between a pair of characters as well as the surrounding
-# characters themselves and then go into insert mode. Mimics vim's "ca" text
-# object functionality.
-change-around() {
-  zle delete-in
-  zle vi-backward-char
-  zle vi-delete-char
-  zle vi-delete-char
-  zle vi-insert
-}
-zle -N change-around
-
 ################################################################################
 # Key bindings
 ################################################################################
@@ -344,7 +210,9 @@ case "$TERM" in
     bindkey '^s' history-incremental-pattern-search-forward
     # Ctrl-d: Delete next word
     bindkey '^d' kill-word
-    # Ctrl-f: Move one character to the left
+    # Ctrl-f: Move one character to the left. Good way to remember this is that
+    # both f and h use the left finger. 1 moves character left, and the other
+    # word left
     bindkey '^f' backward-char
     # Ctrl-g: Move one character to the right
     bindkey '^g' forward-char
@@ -372,6 +240,8 @@ case "$TERM" in
     # Ctrl-m: Same as Enter
     # Ctrl-n: Clear the entire screen (cleaN)
     bindkey '^n' clear-screen
+    # Ctrl-/: Undo
+    bindkey '^_' undo
     # Ctrl-Space: Quickly yank the entire line into the x CLIPBOARD
     bindkey '^@' x-vi-yank-whole-line
 
@@ -379,8 +249,6 @@ case "$TERM" in
     bindkey -s '^[k' "→\r"
     # Alt-j: Move to previous directory in history
     bindkey -s '^[j' "←\r"
-
-    bindkey '^_' undo
   ;;
 esac
 
@@ -393,18 +261,18 @@ esac
 # vim_cmd_mode="%{$fg[green]%}[CMD]%{$reset_color%}"
 # vim_mode=$vim_ins_mode
 
-function zle-keymap-select {
-  vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
-  zle reset-prompt
-}
-zle -N zle-keymap-select
+# function zle-keymap-select {
+  # vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
+  # zle reset-prompt
+# }
+# zle -N zle-keymap-select
 
-function zle-line-finish {
-  vim_mode=$vim_ins_mode
-}
-zle -N zle-line-finish
+# function zle-line-finish {
+  # vim_mode=$vim_ins_mode
+# }
+# zle -N zle-line-finish
 
-RPROMPT='${vim_mode}'
+# RPROMPT='${vim_mode}'
 
 ################################################################################
 # END
