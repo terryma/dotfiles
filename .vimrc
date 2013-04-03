@@ -767,8 +767,8 @@ inoremap <c-u> <c-g>u<c-u>
 " Ctrl-a: Go to begin of line
 inoremap <c-a> <esc>I
 
-" Ctrl-s: Used by vim-surround
-" TODO: When do I ever use this?
+" Ctrl-s: Save
+inoremap <c-s> <esc>:w<CR>
 
 " Ctrl-d: Unindent shiftwidth
 
