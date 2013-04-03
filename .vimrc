@@ -1,3 +1,4 @@
+
 " Disable vi-compatibility
 set nocompatible
 
@@ -110,6 +111,8 @@ NeoBundle 't9md/vim-quickhl'
 NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'koron/nyancat-vim'
+NeoBundle 'Raimondi/delimitMate'
+
 
 " Ones that I don't really use anymore
 " NeoBundle 'vim-scripts/TaskList.vim'
@@ -261,8 +264,8 @@ set incsearch
 " Make regex a little easier to type
 set magic
 
-" Show matching braces
-set showmatch
+" Don't show matching brackets
+set noshowmatch
 
 " Show incomplete commands
 set showcmd
@@ -582,9 +585,9 @@ noremap <expr> L <SID>end_of_line()
 function! s:end_of_line()
   let l = len(getline('.'))
   if (l == 0 || l == getpos('.')[2]-1)
-    return 'jg_l'
+    return 'jg_'
   else
-    return 'g_l'
+    return 'g_'
 endfunction
 
 " :: Remap to ,. After all the remapping, ; goes to command mode, . repeats
