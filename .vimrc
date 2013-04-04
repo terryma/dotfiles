@@ -22,6 +22,12 @@ NeoBundle 'Shougo/vimproc', { 'build': {
       \   'unix': 'make -f make_unix.mak',
       \ } }
 
+" Experiments
+" NeoBundle 'felixr/vim-multiedit'
+" NeoBundle 'adinapoli/vim-markmultiple'
+" NeoBundle 'paradigm/vim-multicursor'
+" NeoBundle 'AndrewRadev/multichange.vim'
+
 " Fuzzy search
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
@@ -58,12 +64,14 @@ NeoBundle 'fholgado/minibufexpl.vim'
 " Shell
 NeoBundle 'thinca/vim-quickrun'
 NeoBundle 'Shougo/vimshell'
+NeoBundle 'tpope/vim-dispatch'
 
 " File types
 " NeoBundle 'rstacruz/sparkup', {'rtp': 'vim'} "HTML
 NeoBundle 'tpope/vim-markdown' "Markdown
 NeoBundle 'terryma/vim-instant-markdown' "Markdown
 " NeoBundle 'vim-scripts/deb.vim' "Debian packages
+NeoBundle 'vim-ruby/vim-ruby' "Ruby
 
 " Git
 NeoBundle 'tpope/vim-fugitive'
@@ -105,7 +113,6 @@ NeoBundle 'vim-scripts/wombat256.vim'
 NeoBundle 'kana/vim-submode'
 NeoBundle 'kana/vim-scratch'
 NeoBundle 'vim-scripts/BufOnly.vim'
-" NeoBundle 'AndrewRadev/multichange.vim'
 NeoBundle 'sjl/gundo.vim'
 NeoBundle 't9md/vim-quickhl'
 NeoBundle 'mattn/webapi-vim'
@@ -127,16 +134,32 @@ NeoBundle 'Raimondi/delimitMate'
 " NeoBundle 'mattn/calendar-vim'
 " NeoBundle 'sjl/clam.vim'
 " NeoBundle 'xolox/vim-session'
+" NeoBundle 'sjl/vitality.vim'
 
 " Load local plugins, nice for doing development
 " execute 'NeoBundleLocal' '~/code/vim'
-
-" NeoBundle 'sjl/vitality.vim'
 
 filetype plugin indent on
 syntax enable
 
 NeoBundleCheck
+
+"===============================================================================
+" Experiments
+"===============================================================================
+
+" add currently selected region to multiedit
+" map ,,a <Plug>(multiedit-add) 
+" add a space and mark it as multiedit region
+" map ,,s I<Space><Esc>v<Plug>(multiedit-add)
+" mark word as multiedit region 
+" map ,,w viw<Plug>(multiedit-add)b
+" start editing multiedit regions 
+" map ,,i <Plug>(multiedit-edit)i
+" reset/clear multiedit regions
+" map ,,q <Plug>(multiedit-reset)
+
+" let g:multicursor_quit = "<esc>"
 
 "===============================================================================
 " Local Settings
@@ -1528,13 +1551,26 @@ let g:miniBufExplorerMoreThanOne=4 " This prevents the explorer to open for vimd
 " Expand Region
 "===============================================================================
 
+" Extend the global dictionary
 call expand_region#custom_text_objects({
       \ 'a]'  :1,
       \ 'ab'  :1,
       \ 'aB'  :1,
       \ 'ii'  :0,
       \ 'ai'  :0,
-      \})
+      \ })
+
+" Customize it further for ruby
+call expand_region#custom_text_objects('ruby', {
+      \ 'im' :0,
+      \ 'am' :0,
+      \ })
+
+"===============================================================================
+" DelimitMate
+"===============================================================================
+
+autocmd MyAutoCmd FileType vim let b:delimitMate_quotes = "'"
 
 "===============================================================================
 " My functions
