@@ -57,6 +57,7 @@ if [ -d /usr/local/lib/node_modules ]; then
   export NODE_PATH=/usr/local/share/npm/lib/node_modules
 fi
 export KEYTIMEOUT=1
+export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 ################################################################################
 # Aliases
@@ -188,7 +189,8 @@ case "$TERM" in
     # Ctrl-q: Quoted insert (Default is Ctrl-v)
     bindkey '^q' quoted-insert
     # Ctrl-w: Delete previous word
-    bindkey '^w' vi-backward-kill-word
+    # bindkey '^w' vi-backward-kill-word
+    bindkey '^w' backward-kill-word
     # Ctrl-e: Move to the end of line
     bindkey '^e' end-of-line
     # Ctrl-r: Search backwards in history
@@ -217,13 +219,15 @@ case "$TERM" in
     # Ctrl-g: Move one character to the right
     bindkey '^g' forward-char
     # Ctrl-h: Move one word to the left
-    bindkey '^h' vi-backward-word
+    # bindkey '^h' vi-backward-word
+    bindkey '^h' backward-word
     # Ctrl-j: Go down in history
     bindkey '^j' down-line-or-history
     # Ctrl-k: Go up in history
     bindkey '^k' up-line-or-history
     # Ctrl-l: Move one word to the right
-    bindkey '^l' vi-forward-word
+    # bindkey '^l' vi-forward-word
+    bindkey '^l' forward-word
     # Ctrl-[: Same as Escape
     # Ctrl-]: TODO
     # bindkey '^]'
