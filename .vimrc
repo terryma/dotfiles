@@ -27,6 +27,7 @@ NeoBundle 'Shougo/vimproc', { 'build': {
 " NeoBundle 'adinapoli/vim-markmultiple'
 " NeoBundle 'paradigm/vim-multicursor'
 " NeoBundle 'AndrewRadev/multichange.vim'
+" NeoBundle 'daylilyfield/sexyscroll.vim'
 
 " Fuzzy search
 NeoBundle 'Shougo/unite.vim'
@@ -119,6 +120,7 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'koron/nyancat-vim'
 NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'terryma/vim-smooth-scroll'
 
 
 " Ones that I don't really use anymore
@@ -384,7 +386,7 @@ endif
 set updatetime=1000
 
 " I like my word boundary to be a little bigger than the default
-set iskeyword+=<,>,[,],:,-,`,!,,
+set iskeyword+=<,>,[,],:,-,`,!
 
 " Cursor settings. This makes terminal vim sooo much nicer!
 " Tmux will only forward escape sequences to the terminal if surrounded by a DCS
@@ -674,8 +676,8 @@ autocmd MyAutoCmd TabLeave * let g:lasttab = tabpagenr()
 " Ctrl-y: Yanks
 nmap <c-y> [unite]y
 
-" Ctrl-u: Scroll half a screen up
-" TODO Don't like this at all, seems to lose context easily. Prefer C-j/k
+" Ctrl-u: Scroll half a screen up smoothly
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
 
 " Ctrl-i: Go forward in the jumplist, also realigns screen. See mapping for
 " <M-s>
@@ -708,6 +710,9 @@ nmap <c-s><c-f> [unite]l
 nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
 " Ctrl-sw: Quickly surround word
 nmap <c-s><c-w> ysiw
+
+" Ctrl-d: Scroll half a screen down smoothly
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
 
 " Ctrl-fr: (F)ind (r)ecent. MRU and Buffers
 nmap <c-f><c-r> [unite]u
@@ -932,32 +937,13 @@ vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
 " call submode#enter_with('scroll', 'n', '', '<space>k', '3<c-y>')
 " call submode#map('scroll', 'n', '', 'j', '3<c-e>')
 " call submode#map('scroll', 'n', '', 'k', '3<c-y>')
-call submode#enter_with('scroll', 'n', '', '<space>j', ':silent! call SmoothScroll("d",3,1)<CR>')
-call submode#enter_with('scroll', 'n', '', '<space>k', ':silent! call SmoothScroll("u",3,1)<CR>')
-call submode#map('scroll', 'n', '', 'j', ':call SmoothScroll("d",3,1)<CR>')
-call submode#map('scroll', 'n', '', 'k', ':call SmoothScroll("u",3,1)<CR>')
+call submode#enter_with('scroll', 'n', '', '<space>j', ':call smooth_scroll#down(&scroll/2, 0, 1)<CR>')
+call submode#enter_with('scroll', 'n', '', '<space>k', ':call smooth_scroll#up(&scroll/2, 0, 1)<CR>')
+call submode#map('scroll', 'n', '', 'j', ':call smooth_scroll#down(&scroll/2, 0, 1)<CR>')
+call submode#map('scroll', 'n', '', 'k', ':call smooth_scroll#up(&scroll/2, 0, 1)<CR>')
 
-let g:scroll_factor = 0
-function! SmoothScroll(dir, windiv, factor)
-   let wh=winheight(0)
-   let i=0
-   while i < wh / a:windiv
-      let t1=reltime()
-      let i = i + 1
-      if a:dir=="d"
-        exec "normal! \<C-e>j"
-      else
-        exec "normal! \<C-y>k"
-      end
-      redraw
-      while 1
-         let t2=reltime(t1,reltime())
-         if t2[1] > g:scroll_factor * a:factor
-            break
-         endif
-      endwhile
-   endwhile
-endfunction
+" Don't leave submode automatically
+let g:submode_timeout = 0
 
 " Space-=: Resize windows
 nnoremap <space>= <c-w>=
@@ -1051,35 +1037,37 @@ nnoremap <Tab> %
 "===============================================================================
 
 " y: Yank and go to end of selection
-vnoremap y y`]
+xnoremap y y`]
 
 " p: Paste in visual mode should not replace the default register with the
 " deleted text
-vnoremap p "_dP
+xnoremap p "_dP
 
 " d: Delete into the blackhole register to not clobber the last yank. To 'cut',
 " use 'x' instead
-vnoremap d "_d
+xnoremap d "_d
 
 " \: Toggle comment
-vmap \ <Leader>c<space>
+xmap \ <Leader>c<space>
 
 " Enter: Highlight visual selections
-vnoremap <silent> <CR> y:let @/ = @"<cr>:set hlsearch<cr>
+xnoremap <silent> <CR> y:let @/ = @"<cr>:set hlsearch<cr>
 
 " Backspace: Delete selected and go into insert mode
-" Don't map to vnoremap, since it conflicts with Neosnippet in SELECT mode
 xnoremap <bs> c
 
+" Space: QuickRun
+xnoremap <space> :QuickRun<CR>
+
 " <|>: Reselect visual block after indent
-vnoremap < <gv
-vnoremap > >gv
+xnoremap < <gv
+xnoremap > >gv
 
 " .: repeats the last command on every line
-vnoremap . :normal.<cr>
+xnoremap . :normal.<cr>
 
 " @: repeats macro on every line
-vnoremap @ :normal@
+xnoremap @ :normal@
 
 " Tab: Indent
 xmap <Tab> >
@@ -1580,6 +1568,8 @@ let g:miniBufExplorerMoreThanOne=4 " This prevents the explorer to open for vimd
 " Expand Region
 "===============================================================================
 
+let g:expand_region_use_select_mode = 1
+
 " Extend the global dictionary
 call expand_region#custom_text_objects({
       \ 'a]'  :1,
@@ -1621,3 +1611,26 @@ command! -nargs=+ Silent
 command! -nargs=0 -range=% Format 
       \ <line1>,<line2>!python -c "import sys, json, collections; print json.dumps(json.load(sys.stdin, object_pairs_hook=collections.OrderedDict), sort_keys=False, indent=2)"
 
+" Execute 'cmd' while redirecting output.
+" Delete all lines that do not match regex 'filter' (if not empty).
+" Delete any blank lines.
+" Delete '<whitespace><number>:<whitespace>' from start of each line.
+" Display result in a scratch buffer.
+function! s:Filter_lines(cmd, filter)
+  let save_more = &more
+  set nomore
+  redir => lines
+  silent execute a:cmd
+  redir END
+  let &more = save_more
+  new
+  setlocal buftype=nofile bufhidden=hide noswapfile
+  put =lines
+  g/^\s*$/d
+  %s/^\s*\d\+:\s*//e
+  if !empty(a:filter)
+    execute 'v/' . a:filter . '/d'
+  endif
+  0
+endfunction
+command! -nargs=? Scriptnames call s:Filter_lines('scriptnames', <q-args>)
