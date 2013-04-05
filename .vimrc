@@ -595,7 +595,7 @@ nnoremap <bar> :vsp<cr>
 " G: Go to end of file
 
 " H: Go to beginning of line. Repeated invocation goes to previous line
-noremap <expr> H getpos('.')[2] == 1 ? 'k' : '0'
+noremap <expr> H getpos('.')[2] == 1 ? 'k' : '^'
 
 " J: expand-region
 map K <Plug>(expand_region_expand)
@@ -709,11 +709,14 @@ nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
 " Ctrl-sw: Quickly surround word
 nmap <c-s><c-w> ysiw
 
-" Ctrl-d: Scroll half a screen down
-" TODO Don't like this at all, seems to lose context easily. Prefer C-j/k
+" Ctrl-fr: (F)ind (r)ecent. MRU and Buffers
+nmap <c-f><c-r> [unite]u
 
-" Ctrl-f: Find buffer and recently used files
-nmap <c-f> [unite]u
+" Ctrl-fd: (F)ind (d)irectory. Change directory
+nmap <c-f><c-d> [unite]d
+
+" Ctrl-ff: (F)ind (f)ile. Recursive search through current directory for file
+nmap <c-f><c-f> [unite]f
 
 " Ctrl-g: Prints current file name
 nnoremap <c-g> 1<c-g>
@@ -925,10 +928,36 @@ vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 " Space is also the leader key for Unite actions
 " Space-[jk] scrolls the page
-call submode#enter_with('scroll', 'n', '', '<space>j', '3<c-e>')
-call submode#enter_with('scroll', 'n', '', '<space>k', '3<c-y>')
-call submode#map('scroll', 'n', '', 'j', '3<c-e>')
-call submode#map('scroll', 'n', '', 'k', '3<c-y>')
+" call submode#enter_with('scroll', 'n', '', '<space>j', '3<c-e>')
+" call submode#enter_with('scroll', 'n', '', '<space>k', '3<c-y>')
+" call submode#map('scroll', 'n', '', 'j', '3<c-e>')
+" call submode#map('scroll', 'n', '', 'k', '3<c-y>')
+call submode#enter_with('scroll', 'n', '', '<space>j', ':silent! call SmoothScroll("d",3,1)<CR>')
+call submode#enter_with('scroll', 'n', '', '<space>k', ':silent! call SmoothScroll("u",3,1)<CR>')
+call submode#map('scroll', 'n', '', 'j', ':call SmoothScroll("d",3,1)<CR>')
+call submode#map('scroll', 'n', '', 'k', ':call SmoothScroll("u",3,1)<CR>')
+
+let g:scroll_factor = 0
+function! SmoothScroll(dir, windiv, factor)
+   let wh=winheight(0)
+   let i=0
+   while i < wh / a:windiv
+      let t1=reltime()
+      let i = i + 1
+      if a:dir=="d"
+        exec "normal! \<C-e>j"
+      else
+        exec "normal! \<C-y>k"
+      end
+      redraw
+      while 1
+         let t2=reltime(t1,reltime())
+         if t2[1] > g:scroll_factor * a:factor
+            break
+         endif
+      endwhile
+   endwhile
+endfunction
 
 " Space-=: Resize windows
 nnoremap <space>= <c-w>=
