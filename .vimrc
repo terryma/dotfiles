@@ -90,7 +90,7 @@ NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
 NeoBundle 'kana/vim-textobj-line' " al, il
 NeoBundle 'kana/vim-textobj-indent' " ai, ii, aI, iI
 NeoBundle 'lucapette/vim-textobj-underscore' " a_, i_
-NeoBundle 'terryma/vim-expand-region'
+" NeoBundle 'terryma/vim-expand-region'
 
 " Tags
 " NeoBundle 'xolox/vim-easytags'
@@ -139,7 +139,7 @@ NeoBundle 'terryma/vim-smooth-scroll'
 " NeoBundle 'sjl/vitality.vim'
 
 " Load local plugins, nice for doing development
-" execute 'NeoBundleLocal' '~/code/vim'
+execute 'NeoBundleLocal' '~/code/vim'
 
 filetype plugin indent on
 syntax enable
@@ -677,7 +677,7 @@ autocmd MyAutoCmd TabLeave * let g:lasttab = tabpagenr()
 nmap <c-y> [unite]y
 
 " Ctrl-u: Scroll half a screen up smoothly
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 2)<CR>
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 3)<CR>
 
 " Ctrl-i: Go forward in the jumplist, also realigns screen. See mapping for
 " <M-s>
@@ -712,7 +712,7 @@ nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
 nmap <c-s><c-w> ysiw
 
 " Ctrl-d: Scroll half a screen down smoothly
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 2)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 3)<CR>
 
 " Ctrl-fr: (F)ind (r)ecent. MRU and Buffers
 nmap <c-f><c-r> [unite]u
