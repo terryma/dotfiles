@@ -38,13 +38,14 @@ NeoBundle 'thinca/vim-unite-history'
 NeoBundle 'mileszs/ack.vim'
 
 " Code completion
-NeoBundle 'Shougo/neocomplcache'
+NeoBundle'Shougo/neocomplcache'
 " NeoBundle 'vim-scripts/AutoComplPop'
 " NeoBundle 'Valloric/YouCompleteMe'
 
 " Snippets
 NeoBundle 'Shougo/neosnippet'
-NeoBundle 'honza/snipmate-snippets'
+" FIXME(terryma): WTF this is deleted?!
+" NeoBundle 'honza/snipmate-snippets'
 " NeoBundle 'SirVer/ultisnips'
 " NeoBundle 'JazzCore/neocomplcache-ultisnips'
 
@@ -1568,7 +1569,11 @@ let g:miniBufExplorerMoreThanOne=4 " This prevents the explorer to open for vimd
 " Expand Region
 "===============================================================================
 
-let g:expand_region_use_select_mode = 1
+" This option currently isn't working :( Neosnippet is unmappion my
+" select mode mappings, so if I switch buffer and come back, the mappings no
+" longer work. Not sure how to solve that
+" let g:expand_region_use_select_mode = 1
+let g:expand_region_use_select_mode = 0
 
 " Extend the global dictionary
 call expand_region#custom_text_objects({
