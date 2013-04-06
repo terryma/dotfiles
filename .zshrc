@@ -239,7 +239,8 @@ case "$TERM" in
     # Ctrl-c: Terminates
     # Ctrl-v: Insert the contents of the clipboard at the cursor
     bindkey '^v' x-yank
-    # Ctrl-b: TODO
+    # Ctrl-b: Edit command line using vi. 'b' stands for better :)
+    bindkey '^b' edit-command-line
     # bindkey '^b'
     # Ctrl-m: Same as Enter
     # Ctrl-n: Clear the entire screen (cleaN)

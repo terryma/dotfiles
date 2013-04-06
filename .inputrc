@@ -1,5 +1,4 @@
-set editing-mode vi
-set keymap vi-insert
+set editing-mode emacs
 "\C-w": backward-kill-word
 "\C-e": end-of-line
 "\C-r": reverse-search-history
@@ -16,7 +15,8 @@ set keymap vi-insert
 "\C-j": next-history
 "\C-k": previous-history
 "\C-l": forward-word
-"\C-x": delete-char
 "\C-v": yank
 "\C-n": clear-screen
 "\C-_": undo
+# In iTerm, <Ctrl-BS> sends Alt-d
+"d": backward-kill-word
