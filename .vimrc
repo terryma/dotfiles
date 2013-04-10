@@ -28,6 +28,7 @@ NeoBundle 'Shougo/vimproc', { 'build': {
 " NeoBundle 'paradigm/vim-multicursor'
 " NeoBundle 'AndrewRadev/multichange.vim'
 " NeoBundle 'daylilyfield/sexyscroll.vim'
+" NeoBundle 'hlissner/vim-multiedit'
 
 " Fuzzy search
 NeoBundle 'Shougo/unite.vim'
@@ -50,7 +51,7 @@ NeoBundle 'Shougo/neosnippet'
 " NeoBundle 'JazzCore/neocomplcache-ultisnips'
 
 " Marks
-NeoBundle 'kshenoy/vim-signature'
+" NeoBundle 'kshenoy/vim-signature'
 
 " Comments
 NeoBundle 'scrooloose/nerdcommenter'
@@ -58,7 +59,7 @@ NeoBundle 'scrooloose/nerdcommenter'
 " File browsing
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Shougo/vimfiler'
-NeoBundle 'fholgado/minibufexpl.vim'
+" NeoBundle 'fholgado/minibufexpl.vim'
 
 " Syntax checker
 " NeoBundle 'scrooloose/syntastic'
@@ -102,14 +103,14 @@ NeoBundle 'terryma/vim-powerline', {'rev':'develop'}
 
 " Color themems
 NeoBundle 'altercation/vim-colors-solarized'
-NeoBundle 'tomasr/molokai'
-NeoBundle 'Lokaltog/vim-distinguished'
-NeoBundle 'chriskempson/base16-vim'
-NeoBundle 'tpope/vim-vividchalk'
-NeoBundle 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
-NeoBundle 'rainux/vim-desert-warm-256'
+" NeoBundle 'tomasr/molokai'
+" NeoBundle 'Lokaltog/vim-distinguished'
+" NeoBundle 'chriskempson/base16-vim'
+" NeoBundle 'tpope/vim-vividchalk'
+" NeoBundle 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
+" NeoBundle 'rainux/vim-desert-warm-256'
 NeoBundle 'nanotech/jellybeans.vim'
-NeoBundle 'vim-scripts/wombat256.vim'
+" NeoBundle 'vim-scripts/wombat256.vim'
 
 " Misc
 NeoBundle 'kana/vim-submode'
@@ -121,7 +122,7 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'koron/nyancat-vim'
 NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'terryma/vim-smooth-scroll'
+" NeoBundle 'terryma/vim-smooth-scroll'
 
 
 " Ones that I don't really use anymore
@@ -208,12 +209,14 @@ set number
 set splitright
 set splitbelow
 
-set background=dark
+" 256bit terminal
+set t_Co=256
 
-" Colorschemes
-" colorscheme Tomorrow-Night
-" colorscheme Tomorrow-Night-Bright
+" Colorscheme
 colorscheme jellybeans
+
+" Tell Vim to use dark background
+set background=dark
 
 " Sets how many lines of history vim has to remember
 set history=10000
@@ -330,13 +333,6 @@ endif
 " Reload vimrc when edited, also reload the powerline color
 autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
       \ so $MYVIMRC | call Pl#Load() | if has('gui_running') | so $MYGVIMRC | endif
-
-" 256bit terminal
-set t_Co=256
-
-" Disable menu and toolbar
-set go-=T
-set go-=m
 
 try
   lang en_us
@@ -684,10 +680,10 @@ noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 3)<CR>
 " <M-s>
 
 " Ctrl-o: Go back in the jumplist, also realign the screen
-nnoremap <c-o> <c-o>zzzv
+" nnoremap <c-o> <c-o>zzzv
 
 " Ctrl-p: Previous buffer with Minibufexplorer
-nnoremap <silent> <c-p> :MBEbp<CR>
+" nnoremap <silent> <c-p> :MBEbp<CR>
 
 " Ctrl-[: Esc
 
@@ -758,7 +754,7 @@ nnoremap <c-v> p
 nnoremap <c-b> <c-^>
 
 " Ctrl-n: Next buffer using Minibufexplorer
-nnoremap <silent> <c-n> :MBEbn<CR>
+" nnoremap <silent> <c-n> :MBEbn<CR>
 
 " Ctrl-m: Same as Enter
 
@@ -1559,11 +1555,12 @@ autocmd MyAutoCmd BufEnter * call s:markdown_disable_autocomplete()
 " Minibufexplorer
 "===============================================================================
 
-let g:miniBufExplVSplit=30
-let g:miniBufExplShowBufNumbers=0
-let g:miniBufExplCheckDupeBufs = 0
-let g:miniBufExplMapCTabSwitchBufs = 1
-let g:miniBufExplorerMoreThanOne=4 " This prevents the explorer to open for vimdiff
+" Conflicts with C-w,p
+" let g:miniBufExplVSplit=30
+" let g:miniBufExplShowBufNumbers=0
+" let g:miniBufExplCheckDupeBufs = 0
+" let g:miniBufExplMapCTabSwitchBufs = 1
+" let g:miniBufExplorerMoreThanOne=4 " This prevents the explorer to open for vimdiff
 
 "===============================================================================
 " Expand Region
