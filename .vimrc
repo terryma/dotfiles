@@ -448,7 +448,7 @@ nnoremap <Leader>e :e! ~/.dotfiles/.vimrc<cr>
 
 " <Leader>r: QuickRun's default keymap
 
-" <Leader>t: EasyMotion
+" <Leader>t: TODO
 
 " TODO <Leader> y
 
@@ -474,7 +474,8 @@ nnoremap <Leader>sf z=
 " <Leader>d: Delete the current buffer
 nnoremap <Leader>d :bdelete<CR>
 
-" <Leader>f: EasyMotion
+" <Leader>f: Open Quickfix
+nnoremap <silent> <Leader>f :botright copen<CR>
 
 " <Leader>g: Fugitive shortcuts
 
@@ -496,15 +497,10 @@ nnoremap <silent> <Leader>n :NERDTreeFind<cr> :wincmd p<cr>
 " <Leader>m: Maximize current split
 nnoremap <Leader>m <C-w>_<C-w><Bar>
 
-" <Leader><space>: Change directory
-nmap <Leader><Space> [unite]d
+" <Leader><space>: TODO
 
-" <Leader>,: TODO
-" Map this to something common, since it's so easy to type
-
-" <Leader>F: EasyMotion
-
-" <Leader>T: EasyMotion
+" <Leader>,: Switch to previous split
+nnoremap <Leader>, <C-w>p
 
 "===============================================================================
 " Command-line Mode Key Mappings
@@ -1091,11 +1087,12 @@ augroup MyAutoCmd
 augroup END
 
 " q quits in certain page types. Don't map esc, that interferes with mouse input
-autocmd MyAutoCmd FileType help,quickrun,qf
+autocmd MyAutoCmd FileType help,quickrun
       \ if (!&modifiable || &ft==#'quickrun') |
-      \ noremap <silent> <buffer> q :q<cr>|
-      \ noremap <silent> <buffer> <esc><esc> :q<cr>|
+      \ nnoremap <silent> <buffer> q :q<cr>|
+      \ nnoremap <silent> <buffer> <esc><esc> :q<cr>|
       \ endif
+autocmd MyAutoCmd FileType qf nnoremap <silent> <buffer> q :q<CR>
 
 " json = javascript syntax highlight
 autocmd MyAutoCmd FileType json setlocal syntax=javascript
@@ -1171,10 +1168,11 @@ nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>:Git push<cr>
 hi link EasyMotionTarget WarningMsg
 hi link EasyMotionShade  Comment
 
-let g:EasyMotion_mapping_f = '<C-f>f'
-let g:EasyMotion_mapping_F = '<C-f><C-f>'
-let g:EasyMotion_mapping_t = '<C-f>t'
-let g:EasyMotion_mapping_T = '<C-f><C-t>'
+let g:EasyMotion_do_mapping = 0
+nnoremap <silent> <C-f>f :call EasyMotion#F(0, 0)<CR>
+nnoremap <silent> <C-f><C-f> :call EasyMotion#F(0, 1)<CR>
+nnoremap <silent> <C-f>t :call EasyMotion#T(0, 0)<CR>
+nnoremap <silent> <C-f><C-t> :call EasyMotion#T(0, 1)<CR>
 
 "===============================================================================
 " Neocomplcache and Neosnippets
