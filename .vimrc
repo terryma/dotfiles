@@ -317,17 +317,17 @@ set timeout timeoutlen=1000 ttimeoutlen=0
 
 " Fix meta-keys which generate <Esc>A .. <Esc>z
 if !has('gui_running')
-  let c='a'
-  while c <= 'z'
-    exec "set <M-".c.">=\e".c
-    exec "imap \e".c." <M-".c.">"
-    let c = nr2char(1+char2nr(c))
-  endw
+  " let c='a'
+  " while c <= 'z'
+    " exec "set <M-".c.">=\e".c
+    " exec "imap \e".c." <M-".c.">"
+    " let c = nr2char(1+char2nr(c))
+  " endw
   " Map these two on its own to enable Alt-Shift-J and Alt-Shift-K. If I map the
   " whole spectrum of A-Z, it screws up mouse scrolling somehow. Mouse events
   " must be interpreted as some form of escape sequence that interferes.
-  exec 'set <M-J>=J'
-  exec 'set <M-K>=K'
+  " exec 'set <M-J>=J'
+  " exec 'set <M-K>=K'
 endif
 
 " Reload vimrc when edited, also reload the powerline color
@@ -682,8 +682,7 @@ noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 3)<CR>
 " Ctrl-o: Go back in the jumplist, also realign the screen
 " nnoremap <c-o> <c-o>zzzv
 
-" Ctrl-p: Previous buffer with Minibufexplorer
-" nnoremap <silent> <c-p> :MBEbp<CR>
+" Ctrl-p: Previous cursor in MultiCursor mode
 
 " Ctrl-[: Esc
 
@@ -692,8 +691,7 @@ noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 3)<CR>
 " Ctrl-\: Quick outline
 nmap <silent> <c-\> [unite]o
 
-" Ctrl-a: Search for (a)ll files
-nmap <c-a> [unite]f
+" Ctrl-a: TODO
 
 " Ctrl-sa: (S)elect (a)ll
 nnoremap <c-s><c-a> :keepjumps normal ggVG<CR>
@@ -711,14 +709,17 @@ nmap <c-s><c-w> ysiw
 " Ctrl-d: Scroll half a screen down smoothly
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 3)<CR>
 
-" Ctrl-fr: (F)ind (r)ecent. MRU and Buffers
-nmap <c-f><c-r> [unite]u
+" Ctrl-fm: (F)ind (M)RU and buffers
+nmap <c-f><c-m> [unite]u
+
+" Ctrl-fa: (F)ind (A)all files recursively
+nmap <c-f><c-a> [unite]f
 
 " Ctrl-fd: (F)ind (d)irectory. Change directory
 nmap <c-f><c-d> [unite]d
 
-" Ctrl-ff: (F)ind (f)ile. Recursive search through current directory for file
-nmap <c-f><c-f> [unite]f
+" Ctrl-ff: EasyMotion
+" Ctrl-ft: EasyMotion
 
 " Ctrl-g: Prints current file name
 nnoremap <c-g> 1<c-g>
@@ -741,7 +742,7 @@ noremap <c-l> w
 
 " Ctrl-z: This is the command key for tmux
 
-" Ctrl-x: Rope
+" Ctrl-x: Skip curosr in MultiCursor mode
 
 " Ctrl-c: (C)ycle through the splits. I don't ever use enough splits to justify
 " wasting 4 very easy to hit keys for them.
@@ -753,8 +754,7 @@ nnoremap <c-v> p
 " Ctrl-b: Go (b)ack. Go to previously buffer
 nnoremap <c-b> <c-^>
 
-" Ctrl-n: Next buffer using Minibufexplorer
-" nnoremap <silent> <c-n> :MBEbn<CR>
+" Ctrl-n: Next cursor in MultiCursor mode
 
 " Ctrl-m: Same as Enter
 
@@ -869,13 +869,16 @@ vnoremap <c-s> :s/\%V//g<left><left><left>
 
 " Alt-a: Select all
 nnoremap <m-a> ggVG
+nnoremap a ggVG
 
 " Alt-s: Go back in changelist. HACK ALERT! Ctrl-i generates s with iTerm2
 nnoremap <m-s> <c-i>zzzv
+nnoremap s <c-i>
 
 " Alt-d: Delete previous word. HACK ALERT! Ctrl-Delete generates d with
 " iTerm2
 nnoremap <m-d> db
+nnoremap d db
 
 " Alt-h: Go to previous tmux window
 
@@ -907,6 +910,7 @@ nnoremap <m-i> g,
 
 " Alt-d: Delete previous word. HACK ALERT! Ctrl-Delete sends d in iTerm2
 inoremap <m-d> <c-g>u<c-w>
+inoremap d <c-g>u<c-w>
 
 " Alt-j: Move current line up
 imap <m-j> <esc><m-j>a
@@ -1088,7 +1092,7 @@ augroup END
 
 " q quits in certain page types. Don't map esc, that interferes with mouse input
 autocmd MyAutoCmd FileType help,quickrun,qf
-      \ if (!&modifiable) |
+      \ if (!&modifiable || &ft==#'quickrun') |
       \ noremap <silent> <buffer> q :q<cr>|
       \ noremap <silent> <buffer> <esc><esc> :q<cr>|
       \ endif
@@ -1167,10 +1171,10 @@ nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>:Git push<cr>
 hi link EasyMotionTarget WarningMsg
 hi link EasyMotionShade  Comment
 
-let g:EasyMotion_mapping_f = '<Leader>f'
-let g:EasyMotion_mapping_F = '<Leader>F'
-let g:EasyMotion_mapping_t = '<Leader>t'
-let g:EasyMotion_mapping_T = '<Leader>T'
+let g:EasyMotion_mapping_f = '<C-f>f'
+let g:EasyMotion_mapping_F = '<C-f><C-f>'
+let g:EasyMotion_mapping_t = '<C-f>t'
+let g:EasyMotion_mapping_T = '<C-f><C-t>'
 
 "===============================================================================
 " Neocomplcache and Neosnippets
