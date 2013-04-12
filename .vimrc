@@ -384,6 +384,7 @@ set updatetime=1000
 
 " I like my word boundary to be a little bigger than the default
 set iskeyword+=<,>,[,],:,-,`,!
+set iskeyword-=_
 
 " Cursor settings. This makes terminal vim sooo much nicer!
 " Tmux will only forward escape sequences to the terminal if surrounded by a DCS
@@ -1179,7 +1180,7 @@ nnoremap <silent> <C-f><C-t> :call EasyMotion#T(0, 1)<CR>
 "===============================================================================
 
 " Launches neocomplcache automatically on vim startup.
-let g:neocomplcache_enable_at_startup = 1
+let g:neocomplcache_enable_at_startup = 0
 " Use smartcase.
 let g:neocomplcache_enable_smart_case = 1
 " Use camel case completion.
