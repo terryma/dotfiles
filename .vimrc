@@ -45,8 +45,7 @@ NeoBundle'Shougo/neocomplcache'
 
 " Snippets
 NeoBundle 'Shougo/neosnippet'
-" FIXME(terryma): WTF this is deleted?!
-" NeoBundle 'honza/snipmate-snippets'
+NeoBundle 'honza/vim-snippets'
 " NeoBundle 'SirVer/ultisnips'
 " NeoBundle 'JazzCore/neocomplcache-ultisnips'
 
@@ -764,6 +763,7 @@ nmap <c-_> [unite]l
 
 " Ctrl-Space: Quick scratch buffer
 nmap <C-@> <Plug>(scratch-open)
+nmap <C-Space> <C-@>
 
 "===============================================================================
 " Insert Mode Ctrl Key Mappings
