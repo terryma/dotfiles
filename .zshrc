@@ -44,11 +44,11 @@ autoload zmv
 # Vars
 ################################################################################
 export PATH=~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share/python:/usr/local/share/npm/bin:$PATH
-export EDITOR=vim
+export EDITOR=/usr/local/bin/vim
 # Use vimpager as PAGER
 export VIMPAGER_RC=~/.dotfiles/.zsh/.vimpagerrc
 export PAGER=~/.dotfiles/.zsh/vimpager/vimpager
-export VISUAL=vim
+export VISUAL=/usr/local/bin/vim
 export P4DIFF="gvimdiff -f -R"
 if [ -f /usr/local/heroku/bin/heroku ]; then
   export PATH=/usr/local/heroku/bin:$PATH
@@ -58,6 +58,8 @@ if [ -d /usr/local/lib/node_modules ]; then
 fi
 export KEYTIMEOUT=1
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
+export NDK_ROOT=~/code/sdk/android-ndk-r8e
 
 ################################################################################
 # Aliases
@@ -131,7 +133,7 @@ compctl -g '~/.teamocil/*(:t:r)' teamocil
 # Auto ls after each directory change
 function chpwd() {
     emulate -L zsh
-    l
+    ll
 }
 
 # Copy selected region to CLIPBOARD
