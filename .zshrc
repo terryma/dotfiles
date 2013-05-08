@@ -44,11 +44,11 @@ autoload zmv
 # Vars
 ################################################################################
 export PATH=~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share/python:/usr/local/share/npm/bin:$PATH
-export EDITOR=/usr/local/bin/vim
+export EDITOR=$(which vim)
 # Use vimpager as PAGER
 export VIMPAGER_RC=~/.dotfiles/.zsh/.vimpagerrc
 export PAGER=~/.dotfiles/.zsh/vimpager/vimpager
-export VISUAL=/usr/local/bin/vim
+export VISUAL=$(which vim)
 export P4DIFF="gvimdiff -f -R"
 if [ -f /usr/local/heroku/bin/heroku ]; then
   export PATH=/usr/local/heroku/bin:$PATH
