@@ -75,6 +75,11 @@ alias gvir='gvim --remote'
 # Git
 alias gbs='git branches'
 alias gbed='git branch --edit-description'
+alias gmt='git mergetool'
+alias gi='git update-index --assume-unchanged'
+alias gui='git update-index --no-assume-unchanged'
+alias gsi='git ls-files -v | grep "^[a-z]"'
+alias gg='git log --abbrev-commit --decorate --pretty=oneline'
 
 # Enable reattach-to-user-namespace on Mac. See
 # https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/issues/8
@@ -87,8 +92,8 @@ fi
 alias less=$PAGER
 alias zless=$PAGER
 
-alias ←="pushd -q +1"
-alias →="pushd -q -0"
+alias ←="pushd -q -1"
+alias →="pushd -q +0"
 alias .="cd ~/.dotfiles"
 
 bp() {
