@@ -11,12 +11,14 @@
 [diff]
   external = vimdiff-git
 [pager]
-  diff = 
+  diff =
   log = false
 [merge]
   keepBackup = false
   tool = fugitive
 [mergetool]
+  keepBackup = false
+  keepTemporaries = false
   prompt = false
 [mergetool "fugitive"]
   cmd = vim -f -c \"Gdiff\" \"$MERGED\"
