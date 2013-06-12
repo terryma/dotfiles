@@ -73,6 +73,7 @@ fi
 alias gvir='gvim --remote'
 
 # Git
+alias gd='git difftool'
 alias gbs='git branches'
 alias gbed='git branch --edit-description'
 alias gmt='git mergetool'

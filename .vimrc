@@ -39,14 +39,14 @@ NeoBundle 'thinca/vim-unite-history'
 NeoBundle 'mileszs/ack.vim'
 
 " Code completion
-NeoBundle'Shougo/neocomplcache'
+" NeoBundle'Shougo/neocomplcache'
 " NeoBundle 'vim-scripts/AutoComplPop'
-" NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'Valloric/YouCompleteMe'
 
 " Snippets
-NeoBundle 'Shougo/neosnippet'
-NeoBundle 'honza/vim-snippets'
-" NeoBundle 'SirVer/ultisnips'
+" NeoBundle 'Shougo/neosnippet'
+" NeoBundle 'honza/vim-snippets'
+NeoBundle 'SirVer/ultisnips'
 " NeoBundle 'JazzCore/neocomplcache-ultisnips'
 
 " Marks
@@ -61,7 +61,7 @@ NeoBundle 'Shougo/vimfiler'
 " NeoBundle 'fholgado/minibufexpl.vim'
 
 " Syntax checker
-" NeoBundle 'scrooloose/syntastic'
+NeoBundle 'scrooloose/syntastic'
 
 " Shell
 NeoBundle 'thinca/vim-quickrun'
@@ -1180,38 +1180,38 @@ nnoremap <silent> <C-f><C-t> :call EasyMotion#T(0, 1)<CR>
 "===============================================================================
 
 " Launches neocomplcache automatically on vim startup.
-let g:neocomplcache_enable_at_startup = 0
+" let g:neocomplcache_enable_at_startup = 0
 " Use smartcase.
-let g:neocomplcache_enable_smart_case = 1
+" let g:neocomplcache_enable_smart_case = 1
 " Use camel case completion.
-let g:neocomplcache_enable_camel_case_completion = 1
+" let g:neocomplcache_enable_camel_case_completion = 1
 " Use underscore completion.
-let g:neocomplcache_enable_underbar_completion = 1
+" let g:neocomplcache_enable_underbar_completion = 1
 " Sets minimum char length of syntax keyword.
-let g:neocomplcache_min_syntax_length = 4
-let g:neocomplcache_min_keyword_length = 4
+" let g:neocomplcache_min_syntax_length = 4
+" let g:neocomplcache_min_keyword_length = 4
 " AutoComplPop like behavior.
-let g:neocomplcache_enable_auto_select = 1
-let g:snips_author = "Terry Ma"
-let g:neocomplcache_max_list=10
+" let g:neocomplcache_enable_auto_select = 1
+" let g:snips_author = "Terry Ma"
+" let g:neocomplcache_max_list=10
 " <Tab>'s function is overloaded depending on the context:
 " - If the current word is a snippet, then expand that snippet
 " - If we're in the middle of a snippet, tab jumps to the next placeholder text
 " - If the competion menu is visible, enter the currently selected entry and
 "   close the popup
 " - If none of the above is true, simply do what <Tab> does originally
-imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? neocomplcache#close_popup() : "\<TAB>"
-smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
+" imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? neocomplcache#close_popup() : "\<TAB>"
+" smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
 
 " Enter always performs a literal enter
-imap <expr><cr> neocomplcache#smart_close_popup() . "\<CR>"
+" imap <expr><cr> neocomplcache#smart_close_popup() . "\<CR>"
 
 " if has('conceal')
   " set conceallevel=2 concealcursor=i
 " endif
 
 " Tell Neosnippets to use the snipmate snippets
-let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets,~/.dotfiles/.vim/snippets'
+" let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets,~/.dotfiles/.vim/snippets'
 
 " These are the battle scars of me trying to get omni_patterns to work correctly
 " so Neocomplcache and Eclim could co-exist peacefully. No cigar.
@@ -1237,17 +1237,17 @@ let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets,~
 " longest when the key is triggered. Theoratically I could call
 " neocomplcache#start_manual_complete, but I think that requires the
 " omni_patterns to set correctly and I couldn't get that to work
-function! s:disable_neocomplcache_for_java()
-  if &ft ==# 'java'
-    :NeoComplCacheLockSource omni_complete
-    inoremap <buffer> <c-@> <C-R>=<SID>java_omni_complete()<CR>
-  endif
-endfunction
+" function! s:disable_neocomplcache_for_java()
+  " if &ft ==# 'java'
+    " :NeoComplCacheLockSource omni_complete
+    " inoremap <buffer> <c-@> <C-R>=<SID>java_omni_complete()<CR>
+  " endif
+" endfunction
 
-function! s:java_omni_complete()
-  setlocal completeopt+=longest
-  return "\<C-X>\<C-O>"
-endfunction
+" function! s:java_omni_complete()
+  " setlocal completeopt+=longest
+  " return "\<C-X>\<C-O>"
+" endfunction
 
 " autocmd MyAutoCmd BufEnter * call s:disable_neocomplcache_for_java()
 
@@ -1549,7 +1549,7 @@ endfunction
 " Turn off completion, it's more disruptive than helpful
 function! s:markdown_disable_autocomplete()
   if &ft ==# 'markdown'
-    :NeoComplCacheLock
+    " :NeoComplCacheLock
   endif
 endfunction
 autocmd MyAutoCmd BufEnter * call s:markdown_disable_autocomplete()
@@ -1595,6 +1595,12 @@ call expand_region#custom_text_objects('ruby', {
 "===============================================================================
 
 autocmd MyAutoCmd FileType vim let b:delimitMate_quotes = "'"
+
+"===============================================================================
+" YCM
+"===============================================================================
+
+let g:ycm_confirm_extra_conf = 0
 
 "===============================================================================
 " My functions
