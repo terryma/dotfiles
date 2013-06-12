@@ -81,6 +81,7 @@ alias gi='git update-index --assume-unchanged'
 alias gui='git update-index --no-assume-unchanged'
 alias gsi='git ls-files -v | grep "^[a-z]"'
 alias gg='git log --abbrev-commit --decorate --pretty=oneline'
+alias gs='git --no-pager show --stat --oneline'
 
 # Enable reattach-to-user-namespace on Mac. See
 # https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/issues/8

@@ -11,14 +11,22 @@
 [diff]
   external = vimdiff-git
 [pager]
-  diff = 
+  diff =
   log = false
 [merge]
   keepBackup = false
   tool = fugitive
 [mergetool]
+  keepBackup = false
+  keepTemporaries = false
   prompt = false
 [mergetool "fugitive"]
   cmd = vim -f -c \"Gdiff\" \"$MERGED\"
   keepTemporaries = false
   keepBackup = false
+[difftool "sourcetree"]
+	cmd = opendiff \"$LOCAL\" \"$REMOTE\"
+	path = 
+[mergetool "sourcetree"]
+	cmd = /Applications/SourceTree.app/Contents/Resources/opendiff-w.sh \"$LOCAL\" \"$REMOTE\" -ancestor \"$BASE\" -merge \"$MERGED\"
+	trustExitCode = true
