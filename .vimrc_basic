@@ -1,0 +1,62 @@
+set nocompatible
+syntax on
+filetype plugin indent on
+set autoindent
+" set lazyredraw
+" set fcs=vert:│
+" set mouse=a
+" set number
+" set t_Co=256
+" set background=dark
+" set history=10000
+" set list
+" set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
+" set showbreak=↪
+" set scrolloff=10
+" set numberwidth=1
+" set completeopt=longest,menuone
+" set wildmode=list:longest,full
+" set hidden
+" set backspace=eol,start,indent
+" set ignorecase
+" set smartcase
+" set incsearch
+" set magic
+" set noshowmatch
+" set vb
+" set t_vb=
+" set laststatus=2
+" set encoding=utf-8
+" set timeout timeoutlen=1000 ttimeoutlen=0
+" set nobackup
+" set nowritebackup
+" set noswapfile
+" set expandtab
+" set shiftwidth=2
+" set tabstop=8
+" set softtabstop=2
+" set smarttab
+" set linebreak
+" set textwidth=80
+" set autoindent
+" set nowrap
+" set whichwrap+=h,l,<,>,[,]
+" set virtualedit=onemore
+" set virtualedit=all
+" if has ('unnamedplus')
+  " set clipboard=unnamedplus
+" else
+  " set clipboard=unnamed
+" endif
+" set updatetime=1000
+" set iskeyword+=<,>,[,],:,-,`,!
+" if exists('$TMUX')
+  " let &t_SI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=1\x7\<Esc>\\"
+  " let &t_EI = "\<Esc>Ptmux;\<Esc>\<Esc>]50;CursorShape=0\x7\<Esc>\\"
+" else
+  " let &t_SI = "\<Esc>]50;CursorShape=1\x7"
+  " let &t_EI = "\<Esc>]50;CursorShape=0\x7"
+" endif
+let g:multi_cursor_debug_latency=1
+source ~/code/vim/vim-multiple-cursors/plugin/multiple_cursors.vim
+source ~/code/vim/vim-multiple-cursors/autoload/multiple_cursors.vim

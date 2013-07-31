@@ -22,14 +22,6 @@ NeoBundle 'Shougo/vimproc', { 'build': {
       \   'unix': 'make -f make_unix.mak',
       \ } }
 
-" Experiments
-" NeoBundle 'felixr/vim-multiedit'
-" NeoBundle 'adinapoli/vim-markmultiple'
-" NeoBundle 'paradigm/vim-multicursor'
-" NeoBundle 'AndrewRadev/multichange.vim'
-" NeoBundle 'daylilyfield/sexyscroll.vim'
-" NeoBundle 'hlissner/vim-multiedit'
-
 " Fuzzy search
 NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
@@ -74,6 +66,7 @@ NeoBundle 'tpope/vim-markdown' "Markdown
 NeoBundle 'terryma/vim-instant-markdown' "Markdown
 " NeoBundle 'vim-scripts/deb.vim' "Debian packages
 NeoBundle 'vim-ruby/vim-ruby' "Ruby
+NeoBundle 'psykidellic/vim-jekyll' "Jekyll
 
 " Git
 NeoBundle 'tpope/vim-fugitive'
@@ -146,23 +139,6 @@ filetype plugin indent on
 syntax enable
 
 NeoBundleCheck
-
-"===============================================================================
-" Experiments
-"===============================================================================
-
-" add currently selected region to multiedit
-" map ,,a <Plug>(multiedit-add) 
-" add a space and mark it as multiedit region
-" map ,,s I<Space><Esc>v<Plug>(multiedit-add)
-" mark word as multiedit region 
-" map ,,w viw<Plug>(multiedit-add)b
-" start editing multiedit regions 
-" map ,,i <Plug>(multiedit-edit)i
-" reset/clear multiedit regions
-" map ,,q <Plug>(multiedit-reset)
-
-" let g:multicursor_quit = "<esc>"
 
 "===============================================================================
 " Local Settings
@@ -1602,6 +1578,24 @@ autocmd MyAutoCmd FileType vim let b:delimitMate_quotes = "'"
 
 let g:ycm_confirm_extra_conf = 0
 let g:EclimCompletionMethod = 'omnifunc'
+let g:ycm_filetype_blacklist = {
+      \ 'notes' : 1,
+      \ 'markdown' : 1,
+      \ 'text' : 1,
+      \ 'unite' : 1
+      \}
+
+"===============================================================================
+" UltiSnips
+"===============================================================================
+
+let g:UltiSnipsExpandTrigger="<c-j>"
+
+"===============================================================================
+" Jekyll
+"===============================================================================
+
+let g:jekyll_post_extension = '.md'
 
 "===============================================================================
 " My functions
