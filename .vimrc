@@ -74,6 +74,7 @@ NeoBundle 'tpope/vim-markdown' "Markdown
 NeoBundle 'terryma/vim-instant-markdown' "Markdown
 " NeoBundle 'vim-scripts/deb.vim' "Debian packages
 NeoBundle 'vim-ruby/vim-ruby' "Ruby
+NeoBundle 'psykidellic/vim-jekyll' "Jekyll
 
 " Git
 NeoBundle 'tpope/vim-fugitive'
@@ -1601,6 +1602,19 @@ autocmd MyAutoCmd FileType vim let b:delimitMate_quotes = "'"
 "===============================================================================
 
 let g:ycm_confirm_extra_conf = 0
+let g:ycm_filetype_blacklist = {
+      \ 'notes' : 1,
+      \ 'markdown' : 1,
+      \ 'text' : 1,
+      \ 'unite' : 1
+      \}
+
+"===============================================================================
+" Jekyll
+"===============================================================================
+
+let g:jekyll_post_extension = '.md'
+
 
 "===============================================================================
 " My functions
