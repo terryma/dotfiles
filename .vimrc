@@ -1106,7 +1106,7 @@ augroup MyAutoCmd
   autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-  autocmd FileType java setlocal omnifunc=eclim#java#complete#CodeComplete
+  " autocmd FileType java setlocal omnifunc=eclim#java#complete#CodeComplete
 augroup END
 
 " Diff mode settings
@@ -1601,6 +1601,7 @@ autocmd MyAutoCmd FileType vim let b:delimitMate_quotes = "'"
 "===============================================================================
 
 let g:ycm_confirm_extra_conf = 0
+let g:EclimCompletionMethod = 'omnifunc'
 
 "===============================================================================
 " My functions
