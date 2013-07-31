@@ -4,12 +4,13 @@
 [core]
   excludesfile = ~/.gitignore_global
 [alias]
-  d = difftool
   lg = log --abbrev-commit --decorate --pretty=oneline
 [color]
   ui = auto
 [diff]
-  external = vimdiff-git
+  tool = myvimdiff
+[difftool "myvimdiff"]
+  cmd = /usr/local/bin/vimdiff \"$REMOTE\" \"$LOCAL\"
 [pager]
   diff =
   log = false
