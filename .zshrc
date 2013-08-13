@@ -12,7 +12,7 @@ ZSH_THEME="pure"
 DISABLE_AUTO_TITLE="true"
 COMPLETION_WAITING_DOTS="true"
 DEFAULT_USER=$USER
-plugins=(git brew osx)
+plugins=(git brew osx zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
 ################################################################################
