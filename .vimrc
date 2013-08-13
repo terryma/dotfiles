@@ -416,7 +416,7 @@ nnoremap <silent> <Leader>2 :TagbarToggle<cr>
 vnoremap <silent> <Leader>0 :!python<cr>
 
 " <Leader>tab: Toggles NERDTree
-nnoremap <Leader><tab> :NERDTreeToggle<cr>
+nnoremap <silent> <Leader><tab> :NERDTreeToggle<cr>
 
 " <Leader>q: Quit all, very useful in vimdiff
 nnoremap <Leader>q :qa<cr>

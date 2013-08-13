@@ -5,7 +5,10 @@ for config (~/.zsh/*.zsh) source $config
 # Oh My Zsh
 ################################################################################
 ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="agnoster"
+# ZSH_THEME="agnoster"
+# ZSH_THEME="powerline"
+ZSH_THEME="pure"
+
 DISABLE_AUTO_TITLE="true"
 COMPLETION_WAITING_DOTS="true"
 DEFAULT_USER=$USER
