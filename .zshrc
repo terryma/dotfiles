@@ -9,7 +9,6 @@ ZSH_THEME="agnoster"
 DISABLE_AUTO_TITLE="true"
 COMPLETION_WAITING_DOTS="true"
 DEFAULT_USER=$USER
-# plugins=(git brew osx vi-mode)
 plugins=(git brew osx)
 source $ZSH/oh-my-zsh.sh
 
@@ -109,8 +108,8 @@ rt() {
 ################################################################################
 # Ruby
 ################################################################################
-# Initialize rbenv
-if which rbenv > /dev/null; then eval "$(rbenv init -)"; fi
+# Initialize rbenv. Don't rehash, it makes starting up REALLY slow
+if which rbenv > /dev/null; then eval "$(rbenv init - --no-rehash)"; fi
 
 # Important. Under Mac OS X, make sure to disable /usr/libexec/path_helper to
 # prevent non-interactive zsh to have the wrong path. See

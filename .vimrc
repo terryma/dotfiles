@@ -67,6 +67,10 @@ NeoBundle 'terryma/vim-instant-markdown' "Markdown
 " NeoBundle 'vim-scripts/deb.vim' "Debian packages
 NeoBundle 'vim-ruby/vim-ruby' "Ruby
 NeoBundle 'psykidellic/vim-jekyll' "Jekyll
+NeoBundle 'kchmck/vim-coffee-script' "CoffeeScript
+
+" Ruby
+NeoBundle 'tpope/vim-rails'
 
 " Git
 NeoBundle 'tpope/vim-fugitive'
@@ -77,7 +81,7 @@ NeoBundle 'goldfeld/vim-seek'
 
 " Text Objects
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-repeat'
+" NeoBundle 'tpope/vim-repeat'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-entire' " ae, ie
 NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
@@ -114,6 +118,7 @@ NeoBundle 'mattn/webapi-vim'
 NeoBundle 'mattn/gist-vim'
 NeoBundle 'koron/nyancat-vim'
 NeoBundle 'Raimondi/delimitMate'
+NeoBundle 'ton/vim-bufsurf'
 " NeoBundle 'terryma/vim-smooth-scroll'
 
 
@@ -663,7 +668,9 @@ noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 3)<CR>
 " Ctrl-\: Quick outline
 nmap <silent> <c-\> [unite]o
 
-" Ctrl-a: TODO
+" Ctrl-a*: Dispatch related
+nnoremap <c-a><c-a> :Dispatch<CR>
+nnoremap <c-a><c-d> :Dispatch 
 
 " Ctrl-sa: (S)elect (a)ll
 nnoremap <c-s><c-a> :keepjumps normal ggVG<CR>
@@ -698,6 +705,7 @@ nnoremap <c-g> 1<c-g>
 
 " Ctrl-h: Move word back. Consistent with zsh
 noremap <c-h> b
+inoremap <c-h> <c-o>b
 
 " Ctrl-j: Scroll + move down through the file
 noremap <c-j> 3<c-e>3j
@@ -707,6 +715,7 @@ noremap <c-k> 3<c-y>3k
 
 " Ctrl-l: Move word forward. Consistent with zsh
 noremap <c-l> w
+inoremap <c-l> <c-o>w
 
 " Ctrl-;: Vim can't map this
 
@@ -853,7 +862,8 @@ nnoremap s <c-i>
 nnoremap <m-d> db
 nnoremap d db
 
-" Alt-h: Go to previous tmux window
+" Alt-h: Go to previous buffer
+nnoremap <silent> h :BufSurfBack<CR>
 
 " Alt-j: Move current line up
 nnoremap <silent> <m-j> mz:m+<cr>`z==
@@ -861,7 +871,8 @@ nnoremap <silent> <m-j> mz:m+<cr>`z==
 " Alt-k: Move current line down
 nnoremap <silent> <m-k> mz:m-2<cr>`z==
 
-" Alt-l: Go to next tmux window
+" Alt-l: Go to next buffer
+nnoremap <silent> l :BufSurfForward<CR>
 
 " Alt-Shift-j: Duplicate line down
 nnoremap <silent> <m-J> mzyyp`zj
@@ -880,10 +891,6 @@ nnoremap <m-i> g,
 "===============================================================================
 " Insert Mode Meta Key Mappings
 "===============================================================================
-
-" Alt-d: Delete previous word. HACK ALERT! Ctrl-Delete sends d in iTerm2
-inoremap <m-d> <c-g>u<c-w>
-inoremap d <c-g>u<c-w>
 
 " Alt-j: Move current line up
 imap <m-j> <esc><m-j>a
@@ -1083,6 +1090,7 @@ augroup MyAutoCmd
   autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
   autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
   " autocmd FileType java setlocal omnifunc=eclim#java#complete#CodeComplete
+  autocmd FileType ruby let b:dispatch = 'rspec %'
 augroup END
 
 " Diff mode settings
@@ -1243,6 +1251,8 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ '\.git/',
       \ 'git5/.*/review/',
       \ 'google/obj/',
+      \ 'tmp/',
+      \ '.sass-cache',
       \ ], '\|'))
 
 " Map space to the prefix for Unite
@@ -1589,7 +1599,27 @@ let g:ycm_filetype_blacklist = {
 " UltiSnips
 "===============================================================================
 
-let g:UltiSnipsExpandTrigger="<c-j>"
+let g:UltiSnipsExpandTrigger="<tab>"
+let g:UltiSnipsJumpForwardTrigger="<tab>"
+let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
+
+" Make UltiSnips works nicely with YCM
+function! g:UltiSnips_Complete()
+    call UltiSnips_ExpandSnippet()
+    if g:ulti_expand_res == 0
+        if pumvisible()
+            return "\<C-n>"
+        else
+            call UltiSnips_JumpForwards()
+            if g:ulti_jump_forwards_res == 0
+               return "\<TAB>"
+            endif
+        endif
+    endif
+    return ""
+endfunction
+
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 
 "===============================================================================
 " Jekyll
