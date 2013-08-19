@@ -81,7 +81,7 @@ NeoBundle 'goldfeld/vim-seek'
 
 " Text Objects
 NeoBundle 'tpope/vim-surround'
-" NeoBundle 'tpope/vim-repeat'
+NeoBundle 'tpope/vim-repeat'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-entire' " ae, ie
 NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
@@ -542,7 +542,7 @@ nnoremap Q :q<cr>
 noremap Y J
 
 " U: Redos since 'u' undos
-nnoremap U <c-r>
+nnoremap U :redo<cr>
 
 " I: Insert at beginning of line
 
@@ -632,6 +632,7 @@ nnoremap - <c-x>
 noremap <c-e> $
 
 " Ctrl-r: Command history using Unite, this matches my muscle memory in zsh
+" nunmap <c-r>
 nmap <c-r> [unite];
 
 " Ctrl-t: Go back in tag stack

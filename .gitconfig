@@ -3,6 +3,8 @@
   email = zhenchuan.ma@gmail.com
 [core]
   excludesfile = ~/.gitignore_global
+  ; vimpager doesn't work very well with some log format, use less
+	pager = less
 [alias]
   lg = log --abbrev-commit --decorate --pretty=oneline
 [color]
@@ -13,7 +15,7 @@
   cmd = /usr/local/bin/vimdiff \"$REMOTE\" \"$LOCAL\"
 [pager]
   diff =
-  log = false
+  ; log = false
 [merge]
   keepBackup = false
   tool = fugitive
