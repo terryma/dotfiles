@@ -62,12 +62,16 @@ NeoBundle 'tpope/vim-dispatch'
 
 " File types
 " NeoBundle 'rstacruz/sparkup', {'rtp': 'vim'} "HTML
+NeoBundle 'amirh/HTML-AutoCloseTag'
 NeoBundle 'tpope/vim-markdown' "Markdown
 NeoBundle 'terryma/vim-instant-markdown' "Markdown
 " NeoBundle 'vim-scripts/deb.vim' "Debian packages
 NeoBundle 'vim-ruby/vim-ruby' "Ruby
 NeoBundle 'psykidellic/vim-jekyll' "Jekyll
 NeoBundle 'kchmck/vim-coffee-script' "CoffeeScript
+NeoBundle 'Chiel92/vim-autoformat'
+NeoBundle 'tpope/vim-endwise'
+NeoBundle 'tsaleh/vim-matchit'
 
 " Ruby
 NeoBundle 'tpope/vim-rails'
@@ -628,25 +632,25 @@ nnoremap - <c-x>
 
 " Ctrl-w: Window management
 
-" Ctrl-e: Ended up using L. Remap TODO
-noremap <c-e> $
+" Ctrl-e: Find (e)verything
+nmap <c-e> [unite]f
 
 " Ctrl-r: Command history using Unite, this matches my muscle memory in zsh
 " nunmap <c-r>
 nmap <c-r> [unite];
 
-" Ctrl-t: Go back in tag stack
+" Ctrl-t: EasyMotion
 
 " Ctrl-t*: Tab operations (When was the last time I used tabs?)
-nnoremap <c-t><c-n> :tabnew<cr>
-nnoremap <c-t><c-w> :tabclose<cr>
-nnoremap <c-t><c-j> :tabprev<cr>
-nnoremap <c-t><c-h> :tabprev<cr>
-nnoremap <c-t><c-k> :tabnext<cr>
-nnoremap <c-t><c-l> :tabnext<cr>
-let g:lasttab = 1
-nnoremap <c-t><c-t> :exe "tabn ".g:lasttab<cr>
-autocmd MyAutoCmd TabLeave * let g:lasttab = tabpagenr()
+" nnoremap <c-t><c-n> :tabnew<cr>
+" nnoremap <c-t><c-w> :tabclose<cr>
+" nnoremap <c-t><c-j> :tabprev<cr>
+" nnoremap <c-t><c-h> :tabprev<cr>
+" nnoremap <c-t><c-k> :tabnext<cr>
+" nnoremap <c-t><c-l> :tabnext<cr>
+" let g:lasttab = 1
+" nnoremap <c-t><c-t> :exe "tabn ".g:lasttab<cr>
+" autocmd MyAutoCmd TabLeave * let g:lasttab = tabpagenr()
 
 " Ctrl-y: Yanks
 nmap <c-y> [unite]y
@@ -660,7 +664,8 @@ noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 3)<CR>
 " Ctrl-o: Go back in the jumplist, also realign the screen
 " nnoremap <c-o> <c-o>zzzv
 
-" Ctrl-p: Previous cursor in MultiCursor mode
+" Ctrl-p: Find MRU and buffers
+nmap <c-p> [unite]u
 
 " Ctrl-[: Esc
 
@@ -689,17 +694,7 @@ nmap <c-s><c-w> ysiw
 " Ctrl-d: Scroll half a screen down smoothly
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 3)<CR>
 
-" Ctrl-fm: (F)ind (M)RU and buffers
-nmap <c-f><c-m> [unite]u
-
-" Ctrl-fa: (F)ind (A)all files recursively
-nmap <c-f><c-a> [unite]f
-
-" Ctrl-fd: (F)ind (d)irectory. Change directory
-nmap <c-f><c-d> [unite]d
-
-" Ctrl-ff: EasyMotion
-" Ctrl-ft: EasyMotion
+" Ctrl-f: EasyMotion
 
 " Ctrl-g: Prints current file name
 nnoremap <c-g> 1<c-g>
@@ -724,11 +719,12 @@ inoremap <c-l> <c-o>w
 
 " Ctrl-z: This is the command key for tmux
 
-" Ctrl-x: Skip curosr in MultiCursor mode
-
-" Ctrl-c: (C)ycle through the splits. I don't ever use enough splits to justify
+" Ctrl-x: Cycle through the splits. I don't ever use enough splits to justify
 " wasting 4 very easy to hit keys for them.
-nnoremap <c-c> <c-w>w
+nnoremap <c-x> <c-w>w
+
+" Ctrl-c: (C)hange (c)urrent directory
+nnoremap <c-c> [unite]d
 
 " Ctrl-v: Paste (works with system clipboard due to clipboard setting earlier)
 nnoremap <c-v> p
@@ -855,8 +851,11 @@ nnoremap <m-a> ggVG
 nnoremap a ggVG
 
 " Alt-s: Go back in changelist. HACK ALERT! Ctrl-i generates s with iTerm2
-nnoremap <m-s> <c-i>zzzv
+" nnoremap <m-s> <c-i>zzzv
 nnoremap s <c-i>
+
+
+
 
 " Alt-d: Delete previous word. HACK ALERT! Ctrl-Delete generates d with
 " iTerm2
@@ -1155,10 +1154,12 @@ hi link EasyMotionTarget WarningMsg
 hi link EasyMotionShade  Comment
 
 let g:EasyMotion_do_mapping = 0
-nnoremap <silent> <C-f>f :call EasyMotion#F(0, 0)<CR>
-nnoremap <silent> <C-f><C-f> :call EasyMotion#F(0, 1)<CR>
-nnoremap <silent> <C-f>t :call EasyMotion#T(0, 0)<CR>
-nnoremap <silent> <C-f><C-t> :call EasyMotion#T(0, 1)<CR>
+" nnoremap <silent> <C-f>f :call EasyMotion#F(0, 0)<CR>
+" nnoremap <silent> <C-f><C-f> :call EasyMotion#F(0, 1)<CR>
+" nnoremap <silent> <C-f>t :call EasyMotion#T(0, 0)<CR>
+" nnoremap <silent> <C-f><C-t> :call EasyMotion#T(0, 1)<CR>
+nnoremap <silent> <C-f> :call EasyMotion#F(0, 0)<CR>
+nnoremap <silent> <C-t> :call EasyMotion#T(0, 0)<CR>
 
 "===============================================================================
 " Neocomplcache and Neosnippets
@@ -1575,6 +1576,11 @@ call expand_region#custom_text_objects({
 call expand_region#custom_text_objects('ruby', {
       \ 'im' :0,
       \ 'am' :0,
+      \ })
+
+" Customize it further for html
+call expand_region#custom_text_objects('html', {
+      \ 'it' :1,
       \ })
 
 "===============================================================================
