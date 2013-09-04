@@ -99,7 +99,7 @@ NeoBundle 'lucapette/vim-textobj-underscore' " a_, i_
 NeoBundle 'majutsushi/tagbar'
 
 " Status line
-NeoBundle 'terryma/vim-powerline', {'rev':'develop'}
+NeoBundle 'bling/vim-airline' " So much faster than Powerline! :)
 
 " Color themems
 NeoBundle 'altercation/vim-colors-solarized'
@@ -314,9 +314,9 @@ if !has('gui_running')
   " exec 'set <M-K>=K'
 endif
 
-" Reload vimrc when edited, also reload the powerline color
+" Reload vimrc when edited
 autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
-      \ so $MYVIMRC | call Pl#Load() | if has('gui_running') | so $MYGVIMRC | endif
+      \ so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
 
 try
   lang en_us
@@ -724,7 +724,7 @@ inoremap <c-l> <c-o>w
 nnoremap <c-x> <c-w>w
 
 " Ctrl-c: (C)hange (c)urrent directory
-nnoremap <c-c> [unite]d
+nmap <c-c> [unite]d
 
 " Ctrl-v: Paste (works with system clipboard due to clipboard setting earlier)
 nnoremap <c-v> p
@@ -1004,11 +1004,11 @@ nnoremap <down> <c-w>-
 nnoremap <left> <c-w><
 nnoremap <right> <c-w>>
 
-" Enter: Toggle search highlight
-nnoremap <cr> :set hlsearch! hlsearch?<cr>
+" Enter: Highlight cursor location
+nnoremap <silent> <cr> :call CursorPing()<CR>
 
-" Backspace: Act like normal backspace
-nnoremap <bs> X
+" Backspace: Toggle search highlight
+nnoremap <bs> :set hlsearch! hlsearch?<cr>
 
 " Tab: Go to matching element
 nnoremap <Tab> %
@@ -1065,10 +1065,20 @@ xmap <s-tab> <
 "===============================================================================
 
 " Turn on cursorline only on active window
+" Cursorline makes things REALLY slow for me. Especially moving left and right
+" on the same line when syntax highlight is on.
+" http://briancarper.net/blog/590/cursorcolumn--cursorline-slowdown
 augroup MyAutoCmd
-  autocmd WinLeave * setlocal nocursorline
-  autocmd WinEnter,BufRead * setlocal cursorline
+  " autocmd WinLeave * setlocal nocursorline
+  " autocmd WinEnter,BufRead * setlocal cursorline
 augroup END
+
+function! CursorPing()
+    set cursorline cursorcolumn
+    redraw
+    sleep 200m
+    set nocursorline nocursorcolumn
+endfunction
 
 " q quits in certain page types. Don't map esc, that interferes with mouse input
 autocmd MyAutoCmd FileType help,quickrun
@@ -1633,6 +1643,13 @@ au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:U
 "===============================================================================
 
 let g:jekyll_post_extension = '.md'
+
+"===============================================================================
+" Airline
+"===============================================================================
+
+let g:airline_powerline_fonts = 1
+let g:airline#extensions#tabline#enabled = 1
 
 "===============================================================================
 " My functions
