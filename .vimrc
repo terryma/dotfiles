@@ -847,44 +847,48 @@ vnoremap <c-s> :s/\%V//g<left><left><left>
 "===============================================================================
 
 " Alt-a: Select all
-nnoremap <m-a> ggVG
-nnoremap a ggVG
+nnoremap a :keepjumps normal ggVG<CR>
 
 " Alt-s: Go back in changelist. HACK ALERT! Ctrl-i generates s with iTerm2
 " nnoremap <m-s> <c-i>zzzv
 nnoremap s <c-i>
 
-
-
-
 " Alt-d: Delete previous word. HACK ALERT! Ctrl-Delete generates d with
 " iTerm2
-nnoremap <m-d> db
-nnoremap d db
+" nnoremap <m-d> db
+" nnoremap d db
 
 " Alt-h: Go to previous buffer
-nnoremap <silent> h :BufSurfBack<CR>
+" nnoremap <silent> h :BufSurfBack<CR>
+nnoremap <silent> h :bprevious<CR>
 
-" Alt-j: Move current line up
-nnoremap <silent> <m-j> mz:m+<cr>`z==
+" Alt-j: Move current line down
+" nnoremap <silent> <m-j> mz:m+<cr>`z==
+nnoremap <silent> j mz:m+<cr>`z==
 
-" Alt-k: Move current line down
-nnoremap <silent> <m-k> mz:m-2<cr>`z==
+" Alt-k: Move current line up
+" nnoremap <silent> <m-k> mz:m-2<cr>`z==
+nnoremap <silent> k mz:m-2<cr>`z==
 
 " Alt-l: Go to next buffer
-nnoremap <silent> l :BufSurfForward<CR>
+" nnoremap <silent> l :BufSurfForward<CR>
+nnoremap <silent> l :bnext<CR>
 
 " Alt-Shift-j: Duplicate line down
-nnoremap <silent> <m-J> mzyyp`zj
+" nnoremap <silent> <m-J> mzyyp`zj
+nnoremap <silent> J mzyyp`zj
 
 " Alt-Shift-k: Duplicate line up
-nnoremap <silent> <m-K> mzyyp`z
+" nnoremap <silent> <m-K> mzyyp`z
+nnoremap <silent> K mzyyp`z
 
 " Alt-o: Jump back in the changelist
-nnoremap <m-o> g;
+" nnoremap <m-o> g;
+nnoremap o g;
 
 " Alt-i: Jump forward in the changelist
-nnoremap <m-i> g,
+" nnoremap <m-i> g,
+nnoremap i g,
 
 " Alt-n: Open new tmux window
 
@@ -892,21 +896,25 @@ nnoremap <m-i> g,
 " Insert Mode Meta Key Mappings
 "===============================================================================
 
-" Alt-j: Move current line up
-imap <m-j> <esc><m-j>a
+" Alt-j: Move current line down
+" imap <m-j> <esc><m-j>a
+" imap j <esc><m-j>a
 
 " Alt-k: Move current line down
-imap <m-k> <esc><m-k>a
+" imap <m-k> <esc><m-k>a
+" imap k <esc><m-k>a
 
 "===============================================================================
 " Visual Mode Meta Key Mappings
 "===============================================================================
 
-" Alt-j: Move selections up
-vnoremap <m-j> :m'>+<cr>`<my`>mzgv`yo`z
+" Alt-j: Move selections down
+" vnoremap <m-j> :m'>+<cr>`<my`>mzgv`yo`z
+" vnoremap j :m'>+<cr>`<my`>mzgv`yo`z
 
-" Alt-k: Move selections down
-vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
+" Alt-k: Move selections up
+" vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
+" vnoremap k :m'<-2<cr>`>my`<mzgv`yo`z
 
 "===============================================================================
 " Space Key Mappings
@@ -1650,6 +1658,7 @@ let g:jekyll_post_extension = '.md'
 
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
 
 "===============================================================================
 " My functions
