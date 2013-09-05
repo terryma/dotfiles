@@ -846,6 +846,9 @@ vnoremap <c-s> :s/\%V//g<left><left><left>
 " Normal Mode Meta Key Mappings
 "===============================================================================
 
+" Alt-w: Close current buffer
+nnoremap w :bdelete<CR>
+
 " Alt-a: Select all
 nnoremap a :keepjumps normal ggVG<CR>
 
