@@ -50,7 +50,6 @@ NeoBundle 'scrooloose/nerdcommenter'
 " File browsing
 NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Shougo/vimfiler'
-" NeoBundle 'fholgado/minibufexpl.vim'
 
 " Syntax checker
 NeoBundle 'scrooloose/syntastic'
@@ -65,16 +64,13 @@ NeoBundle 'tpope/vim-dispatch'
 NeoBundle 'amirh/HTML-AutoCloseTag'
 NeoBundle 'tpope/vim-markdown' "Markdown
 NeoBundle 'terryma/vim-instant-markdown' "Markdown
-" NeoBundle 'vim-scripts/deb.vim' "Debian packages
 NeoBundle 'vim-ruby/vim-ruby' "Ruby
+NeoBundle 'tpope/vim-rails'
 NeoBundle 'psykidellic/vim-jekyll' "Jekyll
 NeoBundle 'kchmck/vim-coffee-script' "CoffeeScript
 NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'tpope/vim-endwise'
 NeoBundle 'tsaleh/vim-matchit'
-
-" Ruby
-NeoBundle 'tpope/vim-rails'
 
 " Git
 NeoBundle 'tpope/vim-fugitive'
@@ -102,7 +98,7 @@ NeoBundle 'majutsushi/tagbar'
 NeoBundle 'bling/vim-airline' " So much faster than Powerline! :)
 
 " Color themems
-NeoBundle 'altercation/vim-colors-solarized'
+" NeoBundle 'altercation/vim-colors-solarized'
 " NeoBundle 'tomasr/molokai'
 " NeoBundle 'Lokaltog/vim-distinguished'
 " NeoBundle 'chriskempson/base16-vim'
@@ -174,7 +170,7 @@ syntax on
 " with AutoComplPop and the behavior doesn't exist, so it's isolated to
 " Neocomplcache... :( Dug into the source for both and saw that AutoComplPop is
 " setting lazyredraw to be on during automatic popup...
-set lazyredraw
+" set lazyredraw
 
 " Solid line for vsplit separator
 set fcs=vert:│
@@ -200,7 +196,7 @@ set t_Co=256
 colorscheme jellybeans
 
 " Tell Vim to use dark background
-set background=dark
+" set background=dark
 
 " Sets how many lines of history vim has to remember
 set history=10000
@@ -230,6 +226,9 @@ augroup END
 " Minimal number of screen lines to keep above and below the cursor
 set scrolloff=10
 
+" How many lines to scroll at a time, make scrolling appears faster
+set scrolljump=3
+
 " Min width of the number column to the left
 set numberwidth=1
 
@@ -237,7 +236,7 @@ set numberwidth=1
 set foldmethod=indent
 set foldlevelstart=99
 
-" No need to show mode due to Powerline
+" No need to show mode
 set noshowmode
 
 " Auto complete setting
@@ -425,8 +424,8 @@ nnoremap <silent> <Leader><tab> :NERDTreeToggle<cr>
 " <Leader>q: Quit all, very useful in vimdiff
 nnoremap <Leader>q :qa<cr>
 
-" <Leader>w: Save all
-nnoremap <Leader>w :wa<cr>
+" <Leader>w: Close current buffer
+nnoremap <Leader>w :bdelete<cr>
 
 " <Leader>e: Fast editing of the .vimrc
 nnoremap <Leader>e :e! ~/.dotfiles/.vimrc<cr>
@@ -435,9 +434,9 @@ nnoremap <Leader>e :e! ~/.dotfiles/.vimrc<cr>
 
 " <Leader>t: TODO
 
-" TODO <Leader> y
+" <Leader>y: TODO
 
-" TODO <Leader> u
+" <Leader>u: TODO
 
 " <Leader>o: only
 nnoremap <Leader>o :only<cr>
@@ -456,8 +455,7 @@ nnoremap <Leader>sa zg]s
 nnoremap <Leader>sd 1z=
 nnoremap <Leader>sf z=
 
-" <Leader>d: Delete the current buffer
-nnoremap <Leader>d :bdelete<CR>
+" <Leader>d: TODO
 
 " <Leader>f: Open Quickfix
 nnoremap <silent> <Leader>f :botright copen<CR>
@@ -507,9 +505,6 @@ cnoremap <c-k> <up>
 cnoremap <c-f> <left>
 cnoremap <c-g> <right>
 
-" Ctrl-Delete: Delete previous word. HACK ALERT! Ctrl-Delete sends d in iTerm2
-cnoremap <m-d> <c-w>
-
 " Ctrl-v: Paste
 cnoremap <c-v> <c-r>"
 
@@ -538,7 +533,7 @@ nnoremap Q :q<cr>
 
 " E: Move to end of word forward
 
-" R: Replace mode (When do I ever use this?)
+" R: Replace mode (TODO When do I ever use this?)
 
 " T: Finds till backwards
 
@@ -575,7 +570,9 @@ nnoremap <bar> :vsp<cr>
 " G: Go to end of file
 
 " H: Go to beginning of line. Repeated invocation goes to previous line
-noremap <expr> H getpos('.')[2] == 1 ? 'k' : '^'
+" noremap <expr> H getpos('.')[2] == 1 ? 'k' : '^'
+" H: Go to beginning of line.
+noremap H ^
 
 " J: expand-region
 map K <Plug>(expand_region_expand)
@@ -584,14 +581,15 @@ map K <Plug>(expand_region_expand)
 map J <Plug>(expand_region_shrink)
 
 " L: Go to end of line. Repeated invocation goes to next line
-noremap <expr> L <SID>end_of_line()
-function! s:end_of_line()
-  let l = len(getline('.'))
-  if (l == 0 || l == getpos('.')[2]-1)
-    return 'jg_'
-  else
-    return 'g_'
-endfunction
+" noremap <expr> L <SID>end_of_line()
+" function! s:end_of_line()
+  " let l = len(getline('.'))
+  " if (l == 0 || l == getpos('.')[2]-1)
+    " return 'jg_'
+  " else
+    " return 'g_'
+" endfunction
+noremap L g_
 
 " :: Remap to ,. After all the remapping, ; goes to command mode, . repeats
 " fFtT, : repeats it backward, and , is the leader
@@ -636,7 +634,6 @@ nnoremap - <c-x>
 nmap <c-e> [unite]f
 
 " Ctrl-r: Command history using Unite, this matches my muscle memory in zsh
-" nunmap <c-r>
 nmap <c-r> [unite];
 
 " Ctrl-t: EasyMotion
@@ -656,7 +653,7 @@ nmap <c-r> [unite];
 nmap <c-y> [unite]y
 
 " Ctrl-u: Scroll half a screen up smoothly
-noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 0, 3)<CR>
+noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 5, 1)<CR>
 
 " Ctrl-i: Go forward in the jumplist, also realigns screen. See mapping for
 " <M-s>
@@ -692,11 +689,11 @@ nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
 nmap <c-s><c-w> ysiw
 
 " Ctrl-d: Scroll half a screen down smoothly
-noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 0, 3)<CR>
+noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 5, 1)<CR>
 
 " Ctrl-f: EasyMotion
 
-" Ctrl-g: Prints current file name
+" Ctrl-g: Prints current file name (TODO Not very useful)
 nnoremap <c-g> 1<c-g>
 
 " Ctrl-h: Move word back. Consistent with zsh
@@ -704,18 +701,20 @@ noremap <c-h> b
 inoremap <c-h> <c-o>b
 
 " Ctrl-j: Scroll + move down through the file
-noremap <c-j> 3<c-e>3j
+" noremap <c-j> 3<c-e>3j
+noremap <c-j> 3<c-e>
 
 " Ctrl-k: Scroll + move up through the file
-noremap <c-k> 3<c-y>3k
+" noremap <c-k> 3<c-y>3k
+noremap <c-k> 3<c-y>
 
 " Ctrl-l: Move word forward. Consistent with zsh
 noremap <c-l> w
 inoremap <c-l> <c-o>w
 
-" Ctrl-;: Vim can't map this
+" Ctrl-;: Vim can't map this (TODO We could map this through iTerm2)
 
-" Ctrl-': Vim can't map this
+" Ctrl-': Vim can't map this (TODO We could map this through iTerm2)
 
 " Ctrl-z: This is the command key for tmux
 
@@ -789,8 +788,11 @@ inoremap <c-f> <Left>
 
 " Ctrl-g: Move cursor right
 " Surround.vim maps these things that I don't use
-silent! iunmap <C-G>s
-silent! iunmap <C-G>S
+augroup MyAutoCmd
+  autocmd VimEnter * silent! iunmap <C-G>s
+  autocmd VimEnter * silent! iunmap <C-G>S
+  autocmd BufEnter * silent! iunmap <buffer> <C-G>g
+augroup END
 inoremap <c-g> <Right>
 
 " Ctrl-h: Move word left
@@ -842,12 +844,12 @@ vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
 " Ctrl-s: Easier substitue
 vnoremap <c-s> :s/\%V//g<left><left><left>
 
+" Ctrl-f: Find with MultipleCursors
+vnoremap <c-f> :MultipleCursorsFind 
+
 "===============================================================================
 " Normal Mode Meta Key Mappings
 "===============================================================================
-
-" Alt-w: Close current buffer
-nnoremap w :bdelete<CR>
 
 " Alt-a: Select all
 nnoremap a :keepjumps normal ggVG<CR>
@@ -925,29 +927,16 @@ nnoremap i g,
 
 " Space is also the leader key for Unite actions
 " Space-[jk] scrolls the page
-" call submode#enter_with('scroll', 'n', '', '<space>j', '3<c-e>')
-" call submode#enter_with('scroll', 'n', '', '<space>k', '3<c-y>')
-" call submode#map('scroll', 'n', '', 'j', '3<c-e>')
-" call submode#map('scroll', 'n', '', 'k', '3<c-y>')
-call submode#enter_with('scroll', 'n', '', '<space>j', ':call smooth_scroll#down(&scroll/2, 0, 1)<CR>')
-call submode#enter_with('scroll', 'n', '', '<space>k', ':call smooth_scroll#up(&scroll/2, 0, 1)<CR>')
-call submode#map('scroll', 'n', '', 'j', ':call smooth_scroll#down(&scroll/2, 0, 1)<CR>')
-call submode#map('scroll', 'n', '', 'k', ':call smooth_scroll#up(&scroll/2, 0, 1)<CR>')
+call submode#enter_with('scroll', 'n', '', '<space>j', ':call smooth_scroll#down(&scroll/2, 5, 1)<CR>')
+call submode#enter_with('scroll', 'n', '', '<space>k', ':call smooth_scroll#up(&scroll/2, 5, 1)<CR>')
+call submode#map('scroll', 'n', '', 'j', ':call smooth_scroll#down(&scroll/2, 5, 1)<CR>')
+call submode#map('scroll', 'n', '', 'k', ':call smooth_scroll#up(&scroll/2, 5, 1)<CR>')
 
 " Don't leave submode automatically
 let g:submode_timeout = 0
 
 " Space-=: Resize windows
 nnoremap <space>= <c-w>=
-
-" Space-m: quickhl
-" nmap <space>m <Plug>(quickhl-toggle)
-" xmap <space>m <Plug>(quickhl-toggle)
-" nmap <space>M <Plug>(quickhl-reset)
-" xmap <space>M <Plug>(quickhl-reset)
-
-" Space-t: ScratchBuffer (temp)
-nmap <space>t <Plug>(scratch-open)
 
 "===============================================================================
 " Arpeggio Mappings
@@ -1136,13 +1125,6 @@ autocmd MyAutoCmd BufEnter *
 let NERDSpaceDelims=1
 
 "===============================================================================
-" Powerline
-"===============================================================================
-
-" Use the fancy version of Powerline symbols
-let g:Powerline_symbols = 'fancy'
-
-"===============================================================================
 " Syntastic
 "===============================================================================
 
@@ -1263,8 +1245,8 @@ nnoremap <silent> <C-t> :call EasyMotion#T(0, 0)<CR>
 "===============================================================================
 
 " Use the fuzzy matcher for everything
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
 
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
 " Use the rank sorter for everything
 call unite#filters#sorter_default#use(['sorter_rank'])
 
@@ -1564,25 +1546,14 @@ endfunction
 autocmd MyAutoCmd BufEnter * call s:markdown_disable_autocomplete()
 
 "===============================================================================
-" Minibufexplorer
-"===============================================================================
-
-" Conflicts with C-w,p
-" let g:miniBufExplVSplit=30
-" let g:miniBufExplShowBufNumbers=0
-" let g:miniBufExplCheckDupeBufs = 0
-" let g:miniBufExplMapCTabSwitchBufs = 1
-" let g:miniBufExplorerMoreThanOne=4 " This prevents the explorer to open for vimdiff
-
-"===============================================================================
 " Expand Region
 "===============================================================================
 
 " This option currently isn't working :( Neosnippet is unmappion my
 " select mode mappings, so if I switch buffer and come back, the mappings no
 " longer work. Not sure how to solve that
-" let g:expand_region_use_select_mode = 1
-let g:expand_region_use_select_mode = 0
+let g:expand_region_use_select_mode = 1
+" let g:expand_region_use_select_mode = 0
 
 " Extend the global dictionary
 call expand_region#custom_text_objects({
@@ -1666,14 +1637,6 @@ let g:airline#extensions#tabline#fnamemod = ':t'
 "===============================================================================
 " My functions
 "===============================================================================
-
-" function! Refactor()
-  " call inputsave()
-  " let @z=input("What do you want to rename '" . @z . "' to? ")
-  " call inputrestore()
-" endfunction
-" " Locally (local to block) rename a variable
-" nnoremap <Leader>rf "zyiw:call Refactor()<cr>mx:silent! norm gd<cr>[{V%:s/<C-R>//<c-r>z/g<cr>`x
 
 command! -nargs=+ Silent
       \ | execute ':silent !'.<q-args>
