@@ -1,4 +1,3 @@
-
 " Disable vi-compatibility
 set nocompatible
 
@@ -33,7 +32,7 @@ NeoBundle 'mileszs/ack.vim'
 " Code completion
 " NeoBundle'Shougo/neocomplcache'
 " NeoBundle 'vim-scripts/AutoComplPop'
-NeoBundle 'Valloric/YouCompleteMe'
+" NeoBundle 'Valloric/YouCompleteMe'
 
 " Snippets
 " NeoBundle 'Shougo/neosnippet'
@@ -52,7 +51,7 @@ NeoBundle 'scrooloose/nerdtree'
 NeoBundle 'Shougo/vimfiler'
 
 " Syntax checker
-NeoBundle 'scrooloose/syntastic'
+" NeoBundle 'scrooloose/syntastic'
 
 " Shell
 NeoBundle 'thinca/vim-quickrun'
@@ -71,6 +70,9 @@ NeoBundle 'kchmck/vim-coffee-script' "CoffeeScript
 NeoBundle 'Chiel92/vim-autoformat'
 NeoBundle 'tpope/vim-endwise'
 NeoBundle 'tsaleh/vim-matchit'
+" NeoBundle 'othree/html5.vim'
+NeoBundle 'vim-scripts/indenthtml.vim'
+NeoBundle 'pangloss/vim-javascript' "Javascript
 
 " Git
 NeoBundle 'tpope/vim-fugitive'
@@ -81,7 +83,7 @@ NeoBundle 'goldfeld/vim-seek'
 
 " Text Objects
 NeoBundle 'tpope/vim-surround'
-NeoBundle 'tpope/vim-repeat'
+" NeoBundle 'tpope/vim-repeat'
 NeoBundle 'kana/vim-textobj-user'
 NeoBundle 'kana/vim-textobj-entire' " ae, ie
 NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
@@ -129,7 +131,7 @@ NeoBundle 'ton/vim-bufsurf'
 " NeoBundle 'kana/vim-smartinput'
 " NeoBundle 'Shougo/echodoc'
 " NeoBundle 'klen/python-mode'
-" NeoBundle 'nathanaelkane/vim-indent-guides'
+NeoBundle 'nathanaelkane/vim-indent-guides'
 " NeoBundle 'hynek/vim-python-pep8-indent'
 " NeoBundle 'kien/ctrlp.vim'
 " NeoBundle 'mattn/calendar-vim'
@@ -296,7 +298,8 @@ set encoding=utf-8
 set colorcolumn=+1
 
 " Lower the delay of escaping out of other modes
-set timeout timeoutlen=1000 ttimeoutlen=0
+" set timeout timeoutlen=1000 ttimeoutlen=1
+set timeout timeoutlen=300 ttimeoutlen=1
 
 " Fix meta-keys which generate <Esc>A .. <Esc>z
 if !has('gui_running')
@@ -366,8 +369,9 @@ endif
 set updatetime=1000
 
 " I like my word boundary to be a little bigger than the default
-set iskeyword+=<,>,[,],:,-,`,!
-set iskeyword-=_
+" FIXME Apparently this affects html indenting. Figure out what the problem is
+" set iskeyword+=<,>,[,],:,-,`,!
+" set iskeyword-=_
 
 " Cursor settings. This makes terminal vim sooo much nicer!
 " Tmux will only forward escape sequences to the terminal if surrounded by a DCS
@@ -425,7 +429,7 @@ nnoremap <silent> <Leader><tab> :NERDTreeToggle<cr>
 nnoremap <Leader>q :qa<cr>
 
 " <Leader>w: Close current buffer
-nnoremap <Leader>w :bdelete<cr>
+nnoremap <Leader>w :NERDTreeClose<cr>:bdelete<cr>
 
 " <Leader>e: Fast editing of the .vimrc
 nnoremap <Leader>e :e! ~/.dotfiles/.vimrc<cr>
@@ -534,6 +538,8 @@ nnoremap Q :q<cr>
 " E: Move to end of word forward
 
 " R: Replace mode (TODO When do I ever use this?)
+" R: Reindent entire file
+nnoremap R mqHmwgg=G`wzt`q
 
 " T: Finds till backwards
 
@@ -634,6 +640,7 @@ nnoremap - <c-x>
 nmap <c-e> [unite]f
 
 " Ctrl-r: Command history using Unite, this matches my muscle memory in zsh
+silent! nunmap <c-r>
 nmap <c-r> [unite];
 
 " Ctrl-t: EasyMotion
@@ -855,44 +862,30 @@ vnoremap <c-f> :MultipleCursorsFind
 nnoremap a :keepjumps normal ggVG<CR>
 
 " Alt-s: Go back in changelist. HACK ALERT! Ctrl-i generates s with iTerm2
-" nnoremap <m-s> <c-i>zzzv
 nnoremap s <c-i>
 
-" Alt-d: Delete previous word. HACK ALERT! Ctrl-Delete generates d with
-" iTerm2
-" nnoremap <m-d> db
-" nnoremap d db
-
 " Alt-h: Go to previous buffer
-" nnoremap <silent> h :BufSurfBack<CR>
 nnoremap <silent> h :bprevious<CR>
 
 " Alt-j: Move current line down
-" nnoremap <silent> <m-j> mz:m+<cr>`z==
 nnoremap <silent> j mz:m+<cr>`z==
 
 " Alt-k: Move current line up
-" nnoremap <silent> <m-k> mz:m-2<cr>`z==
 nnoremap <silent> k mz:m-2<cr>`z==
 
 " Alt-l: Go to next buffer
-" nnoremap <silent> l :BufSurfForward<CR>
 nnoremap <silent> l :bnext<CR>
 
 " Alt-Shift-j: Duplicate line down
-" nnoremap <silent> <m-J> mzyyp`zj
 nnoremap <silent> J mzyyp`zj
 
 " Alt-Shift-k: Duplicate line up
-" nnoremap <silent> <m-K> mzyyp`z
 nnoremap <silent> K mzyyp`z
 
 " Alt-o: Jump back in the changelist
-" nnoremap <m-o> g;
 nnoremap o g;
 
 " Alt-i: Jump forward in the changelist
-" nnoremap <m-i> g,
 nnoremap i g,
 
 " Alt-n: Open new tmux window
@@ -1245,10 +1238,9 @@ nnoremap <silent> <C-t> :call EasyMotion#T(0, 0)<CR>
 "===============================================================================
 
 " Use the fuzzy matcher for everything
-
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
+" call unite#filters#matcher_default#use(['matcher_fuzzy'])
 " Use the rank sorter for everything
-call unite#filters#sorter_default#use(['sorter_rank'])
+" call unite#filters#sorter_default#use(['sorter_rank'])
 
 " Set up some custom ignores
 call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
@@ -1258,6 +1250,8 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ 'google/obj/',
       \ 'tmp/',
       \ '.sass-cache',
+      \ 'node_modules/',
+      \ 'brower_components/',
       \ ], '\|'))
 
 " Map space to the prefix for Unite
@@ -1271,8 +1265,8 @@ nnoremap <silent> [unite]<space> :<C-u>Unite
 " Quick registers
 nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
 
+nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=buffers file_mru buffer<CR>
 " Quick buffer and mru
-nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=buffers buffer file_mru<CR>
 
 " Quick yank history
 nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
@@ -1633,6 +1627,12 @@ let g:jekyll_post_extension = '.md'
 let g:airline_powerline_fonts = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
+
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+" HTML Indent
+""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+
+let g:html_indent_inctags = "html,body,head,tbody"
 
 "===============================================================================
 " My functions
