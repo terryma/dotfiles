@@ -26,13 +26,14 @@ NeoBundle 'Shougo/unite.vim'
 NeoBundle 'Shougo/unite-outline'
 NeoBundle 'Shougo/unite-help'
 NeoBundle 'Shougo/unite-session'
+NeoBundle 'Shougo/neomru.vim'
 NeoBundle 'thinca/vim-unite-history'
 NeoBundle 'mileszs/ack.vim'
 
 " Code completion
 " NeoBundle'Shougo/neocomplcache'
 " NeoBundle 'vim-scripts/AutoComplPop'
-" NeoBundle 'Valloric/YouCompleteMe'
+NeoBundle 'Valloric/YouCompleteMe'
 
 " Snippets
 " NeoBundle 'Shougo/neosnippet'
@@ -965,10 +966,11 @@ nnoremap d "_d
 nnoremap dd dd
 " f: Find. Also support repeating with .
 nnoremap <Plug>OriginalSemicolon ;
-nnoremap <silent> f :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>f
-nnoremap <silent> t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
-nnoremap <silent> F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
-nnoremap <silent> T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
+" FIXME
+" nnoremap <silent> f :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>f
+" nnoremap <silent> t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
+" nnoremap <silent> F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
+" nnoremap <silent> T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
 " g: Many functions
 " gp to visually select pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
@@ -1154,8 +1156,10 @@ let g:EasyMotion_do_mapping = 0
 " nnoremap <silent> <C-f><C-f> :call EasyMotion#F(0, 1)<CR>
 " nnoremap <silent> <C-f>t :call EasyMotion#T(0, 0)<CR>
 " nnoremap <silent> <C-f><C-t> :call EasyMotion#T(0, 1)<CR>
-nnoremap <silent> <C-f> :call EasyMotion#F(0, 0)<CR>
-nnoremap <silent> <C-t> :call EasyMotion#T(0, 0)<CR>
+" nnoremap <silent> <C-f> :call EasyMotion#F(0, 0)<CR>
+" nnoremap <silent> <C-t> :call EasyMotion#T(0, 0)<CR>
+map f <Plug>(easymotion-f)
+map t <Plug>(easymotion-t)
 
 "===============================================================================
 " Neocomplcache and Neosnippets
@@ -1251,7 +1255,8 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ 'tmp/',
       \ '.sass-cache',
       \ 'node_modules/',
-      \ 'brower_components/',
+      \ 'bower_components/',
+      \ 'dist/',
       \ ], '\|'))
 
 " Map space to the prefix for Unite
@@ -1364,6 +1369,8 @@ endfunction
 
 " Start in insert mode
 let g:unite_enable_start_insert = 1
+
+let g:unite_data_directory = "~/.unite"
 
 " Enable short source name in window
 " let g:unite_enable_short_source_names = 1
@@ -1598,12 +1605,12 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " Make UltiSnips works nicely with YCM
 function! g:UltiSnips_Complete()
-    call UltiSnips_ExpandSnippet()
+    call UltiSnips#ExpandSnippet()
     if g:ulti_expand_res == 0
         if pumvisible()
             return "\<C-n>"
         else
-            call UltiSnips_JumpForwards()
+            call UltiSnips#JumpForwards()
             if g:ulti_jump_forwards_res == 0
                return "\<TAB>"
             endif
