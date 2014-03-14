@@ -37,7 +37,7 @@ NeoBundle 'Valloric/YouCompleteMe'
 
 " Snippets
 " NeoBundle 'Shougo/neosnippet'
-" NeoBundle 'honza/vim-snippets'
+NeoBundle 'honza/vim-snippets'
 NeoBundle 'SirVer/ultisnips'
 " NeoBundle 'JazzCore/neocomplcache-ultisnips'
 
@@ -300,7 +300,7 @@ set colorcolumn=+1
 
 " Lower the delay of escaping out of other modes
 " set timeout timeoutlen=1000 ttimeoutlen=1
-set timeout timeoutlen=300 ttimeoutlen=1
+set timeout timeoutlen=200 ttimeoutlen=1
 
 " Fix meta-keys which generate <Esc>A .. <Esc>z
 if !has('gui_running')
@@ -869,10 +869,10 @@ nnoremap s <c-i>
 nnoremap <silent> h :bprevious<CR>
 
 " Alt-j: Move current line down
-nnoremap <silent> j mz:m+<cr>`z==
+" nnoremap <silent> j mz:m+<cr>`z==
 
 " Alt-k: Move current line up
-nnoremap <silent> k mz:m-2<cr>`z==
+" nnoremap <silent> k mz:m-2<cr>`z==
 
 " Alt-l: Go to next buffer
 nnoremap <silent> l :bnext<CR>
@@ -1257,6 +1257,8 @@ call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
       \ 'node_modules/',
       \ 'bower_components/',
       \ 'dist/',
+      \ '.git5_specs/',
+      \ '.pyc',
       \ ], '\|'))
 
 " Map space to the prefix for Unite
@@ -1290,7 +1292,7 @@ nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
 
 " Quickly switch lcd
 nnoremap <silent> [unite]d
-      \ :<C-u>Unite -buffer-name=change-cwd -default-action=lcd directory_mru<CR>
+      \ :<C-u>Unite -buffer-name=change-cwd -default-action=cd directory_mru directory_rec/async<CR>
 
 " Quick file search
 nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file_rec/async file/new<CR>
@@ -1402,6 +1404,9 @@ elseif executable('ack')
   let g:unite_source_grep_default_opts = '--no-heading --no-color -a -w'
   let g:unite_source_grep_recursive_opt = ''
 endif
+
+let g:unite_source_rec_max_cache_files = 99999
+
 
 "===============================================================================
 " Unite Sessions
