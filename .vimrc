@@ -69,7 +69,7 @@ NeoBundle 'tpope/vim-rails'
 NeoBundle 'psykidellic/vim-jekyll' "Jekyll
 NeoBundle 'kchmck/vim-coffee-script' "CoffeeScript
 NeoBundle 'Chiel92/vim-autoformat'
-NeoBundle 'tpope/vim-endwise'
+" NeoBundle 'tpope/vim-endwise' " Conflicts with delimitMate
 NeoBundle 'tsaleh/vim-matchit'
 " NeoBundle 'othree/html5.vim'
 NeoBundle 'vim-scripts/indenthtml.vim'
@@ -869,10 +869,10 @@ nnoremap s <c-i>
 nnoremap <silent> h :bprevious<CR>
 
 " Alt-j: Move current line down
-nnoremap <silent> j mz:m+<cr>`z==
+" nnoremap <silent> j mz:m+<cr>`z==
 
 " Alt-k: Move current line up
-nnoremap <silent> k mz:m-2<cr>`z==
+" nnoremap <silent> k mz:m-2<cr>`z==
 
 " Alt-l: Go to next buffer
 nnoremap <silent> l :bnext<CR>
@@ -1581,6 +1581,8 @@ call expand_region#custom_text_objects('html', {
 "===============================================================================
 
 autocmd MyAutoCmd FileType vim let b:delimitMate_quotes = "'"
+
+let delimitMate_expand_cr = 1
 
 "===============================================================================
 " YCM
