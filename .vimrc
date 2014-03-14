@@ -69,7 +69,7 @@ NeoBundle 'tpope/vim-rails'
 NeoBundle 'psykidellic/vim-jekyll' "Jekyll
 NeoBundle 'kchmck/vim-coffee-script' "CoffeeScript
 NeoBundle 'Chiel92/vim-autoformat'
-NeoBundle 'tpope/vim-endwise'
+" NeoBundle 'tpope/vim-endwise' " Conflicts with delimitMate
 NeoBundle 'tsaleh/vim-matchit'
 " NeoBundle 'othree/html5.vim'
 NeoBundle 'vim-scripts/indenthtml.vim'
@@ -1586,6 +1586,8 @@ call expand_region#custom_text_objects('html', {
 "===============================================================================
 
 autocmd MyAutoCmd FileType vim let b:delimitMate_quotes = "'"
+
+let delimitMate_expand_cr = 1
 
 "===============================================================================
 " YCM
