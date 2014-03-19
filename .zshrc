@@ -273,9 +273,9 @@ case "$TERM" in
     bindkey '^@' x-vi-yank-whole-line
 
     # Alt-k: Move to next directory in history
-    bindkey -s '^[k' "→\r"
+    # bindkey -s '^[k' "→\r"
     # Alt-j: Move to previous directory in history
-    bindkey -s '^[j' "←\r"
+    # bindkey -s '^[j' "←\r"
   ;;
 esac
 

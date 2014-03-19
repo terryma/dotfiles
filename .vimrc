@@ -94,7 +94,8 @@ NeoBundle 'lucapette/vim-textobj-underscore' " a_, i_
 " NeoBundle 'terryma/vim-expand-region'
 
 " Tags
-" NeoBundle 'xolox/vim-easytags'
+NeoBundle 'xolox/vim-misc'
+NeoBundle 'xolox/vim-easytags'
 NeoBundle 'majutsushi/tagbar'
 
 " Status line
@@ -306,9 +307,9 @@ set timeout timeoutlen=200 ttimeoutlen=1
 if !has('gui_running')
   " let c='a'
   " while c <= 'z'
-    " exec "set <M-".c.">=\e".c
-    " exec "imap \e".c." <M-".c.">"
-    " let c = nr2char(1+char2nr(c))
+  " exec "set <M-".c.">=\e".c
+  " exec "imap \e".c." <M-".c.">"
+  " let c = nr2char(1+char2nr(c))
   " endw
   " Map these two on its own to enable Alt-Shift-J and Alt-Shift-K. If I map the
   " whole spectrum of A-Z, it screws up mouse scrolling somehow. Mouse events
@@ -424,7 +425,7 @@ nnoremap <silent> <Leader>2 :TagbarToggle<cr>
 vnoremap <silent> <Leader>0 :!python<cr>
 
 " <Leader>tab: Toggles NERDTree
-nnoremap <silent> <Leader><tab> :NERDTreeToggle<cr>
+" nnoremap <silent> <Leader><tab> :NERDTreeToggle<cr>
 
 " <Leader>q: Quit all, very useful in vimdiff
 nnoremap <Leader>q :qa<cr>
@@ -515,30 +516,32 @@ cnoremap <c-v> <c-r>"
 
 " w!: Change ro files to rw
 " function! s:chmodonwrite()
-  " if v:cmdbang
-    " silent !chmod u+w %
-  " endif
+" if v:cmdbang
+" silent !chmod u+w %
+" endif
 " endfunction
 " autocmd MyAutoCmd bufwrite * call s:chmodonwrite()
 
 " w!!: Writes using sudo
 cnoremap w!! w !sudo tee % >/dev/null
 
+autocmd MyAutoCmd CmdwinEnter : map <buffer> <cr> <cr>
+
 "===============================================================================
 " Normal Mode Shift Key Mappings
 "===============================================================================
 
 " Shift-Tab: NERDTree
-nnoremap <S-Tab> :NERDTreeToggle<CR>
+nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
 
 " Q: Closes the window
 nnoremap Q :q<cr>
 
-" W: Move word forward (TODO Replaced by <C-L>, maybe remap?)
+" W: Save
+nnoremap W :w<cr>
 
 " E: Move to end of word forward
 
-" R: Replace mode (TODO When do I ever use this?)
 " R: Reindent entire file
 nnoremap R mqHmwgg=G`wzt`q
 
@@ -576,8 +579,6 @@ nnoremap <bar> :vsp<cr>
 
 " G: Go to end of file
 
-" H: Go to beginning of line. Repeated invocation goes to previous line
-" noremap <expr> H getpos('.')[2] == 1 ? 'k' : '^'
 " H: Go to beginning of line.
 noremap H ^
 
@@ -587,15 +588,6 @@ map K <Plug>(expand_region_expand)
 " K: shrink-region
 map J <Plug>(expand_region_shrink)
 
-" L: Go to end of line. Repeated invocation goes to next line
-" noremap <expr> L <SID>end_of_line()
-" function! s:end_of_line()
-  " let l = len(getline('.'))
-  " if (l == 0 || l == getpos('.')[2]-1)
-    " return 'jg_'
-  " else
-    " return 'g_'
-" endfunction
 noremap L g_
 
 " :: Remap to ,. After all the remapping, ; goes to command mode, . repeats
@@ -644,7 +636,7 @@ nmap <c-e> [unite]f
 silent! nunmap <c-r>
 nmap <c-r> [unite];
 
-" Ctrl-t: EasyMotion
+" Ctrl-t: TODO
 
 " Ctrl-t*: Tab operations (When was the last time I used tabs?)
 " nnoremap <c-t><c-n> :tabnew<cr>
@@ -699,7 +691,7 @@ nmap <c-s><c-w> ysiw
 " Ctrl-d: Scroll half a screen down smoothly
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 5, 1)<CR>
 
-" Ctrl-f: EasyMotion
+" Ctrl-f: TODO
 
 " Ctrl-g: Prints current file name (TODO Not very useful)
 nnoremap <c-g> 1<c-g>
@@ -1069,10 +1061,10 @@ augroup MyAutoCmd
 augroup END
 
 function! CursorPing()
-    set cursorline cursorcolumn
-    redraw
-    sleep 200m
-    set nocursorline nocursorcolumn
+  set cursorline cursorcolumn
+  redraw
+  sleep 200m
+  set nocursorline nocursorcolumn
 endfunction
 
 " q quits in certain page types. Don't map esc, that interferes with mouse input
@@ -1126,8 +1118,8 @@ let NERDSpaceDelims=1
 " TODO(terryma): Update these settings
 " Syntastic settings
 let g:syntastic_mode_map = { 'mode': 'active',
-            \ 'active_filetypes': ['ruby', 'php'],
-            \ 'passive_filetypes': ['puppet'] }
+      \ 'active_filetypes': ['ruby', 'php'],
+      \ 'passive_filetypes': ['puppet'] }
 
 "===============================================================================
 " Fugitive
@@ -1160,6 +1152,8 @@ let g:EasyMotion_do_mapping = 0
 " nnoremap <silent> <C-t> :call EasyMotion#T(0, 0)<CR>
 map f <Plug>(easymotion-f)
 map t <Plug>(easymotion-t)
+map F <Plug>(easymotion-F)
+map T <Plug>(easymotion-T)
 
 "===============================================================================
 " Neocomplcache and Neosnippets
@@ -1193,7 +1187,7 @@ map t <Plug>(easymotion-t)
 " imap <expr><cr> neocomplcache#smart_close_popup() . "\<CR>"
 
 " if has('conceal')
-  " set conceallevel=2 concealcursor=i
+" set conceallevel=2 concealcursor=i
 " endif
 
 " Tell Neosnippets to use the snipmate snippets
@@ -1202,10 +1196,10 @@ map t <Plug>(easymotion-t)
 " These are the battle scars of me trying to get omni_patterns to work correctly
 " so Neocomplcache and Eclim could co-exist peacefully. No cigar.
 " if !exists('g:neocomplcache_force_omni_patterns')
-  " let g:neocomplcache_force_omni_patterns = {}
+" let g:neocomplcache_force_omni_patterns = {}
 " endif
 " if !exists('g:neocomplcache_omni_patterns')
-  " let g:neocomplcache_omni_patterns = {}
+" let g:neocomplcache_omni_patterns = {}
 " endif
 " let g:neocomplcache_force_omni_patterns.java = '\%(\.\)\h\w*'
 " let g:neocomplcache_force_omni_patterns.java = '.'
@@ -1224,15 +1218,15 @@ map t <Plug>(easymotion-t)
 " neocomplcache#start_manual_complete, but I think that requires the
 " omni_patterns to set correctly and I couldn't get that to work
 " function! s:disable_neocomplcache_for_java()
-  " if &ft ==# 'java'
-    " :NeoComplCacheLockSource omni_complete
-    " inoremap <buffer> <c-@> <C-R>=<SID>java_omni_complete()<CR>
-  " endif
+" if &ft ==# 'java'
+" :NeoComplCacheLockSource omni_complete
+" inoremap <buffer> <c-@> <C-R>=<SID>java_omni_complete()<CR>
+" endif
 " endfunction
 
 " function! s:java_omni_complete()
-  " setlocal completeopt+=longest
-  " return "\<C-X>\<C-O>"
+" setlocal completeopt+=longest
+" return "\<C-X>\<C-O>"
 " endfunction
 
 " autocmd MyAutoCmd BufEnter * call s:disable_neocomplcache_for_java()
@@ -1242,7 +1236,7 @@ map t <Plug>(easymotion-t)
 "===============================================================================
 
 " Use the fuzzy matcher for everything
-" call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
 " Use the rank sorter for everything
 " call unite#filters#sorter_default#use(['sorter_rank'])
 
@@ -1320,10 +1314,10 @@ nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
 
 " Fuzzy search from current buffer
 " nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir
-      " \ -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
+" \ -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
 
 " Quick commands
-nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history history/command command<CR>
+nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history -default-action=edit history/command command<CR>
 
 " Custom Unite settings
 autocmd MyAutoCmd FileType unite call s:unite_settings()
@@ -1493,7 +1487,7 @@ let g:quickrun_config.markdown = {
 "===============================================================================
 
 autocmd MyAutoCmd User PluginScratchInitializeAfter
-\ call s:on_User_plugin_scratch_initialize_after()
+      \ call s:on_User_plugin_scratch_initialize_after()
 
 function! s:on_User_plugin_scratch_initialize_after()
   map <buffer> <CR>  <Plug>(scratch-evaluate!)
@@ -1552,6 +1546,16 @@ function! s:markdown_disable_autocomplete()
   endif
 endfunction
 autocmd MyAutoCmd BufEnter * call s:markdown_disable_autocomplete()
+
+"===============================================================================
+" Go
+"===============================================================================
+
+autocmd MyAutoCmd FileType go
+      \ setlocal nolist |
+      \ setlocal softtabstop=8 |
+      \ setlocal shiftwidth=8 |
+      \ setlocal noexpandtab
 
 "===============================================================================
 " Expand Region
@@ -1614,18 +1618,18 @@ let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
 
 " Make UltiSnips works nicely with YCM
 function! g:UltiSnips_Complete()
-    call UltiSnips#ExpandSnippet()
-    if g:ulti_expand_res == 0
-        if pumvisible()
-            return "\<C-n>"
-        else
-            call UltiSnips#JumpForwards()
-            if g:ulti_jump_forwards_res == 0
-               return "\<TAB>"
-            endif
-        endif
+  call UltiSnips#ExpandSnippet()
+  if g:ulti_expand_res == 0
+    if pumvisible()
+      return "\<C-n>"
+    else
+      call UltiSnips#JumpForwards()
+      if g:ulti_jump_forwards_res == 0
+        return "\<TAB>"
+      endif
     endif
-    return ""
+  endif
+  return ""
 endfunction
 
 au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
