@@ -74,6 +74,7 @@ NeoBundle 'tsaleh/vim-matchit'
 " NeoBundle 'othree/html5.vim'
 NeoBundle 'vim-scripts/indenthtml.vim'
 NeoBundle 'pangloss/vim-javascript' "Javascript
+NeoBundle 'Blackrush/vim-gocode'
 
 " Git
 NeoBundle 'tpope/vim-fugitive'
@@ -596,9 +597,11 @@ noremap : ,
 
 " ": Handles registers
 
-" Z: TODO
+" Z: Bufsurf back
+nnoremap <silent> Z :BufSurfBack<CR>
 
-" X: Deletes character backward (When was the last time I actually used this?)
+" X: Bufsurf forward
+nnoremap <silent> X :BufSurfForward<CR>
 
 " C: Deletes rest of line and go to insert mode
 
@@ -815,6 +818,9 @@ inoremap <c-l> <c-o>w
 
 " Ctrl-c: Inserts line below
 inoremap <c-c> <c-o>o
+
+" Shift-Enter: Inserts line below. iTerm sends Alt-\ for Shift-Enter. HACK!!!
+inoremap \ <c-o>o
 
 " Ctrl-v: Paste. For some reason, <c-o> is not creating an undo point in the
 " mapping
@@ -1079,13 +1085,14 @@ autocmd MyAutoCmd FileType qf nnoremap <silent> <buffer> q :q<CR>
 autocmd MyAutoCmd FileType json setlocal syntax=javascript
 
 " Enable omni completion
+set omnifunc=syntaxcomplete#Complete
 augroup MyAutoCmd
-  autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
+  " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+  " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+  " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+  " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+  " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+  " autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
   " autocmd FileType java setlocal omnifunc=eclim#java#complete#CodeComplete
   autocmd FileType ruby let b:dispatch = 'rspec %'
 augroup END
@@ -1298,7 +1305,10 @@ nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
 nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
 
 " Quick line using the word under cursor
-nnoremap <silent> [unite]l :<C-u>UniteWithCursorWord -buffer-name=search_file line<CR>
+" nnoremap <silent> [unite]l :<C-u>UniteWithCursorWord -buffer-name=search_file line<CR>
+
+" Quick line
+nnoremap <silent> [unite]l :<C-u>Unite -buffer-name=search_file line<CR>
 
 " Quick MRU search
 nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
