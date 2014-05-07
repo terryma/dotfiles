@@ -70,7 +70,7 @@ NeoBundle 'psykidellic/vim-jekyll' "Jekyll
 NeoBundle 'kchmck/vim-coffee-script' "CoffeeScript
 NeoBundle 'Chiel92/vim-autoformat'
 " NeoBundle 'tpope/vim-endwise' " Conflicts with delimitMate
-NeoBundle 'tsaleh/vim-matchit'
+" NeoBundle 'tsaleh/vim-matchit'
 " NeoBundle 'othree/html5.vim'
 NeoBundle 'vim-scripts/indenthtml.vim'
 NeoBundle 'pangloss/vim-javascript' "Javascript
@@ -92,7 +92,7 @@ NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
 NeoBundle 'kana/vim-textobj-line' " al, il
 NeoBundle 'kana/vim-textobj-indent' " ai, ii, aI, iI
 NeoBundle 'lucapette/vim-textobj-underscore' " a_, i_
-" NeoBundle 'terryma/vim-expand-region'
+NeoBundle 'terryma/vim-expand-region'
 
 " Tags
 NeoBundle 'xolox/vim-misc'
@@ -125,6 +125,7 @@ NeoBundle 'koron/nyancat-vim'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'ton/vim-bufsurf'
 " NeoBundle 'terryma/vim-smooth-scroll'
+NeoBundle 'terryma/vim-multiple-cursors'
 
 
 " Ones that I don't really use anymore
