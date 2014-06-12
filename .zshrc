@@ -1,6 +1,32 @@
 # Source local zsh config first
 for config (~/.zsh/*.zsh) source $config
 
+################################################################################
+# tmux
+# ##############################################################################
+
+if [[ -n $TMUX ]] then;
+  # Set $DISPLAY from the global environment
+  export `tmux showenv -g DISPLAY`
+
+  # Set $DISPLAY in all sessions
+  for name in `tmux ls -F '#{session_name}'`; do
+    # tmux setenv -g DISPLAY $DISPLAY
+    tmux setenv -t $name DISPLAY $DISPLAY
+  done
+
+  # Update shell variables to match tmux environment
+  while read v; do
+    if [[ $v == -* ]]; then
+      unset ${v/#-}
+    else
+      v=${v/=/\=\"}
+      v=${v/%/\"}
+      eval export $v
+    fi
+  done < <(tmux show-environment)
+fi
+
 ###############################################################################
 # Oh My Zsh
 ################################################################################
@@ -35,9 +61,9 @@ unsetopt share_history
 [[ $TERM == "xterm" ]] && export TERM=xterm-256color
 
 # Enable dircolors if we're in Linux
-if [[ "$(uname)" == "Linux" ]]; then
-  eval `dircolors ~/.dircolors`
-fi
+# if [[ "$(uname)" == "Linux" ]]; then
+  # eval `dircolors ~/.dircolors`
+# fi
 
 # Turn off terminal driver flow control (CTRL+S/CTRL+Q)
 setopt noflowcontrol
@@ -85,18 +111,18 @@ alias gmt='git mergetool'
 alias gi='git update-index --assume-unchanged'
 alias gui='git update-index --no-assume-unchanged'
 alias gsi='git ls-files -v | grep "^[a-z]"'
-alias gg='git log --abbrev-commit --decorate --pretty=oneline'
+alias gg='git log --abbrev-commit --decorate --pretty=oneline --graph'
 alias gs='git --no-pager show --stat --oneline'
+export GIT_TEMPLATE_DIR=~/.git/templates
 
 # Enable reattach-to-user-namespace on Mac. See
 # https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/issues/8
 if [[ "$(uname)" == "Darwin" ]]; then
   alias tmux='tmux -2 -f ~/.dotfiles/.tmux-osx.conf'
-else
-  alias tmux='tmux -2'
 fi
 
-alias less=$PAGER
+# TODO Seems to be an issue with less F tail. Disable for now
+# alias less=$PAGER
 alias zless=$PAGER
 
 alias ←="pushd -q -1"
@@ -125,6 +151,7 @@ if which rbenv > /dev/null; then eval "$(rbenv init - --no-rehash)"; fi
 ################################################################################
 # fasd
 ################################################################################
+eval "$(fasd --init posix-alias zsh-hook)"
 alias v='f -e vim'
 fasd_cache="$HOME/.fasd-init-bash"
 if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then

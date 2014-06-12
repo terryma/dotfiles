@@ -33,7 +33,7 @@ NeoBundle 'mileszs/ack.vim'
 " Code completion
 " NeoBundle'Shougo/neocomplcache'
 " NeoBundle 'vim-scripts/AutoComplPop'
-NeoBundle 'Valloric/YouCompleteMe'
+" NeoBundle 'Valloric/YouCompleteMe'
 
 " Snippets
 " NeoBundle 'Shougo/neosnippet'
@@ -43,6 +43,7 @@ NeoBundle 'SirVer/ultisnips'
 
 " Marks
 " NeoBundle 'kshenoy/vim-signature'
+NeoBundle 'airblade/vim-gitgutter'
 
 " Comments
 NeoBundle 'scrooloose/nerdcommenter'
@@ -124,9 +125,8 @@ NeoBundle 'mattn/gist-vim'
 NeoBundle 'koron/nyancat-vim'
 NeoBundle 'Raimondi/delimitMate'
 NeoBundle 'ton/vim-bufsurf'
-" NeoBundle 'terryma/vim-smooth-scroll'
+NeoBundle 'terryma/vim-smooth-scroll'
 NeoBundle 'terryma/vim-multiple-cursors'
-
 
 " Ones that I don't really use anymore
 " NeoBundle 'vim-scripts/TaskList.vim'
@@ -202,7 +202,7 @@ set t_Co=256
 colorscheme jellybeans
 
 " Tell Vim to use dark background
-" set background=dark
+set background=dark
 
 " Sets how many lines of history vim has to remember
 set history=10000
@@ -679,12 +679,12 @@ nmap <silent> <c-\> [unite]o
 nnoremap <c-a><c-a> :Dispatch<CR>
 nnoremap <c-a><c-d> :Dispatch 
 
-" Ctrl-sa: (S)elect (a)ll
-nnoremap <c-s><c-a> :keepjumps normal ggVG<CR>
+" Ctrl-sa: Reopen last grep window
+nnoremap <c-s><c-a> :UniteResume -buffer-name=grep<CR>
 " Ctrl-ss: (S)earch word under cur(s)or in current directory
-nnoremap <c-s><c-s> :Unite grep:.::<C-r><C-w><CR>
+nnoremap <c-s><c-s> :Unite -buffer-name=grep grep:.::<C-r><C-w><CR>
 " Ctrl-sd: (S)earch word in current (d)irectory (prompt for word)
-nnoremap <c-s><c-d> :Unite grep:.<CR>
+nnoremap <c-s><c-d> :Unite -buffer-name=grep grep:.<CR>
 " Ctrl-sf: Quickly (s)earch in (f)ile
 nmap <c-s><c-f> [unite]l
 " Ctrl-sr: Easier (s)earch and (r)eplace
@@ -859,7 +859,7 @@ vnoremap <c-f> :MultipleCursorsFind
 "===============================================================================
 
 " Alt-a: Select all
-nnoremap a :keepjumps normal ggVG<CR>
+nnoremap <silent> a :keepjumps normal ggVG<CR>
 
 " Alt-s: Go back in changelist. HACK ALERT! Ctrl-i generates s with iTerm2
 nnoremap s <c-i>

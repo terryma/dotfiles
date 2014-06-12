@@ -1,0 +1,14 @@
+#!/usr/bin/env bash
+
+# Patterns to match a repo's "remote.origin.url"
+git_remote="git.amazon.com"
+
+current_remote_url="$(git config --get --local remote.origin.url)"
+
+if [[ "$current_remote_url" =~ $git_remote ]]; then
+  git config --local user.name "Terry Ma"
+  git config --local user.email "henchman@amazon.com"
+fi
+printf "Committing as %s\n" "$(git config --get user.email)"
+
+exit 0
