@@ -35,8 +35,9 @@ ZSH=$HOME/.oh-my-zsh
 # ZSH_THEME="powerline"
 ZSH_THEME="pure"
 
-DISABLE_AUTO_TITLE="true"
-COMPLETION_WAITING_DOTS="true"
+DISABLE_UPDATE_PROMPT=true
+DISABLE_AUTO_TITLE=true
+COMPLETION_WAITING_DOTS=true
 DEFAULT_USER=$USER
 plugins=(git brew osx zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
@@ -111,8 +112,10 @@ alias gmt='git mergetool'
 alias gi='git update-index --assume-unchanged'
 alias gui='git update-index --no-assume-unchanged'
 alias gsi='git ls-files -v | grep "^[a-z]"'
-alias gg='git log --abbrev-commit --decorate --pretty=oneline --graph'
+# alias gg='git log --abbrev-commit --decorate --pretty=oneline --graph'
+alias gg="git log --graph --pretty=oneline --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%ar%C(reset)%C(auto)%d%C(reset)%n%s' --date-order"
 alias gs='git --no-pager show --stat --oneline'
+alias gam='git commit -a --amend --no-edit'
 export GIT_TEMPLATE_DIR=~/.git/templates
 
 # Enable reattach-to-user-namespace on Mac. See
@@ -331,3 +334,8 @@ esac
 ################################################################################
 # END
 ################################################################################
+
+# TODO I'm hit by this bug with fzf
+# https://bugzilla.redhat.com/show_bug.cgi?id=526366
+export FZF_DEFAULT_OPTS="--no-mouse"
+source ~/.fzf.zsh

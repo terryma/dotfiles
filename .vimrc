@@ -2,106 +2,118 @@
 set nocompatible
 
 "===============================================================================
+" vim-plug
+"===============================================================================
+
+call plug#begin('~/.vim/plugged')
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+
+
+"===============================================================================
 " NeoBundle
 "===============================================================================
 
-if has ('vim_starting')
-  set runtimepath+=~/.vim/bundle/neobundle.vim/
-endif
+" if has ('vim_starting')
+  " set runtimepath+=~/.vim/bundle/neobundle.vim/
+  " set runtimepath+=~/.dotfiles/.fzf
+" endif
 
-call neobundle#rc(expand('~/.vim/bundle/'))
+" call neobundle#rc(expand('~/.vim/bundle/'))
 
 " Let NeoBundle manage NeoBundle
-NeoBundleFetch 'Shougo/neobundle.vim'
+" NeoBundleFetch 'Shougo/neobundle.vim'
 
-NeoBundle 'Shougo/vimproc', { 'build': {
-      \   'windows': 'make -f make_mingw32.mak',
-      \   'cygwin': 'make -f make_cygwin.mak',
-      \   'mac': 'make -f make_mac.mak',
-      \   'unix': 'make -f make_unix.mak',
-      \ } }
+" NeoBundle 'Shougo/vimproc', { 'build': {
+      " \   'windows': 'make -f make_mingw32.mak',
+      " \   'cygwin': 'make -f make_cygwin.mak',
+      " \   'mac': 'make -f make_mac.mak',
+      " \   'unix': 'make -f make_unix.mak',
+      " \ } }
 
 " Fuzzy search
-NeoBundle 'Shougo/unite.vim'
-NeoBundle 'Shougo/unite-outline'
-NeoBundle 'Shougo/unite-help'
-NeoBundle 'Shougo/unite-session'
-NeoBundle 'Shougo/neomru.vim'
-NeoBundle 'thinca/vim-unite-history'
-NeoBundle 'mileszs/ack.vim'
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+Plug 'Shougo/unite.vim'
+" NeoBundle 'Shougo/unite-outline'
+" NeoBundle 'Shougo/unite-help'
+Plug 'Shougo/unite-session'
+Plug 'Shougo/neomru.vim'
+Plug 'thinca/vim-unite-history'
+" NeoBundle 'mileszs/ack.vim'
 
 " Code completion
 " NeoBundle'Shougo/neocomplcache'
 " NeoBundle 'vim-scripts/AutoComplPop'
 " NeoBundle 'Valloric/YouCompleteMe'
+" NeoBundle 'Shougo/neocomplete.vim'
+" NeoBundle 'wellle/tmux-complete.vim'
 
 " Snippets
 " NeoBundle 'Shougo/neosnippet'
-NeoBundle 'honza/vim-snippets'
-NeoBundle 'SirVer/ultisnips'
+" NeoBundle 'honza/vim-snippets'
+Plug 'SirVer/ultisnips'
 " NeoBundle 'JazzCore/neocomplcache-ultisnips'
 
 " Marks
 " NeoBundle 'kshenoy/vim-signature'
-NeoBundle 'airblade/vim-gitgutter'
+" NeoBundle 'airblade/vim-gitgutter'
 
 " Comments
-NeoBundle 'scrooloose/nerdcommenter'
+Plug 'scrooloose/nerdcommenter'
 
 " File browsing
-NeoBundle 'scrooloose/nerdtree'
-NeoBundle 'Shougo/vimfiler'
+Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
+" NeoBundle 'Shougo/vimfiler'
 
 " Syntax checker
 " NeoBundle 'scrooloose/syntastic'
 
 " Shell
-NeoBundle 'thinca/vim-quickrun'
-NeoBundle 'Shougo/vimshell'
-NeoBundle 'tpope/vim-dispatch'
+" NeoBundle 'thinca/vim-quickrun'
+" NeoBundle 'Shougo/vimshell'
+" NeoBundle 'tpope/vim-dispatch'
 
 " File types
 " NeoBundle 'rstacruz/sparkup', {'rtp': 'vim'} "HTML
-NeoBundle 'amirh/HTML-AutoCloseTag'
-NeoBundle 'tpope/vim-markdown' "Markdown
-NeoBundle 'terryma/vim-instant-markdown' "Markdown
-NeoBundle 'vim-ruby/vim-ruby' "Ruby
-NeoBundle 'tpope/vim-rails'
-NeoBundle 'psykidellic/vim-jekyll' "Jekyll
-NeoBundle 'kchmck/vim-coffee-script' "CoffeeScript
-NeoBundle 'Chiel92/vim-autoformat'
+" NeoBundle 'amirh/HTML-AutoCloseTag'
+" NeoBundle 'tpope/vim-markdown' "Markdown
+" NeoBundle 'terryma/vim-instant-markdown' "Markdown
+" NeoBundle 'vim-ruby/vim-ruby' "Ruby
+" NeoBundle 'tpope/vim-rails'
+" NeoBundle 'psykidellic/vim-jekyll' "Jekyll
+Plug 'kchmck/vim-coffee-script' "CoffeeScript
+" NeoBundle 'Chiel92/vim-autoformat'
 " NeoBundle 'tpope/vim-endwise' " Conflicts with delimitMate
 " NeoBundle 'tsaleh/vim-matchit'
 " NeoBundle 'othree/html5.vim'
-NeoBundle 'vim-scripts/indenthtml.vim'
-NeoBundle 'pangloss/vim-javascript' "Javascript
-NeoBundle 'Blackrush/vim-gocode'
+" NeoBundle 'vim-scripts/indenthtml.vim'
+" NeoBundle 'pangloss/vim-javascript' "Javascript
+" NeoBundle 'Blackrush/vim-gocode'
 
 " Git
-NeoBundle 'tpope/vim-fugitive'
+" NeoBundle 'tpope/vim-fugitive'
 
 " Motions
-NeoBundle 'Lokaltog/vim-easymotion'
-NeoBundle 'goldfeld/vim-seek'
+Plug 'Lokaltog/vim-easymotion'
+" NeoBundle 'goldfeld/vim-seek'
 
 " Text Objects
-NeoBundle 'tpope/vim-surround'
-" NeoBundle 'tpope/vim-repeat'
-NeoBundle 'kana/vim-textobj-user'
-NeoBundle 'kana/vim-textobj-entire' " ae, ie
-NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
-NeoBundle 'kana/vim-textobj-line' " al, il
-NeoBundle 'kana/vim-textobj-indent' " ai, ii, aI, iI
-NeoBundle 'lucapette/vim-textobj-underscore' " a_, i_
-NeoBundle 'terryma/vim-expand-region'
+Plug 'tpope/vim-surround'
+Plug 'tpope/vim-repeat'
+" NeoBundle 'kana/vim-textobj-user'
+" NeoBundle 'kana/vim-textobj-entire' " ae, ie
+" NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
+" NeoBundle 'kana/vim-textobj-line' " al, il
+" NeoBundle 'kana/vim-textobj-indent' " ai, ii, aI, iI
+" NeoBundle 'lucapette/vim-textobj-underscore' " a_, i_
+Plug 'terryma/vim-expand-region'
 
 " Tags
-NeoBundle 'xolox/vim-misc'
-NeoBundle 'xolox/vim-easytags'
-NeoBundle 'majutsushi/tagbar'
+" NeoBundle 'xolox/vim-misc'
+" NeoBundle 'xolox/vim-easytags'
+" NeoBundle 'majutsushi/tagbar'
 
 " Status line
-NeoBundle 'bling/vim-airline' " So much faster than Powerline! :)
+" NeoBundle 'bling/vim-airline' " So much faster than Powerline! :)
 
 " Color themems
 " NeoBundle 'altercation/vim-colors-solarized'
@@ -111,22 +123,25 @@ NeoBundle 'bling/vim-airline' " So much faster than Powerline! :)
 " NeoBundle 'tpope/vim-vividchalk'
 " NeoBundle 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
 " NeoBundle 'rainux/vim-desert-warm-256'
-NeoBundle 'nanotech/jellybeans.vim'
+" NeoBundle 'nanotech/jellybeans.vim'
+Plug 'junegunn/seoul256.vim'
 " NeoBundle 'vim-scripts/wombat256.vim'
 
 " Misc
-NeoBundle 'kana/vim-submode'
-NeoBundle 'kana/vim-scratch'
-NeoBundle 'vim-scripts/BufOnly.vim'
-NeoBundle 'sjl/gundo.vim'
-NeoBundle 't9md/vim-quickhl'
-NeoBundle 'mattn/webapi-vim'
-NeoBundle 'mattn/gist-vim'
-NeoBundle 'koron/nyancat-vim'
-NeoBundle 'Raimondi/delimitMate'
-NeoBundle 'ton/vim-bufsurf'
-NeoBundle 'terryma/vim-smooth-scroll'
-NeoBundle 'terryma/vim-multiple-cursors'
+Plug 'kana/vim-submode'
+" NeoBundle 'kana/vim-scratch'
+" NeoBundle 'vim-scripts/BufOnly.vim'
+" NeoBundle 'sjl/gundo.vim'
+" NeoBundle 't9md/vim-quickhl'
+" NeoBundle 'mattn/webapi-vim'
+" NeoBundle 'mattn/gist-vim'
+" NeoBundle 'koron/nyancat-vim'
+" NeoBundle 'Raimondi/delimitMate'
+Plug 'ton/vim-bufsurf'
+Plug 'terryma/vim-smooth-scroll'
+Plug 'terryma/vim-multiple-cursors'
+" NeoBundle 'bilalq/lite-dfm'
+" NeoBundle 'junegunn/goyo.vim'
 
 " Ones that I don't really use anymore
 " NeoBundle 'vim-scripts/TaskList.vim'
@@ -135,7 +150,7 @@ NeoBundle 'terryma/vim-multiple-cursors'
 " NeoBundle 'kana/vim-smartinput'
 " NeoBundle 'Shougo/echodoc'
 " NeoBundle 'klen/python-mode'
-NeoBundle 'nathanaelkane/vim-indent-guides'
+" NeoBundle 'nathanaelkane/vim-indent-guides'
 " NeoBundle 'hynek/vim-python-pep8-indent'
 " NeoBundle 'kien/ctrlp.vim'
 " NeoBundle 'mattn/calendar-vim'
@@ -144,12 +159,14 @@ NeoBundle 'nathanaelkane/vim-indent-guides'
 " NeoBundle 'sjl/vitality.vim'
 
 " Load local plugins, nice for doing development
-execute 'NeoBundleLocal' '~/code/vim'
+" execute 'NeoBundleLocal' '~/code/vim'
+
+call plug#end()
 
 filetype plugin indent on
 syntax enable
 
-NeoBundleCheck
+" NeoBundleCheck
 
 "===============================================================================
 " Local Settings
@@ -199,7 +216,9 @@ set splitbelow
 set t_Co=256
 
 " Colorscheme
-colorscheme jellybeans
+" colorscheme jellybeans
+let g:seoul256_background = 234
+colorscheme seoul256
 
 " Tell Vim to use dark background
 set background=dark
@@ -402,6 +421,9 @@ nnoremap <F3> :<C-u>GundoToggle<CR>
 
 " <F4>: Save session
 nnoremap <F4> :<C-u>UniteSessionSave
+
+" <F5>: Toggle indent guide
+nnoremap <F5> :<C-u>IndentGuidesToggle<CR>
 
 "===============================================================================
 " Leader Key Mappings
@@ -695,7 +717,8 @@ nmap <c-s><c-w> ysiw
 " Ctrl-d: Scroll half a screen down smoothly
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 5, 1)<CR>
 
-" Ctrl-f: TODO
+" Ctrl-f: fzf
+nnoremap <c-f> :FZF --no-mouse .<CR>
 
 " Ctrl-g: Prints current file name (TODO Not very useful)
 nnoremap <c-g> 1<c-g>
@@ -821,7 +844,7 @@ inoremap <c-l> <c-o>w
 inoremap <c-c> <c-o>o
 
 " Shift-Enter: Inserts line below. iTerm sends Alt-\ for Shift-Enter. HACK!!!
-inoremap \ <c-o>o
+" inoremap \ <c-o>o
 
 " Ctrl-v: Paste. For some reason, <c-o> is not creating an undo point in the
 " mapping
@@ -966,10 +989,10 @@ nnoremap dd dd
 " f: Find. Also support repeating with .
 nnoremap <Plug>OriginalSemicolon ;
 " FIXME
-" nnoremap <silent> f :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>f
-" nnoremap <silent> t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
-" nnoremap <silent> F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
-" nnoremap <silent> T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
+nnoremap <silent> f :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>f
+nnoremap <silent> t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
+nnoremap <silent> F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
+nnoremap <silent> T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
 " g: Many functions
 " gp to visually select pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
@@ -1100,6 +1123,11 @@ augroup END
 
 " Diff mode settings
 " au MyAutoCmd FilterWritePre * if &diff | exe 'nnoremap <c-p> [c' | exe 'nnoremap <c-n> ]c' | endif
+" Quickfix
+autocmd MyAutoCmd FileType qf call AdjustWindowHeight(3, 50)
+function! AdjustWindowHeight(minheight, maxheight)
+  exe max([min([line("$"), a:maxheight]), a:minheight]) . "wincmd _"
+endfunction
 
 "===============================================================================
 " NERDTree
@@ -1148,8 +1176,8 @@ nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>:Git push<cr>
 "===============================================================================
 
 " Tweak the colors
-hi link EasyMotionTarget WarningMsg
-hi link EasyMotionShade  Comment
+" hi link EasyMotionTarget WarningMsg
+" hi link EasyMotionShade  Comment
 
 let g:EasyMotion_do_mapping = 0
 " nnoremap <silent> <C-f>f :call EasyMotion#F(0, 0)<CR>
@@ -1158,17 +1186,54 @@ let g:EasyMotion_do_mapping = 0
 " nnoremap <silent> <C-f><C-t> :call EasyMotion#T(0, 1)<CR>
 " nnoremap <silent> <C-f> :call EasyMotion#F(0, 0)<CR>
 " nnoremap <silent> <C-t> :call EasyMotion#T(0, 0)<CR>
-map f <Plug>(easymotion-f)
-map t <Plug>(easymotion-t)
-map F <Plug>(easymotion-F)
-map T <Plug>(easymotion-T)
+" map f <Plug>(easymotion-f)
+" map t <Plug>(easymotion-t)
+" map F <Plug>(easymotion-F)
+" map T <Plug>(easymotion-T)
+nmap s <Plug>(easymotion-s2)
+
+let g:EasyMotion_smartcase = 1
+map / <Plug>(easymotion-sn)
+omap / <Plug>(easymotion-tn)
+map n <Plug>(easymotion-next)
+map N <Plug>(easymotion-prev)
+
+"===============================================================================
+" Neocomplete
+"===============================================================================
+
+" Use neocomplete
+" let g:neocomplete#enable_at_startup = 1
+" Use smartcase
+" let g:neocomplete#enable_smart_case = 1
+" Set mininum syntax keyword length
+" let g:neocomplete#sources#syntax#min_keyword_length = 3
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+" function! s:my_cr_function()
+  " return neocomplete#close_popup() . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+" endfunction
+" <TAB>: completion.
+" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" inoremap <expr><C-y>  neocomplete#close_popup()
+" inoremap <expr><C-e>  neocomplete#cancel_popup()
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
+
 
 "===============================================================================
 " Neocomplcache and Neosnippets
 "===============================================================================
 
 " Launches neocomplcache automatically on vim startup.
-" let g:neocomplcache_enable_at_startup = 0
+" let g:neocomplcache_enable_at_startup = 1
 " Use smartcase.
 " let g:neocomplcache_enable_smart_case = 1
 " Use camel case completion.
@@ -1290,7 +1355,7 @@ nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=sessions session<CR>
 nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
 
 " Quick snippet
-nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets snippet<CR>
+nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets ultisnips<CR>
 
 " Quickly switch lcd
 nnoremap <silent> [unite]d
@@ -1385,7 +1450,7 @@ let g:unite_data_directory = "~/.unite"
 " let g:unite_enable_short_source_names = 1
 
 " Enable history yank source
-let g:unite_source_history_yank_enable = 1
+" let g:unite_source_history_yank_enable = 1
 
 " Open in bottom right
 let g:unite_split_rule = "botright"
@@ -1403,12 +1468,11 @@ let g:unite_source_file_mru_time_format = ''
 " For ack.
 if executable('ack-grep')
   let g:unite_source_grep_command = 'ack-grep'
-  " Match whole word only. This might/might not be a good idea
-  let g:unite_source_grep_default_opts = '--no-heading --no-color -a -w'
+  let g:unite_source_grep_default_opts = '-i --no-heading --no-color -a -H'
   let g:unite_source_grep_recursive_opt = ''
 elseif executable('ack')
   let g:unite_source_grep_command = 'ack'
-  let g:unite_source_grep_default_opts = '--no-heading --no-color -a -w'
+  let g:unite_source_grep_default_opts = '-i --no-heading --no-color -a -H'
   let g:unite_source_grep_recursive_opt = ''
 endif
 
@@ -1437,29 +1501,29 @@ endfunction
 
 " TODO Look into Vimfiler more
 " Example at: https://github.com/hrsh7th/dotfiles/blob/master/vim/.vimrc
-nnoremap <expr><F2> g:my_open_explorer_command()
-function! g:my_open_explorer_command()
-  return printf(":\<C-u>VimFilerBufferDir -buffer-name=%s -split -auto-cd -toggle -no-quit -winwidth=%s\<CR>",
-        \ g:my_vimfiler_explorer_name,
-        \ g:my_vimfiler_winwidth)
-endfunction
+" nnoremap <expr><F2> g:my_open_explorer_command()
+" function! g:my_open_explorer_command()
+  " return printf(":\<C-u>VimFilerBufferDir -buffer-name=%s -split -auto-cd -toggle -no-quit -winwidth=%s\<CR>",
+        " \ g:my_vimfiler_explorer_name,
+        " \ g:my_vimfiler_winwidth)
+" endfunction
 
-let g:vimfiler_as_default_explorer = 1
-let g:vimfiler_tree_leaf_icon = ' '
-let g:vimfiler_tree_opened_icon = '▾'
-let g:vimfiler_tree_closed_icon = '▸'
-" let g:vimfiler_file_icon = ' '
-let g:vimfiler_marked_file_icon = '✓'
-" let g:vimfiler_readonly_file_icon = ' '
-let g:my_vimfiler_explorer_name = 'explorer'
-let g:my_vimfiler_winwidth = 30
-let g:vimfiler_safe_mode_by_default = 0
-" let g:vimfiler_directory_display_top = 1
+" let g:vimfiler_as_default_explorer = 1
+" let g:vimfiler_tree_leaf_icon = ' '
+" let g:vimfiler_tree_opened_icon = '▾'
+" let g:vimfiler_tree_closed_icon = '▸'
+" " let g:vimfiler_file_icon = ' '
+" let g:vimfiler_marked_file_icon = '✓'
+" " let g:vimfiler_readonly_file_icon = ' '
+" let g:my_vimfiler_explorer_name = 'explorer'
+" let g:my_vimfiler_winwidth = 30
+" let g:vimfiler_safe_mode_by_default = 0
+" " let g:vimfiler_directory_display_top = 1
 
-autocmd MyAutoCmd FileType vimfiler call s:vimfiler_settings()
-function! s:vimfiler_settings()
-  nmap     <buffer><expr><CR>  vimfiler#smart_cursor_map("\<PLUG>(vimfiler_expand_tree)", "e")
-endfunction
+" autocmd MyAutoCmd FileType vimfiler call s:vimfiler_settings()
+" function! s:vimfiler_settings()
+  " nmap     <buffer><expr><CR>  vimfiler#smart_cursor_map("\<PLUG>(vimfiler_expand_tree)", "e")
+" endfunction
 
 "===============================================================================
 " VimShell
@@ -1575,8 +1639,8 @@ autocmd MyAutoCmd FileType go
 " This option currently isn't working :( Neosnippet is unmappion my
 " select mode mappings, so if I switch buffer and come back, the mappings no
 " longer work. Not sure how to solve that
-let g:expand_region_use_select_mode = 1
-" let g:expand_region_use_select_mode = 0
+" let g:expand_region_use_select_mode = 1
+let g:expand_region_use_select_mode = 0
 
 " Extend the global dictionary
 call expand_region#custom_text_objects({
@@ -1656,14 +1720,35 @@ let g:jekyll_post_extension = '.md'
 "===============================================================================
 
 let g:airline_powerline_fonts = 1
-let g:airline#extensions#tabline#enabled = 1
-let g:airline#extensions#tabline#fnamemod = ':t'
+" let g:airline#extensions#tabline#enabled = 1
+" let g:airline#extensions#tabline#fnamemod = ':t'
 
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
+" TagBar
+"===============================================================================
+
+let g:tagbar_type_coffee = {
+    \ 'ctagstype' : 'coffee',
+    \ 'kinds'     : [
+        \ 'c:classes',
+        \ 'm:methods',
+        \ 'f:functions',
+        \ 'v:variables',
+        \ 'f:fields',
+    \ ]
+\ }
+
+"===============================================================================
 " HTML Indent
-""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""""
+"===============================================================================
 
 let g:html_indent_inctags = "html,body,head,tbody"
+
+"===============================================================================
+" tmux-complete
+"===============================================================================
+
+" let g:tmuxcomplete#trigger = ''
 
 "===============================================================================
 " My functions

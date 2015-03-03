@@ -5,3 +5,4 @@ spell/
 tags
 .vim/bundle/*
 .vim/sessions/*
+.vim/plugged/*
