@@ -6,3 +6,4 @@ tags
 .vim/bundle/*
 .vim/sessions/*
 .vim/plugged/*
+.tmux/resurrect/
