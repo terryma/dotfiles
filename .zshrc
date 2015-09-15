@@ -31,6 +31,11 @@ if [[ -n $TMUX && "$(uname)" == "Linux" ]] then;
   done < <(tmux show-environment)
 fi
 
+# Source Prezto.
+# if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
+  # source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
+# fi
+
 ###############################################################################
 # Oh My Zsh
 ################################################################################
@@ -40,6 +45,7 @@ ZSH=$HOME/.oh-my-zsh
 ZSH_THEME="pure"
 
 DISABLE_UPDATE_PROMPT=true
+DISABLE_AUTO_UPDATE=true
 DISABLE_AUTO_TITLE=true
 COMPLETION_WAITING_DOTS=true
 DEFAULT_USER=$USER
@@ -79,7 +85,7 @@ autoload zmv
 ################################################################################
 # Vars
 ################################################################################
-export PATH=~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin:$PATH
+export PATH=~/.linuxbrew/bin:~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin:$PATH
 export EDITOR=$(which vim)
 # Use vimpager as PAGER
 # export VIMPAGER_RC=~/.dotfiles/.zsh/.vimpagerrc

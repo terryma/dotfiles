@@ -8,28 +8,6 @@ set nocompatible
 call plug#begin('~/.vim/plugged')
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
-
-"===============================================================================
-" NeoBundle
-"===============================================================================
-
-" if has ('vim_starting')
-  " set runtimepath+=~/.vim/bundle/neobundle.vim/
-  " set runtimepath+=~/.dotfiles/.fzf
-" endif
-
-" call neobundle#rc(expand('~/.vim/bundle/'))
-
-" Let NeoBundle manage NeoBundle
-" NeoBundleFetch 'Shougo/neobundle.vim'
-
-" NeoBundle 'Shougo/vimproc', { 'build': {
-      " \   'windows': 'make -f make_mingw32.mak',
-      " \   'cygwin': 'make -f make_cygwin.mak',
-      " \   'mac': 'make -f make_mac.mak',
-      " \   'unix': 'make -f make_unix.mak',
-      " \ } }
-
 " Fuzzy search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'Shougo/unite.vim'
@@ -90,10 +68,11 @@ Plug 'kchmck/vim-coffee-script' "CoffeeScript
 " NeoBundle 'Blackrush/vim-gocode'
 
 " Git
-" NeoBundle 'tpope/vim-fugitive'
+Plug 'tpope/vim-fugitive'
 
 " Motions
 Plug 'Lokaltog/vim-easymotion'
+" Plug 'unblevable/quick-scope'
 " NeoBundle 'goldfeld/vim-seek'
 
 " Text Objects
@@ -113,7 +92,7 @@ Plug 'terryma/vim-expand-region'
 " NeoBundle 'majutsushi/tagbar'
 
 " Status line
-" NeoBundle 'bling/vim-airline' " So much faster than Powerline! :)
+Plug 'bling/vim-airline' " So much faster than Powerline! :)
 
 " Color themems
 " NeoBundle 'altercation/vim-colors-solarized'
@@ -128,7 +107,7 @@ Plug 'junegunn/seoul256.vim'
 " NeoBundle 'vim-scripts/wombat256.vim'
 
 " Misc
-Plug 'kana/vim-submode'
+" Plug 'kana/vim-submode'
 " NeoBundle 'kana/vim-scratch'
 " NeoBundle 'vim-scripts/BufOnly.vim'
 " NeoBundle 'sjl/gundo.vim'
@@ -451,8 +430,7 @@ nnoremap <silent> <Leader>2 :TagbarToggle<cr>
 " output
 vnoremap <silent> <Leader>0 :!python<cr>
 
-" <Leader>tab: Toggles NERDTree
-" nnoremap <silent> <Leader><tab> :NERDTreeToggle<cr>
+" <Leader>tab: TODO
 
 " <Leader>q: Quit all, very useful in vimdiff
 nnoremap <Leader>q :qa<cr>
@@ -615,11 +593,12 @@ map K <Plug>(expand_region_expand)
 " K: shrink-region
 map J <Plug>(expand_region_shrink)
 
+" L: Go to end of line
 noremap L g_
 
 " :: Remap to ,. After all the remapping, ; goes to command mode, . repeats
 " fFtT, : repeats it backward, and , is the leader
-noremap : ,
+" noremap : ,
 
 " ": Handles registers
 
@@ -946,13 +925,13 @@ nnoremap i g,
 
 " Space is also the leader key for Unite actions
 " Space-[jk] scrolls the page
-call submode#enter_with('scroll', 'n', '', '<space>j', ':call smooth_scroll#down(&scroll/2, 5, 1)<CR>')
-call submode#enter_with('scroll', 'n', '', '<space>k', ':call smooth_scroll#up(&scroll/2, 5, 1)<CR>')
-call submode#map('scroll', 'n', '', 'j', ':call smooth_scroll#down(&scroll/2, 5, 1)<CR>')
-call submode#map('scroll', 'n', '', 'k', ':call smooth_scroll#up(&scroll/2, 5, 1)<CR>')
+" call submode#enter_with('scroll', 'n', '', '<space>j', ':call smooth_scroll#down(&scroll/2, 5, 1)<CR>')
+" call submode#enter_with('scroll', 'n', '', '<space>k', ':call smooth_scroll#up(&scroll/2, 5, 1)<CR>')
+" call submode#map('scroll', 'n', '', 'j', ':call smooth_scroll#down(&scroll/2, 5, 1)<CR>')
+" call submode#map('scroll', 'n', '', 'k', ':call smooth_scroll#up(&scroll/2, 5, 1)<CR>')
 
 " Don't leave submode automatically
-let g:submode_timeout = 0
+" let g:submode_timeout = 0
 
 " Space-=: Resize windows
 nnoremap <space>= <c-w>=
@@ -990,12 +969,12 @@ nnoremap d "_d
 " dd: I use this often to yank a single line, retain its original behavior
 nnoremap dd dd
 " f: Find. Also support repeating with .
-nnoremap <Plug>OriginalSemicolon ;
+" nnoremap <Plug>OriginalSemicolon ;
 " FIXME
-nnoremap <silent> f :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>f
-nnoremap <silent> t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
-nnoremap <silent> F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
-nnoremap <silent> T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
+" nnoremap <silent> f :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>f
+" nnoremap <silent> t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
+" nnoremap <silent> F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
+" nnoremap <silent> T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
 " g: Many functions
 " gp to visually select pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
@@ -1182,7 +1161,7 @@ nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>:Git push<cr>
 " hi link EasyMotionTarget WarningMsg
 " hi link EasyMotionShade  Comment
 
-let g:EasyMotion_do_mapping = 0
+" let g:EasyMotion_do_mapping = 0
 " nnoremap <silent> <C-f>f :call EasyMotion#F(0, 0)<CR>
 " nnoremap <silent> <C-f><C-f> :call EasyMotion#F(0, 1)<CR>
 " nnoremap <silent> <C-f>t :call EasyMotion#T(0, 0)<CR>
@@ -1195,11 +1174,11 @@ let g:EasyMotion_do_mapping = 0
 " map T <Plug>(easymotion-T)
 nmap s <Plug>(easymotion-s2)
 
-let g:EasyMotion_smartcase = 1
-map / <Plug>(easymotion-sn)
-omap / <Plug>(easymotion-tn)
-map n <Plug>(easymotion-next)
-map N <Plug>(easymotion-prev)
+" let g:EasyMotion_smartcase = 1
+" map / <Plug>(easymotion-sn)
+" omap / <Plug>(easymotion-tn)
+" map n <Plug>(easymotion-next)
+" map N <Plug>(easymotion-prev)
 
 "===============================================================================
 " Neocomplete
@@ -1216,9 +1195,9 @@ map N <Plug>(easymotion-prev)
 " <CR>: close popup and save indent.
 " inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
 " function! s:my_cr_function()
-  " return neocomplete#close_popup() . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? neocomplete#close_popup() : "\<CR>"
+" return neocomplete#close_popup() . "\<CR>"
+" For no inserting <CR> key.
+"return pumvisible() ? neocomplete#close_popup() : "\<CR>"
 " endfunction
 " <TAB>: completion.
 " inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
@@ -1506,9 +1485,9 @@ endfunction
 " Example at: https://github.com/hrsh7th/dotfiles/blob/master/vim/.vimrc
 " nnoremap <expr><F2> g:my_open_explorer_command()
 " function! g:my_open_explorer_command()
-  " return printf(":\<C-u>VimFilerBufferDir -buffer-name=%s -split -auto-cd -toggle -no-quit -winwidth=%s\<CR>",
-        " \ g:my_vimfiler_explorer_name,
-        " \ g:my_vimfiler_winwidth)
+" return printf(":\<C-u>VimFilerBufferDir -buffer-name=%s -split -auto-cd -toggle -no-quit -winwidth=%s\<CR>",
+" \ g:my_vimfiler_explorer_name,
+" \ g:my_vimfiler_winwidth)
 " endfunction
 
 " let g:vimfiler_as_default_explorer = 1
@@ -1525,7 +1504,7 @@ endfunction
 
 " autocmd MyAutoCmd FileType vimfiler call s:vimfiler_settings()
 " function! s:vimfiler_settings()
-  " nmap     <buffer><expr><CR>  vimfiler#smart_cursor_map("\<PLUG>(vimfiler_expand_tree)", "e")
+" nmap     <buffer><expr><CR>  vimfiler#smart_cursor_map("\<PLUG>(vimfiler_expand_tree)", "e")
 " endfunction
 
 "===============================================================================
@@ -1731,15 +1710,15 @@ let g:airline_powerline_fonts = 1
 "===============================================================================
 
 let g:tagbar_type_coffee = {
-    \ 'ctagstype' : 'coffee',
-    \ 'kinds'     : [
-        \ 'c:classes',
-        \ 'm:methods',
-        \ 'f:functions',
-        \ 'v:variables',
-        \ 'f:fields',
-    \ ]
-\ }
+      \ 'ctagstype' : 'coffee',
+      \ 'kinds'     : [
+      \ 'c:classes',
+      \ 'm:methods',
+      \ 'f:functions',
+      \ 'v:variables',
+      \ 'f:fields',
+      \ ]
+      \ }
 
 "===============================================================================
 " HTML Indent
