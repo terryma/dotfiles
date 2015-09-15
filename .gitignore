@@ -7,3 +7,5 @@ tags
 .vim/sessions/*
 .vim/plugged/*
 .tmux/resurrect/
+.tmux/plugins/*
+!.tmux/plugins/tpm
