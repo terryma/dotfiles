@@ -99,8 +99,8 @@ Plug 'Lokaltog/vim-easymotion'
 " Text Objects
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
-" NeoBundle 'kana/vim-textobj-user'
-" NeoBundle 'kana/vim-textobj-entire' " ae, ie
+Plug 'kana/vim-textobj-user'
+Plug 'kana/vim-textobj-entire' " ae, ie
 " NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
 " NeoBundle 'kana/vim-textobj-line' " al, il
 " NeoBundle 'kana/vim-textobj-indent' " ai, ii, aI, iI
@@ -214,6 +214,9 @@ set splitbelow
 
 " 256bit terminal
 set t_Co=256
+
+" Boost performance of rendering long lines
+set synmaxcol=200
 
 " Colorscheme
 " colorscheme jellybeans

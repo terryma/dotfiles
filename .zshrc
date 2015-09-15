@@ -1,3 +1,7 @@
+# Enable glob with no matches
+# http://unix.stackexchange.com/questions/26805/how-to-silently-get-an-empty-string-from-a-glob-pattern-with-no-matches
+setopt null_glob
+
 # Source local zsh config first
 for config (~/.zsh/*.zsh) source $config
 
@@ -5,7 +9,7 @@ for config (~/.zsh/*.zsh) source $config
 # tmux
 # ##############################################################################
 
-if [[ -n $TMUX ]] then;
+if [[ -n $TMUX && "$(uname)" == "Linux" ]] then;
   # Set $DISPLAY from the global environment
   export `tmux showenv -g DISPLAY`
 
@@ -78,15 +82,15 @@ autoload zmv
 export PATH=~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin:$PATH
 export EDITOR=$(which vim)
 # Use vimpager as PAGER
-export VIMPAGER_RC=~/.dotfiles/.zsh/.vimpagerrc
-export PAGER=~/.dotfiles/.zsh/vimpager/vimpager
+# export VIMPAGER_RC=~/.dotfiles/.zsh/.vimpagerrc
+# export PAGER=~/.dotfiles/.zsh/vimpager/vimpager
 export VISUAL=$(which vim)
 export P4DIFF="gvimdiff -f -R"
 if [ -f /usr/local/heroku/bin/heroku ]; then
   export PATH=/usr/local/heroku/bin:$PATH
 fi
 if [ -d /usr/local/lib/node_modules ]; then
-  export NODE_PATH=/usr/local/share/npm/lib/node_modules
+  export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
 fi
 export KEYTIMEOUT=1
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'

@@ -36,6 +36,9 @@ default 1monitor resolutions:${mon-30in}
 # Hyper key
 alias hyper ctrl;shift;alt;cmd
 
+# Super key
+alias super ctrl;alt;cmd
+
 # Hyper+w: Activate windows hint
 bind w:${hyper} hint asdfghjkl;'
 
@@ -43,6 +46,7 @@ bind r:${hyper} relaunch
 
 # Hyper+h: Move window to left half
 bind h:${hyper} ${lefthalf}
+bind left:${super} ${lefthalf}
 
 # Hyper+j: Move focus left
 bind j:${hyper} focus left
@@ -52,9 +56,11 @@ bind k:${hyper} focus right
 
 # Hyper+l: Move window to right half
 bind l:${hyper} ${righthalf}
+bind right:${super} ${righthalf}
 
 # Hyper+f: Move window full screen
 bind f:${hyper} ${full}
+bind up:${super} ${full}
 
 # Application switcher
 bind b:${hyper} focus 'Google Chrome'
