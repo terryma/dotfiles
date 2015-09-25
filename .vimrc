@@ -11,7 +11,7 @@ Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 " Fuzzy search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
 Plug 'Shougo/unite.vim'
-" NeoBundle 'Shougo/unite-outline'
+Plug 'Shougo/unite-outline'
 " NeoBundle 'Shougo/unite-help'
 Plug 'Shougo/unite-session'
 Plug 'Shougo/neomru.vim'
@@ -21,7 +21,7 @@ Plug 'thinca/vim-unite-history'
 " Code completion
 " NeoBundle'Shougo/neocomplcache'
 " NeoBundle 'vim-scripts/AutoComplPop'
-" NeoBundle 'Valloric/YouCompleteMe'
+Plug 'Valloric/YouCompleteMe'
 " NeoBundle 'Shougo/neocomplete.vim'
 " NeoBundle 'wellle/tmux-complete.vim'
 
@@ -43,7 +43,7 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 " NeoBundle 'Shougo/vimfiler'
 
 " Syntax checker
-" NeoBundle 'scrooloose/syntastic'
+Plug 'scrooloose/syntastic'
 
 " Shell
 " NeoBundle 'thinca/vim-quickrun'

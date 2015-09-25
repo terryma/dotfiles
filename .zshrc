@@ -102,6 +102,7 @@ export KEYTIMEOUT=1
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
 
 export NDK_ROOT=~/code/sdk/android-ndk-r8e
+export ANDROID_HOME=/usr/local/opt/android-sdk
 
 ################################################################################
 # Aliases
@@ -111,7 +112,7 @@ if [[ "$(uname)" == "Darwin" ]]; then
   alias p4merge='/Applications/p4merge.app/Contents/MacOS/p4merge'
 fi
 
-# Open file in existing  gvim
+# Open file in existing gvim
 alias gvir='gvim --remote'
 
 # Git
@@ -122,11 +123,13 @@ alias gmt='git mergetool'
 alias gi='git update-index --assume-unchanged'
 alias gui='git update-index --no-assume-unchanged'
 alias gsi='git ls-files -v | grep "^[a-z]"'
-# alias gg='git log --abbrev-commit --decorate --pretty=oneline --graph'
 alias gg="git log --graph --pretty=oneline --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%ar%C(reset)%C(auto)%d%C(reset)%n%s' --date-order"
 alias gs='git --no-pager show --stat --oneline'
 alias gam='git commit -a --amend --no-edit'
 export GIT_TEMPLATE_DIR=~/.git/templates
+
+# ssh
+alias ssh='TERM=xterm-256color ssh'
 
 # Enable reattach-to-user-namespace on Mac. See
 # https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/issues/8
@@ -267,7 +270,7 @@ case "$TERM" in
     # Ctrl-o: Deletes everything after cursor (o is on right) (Commonly Ctrl-k)
     bindkey '^o' kill-line
     # Ctrl-p: TODO
-    # bindkey '^p'
+    bindkey '^p'  fj
     # Ctrl-a: Go to the beginning of line
     bindkey '^a' beginning-of-line
     # Ctrl-s: Search forwards in history
@@ -308,7 +311,7 @@ case "$TERM" in
     # Ctrl-n: Clear the entire screen (cleaN)
     bindkey '^n' clear-screen
     # Ctrl-/: Undo
-    bindkey '^_' undo
+    # bindkey '^_' undo
     # Ctrl-Space: Quickly yank the entire line into the x CLIPBOARD
     bindkey '^@' x-vi-yank-whole-line
 
@@ -347,5 +350,31 @@ esac
 
 # TODO I'm hit by this bug with fzf
 # https://bugzilla.redhat.com/show_bug.cgi?id=526366
-export FZF_DEFAULT_OPTS="--no-mouse"
+export FZF_DEFAULT_OPTS="--no-mouse --extended --cycle"
 source ~/.fzf.zsh
+
+# More fzf
+
+# c - browse chrome history
+c() {
+  local cols sep
+  cols=$(( COLUMNS / 3 ))
+  sep='{{::}}'
+
+  # Copy History DB to circumvent the lock
+  # - See http://stackoverflow.com/questions/8936878 for the file path
+  cp -f ~/Library/Application\ Support/Google/Chrome/Default/History /tmp/h
+
+  sqlite3 -separator $sep /tmp/h \
+    "select substr(title, 1, $cols), url
+     from urls order by last_visit_time desc" |
+  awk -F $sep '{printf "%-'$cols's  \x1b[36m%s\n", $1, $2}' |
+  fzf --ansi --multi | sed 's#.*\(https*://\)#\1#' | xargs open
+}
+
+# fj - changing directory with fasd
+function fj() {
+  local dir
+  dir=$(fasd -Rdl | fzf --no-sort +m) && cd "$dir"
+}
+zle -N fj

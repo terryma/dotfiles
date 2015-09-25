@@ -40,5 +40,6 @@
 	default = simple
 [amazon]
 	append-cr-url = true
+	pull-request-by-default = false
 [credential]
 	helper = osxkeychain
