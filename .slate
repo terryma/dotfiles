@@ -64,11 +64,16 @@ bind up:${super} ${full}
 
 # Application switcher
 bind b:${hyper} focus 'Google Chrome'
+bind g:${hyper} focus 'Google Chrome'
 bind t:${hyper} focus 'iTerm'
+bind return:${hyper} focus 'iTerm'
+bind e:${hyper} focus 'Eclipse'
+bind o:${hyper} focus 'Microsoft Outlook'
+# bind tab:cmd switch
 # Hyper+n: Switches to personal notes in nvAlt, mapped in nvAlt itself
 # Hyper+m: Switches to work notes in nvAlt, mapped in nvAlt itself
 
 # Hyper+Enter: Reset the default layout and focus Chrome and iTerm
-bind return:${hyper} sequence layout 1monitor | focus 'Google Chrome' | focus 'iTerm'
+# bind return:${hyper} sequence layout 1monitor | focus 'Google Chrome' | focus 'iTerm'
 
 # source: load configs from another file

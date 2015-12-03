@@ -52,6 +52,7 @@ DEFAULT_USER=$USER
 plugins=(git brew osx zsh-syntax-highlighting)
 source $ZSH/oh-my-zsh.sh
 
+
 ################################################################################
 # General
 ################################################################################
@@ -66,6 +67,8 @@ unsetopt correct_all
 
 # Disable history sharing
 unsetopt share_history
+
+setopt hist_ignore_all_dups
 
 # Export TERM correctly for tmux
 [[ $TERM == "screen" ]] && export TERM=screen-256color

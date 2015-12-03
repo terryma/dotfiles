@@ -81,7 +81,7 @@ Plug 'tpope/vim-repeat'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-entire' " ae, ie
 " NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
-" NeoBundle 'kana/vim-textobj-line' " al, il
+Plug 'kana/vim-textobj-line' " al, il
 " NeoBundle 'kana/vim-textobj-indent' " ai, ii, aI, iI
 " NeoBundle 'lucapette/vim-textobj-underscore' " a_, i_
 Plug 'terryma/vim-expand-region'
@@ -198,7 +198,6 @@ set t_Co=256
 set synmaxcol=200
 
 " Colorscheme
-" colorscheme jellybeans
 let g:seoul256_background = 234
 colorscheme seoul256
 
@@ -234,7 +233,7 @@ augroup END
 set scrolloff=10
 
 " How many lines to scroll at a time, make scrolling appears faster
-set scrolljump=3
+set scrolljump=5
 
 " Min width of the number column to the left
 set numberwidth=1
@@ -543,7 +542,7 @@ nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
 nnoremap Q :q<cr>
 
 " W: Save
-nnoremap W :w<cr>
+" nnoremap W :w<cr>
 
 " E: Move to end of word forward
 
@@ -710,12 +709,12 @@ noremap <c-h> b
 inoremap <c-h> <c-o>b
 
 " Ctrl-j: Scroll + move down through the file
-" noremap <c-j> 3<c-e>3j
-noremap <c-j> 3<c-e>
+" noremap <c-j> 5<c-e>5j
+noremap <c-j> 5<c-e>
 
 " Ctrl-k: Scroll + move up through the file
-" noremap <c-k> 3<c-y>3k
-noremap <c-k> 3<c-y>
+" noremap <c-k> 5<c-y>5k
+noremap <c-k> 5<c-y>
 
 " Ctrl-l: Move word forward. Consistent with zsh
 noremap <c-l> w
