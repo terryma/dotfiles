@@ -827,17 +827,15 @@ nnoremap <silent> a :keepjumps normal ggVG<CR>
 " Alt-s: Go back in changelist. HACK ALERT! Ctrl-i generates s with iTerm2
 nnoremap s <c-i>
 
-" Alt-h: Go to previous buffer
-nnoremap <silent> h :bprevious<CR>
+" Alt-h: tmux
 
 " Alt-j: Move current line down
-" nnoremap <silent> j mz:m+<cr>`z==
+nnoremap <silent> j mz:m+<cr>`z==
 
 " Alt-k: Move current line up
-" nnoremap <silent> k mz:m-2<cr>`z==
+nnoremap <silent> k mz:m-2<cr>`z==
 
-" Alt-l: Go to next buffer
-nnoremap <silent> l :bnext<CR>
+" Alt-l: tmux
 
 " Alt-Shift-j: Duplicate line down
 nnoremap <silent> J mzyyp`zj
@@ -851,14 +849,13 @@ nnoremap o g;
 " Alt-i: Jump forward in the changelist
 nnoremap i g,
 
-" Alt-n: Open new tmux window
+" Alt-n: tmux
 
 " Alt-Left/Right/Up/Down resize panes
 nnoremap <M-up> <c-w>+
 nnoremap <M-down> <c-w>-
 nnoremap <M-left> <c-w><
 nnoremap <M-right> <c-w>>
-
 
 "===============================================================================
 " Insert Mode Meta/Alt Key Mappings
@@ -877,12 +874,12 @@ nnoremap <M-right> <c-w>>
 "===============================================================================
 
 " Alt-j: Move selections down
-" vnoremap <m-j> :m'>+<cr>`<my`>mzgv`yo`z
-" vnoremap j :m'>+<cr>`<my`>mzgv`yo`z
+vnoremap <m-j> :m'>+<cr>`<my`>mzgv`yo`z
+vnoremap j :m'>+<cr>`<my`>mzgv`yo`z
 
 " Alt-k: Move selections up
-" vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
-" vnoremap k :m'<-2<cr>`>my`<mzgv`yo`z
+vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
+vnoremap k :m'<-2<cr>`>my`<mzgv`yo`z
 
 "===============================================================================
 " Space Key Mappings
@@ -994,9 +991,6 @@ endfunction
 let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', '\.pyc', '__pycache__', '\.cache', '\.idea']
-" Close vim if the only window open is nerdtree
-" autocmd MyAutoCmd BufEnter * 
-      " \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 "===============================================================================
 " NERDCommenter
@@ -1009,10 +1003,9 @@ let NERDSpaceDelims=1
 " Syntastic
 "===============================================================================
 
-" TODO(terryma): Update these settings
 " Syntastic settings
 let g:syntastic_mode_map = { 'mode': 'active',
-      \ 'active_filetypes': ['ruby', 'python'],
+      \ 'active_filetypes': ['ruby', 'python', 'javascript', 'sh', 'html'],
       \ 'passive_filetypes': ['puppet'] }
 
 "===============================================================================
@@ -1028,139 +1021,6 @@ nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
 " Quickly stage, commit, and push the current file. Useful for editing .vimrc
 nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>:Git push<cr>
-
-"===============================================================================
-" EasyMotion
-"===============================================================================
-
-" Tweak the colors
-" hi link EasyMotionTarget WarningMsg
-" hi link EasyMotionShade  Comment
-
-" let g:EasyMotion_do_mapping = 0
-" nnoremap <silent> <C-f>f :call EasyMotion#F(0, 0)<CR>
-" nnoremap <silent> <C-f><C-f> :call EasyMotion#F(0, 1)<CR>
-" nnoremap <silent> <C-f>t :call EasyMotion#T(0, 0)<CR>
-" nnoremap <silent> <C-f><C-t> :call EasyMotion#T(0, 1)<CR>
-" nnoremap <silent> <C-f> :call EasyMotion#F(0, 0)<CR>
-" nnoremap <silent> <C-t> :call EasyMotion#T(0, 0)<CR>
-" map f <Plug>(easymotion-f)
-" map t <Plug>(easymotion-t)
-" map F <Plug>(easymotion-F)
-" map T <Plug>(easymotion-T)
-" nmap s <Plug>(easymotion-s2)
-
-" let g:EasyMotion_smartcase = 1
-" map / <Plug>(easymotion-sn)
-" omap / <Plug>(easymotion-tn)
-" map n <Plug>(easymotion-next)
-" map N <Plug>(easymotion-prev)
-
-"===============================================================================
-" Neocomplete
-"===============================================================================
-
-" Use neocomplete
-" let g:neocomplete#enable_at_startup = 1
-" Use smartcase
-" let g:neocomplete#enable_smart_case = 1
-" Set mininum syntax keyword length
-" let g:neocomplete#sources#syntax#min_keyword_length = 3
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-" inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-" function! s:my_cr_function()
-" return neocomplete#close_popup() . "\<CR>"
-" For no inserting <CR> key.
-"return pumvisible() ? neocomplete#close_popup() : "\<CR>"
-" endfunction
-" <TAB>: completion.
-" inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-" inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-" inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" inoremap <expr><C-y>  neocomplete#close_popup()
-" inoremap <expr><C-e>  neocomplete#cancel_popup()
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? neocomplete#close_popup() : "\<Space>"
-
-
-"===============================================================================
-" Neocomplcache and Neosnippets
-"===============================================================================
-
-" Launches neocomplcache automatically on vim startup.
-" let g:neocomplcache_enable_at_startup = 1
-" Use smartcase.
-" let g:neocomplcache_enable_smart_case = 1
-" Use camel case completion.
-" let g:neocomplcache_enable_camel_case_completion = 1
-" Use underscore completion.
-" let g:neocomplcache_enable_underbar_completion = 1
-" Sets minimum char length of syntax keyword.
-" let g:neocomplcache_min_syntax_length = 4
-" let g:neocomplcache_min_keyword_length = 4
-" AutoComplPop like behavior.
-" let g:neocomplcache_enable_auto_select = 1
-" let g:snips_author = "Terry Ma"
-" let g:neocomplcache_max_list=10
-" <Tab>'s function is overloaded depending on the context:
-" - If the current word is a snippet, then expand that snippet
-" - If we're in the middle of a snippet, tab jumps to the next placeholder text
-" - If the competion menu is visible, enter the currently selected entry and
-"   close the popup
-" - If none of the above is true, simply do what <Tab> does originally
-" imap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : pumvisible() ? neocomplcache#close_popup() : "\<TAB>"
-" smap <expr><TAB> neosnippet#expandable_or_jumpable() ? "\<Plug>(neosnippet_expand_or_jump)" : "\<TAB>"
-
-" Enter always performs a literal enter
-" imap <expr><cr> neocomplcache#smart_close_popup() . "\<CR>"
-
-" if has('conceal')
-" set conceallevel=2 concealcursor=i
-" endif
-
-" Tell Neosnippets to use the snipmate snippets
-" let g:neosnippet#snippets_directory='~/.dotfiles/.vim/bundle/snipmate-snippets,~/.dotfiles/.vim/snippets'
-
-" These are the battle scars of me trying to get omni_patterns to work correctly
-" so Neocomplcache and Eclim could co-exist peacefully. No cigar.
-" if !exists('g:neocomplcache_force_omni_patterns')
-" let g:neocomplcache_force_omni_patterns = {}
-" endif
-" if !exists('g:neocomplcache_omni_patterns')
-" let g:neocomplcache_omni_patterns = {}
-" endif
-" let g:neocomplcache_force_omni_patterns.java = '\%(\.\)\h\w*'
-" let g:neocomplcache_force_omni_patterns.java = '.'
-" let g:neocomplcache_omni_patterns.java = '\%(\.\)\h\w*'
-
-" Ok this requires some explanation. I couldn't get Neocomplcache and Eclim to
-" play nice with each other. When Neocomplcache triggers omni_complete under
-" Eclim, everything just blows up. I tried to configure omni_patterns using
-" Neocomplcache, but nothing I tried worked. What eventually worked is disabling
-" omni_complete from the Neocomplcache sources for java files, and trigger it
-" manually with Ctrl-Space. Neocomplcache also has this strange behavior where
-" it overrides the completeopt flag to always remove 'longest'. In order for
-" Ctrl-Space to trigger sane behavior of autocomplete and not always select the
-" first entry by default, I need to temporarily set completeopt to include
-" longest when the key is triggered. Theoratically I could call
-" neocomplcache#start_manual_complete, but I think that requires the
-" omni_patterns to set correctly and I couldn't get that to work
-" function! s:disable_neocomplcache_for_java()
-" if &ft ==# 'java'
-" :NeoComplCacheLockSource omni_complete
-" inoremap <buffer> <c-@> <C-R>=<SID>java_omni_complete()<CR>
-" endif
-" endfunction
-
-" function! s:java_omni_complete()
-" setlocal completeopt+=longest
-" return "\<C-X>\<C-O>"
-" endfunction
-
-" autocmd MyAutoCmd BufEnter * call s:disable_neocomplcache_for_java()
 
 "===============================================================================
 " Unite
