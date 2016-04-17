@@ -5,7 +5,7 @@ set nocompatible
 "===============================================================================
 
 call plug#begin('~/.vim/plugged')
-" Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
 " Fuzzy search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
@@ -36,7 +36,7 @@ Plug 'ton/vim-bufsurf'
 Plug 'scrooloose/syntastic'
 
 " Shell
-" NeoBundle 'thinca/vim-quickrun'
+Plug 'thinca/vim-quickrun'
 " NeoBundle 'Shougo/vimshell'
 " NeoBundle 'tpope/vim-dispatch'
 
@@ -66,6 +66,7 @@ Plug 'bling/vim-airline'
 Plug 'junegunn/seoul256.vim'
 
 " Misc
+" Plug 'mtth/scratch.vim'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'terryma/vim-multiple-cursors'
 
@@ -188,7 +189,7 @@ set ignorecase
 set smartcase
 
 " Set sensible heights for splits
-set winheight=50
+" set winheight=50
 
 " Make search act like search in modern browsers
 set incsearch
@@ -386,6 +387,136 @@ cnoremap w!! w !sudo tee % >/dev/null
 autocmd MyAutoCmd CmdwinEnter : map <buffer> <cr> <cr>
 
 "===============================================================================
+" Normal Mode Key Mappings
+"===============================================================================
+
+" q: Record macros
+" w: Move word forward
+" e: Move to end of word
+" r: Replace single character
+" t: Find till
+" y: Yank
+" u: Undo
+" i: Insert before cursor
+" o: Insert line below cursor
+" p: Paste
+nnoremap p gp
+" [: Many functions
+" ]: Many functions
+" \: Toggle comment
+nmap \ <Leader>c<space>
+" a: Insert after cursor
+" s: TODO
+" d: Delete into the blackhole register to not clobber the last yank
+"===============================================================================
+" Normal Mode Key Mappings
+"===============================================================================
+
+" q: Record macros
+" w: Move word forward
+" e: Move to end of word
+" r: Replace single character
+" t: Find till
+" y: Yank
+" u: Undo
+" i: Insert before cursor
+" o: Insert line below cursor
+" p: Paste
+nnoremap p gp
+" [: Many functions
+" ]: Many functions
+" \: Toggle comment
+nmap \ <Leader>c<space>
+" a: Insert after cursor
+" s: TODO
+" d: Delete into the blackhole register to not clobber the last yank
+nnoremap d "_d
+" dd: I use this often to yank a single line, retain its original behavior
+nnoremap dd dd
+" f: Find. Also support repeating with .
+" nnoremap <Plug>OriginalSemicolon ;
+" FIXME
+" nnoremap <silent> f :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>f
+" nnoremap <silent> t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
+" nnoremap <silent> F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
+" nnoremap <silent> T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
+" g: Many functions
+" gp to visually select pasted text
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+" h: Left
+" j: Down
+" k: Up
+" l: Right
+" ;: Command mode
+noremap ; :
+" ': Go to mark
+" z: Many functions
+" x: Delete char
+" c: Change into the blackhole register to not clobber the last yank
+nnoremap c "_c
+" v: Visual mode
+" b: Move word backward
+" n: Next, keep search matches in the middle of the window
+nnoremap n nzzzv
+" m: Marks
+" ,: Leader
+" .: Repeat last command
+" /" Search
+" Up Down Left Right move pane
+nnoremap <up> <c-w>k
+nnoremap <down> <c-w>j
+nnoremap <left> <c-w>h
+nnoremap <right> <c-w>l
+
+" Enter: Highlight cursor location
+nnoremap <silent> <cr> :call CursorPing()<CR>
+
+" Backspace: Toggle search highlight
+nnoremap <bs> :set hlsearch! hlsearch?<cr>
+
+" Tab: Same as <Ctrl-i> on the command line
+
+nnoremap d "_d
+" dd: I use this often to yank a single line, retain its original behavior
+nnoremap dd dd
+" f: Find
+" g: Many functions
+" gp to visually select pasted text
+nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
+" h: Left
+" j: Down
+" k: Up
+" l: Right
+" ;: Command mode
+noremap ; :
+" ': Go to mark
+" z: Many functions
+" x: Delete char
+" c: Change into the blackhole register to not clobber the last yank
+nnoremap c "_c
+" v: Visual mode
+" b: Move word backward
+" n: Next, keep search matches in the middle of the window
+nnoremap n nzzzv
+" m: Marks
+" ,: Leader
+" .: Repeat last command
+" /" Search
+" Up Down Left Right move pane
+nnoremap <up> <c-w>k
+nnoremap <down> <c-w>j
+nnoremap <left> <c-w>h
+nnoremap <right> <c-w>l
+
+" Enter: Highlight cursor location
+nnoremap <silent> <cr> :call CursorPing()<CR>
+
+" Backspace: Toggle search highlight
+nnoremap <bs> :set hlsearch! hlsearch?<cr>
+
+" Tab: Same as <Ctrl-i> on the command line
+
+"===============================================================================
 " Normal Mode Shift Key Mappings
 "===============================================================================
 
@@ -428,7 +559,8 @@ nnoremap <bar> :vsp<cr>
 
 " A: Insert at end of line
 
-" S: TODO
+" S: Save
+nnoremap S :w!<cr>
 
 " D: Deletes til the end of line
 
@@ -448,9 +580,7 @@ map J <Plug>(expand_region_shrink)
 " L: Go to end of line
 noremap L g_
 
-" :: Remap to ,. After all the remapping, ; goes to command mode, . repeats
-" fFtT, : repeats it backward, and , is the leader
-" noremap : ,
+" :: TODO
 
 " ": Handles registers
 
@@ -469,7 +599,7 @@ nnoremap <silent> X :BufSurfForward<CR>
 " N: Find next occurrence backward
 nnoremap N Nzzzv
 
-" M: Move cursor to mid screen (When was the last time I actually used this?)
+" M: Move cursor to mid screen (TODO Remap since I don't ever use this)
 
 " <: Indent left
 
@@ -489,22 +619,22 @@ nnoremap - <c-x>
 
 " Ctrl-w: Window management
 
-" Ctrl-e: TODO
+" Ctrl-e: (Scroll down. Ctrl-j is much more effective TODO Remap)
 
-" Ctrl-r: Command history TODO
-silent! nunmap <c-r>
+" Ctrl-r: TODO
 
 " Ctrl-t: TODO
 
-" Ctrl-y: TODO
+" Ctrl-y: (Scroll up. Ctrl-k is much more effective TODO Remap)
 
 " Ctrl-u: Scroll half a screen up smoothly
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 5, 1)<CR>
 
 " Ctrl-i: Go forward in the jumplist, also realigns screen. See mapping for
+nnoremap <c-i> <c-i>zzzv
 
 " Ctrl-o: Go back in the jumplist, also realign the screen
-" nnoremap <c-o> <c-o>zzzv
+nnoremap <c-o> <c-o>zzzv
 
 " Ctrl-p: Find all in directory using FZF
 nmap <c-p> :FZF<CR>
@@ -529,7 +659,7 @@ noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 5, 1)<CR>
 " Ctrl-f: fzf
 nnoremap <c-f> :Ag 
 
-" Ctrl-g: Prints current file name (TODO Not very useful)
+" Ctrl-g: Prints current file name (TODO statusline already shows this. Remap)
 nnoremap <c-g> 1<c-g>
 
 " Ctrl-h: Move word back. Consistent with zsh
@@ -761,74 +891,6 @@ nnoremap <M-right> <c-w>>
 "===============================================================================
 
 "===============================================================================
-" Normal Mode Key Mappings
-"===============================================================================
-
-" q: Record macros
-" w: Move word forward
-" e: Move to end of word
-" r: Replace single character
-" t: Find till
-" y: Yank
-" u: Undo
-" i: Insert before cursor
-" o: Insert line below cursor
-" p: Paste
-nnoremap p gp
-" [: Many functions
-" ]: Many functions
-" \: Toggle comment
-nmap \ <Leader>c<space>
-" a: Insert after cursor
-" s: TODO
-" d: Delete into the blackhole register to not clobber the last yank
-nnoremap d "_d
-" dd: I use this often to yank a single line, retain its original behavior
-nnoremap dd dd
-" f: Find. Also support repeating with .
-" nnoremap <Plug>OriginalSemicolon ;
-" FIXME
-" nnoremap <silent> f :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>f
-" nnoremap <silent> t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
-" nnoremap <silent> F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
-" nnoremap <silent> T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
-" g: Many functions
-" gp to visually select pasted text
-nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
-" h: Left
-" j: Down
-" k: Up
-" l: Right
-" ;: Command mode
-noremap ; :
-" ': Go to mark
-" z: Many functions
-" x: Delete char
-" c: Change into the blackhole register to not clobber the last yank
-nnoremap c "_c
-" v: Visual mode
-" b: Move word backward
-" n: Next, keep search matches in the middle of the window
-nnoremap n nzzzv
-" m: Marks
-" ,: Leader
-" .: Repeat last command
-" /" Search
-" Up Down Left Right move pane
-nnoremap <up> <c-w>k
-nnoremap <down> <c-w>j
-nnoremap <left> <c-w>h
-nnoremap <right> <c-w>l
-
-" Enter: Highlight cursor location
-nnoremap <silent> <cr> :call CursorPing()<CR>
-
-" Backspace: Toggle search highlight
-nnoremap <bs> :set hlsearch! hlsearch?<cr>
-
-" Tab: Same as <Ctrl-i> on the command line
-
-"===============================================================================
 " Visual Mode Key Mappings
 "===============================================================================
 
@@ -952,7 +1014,7 @@ let NERDSpaceDelims=1
 " TODO(terryma): Update these settings
 " Syntastic settings
 let g:syntastic_mode_map = { 'mode': 'active',
-      \ 'active_filetypes': ['ruby', 'php'],
+      \ 'active_filetypes': ['ruby', 'python'],
       \ 'passive_filetypes': ['puppet'] }
 
 "===============================================================================
@@ -1315,22 +1377,22 @@ endfunction
 " QuickRun
 "===============================================================================
 
-let g:quickrun_config = {}
-let g:quickrun_config['*'] = {
-      \ 'runner/vimproc/updatetime' : 100,
-      \ 'outputter' : 'buffer',
-      \ 'runner' : 'vimproc',
-      \ 'running_mark' : 'ﾊﾞﾝ（∩`･ω･）ﾊﾞﾝﾊﾞﾝﾊﾞﾝﾊﾞﾝﾞﾝ',
-      \ 'into' : 1,
-      \ 'runmode' : 'async:remote:vimproc'
-      \}
+" let g:quickrun_config = {}
+" let g:quickrun_config['*'] = {
+      " \ 'runner/vimproc/updatetime' : 100,
+      " \ 'outputter' : 'buffer',
+      " \ 'runner' : 'vimproc',
+      " \ 'running_mark' : 'ﾊﾞﾝ（∩`･ω･）ﾊﾞﾝﾊﾞﾝﾊﾞﾝﾊﾞﾝﾞﾝ',
+      " \ 'into' : 1,
+      " \ 'runmode' : 'async:remote:vimproc'
+      " \}
 " QuickRun triggers markdown preview
-let g:quickrun_config.markdown = {
-      \ 'runner': 'vimscript',
-      \ 'command': ':InstantMarkdownPreview',
-      \ 'exec': '%C',
-      \ 'outputter': 'null'
-      \}
+" let g:quickrun_config.markdown = {
+      " \ 'runner': 'vimscript',
+      " \ 'command': ':InstantMarkdownPreview',
+      " \ 'exec': '%C',
+      " \ 'outputter': 'null'
+      " \}
 
 "===============================================================================
 " ScratchBuffer
@@ -1498,9 +1560,8 @@ let g:jekyll_post_extension = '.md'
 "===============================================================================
 
 let g:airline_powerline_fonts = 1
-let g:airline_extensions = []
-" let g:airline#extensions#tabline#enabled = 1
-" let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline_extensions = ['branch', 'quickfix', 'syntastic']
+let g:airline_section_c = airline#section#create_left(['%{getcwd()}', 'file'])
 
 "===============================================================================
 " TagBar
