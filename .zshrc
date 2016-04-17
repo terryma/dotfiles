@@ -5,43 +5,11 @@ setopt null_glob
 # Source local zsh config first
 for config (~/.zsh/*.zsh) source $config
 
-################################################################################
-# tmux
-# ##############################################################################
-
-if [[ -n $TMUX && "$(uname)" == "Linux" ]] then;
-  # Set $DISPLAY from the global environment
-  export `tmux showenv -g DISPLAY`
-
-  # Set $DISPLAY in all sessions
-  for name in `tmux ls -F '#{session_name}'`; do
-    # tmux setenv -g DISPLAY $DISPLAY
-    tmux setenv -t $name DISPLAY $DISPLAY
-  done
-
-  # Update shell variables to match tmux environment
-  while read v; do
-    if [[ $v == -* ]]; then
-      unset ${v/#-}
-    else
-      v=${v/=/\=\"}
-      v=${v/%/\"}
-      eval export $v
-    fi
-  done < <(tmux show-environment)
-fi
-
-# Source Prezto.
-# if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
-  # source "${ZDOTDIR:-$HOME}/.zprezto/init.zsh"
-# fi
-
 ###############################################################################
 # Oh My Zsh
 ################################################################################
 ZSH=$HOME/.oh-my-zsh
 # ZSH_THEME="agnoster"
-# ZSH_THEME="powerline"
 ZSH_THEME="pure"
 
 DISABLE_UPDATE_PROMPT=true
@@ -49,15 +17,12 @@ DISABLE_AUTO_UPDATE=true
 DISABLE_AUTO_TITLE=true
 COMPLETION_WAITING_DOTS=true
 DEFAULT_USER=$USER
-plugins=(git brew osx zsh-syntax-highlighting)
+plugins=(git brew osx zsh-syntax-highlighting history)
 source $ZSH/oh-my-zsh.sh
-
 
 ################################################################################
 # General
 ################################################################################
-# Uncomment if we want tmux powerline to display the current directory
-# PS1="$PS1"'$([ -n "$TMUX" ] && tmux setenv TMUXPWD_$(tmux display -p "#D" | tr -d %) "$PWD")'
 
 # Disable sound
 setopt no_beep
@@ -65,47 +30,29 @@ setopt no_beep
 # Disable auto correct
 unsetopt correct_all
 
-# Disable history sharing
-unsetopt share_history
-
 setopt hist_ignore_all_dups
 
 # Export TERM correctly for tmux
 [[ $TERM == "screen" ]] && export TERM=screen-256color
 [[ $TERM == "xterm" ]] && export TERM=xterm-256color
 
-# Enable dircolors if we're in Linux
-# if [[ "$(uname)" == "Linux" ]]; then
-  # eval `dircolors ~/.dircolors`
-# fi
-
 # Turn off terminal driver flow control (CTRL+S/CTRL+Q)
 setopt noflowcontrol
 stty -ixon -ixoff
 
-autoload zmv
+# Mass rename
+# autoload zmv
 
 ################################################################################
 # Vars
 ################################################################################
-export PATH=~/.linuxbrew/bin:~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:/usr/local/sbin:/usr/local/share/npm/bin:$PATH
+export PATH=~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:$PATH
+export PATH=/Users/terryma/Library/Python/2.7/bin:$PATH
+export PATH=~/code/dev-ops-tools/bin:$PATH
 export EDITOR=$(which vim)
-# Use vimpager as PAGER
-# export VIMPAGER_RC=~/.dotfiles/.zsh/.vimpagerrc
-# export PAGER=~/.dotfiles/.zsh/vimpager/vimpager
 export VISUAL=$(which vim)
-export P4DIFF="gvimdiff -f -R"
-if [ -f /usr/local/heroku/bin/heroku ]; then
-  export PATH=/usr/local/heroku/bin:$PATH
-fi
-if [ -d /usr/local/lib/node_modules ]; then
-  export NODE_PATH=$NODE_PATH:/usr/local/lib/node_modules
-fi
 export KEYTIMEOUT=1
 export WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
-
-export NDK_ROOT=~/code/sdk/android-ndk-r8e
-export ANDROID_HOME=/usr/local/opt/android-sdk
 
 # Locale settings
 export LANG="en_US.UTF-8"
@@ -120,13 +67,6 @@ export LC_ALL="en_US.UTF-8"
 ################################################################################
 # Aliases
 ################################################################################
-# p4merge
-if [[ "$(uname)" == "Darwin" ]]; then
-  alias p4merge='/Applications/p4merge.app/Contents/MacOS/p4merge'
-fi
-
-# Open file in existing gvim
-alias gvir='gvim --remote'
 
 # Git
 alias gd='git difftool'
@@ -139,32 +79,10 @@ alias gsi='git ls-files -v | grep "^[a-z]"'
 alias gg="git log --graph --pretty=oneline --format='format:%C(yellow)%h%C(reset) %C(blue)\"%an\" <%ae>%C(reset) %C(magenta)%ar%C(reset)%C(auto)%d%C(reset)%n%s' --date-order"
 alias gs='git --no-pager show --stat --oneline'
 alias gam='git commit -a --amend --no-edit'
-export GIT_TEMPLATE_DIR=~/.git/templates
+alias grm='git rebase master'
 
 # ssh
 alias ssh='TERM=xterm-256color ssh'
-
-# Enable reattach-to-user-namespace on Mac. See
-# https://github.com/ChrisJohnsen/tmux-MacOSX-pasteboard/issues/8
-if [[ "$(uname)" == "Darwin" ]]; then
-  alias tmux='tmux -2 -f ~/.dotfiles/.tmux-osx.conf'
-fi
-
-# TODO Seems to be an issue with less F tail. Disable for now
-# alias less=$PAGER
-alias zless=$PAGER
-
-alias ←="pushd -q -1"
-alias →="pushd -q +0"
-alias .="cd ~/.dotfiles"
-
-bp() {
-  cp "$1"{,.bak}
-}
-
-rt() {
-  zmv -f "($1).bak" "\$1"
-}
 
 ################################################################################
 # Ruby
@@ -172,36 +90,25 @@ rt() {
 # Initialize rbenv. Don't rehash, it makes starting up REALLY slow
 if which rbenv > /dev/null; then eval "$(rbenv init - --no-rehash)"; fi
 
-# Important. Under Mac OS X, make sure to disable /usr/libexec/path_helper to
-# prevent non-interactive zsh to have the wrong path. See
-# https://github.com/dotphiles/dotzsh#mac-os-x
-# run 'sudo chmod ugo-x /usr/libexec/path_helper'
-
 ################################################################################
 # fasd
 ################################################################################
-eval "$(fasd --init posix-alias zsh-hook)"
-alias v='f -e vim'
-fasd_cache="$HOME/.fasd-init-bash"
-if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-  fasd --init posix-alias zsh-{hook,ccomp,ccomp-install,wcomp,wcomp-install} >| "$fasd_cache"
-fi
-source "$fasd_cache"
-unset fasd_cache
-
-################################################################################
-# Teamocil
-################################################################################
-alias t="teamocil --here"
-compctl -g '~/.teamocil/*(:t:r)' teamocil
+# eval "$(fasd --init posix-alias zsh-hook)"
+# alias v='f -e vim'
+# fasd_cache="$HOME/.fasd-init-bash"
+# if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+  # fasd --init posix-alias zsh-{hook,ccomp,ccomp-install,wcomp,wcomp-install} >| "$fasd_cache"
+# fi
+# source "$fasd_cache"
+# unset fasd_cache
 
 ################################################################################
 # ZLE Widgets
 ################################################################################
 # Auto ls after each directory change
 function chpwd() {
-    emulate -L zsh
-    ll
+  emulate -L zsh
+  ll
 }
 
 # Copy selected region to CLIPBOARD
@@ -283,7 +190,7 @@ case "$TERM" in
     # Ctrl-o: Deletes everything after cursor (o is on right) (Commonly Ctrl-k)
     bindkey '^o' kill-line
     # Ctrl-p: TODO
-    bindkey '^p'  fj
+    bindkey '^p' fj
     # Ctrl-a: Go to the beginning of line
     bindkey '^a' beginning-of-line
     # Ctrl-s: Search forwards in history
@@ -335,38 +242,13 @@ case "$TERM" in
   ;;
 esac
 
-################################################################################
-# Vim mode
-################################################################################
-# vim mode indicator in prompt
-# (http://superuser.com/questions/151803/how-do-i-customize-zshs-vim-mode)
-# vim_ins_mode="%{$fg[cyan]%}[INS]%{$reset_color%}"
-# vim_cmd_mode="%{$fg[green]%}[CMD]%{$reset_color%}"
-# vim_mode=$vim_ins_mode
 
-# function zle-keymap-select {
-  # vim_mode="${${KEYMAP/vicmd/${vim_cmd_mode}}/(main|viins)/${vim_ins_mode}}"
-  # zle reset-prompt
-# }
-# zle -N zle-keymap-select
-
-# function zle-line-finish {
-  # vim_mode=$vim_ins_mode
-# }
-# zle -N zle-line-finish
-
-# RPROMPT='${vim_mode}'
-
-################################################################################
-# END
-################################################################################
-
-# TODO I'm hit by this bug with fzf
-# https://bugzilla.redhat.com/show_bug.cgi?id=526366
-export FZF_DEFAULT_OPTS="--no-mouse --extended --cycle"
+# FZF
+export FZF_DEFAULT_COMMAND='ag -g ""'
+export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 source ~/.fzf.zsh
 
-# More fzf
+# More FZF
 
 # c - browse chrome history
 c() {
@@ -391,3 +273,5 @@ function fj() {
   dir=$(fasd -Rdl | fzf --no-sort +m) && cd "$dir"
 }
 zle -N fj
+
+# eval "$(docker-machine env default)"

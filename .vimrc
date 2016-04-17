@@ -1,4 +1,3 @@
-" Disable vi-compatibility
 set nocompatible
 
 "===============================================================================
@@ -6,41 +5,32 @@ set nocompatible
 "===============================================================================
 
 call plug#begin('~/.vim/plugged')
-Plug 'Shougo/vimproc.vim', { 'do': 'make' }
+" Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
 " Fuzzy search
-Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': 'yes \| ./install' }
+Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
+Plug 'junegunn/fzf.vim'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/unite-outline'
-" NeoBundle 'Shougo/unite-help'
-Plug 'Shougo/unite-session'
-Plug 'Shougo/neomru.vim'
-Plug 'thinca/vim-unite-history'
-" NeoBundle 'mileszs/ack.vim'
+" Plug 'Shougo/unite-session'
+" Plug 'Shougo/neomru.vim'
+" Plug 'thinca/vim-unite-history'
 
 " Code completion
-" NeoBundle'Shougo/neocomplcache'
-" NeoBundle 'vim-scripts/AutoComplPop'
-Plug 'Valloric/YouCompleteMe'
-" NeoBundle 'Shougo/neocomplete.vim'
-" NeoBundle 'wellle/tmux-complete.vim'
+Plug 'Valloric/YouCompleteMe', { 'on': [] }
 
 " Snippets
-" NeoBundle 'Shougo/neosnippet'
-" NeoBundle 'honza/vim-snippets'
-Plug 'SirVer/ultisnips'
-" NeoBundle 'JazzCore/neocomplcache-ultisnips'
+Plug 'SirVer/ultisnips', { 'on': [] }
 
 " Marks
-" NeoBundle 'kshenoy/vim-signature'
-" NeoBundle 'airblade/vim-gitgutter'
+" Plug 'airblade/vim-gitgutter'
 
 " Comments
 Plug 'scrooloose/nerdcommenter'
 
-" File browsing
+" Navigation
 Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
-" NeoBundle 'Shougo/vimfiler'
+Plug 'ton/vim-bufsurf'
 
 " Syntax checker
 Plug 'scrooloose/syntastic'
@@ -50,102 +40,39 @@ Plug 'scrooloose/syntastic'
 " NeoBundle 'Shougo/vimshell'
 " NeoBundle 'tpope/vim-dispatch'
 
-" File types
-" NeoBundle 'rstacruz/sparkup', {'rtp': 'vim'} "HTML
-" NeoBundle 'amirh/HTML-AutoCloseTag'
-" NeoBundle 'tpope/vim-markdown' "Markdown
-" NeoBundle 'terryma/vim-instant-markdown' "Markdown
-" NeoBundle 'vim-ruby/vim-ruby' "Ruby
-" NeoBundle 'tpope/vim-rails'
-" NeoBundle 'psykidellic/vim-jekyll' "Jekyll
-Plug 'kchmck/vim-coffee-script' "CoffeeScript
-" NeoBundle 'Chiel92/vim-autoformat'
-" NeoBundle 'tpope/vim-endwise' " Conflicts with delimitMate
-" NeoBundle 'tsaleh/vim-matchit'
-" NeoBundle 'othree/html5.vim'
-" NeoBundle 'vim-scripts/indenthtml.vim'
-" NeoBundle 'pangloss/vim-javascript' "Javascript
-" NeoBundle 'Blackrush/vim-gocode'
-
 " Git
 Plug 'tpope/vim-fugitive'
 
 " Motions
-Plug 'Lokaltog/vim-easymotion'
-" Plug 'unblevable/quick-scope'
-" NeoBundle 'goldfeld/vim-seek'
+Plug 'rhysd/clever-f.vim'
+" Plug 'Lokaltog/vim-easymotion'
 
 " Text Objects
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'kana/vim-textobj-user'
 Plug 'kana/vim-textobj-entire' " ae, ie
-" NeoBundle 'kana/vim-textobj-lastpat' " a/, i/, a?, i?
 Plug 'kana/vim-textobj-line' " al, il
-" NeoBundle 'kana/vim-textobj-indent' " ai, ii, aI, iI
-" NeoBundle 'lucapette/vim-textobj-underscore' " a_, i_
 Plug 'terryma/vim-expand-region'
 
 " Tags
-" NeoBundle 'xolox/vim-misc'
-" NeoBundle 'xolox/vim-easytags'
-" NeoBundle 'majutsushi/tagbar'
+" Plug 'xolox/vim-misc'
+" Plug 'xolox/vim-easytags'
 
 " Status line
-Plug 'bling/vim-airline' " So much faster than Powerline! :)
+Plug 'bling/vim-airline'
 
 " Color themems
-" NeoBundle 'altercation/vim-colors-solarized'
-" NeoBundle 'tomasr/molokai'
-" NeoBundle 'Lokaltog/vim-distinguished'
-" NeoBundle 'chriskempson/base16-vim'
-" NeoBundle 'tpope/vim-vividchalk'
-" NeoBundle 'chriskempson/tomorrow-theme', {'rtp': 'vim'}
-" NeoBundle 'rainux/vim-desert-warm-256'
-" NeoBundle 'nanotech/jellybeans.vim'
 Plug 'junegunn/seoul256.vim'
-" NeoBundle 'vim-scripts/wombat256.vim'
 
 " Misc
-" Plug 'kana/vim-submode'
-" NeoBundle 'kana/vim-scratch'
-" NeoBundle 'vim-scripts/BufOnly.vim'
-" NeoBundle 'sjl/gundo.vim'
-" NeoBundle 't9md/vim-quickhl'
-" NeoBundle 'mattn/webapi-vim'
-" NeoBundle 'mattn/gist-vim'
-" NeoBundle 'koron/nyancat-vim'
-" NeoBundle 'Raimondi/delimitMate'
-Plug 'ton/vim-bufsurf'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'terryma/vim-multiple-cursors'
-" NeoBundle 'bilalq/lite-dfm'
-" NeoBundle 'junegunn/goyo.vim'
-
-" Ones that I don't really use anymore
-" NeoBundle 'vim-scripts/TaskList.vim'
-" NeoBundle 'myusuf3/numbers.vim'
-" NeoBundle 'kana/vim-arpeggio'
-" NeoBundle 'kana/vim-smartinput'
-" NeoBundle 'Shougo/echodoc'
-" NeoBundle 'klen/python-mode'
-" NeoBundle 'nathanaelkane/vim-indent-guides'
-" NeoBundle 'hynek/vim-python-pep8-indent'
-" NeoBundle 'kien/ctrlp.vim'
-" NeoBundle 'mattn/calendar-vim'
-" NeoBundle 'sjl/clam.vim'
-" NeoBundle 'xolox/vim-session'
-" NeoBundle 'sjl/vitality.vim'
-
-" Load local plugins, nice for doing development
-" execute 'NeoBundleLocal' '~/code/vim'
 
 call plug#end()
 
 filetype plugin indent on
 syntax enable
-
-" NeoBundleCheck
 
 "===============================================================================
 " Local Settings
@@ -167,15 +94,14 @@ augroup END
 
 syntax on
 
-" This took a while to figure out. Neocomplcache + iTerm + the CursorShape
-" fix is causing the completion menu popup to flash the first result. Tested it
-" with AutoComplPop and the behavior doesn't exist, so it's isolated to
-" Neocomplcache... :( Dug into the source for both and saw that AutoComplPop is
-" setting lazyredraw to be on during automatic popup...
-" set lazyredraw
+set lazyredraw
+set ttyfast
 
 " Solid line for vsplit separator
 set fcs=vert:│
+
+" Don't show the intro
+set shortmess+=I
 
 " Turn on the mouse, since it doesn't play well with tmux anyway. This way I can
 " scroll in the terminal
@@ -191,18 +117,14 @@ set number
 set splitright
 set splitbelow
 
-" 256bit terminal
-set t_Co=256
-
 " Boost performance of rendering long lines
-set synmaxcol=200
+set synmaxcol=300
 
 " Colorscheme
+" 256bit terminal
+set t_Co=256
 let g:seoul256_background = 234
 colorscheme seoul256
-
-" Tell Vim to use dark background
-set background=dark
 
 " Sets how many lines of history vim has to remember
 set history=10000
@@ -219,15 +141,9 @@ set listchars=tab:▸\ ,extends:❯,precedes:❮,nbsp:␣
 set showbreak=↪
 
 " listchar=trail is not as flexible, use the below to highlight trailing
-" whitespace. Don't do it for unite windows or readonly files
+" whitespace
 highlight ExtraWhitespace ctermbg=red guibg=red
 match ExtraWhitespace /\s\+$/
-augroup MyAutoCmd
-  autocmd BufWinEnter * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+$/ | endif
-  autocmd InsertEnter * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+\%#\@<!$/ | endif
-  autocmd InsertLeave * if &modifiable && &ft!='unite' | match ExtraWhitespace /\s\+$/ | endif
-  autocmd BufWinLeave * if &modifiable && &ft!='unite' | call clearmatches() | endif
-augroup END
 
 " Minimal number of screen lines to keep above and below the cursor
 set scrolloff=10
@@ -273,8 +189,6 @@ set smartcase
 
 " Set sensible heights for splits
 set winheight=50
-" Setting this causes problems with Unite-outline. Don't really need it
-" set winminheight=5
 
 " Make search act like search in modern browsers
 set incsearch
@@ -305,25 +219,9 @@ set colorcolumn=+1
 " set timeout timeoutlen=1000 ttimeoutlen=1
 set timeout timeoutlen=200 ttimeoutlen=1
 
-" Fix meta-keys which generate <Esc>A .. <Esc>z
-if !has('gui_running')
-  " let c='a'
-  " while c <= 'z'
-  " exec "set <M-".c.">=\e".c
-  " exec "imap \e".c." <M-".c.">"
-  " let c = nr2char(1+char2nr(c))
-  " endw
-  " Map these two on its own to enable Alt-Shift-J and Alt-Shift-K. If I map the
-  " whole spectrum of A-Z, it screws up mouse scrolling somehow. Mouse events
-  " must be interpreted as some form of escape sequence that interferes.
-  " exec 'set <M-J>=J'
-  " exec 'set <M-K>=K'
-endif
-
 " Reload vimrc when edited
-autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
-      \ so $MYVIMRC | if has('gui_running') | so $MYGVIMRC | endif
-
+autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc,~/.vimrc
+      \ so $MYVIMRC | if has('gui_running') | source $MYGVIMRC | endif | AirlineRefresh
 try
   lang en_us
 catch
@@ -343,7 +241,7 @@ set smarttab
 
 " Text display settings
 set linebreak
-set textwidth=80
+set textwidth=120
 set autoindent
 set nowrap
 set whichwrap+=h,l,<,>,[,]
@@ -354,19 +252,6 @@ if has ('unnamedplus')
   set clipboard=unnamedplus
 else
   set clipboard=unnamed
-endif
-
-" Spelling highlights. Use underline in term to prevent cursorline highlights
-" from interfering
-if !has("gui_running")
-  hi clear SpellBad
-  hi SpellBad cterm=underline ctermfg=red
-  hi clear SpellCap
-  hi SpellCap cterm=underline ctermfg=blue
-  hi clear SpellLocal
-  hi SpellLocal cterm=underline ctermfg=blue
-  hi clear SpellRare
-  hi SpellRare cterm=underline ctermfg=blue
 endif
 
 " Use a low updatetime. This is used by CursorHold
@@ -392,19 +277,11 @@ endif
 " Function Key Mappings
 "===============================================================================
 
-" <F1>: Help
-nmap <F1> [unite]h
-
-" <F2>: Open Vimfiler
-
-" <F3>: Gundo
-nnoremap <F3> :<C-u>GundoToggle<CR>
-
-" <F4>: Save session
-nnoremap <F4> :<C-u>UniteSessionSave
-
-" <F5>: Toggle indent guide
-nnoremap <F5> :<C-u>IndentGuidesToggle<CR>
+" <F1>: TODO
+" <F2>: TODO
+" <F3>: TODO
+" <F4>: TODO
+" <F5>: TODO
 
 "===============================================================================
 " Leader Key Mappings
@@ -416,14 +293,10 @@ let g:mapleader = ","
 let maplocalleader = ","
 let g:maplocalleader = ","
 
-" <Leader>``: Force quit all
-nnoremap <Leader>`` :qa!<cr>
-
 " <Leader>1: Toggle between paste mode
 nnoremap <silent> <Leader>1 :set paste!<cr>
 
-" <Leader>2: Toggle Tagbar
-nnoremap <silent> <Leader>2 :TagbarToggle<cr>
+" <Leader>2: TODO
 
 " <Leader>0: Run the visually selected code in python and replace it with the
 " output
@@ -434,13 +307,12 @@ vnoremap <silent> <Leader>0 :!python<cr>
 " <Leader>q: Quit all, very useful in vimdiff
 nnoremap <Leader>q :qa<cr>
 
-" <Leader>w: Close current buffer
-nnoremap <Leader>w :NERDTreeClose<cr>:bdelete<cr>
+" <Leader>w: TODO
 
 " <Leader>e: Fast editing of the .vimrc
-nnoremap <Leader>e :e! ~/.dotfiles/.vimrc<cr>
+nnoremap <Leader>e :e! ~/.vimrc<cr>
 
-" <Leader>r: QuickRun's default keymap
+" <Leader>r: TODO
 
 " <Leader>t: TODO
 
@@ -448,27 +320,17 @@ nnoremap <Leader>e :e! ~/.dotfiles/.vimrc<cr>
 
 " <Leader>u: TODO
 
-" <Leader>o: only
-nnoremap <Leader>o :only<cr>
+" <Leader>o: TODO
 
-" <Leader>p: Copy the full path of the current file to the clipboard
-nnoremap <silent> <Leader>p :let @+=expand("%:p")<cr>:echo "Copied current file
-      \ path '".expand("%:p")."' to clipboard"<cr>
+" <Leader>p: TODO
 
 " <Leader>a: TODO
 
-" <Leader>s: Spell checking shortcuts
-nnoremap <Leader>ss :setlocal spell!<cr>
-nnoremap <Leader>sj ]s
-nnoremap <Leader>sk [s
-nnoremap <Leader>sa zg]s
-nnoremap <Leader>sd 1z=
-nnoremap <Leader>sf z=
+" <Leader>s: TODO
 
 " <Leader>d: TODO
 
-" <Leader>f: Open Quickfix
-nnoremap <silent> <Leader>f :botright copen<CR>
+" <Leader>f: TODO
 
 " <Leader>g: Fugitive shortcuts
 
@@ -518,14 +380,6 @@ cnoremap <c-g> <right>
 " Ctrl-v: Paste
 cnoremap <c-v> <c-r>"
 
-" w!: Change ro files to rw
-" function! s:chmodonwrite()
-" if v:cmdbang
-" silent !chmod u+w %
-" endif
-" endfunction
-" autocmd MyAutoCmd bufwrite * call s:chmodonwrite()
-
 " w!!: Writes using sudo
 cnoremap w!! w !sudo tee % >/dev/null
 
@@ -541,8 +395,7 @@ nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
 " Q: Closes the window
 nnoremap Q :q<cr>
 
-" W: Save
-" nnoremap W :w<cr>
+" W: Move to start of next word
 
 " E: Move to end of word forward
 
@@ -575,7 +428,7 @@ nnoremap <bar> :vsp<cr>
 
 " A: Insert at end of line
 
-" S: Vim-seek backward
+" S: TODO
 
 " D: Deletes til the end of line
 
@@ -636,40 +489,25 @@ nnoremap - <c-x>
 
 " Ctrl-w: Window management
 
-" Ctrl-e: Find (e)verything
-nmap <c-e> [unite]f
+" Ctrl-e: TODO
 
-" Ctrl-r: Command history using Unite, this matches my muscle memory in zsh
+" Ctrl-r: Command history TODO
 silent! nunmap <c-r>
-nmap <c-r> [unite];
 
 " Ctrl-t: TODO
 
-" Ctrl-t*: Tab operations (When was the last time I used tabs?)
-" nnoremap <c-t><c-n> :tabnew<cr>
-" nnoremap <c-t><c-w> :tabclose<cr>
-" nnoremap <c-t><c-j> :tabprev<cr>
-" nnoremap <c-t><c-h> :tabprev<cr>
-" nnoremap <c-t><c-k> :tabnext<cr>
-" nnoremap <c-t><c-l> :tabnext<cr>
-" let g:lasttab = 1
-" nnoremap <c-t><c-t> :exe "tabn ".g:lasttab<cr>
-" autocmd MyAutoCmd TabLeave * let g:lasttab = tabpagenr()
-
-" Ctrl-y: Yanks
-nmap <c-y> [unite]y
+" Ctrl-y: TODO
 
 " Ctrl-u: Scroll half a screen up smoothly
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 5, 1)<CR>
 
 " Ctrl-i: Go forward in the jumplist, also realigns screen. See mapping for
-" <M-s>
 
 " Ctrl-o: Go back in the jumplist, also realign the screen
 " nnoremap <c-o> <c-o>zzzv
 
-" Ctrl-p: Find MRU and buffers
-nmap <c-p> [unite]u
+" Ctrl-p: Find all in directory using FZF
+nmap <c-p> :FZF<CR>
 
 " Ctrl-[: Esc
 
@@ -682,24 +520,14 @@ nmap <silent> <c-\> [unite]o
 nnoremap <c-a><c-a> :Dispatch<CR>
 nnoremap <c-a><c-d> :Dispatch 
 
-" Ctrl-sa: Reopen last grep window
-nnoremap <c-s><c-a> :UniteResume -buffer-name=grep<CR>
-" Ctrl-ss: (S)earch word under cur(s)or in current directory
-nnoremap <c-s><c-s> :Unite -buffer-name=grep grep:.::<C-r><C-w><CR>
-" Ctrl-sd: (S)earch word in current (d)irectory (prompt for word)
-nnoremap <c-s><c-d> :Unite -buffer-name=grep grep:.<CR>
-" Ctrl-sf: Quickly (s)earch in (f)ile
-nmap <c-s><c-f> [unite]l
-" Ctrl-sr: Easier (s)earch and (r)eplace
-nnoremap <c-s><c-r> :%s/<c-r><c-w>//gc<left><left><left>
-" Ctrl-sw: Quickly surround word
-nmap <c-s><c-w> ysiw
+" Ctrl-s: Save
+nmap <c-s> :w!<CR>
 
 " Ctrl-d: Scroll half a screen down smoothly
 noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 5, 1)<CR>
 
 " Ctrl-f: fzf
-nnoremap <c-f> :FZF --no-mouse .<CR>
+nnoremap <c-f> :Ag 
 
 " Ctrl-g: Prints current file name (TODO Not very useful)
 nnoremap <c-g> 1<c-g>
@@ -754,6 +582,7 @@ nmap <c-_> [unite]l
 nmap <C-@> <Plug>(scratch-open)
 nmap <C-Space> <C-@>
 
+
 "===============================================================================
 " Insert Mode Ctrl Key Mappings
 "===============================================================================
@@ -797,9 +626,9 @@ inoremap <c-f> <Left>
 " Ctrl-g: Move cursor right
 " Surround.vim maps these things that I don't use
 augroup MyAutoCmd
-  autocmd VimEnter * silent! iunmap <C-G>s
-  autocmd VimEnter * silent! iunmap <C-G>S
-  autocmd BufEnter * silent! iunmap <buffer> <C-G>g
+  " autocmd VimEnter * silent! iunmap <C-G>s
+  " autocmd VimEnter * silent! iunmap <C-G>S
+  " autocmd BufEnter * silent! iunmap <buffer> <C-G>g
 augroup END
 inoremap <c-g> <Right>
 
@@ -855,11 +684,13 @@ vnoremap <c-r> "hy:%s/<c-r>h//gc<left><left><left>
 " Ctrl-s: Easier substitue
 vnoremap <c-s> :s/\%V//g<left><left><left>
 
+" Ctrl-f: Find highlight word with FZF
+vnoremap <c-f> "hy:Ag <c-r>h<cr>
 " Ctrl-f: Find with MultipleCursors
-vnoremap <c-f> :MultipleCursorsFind 
+" vnoremap <c-f> :MultipleCursorsFind 
 
 "===============================================================================
-" Normal Mode Meta Key Mappings
+" Normal Mode Meta/Alt Key Mappings
 "===============================================================================
 
 " Alt-a: Select all
@@ -894,8 +725,15 @@ nnoremap i g,
 
 " Alt-n: Open new tmux window
 
+" Alt-Left/Right/Up/Down resize panes
+nnoremap <M-up> <c-w>+
+nnoremap <M-down> <c-w>-
+nnoremap <M-left> <c-w><
+nnoremap <M-right> <c-w>>
+
+
 "===============================================================================
-" Insert Mode Meta Key Mappings
+" Insert Mode Meta/Alt Key Mappings
 "===============================================================================
 
 " Alt-j: Move current line down
@@ -907,7 +745,7 @@ nnoremap i g,
 " imap k <esc><m-k>a
 
 "===============================================================================
-" Visual Mode Meta Key Mappings
+" Visual Mode Meta/Alt Key Mappings
 "===============================================================================
 
 " Alt-j: Move selections down
@@ -921,26 +759,6 @@ nnoremap i g,
 "===============================================================================
 " Space Key Mappings
 "===============================================================================
-
-" Space is also the leader key for Unite actions
-" Space-[jk] scrolls the page
-" call submode#enter_with('scroll', 'n', '', '<space>j', ':call smooth_scroll#down(&scroll/2, 5, 1)<CR>')
-" call submode#enter_with('scroll', 'n', '', '<space>k', ':call smooth_scroll#up(&scroll/2, 5, 1)<CR>')
-" call submode#map('scroll', 'n', '', 'j', ':call smooth_scroll#down(&scroll/2, 5, 1)<CR>')
-" call submode#map('scroll', 'n', '', 'k', ':call smooth_scroll#up(&scroll/2, 5, 1)<CR>')
-
-" Don't leave submode automatically
-" let g:submode_timeout = 0
-
-" Space-=: Resize windows
-nnoremap <space>= <c-w>=
-
-"===============================================================================
-" Arpeggio Mappings
-"===============================================================================
-
-" call arpeggio#load()
-" Arpeggioimap fj <Esc>
 
 "===============================================================================
 " Normal Mode Key Mappings
@@ -962,7 +780,7 @@ nnoremap p gp
 " \: Toggle comment
 nmap \ <Leader>c<space>
 " a: Insert after cursor
-" s: Substitute
+" s: TODO
 " d: Delete into the blackhole register to not clobber the last yank
 nnoremap d "_d
 " dd: I use this often to yank a single line, retain its original behavior
@@ -996,11 +814,11 @@ nnoremap n nzzzv
 " ,: Leader
 " .: Repeat last command
 " /" Search
-" Up Down Left Right resize splits
-nnoremap <up> <c-w>+
-nnoremap <down> <c-w>-
-nnoremap <left> <c-w><
-nnoremap <right> <c-w>>
+" Up Down Left Right move pane
+nnoremap <up> <c-w>k
+nnoremap <down> <c-w>j
+nnoremap <left> <c-w>h
+nnoremap <right> <c-w>l
 
 " Enter: Highlight cursor location
 nnoremap <silent> <cr> :call CursorPing()<CR>
@@ -1008,8 +826,7 @@ nnoremap <silent> <cr> :call CursorPing()<CR>
 " Backspace: Toggle search highlight
 nnoremap <bs> :set hlsearch! hlsearch?<cr>
 
-" Tab: Go to matching element
-nnoremap <Tab> %
+" Tab: Same as <Ctrl-i> on the command line
 
 "===============================================================================
 " Visual Mode Key Mappings
@@ -1116,10 +933,10 @@ endfunction
 
 let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=1
-let NERDTreeIgnore=['\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr']
+let NERDTreeIgnore=['\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', '\.pyc', '__pycache__', '\.cache', '\.idea']
 " Close vim if the only window open is nerdtree
-autocmd MyAutoCmd BufEnter * 
-      \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
+" autocmd MyAutoCmd BufEnter * 
+      " \ if (winnr("$") == 1 && exists("b:NERDTreeType") && b:NERDTreeType == "primary") | q | endif
 
 "===============================================================================
 " NERDCommenter
@@ -1171,7 +988,7 @@ nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>:Git push<cr>
 " map t <Plug>(easymotion-t)
 " map F <Plug>(easymotion-F)
 " map T <Plug>(easymotion-T)
-nmap s <Plug>(easymotion-s2)
+" nmap s <Plug>(easymotion-s2)
 
 " let g:EasyMotion_smartcase = 1
 " map / <Plug>(easymotion-sn)
@@ -1290,24 +1107,25 @@ nmap s <Plug>(easymotion-s2)
 "===============================================================================
 
 " Use the fuzzy matcher for everything
-call unite#filters#matcher_default#use(['matcher_fuzzy'])
+" call unite#filters#matcher_default#use(['matcher_fuzzy'])
 " Use the rank sorter for everything
 " call unite#filters#sorter_default#use(['sorter_rank'])
 
 " Set up some custom ignores
-call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      \ 'ignore_pattern', join([
-      \ '\.git/',
-      \ 'git5/.*/review/',
-      \ 'google/obj/',
-      \ 'tmp/',
-      \ '.sass-cache',
-      \ 'node_modules/',
-      \ 'bower_components/',
-      \ 'dist/',
-      \ '.git5_specs/',
-      \ '.pyc',
-      \ ], '\|'))
+" call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
+      " \ 'ignore_pattern', join([
+      " \ '\.git/',
+      " \ 'git5/.*/review/',
+      " \ 'google/obj/',
+      " \ 'tmp/',
+      " \ '.sass-cache',
+      " \ 'node_modules/',
+      " \ 'bower_components/',
+      " \ 'dist/',
+      " \ '.git5_specs/',
+      " \ '.pyc',
+      " \ 'build/',
+      " \ ], '\|'))
 
 " Map space to the prefix for Unite
 nnoremap [unite] <Nop>
@@ -1455,6 +1273,12 @@ elseif executable('ack')
   let g:unite_source_grep_command = 'ack'
   let g:unite_source_grep_default_opts = '-i --no-heading --no-color -a -H'
   let g:unite_source_grep_recursive_opt = ''
+elseif executable('ag')
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_opts =
+        \ '-i --vimgrep --hidden --ignore ' .
+        \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
+  let g:unite_source_grep_recursive_opt = ''
 endif
 
 let g:unite_source_rec_max_cache_files = 99999
@@ -1465,46 +1289,16 @@ let g:unite_source_rec_max_cache_files = 99999
 "===============================================================================
 
 " Save session automatically.
-let g:unite_source_session_enable_auto_save = 1
+" let g:unite_source_session_enable_auto_save = 1
 
 " Pop up session selection if no file is specified
 " TODO: Why does this not work when Vim isn't run from tmux???!
-autocmd MyAutoCmd VimEnter * call s:unite_session_on_enter()
+" autocmd MyAutoCmd VimEnter * call s:unite_session_on_enter()
 function! s:unite_session_on_enter()
   if !argc() && !exists("g:start_session_from_cmdline")
     Unite -buffer-name=sessions session
   endif
 endfunction
-
-"===============================================================================
-" Vimfiler
-"===============================================================================
-
-" TODO Look into Vimfiler more
-" Example at: https://github.com/hrsh7th/dotfiles/blob/master/vim/.vimrc
-" nnoremap <expr><F2> g:my_open_explorer_command()
-" function! g:my_open_explorer_command()
-" return printf(":\<C-u>VimFilerBufferDir -buffer-name=%s -split -auto-cd -toggle -no-quit -winwidth=%s\<CR>",
-" \ g:my_vimfiler_explorer_name,
-" \ g:my_vimfiler_winwidth)
-" endfunction
-
-" let g:vimfiler_as_default_explorer = 1
-" let g:vimfiler_tree_leaf_icon = ' '
-" let g:vimfiler_tree_opened_icon = '▾'
-" let g:vimfiler_tree_closed_icon = '▸'
-" " let g:vimfiler_file_icon = ' '
-" let g:vimfiler_marked_file_icon = '✓'
-" " let g:vimfiler_readonly_file_icon = ' '
-" let g:my_vimfiler_explorer_name = 'explorer'
-" let g:my_vimfiler_winwidth = 30
-" let g:vimfiler_safe_mode_by_default = 0
-" " let g:vimfiler_directory_display_top = 1
-
-" autocmd MyAutoCmd FileType vimfiler call s:vimfiler_settings()
-" function! s:vimfiler_settings()
-" nmap     <buffer><expr><CR>  vimfiler#smart_cursor_map("\<PLUG>(vimfiler_expand_tree)", "e")
-" endfunction
 
 "===============================================================================
 " VimShell
@@ -1595,14 +1389,6 @@ function! s:markdown_delete_key()
   endif
 endfunction
 
-" Turn off completion, it's more disruptive than helpful
-function! s:markdown_disable_autocomplete()
-  if &ft ==# 'markdown'
-    " :NeoComplCacheLock
-  endif
-endfunction
-autocmd MyAutoCmd BufEnter * call s:markdown_disable_autocomplete()
-
 "===============================================================================
 " Go
 "===============================================================================
@@ -1612,6 +1398,17 @@ autocmd MyAutoCmd FileType go
       \ setlocal softtabstop=8 |
       \ setlocal shiftwidth=8 |
       \ setlocal noexpandtab
+
+
+"===============================================================================
+" Python
+"===============================================================================
+
+autocmd MyAutoCmd FileType python
+      \ setlocal softtabstop=2 |
+      \ setlocal shiftwidth=2 |
+      \ setlocal tabstop=2 |
+      \ setlocal textwidth=120
 
 "===============================================================================
 " Expand Region
@@ -1688,7 +1485,7 @@ function! g:UltiSnips_Complete()
   return ""
 endfunction
 
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+" au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 
 "===============================================================================
 " Jekyll
@@ -1701,6 +1498,7 @@ let g:jekyll_post_extension = '.md'
 "===============================================================================
 
 let g:airline_powerline_fonts = 1
+let g:airline_extensions = []
 " let g:airline#extensions#tabline#enabled = 1
 " let g:airline#extensions#tabline#fnamemod = ':t'
 
@@ -1766,3 +1564,11 @@ function! s:Filter_lines(cmd, filter)
   0
 endfunction
 command! -nargs=? Scriptnames call s:Filter_lines('scriptnames', <q-args>)
+
+" Load YouCompleteMe and UltiSnips lazily
+" https://github.com/junegunn/vim-plug/wiki/faq#loading-plugins-manually
+augroup load_us_ycm
+  autocmd!
+  autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe')
+                     \| call youcompleteme#Enable() | autocmd! load_us_ycm
+augroup END
