@@ -13,7 +13,7 @@ Plug 'junegunn/fzf.vim'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/unite-outline'
 " Plug 'Shougo/unite-session'
-" Plug 'Shougo/neomru.vim'
+Plug 'Shougo/neomru.vim'
 " Plug 'thinca/vim-unite-history'
 
 " Code completion
@@ -221,7 +221,7 @@ set colorcolumn=+1
 set timeout timeoutlen=200 ttimeoutlen=1
 
 " Reload vimrc when edited
-autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc,~/.vimrc
+autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
       \ so $MYVIMRC | if has('gui_running') | source $MYGVIMRC | endif | AirlineRefresh
 try
   lang en_us
@@ -621,12 +621,12 @@ nnoremap - <c-x>
 
 " Ctrl-e: (Scroll down. Ctrl-j is much more effective TODO Remap)
 
-" Ctrl-r: TODO
+" Ctrl-r: Recent files with FZF
+nnoremap <c-r> :History<CR>
 
 " Ctrl-t: TODO
 
 " Ctrl-y: (Scroll up. Ctrl-k is much more effective TODO Remap)
-
 " Ctrl-u: Scroll half a screen up smoothly
 noremap <silent> <c-u> :call smooth_scroll#up(&scroll, 5, 1)<CR>
 
@@ -636,8 +636,8 @@ nnoremap <c-i> <c-i>zzzv
 " Ctrl-o: Go back in the jumplist, also realign the screen
 nnoremap <c-o> <c-o>zzzv
 
-" Ctrl-p: Find all in directory using FZF
-nmap <c-p> :FZF<CR>
+" Ctrl-p: Find all git files in directory using FZF
+nmap <c-p> :GitFiles<CR>
 
 " Ctrl-[: Esc
 
@@ -663,8 +663,8 @@ nnoremap <c-f> :Ag
 nnoremap <c-g> 1<c-g>
 
 " Ctrl-h: Move word back. Consistent with zsh
-noremap <c-h> b
-inoremap <c-h> <c-o>b
+noremap <c-h> B
+inoremap <c-h> <c-o>B
 
 " Ctrl-j: Scroll + move down through the file
 " noremap <c-j> 5<c-e>5j
@@ -675,12 +675,12 @@ noremap <c-j> 5<c-e>
 noremap <c-k> 5<c-y>
 
 " Ctrl-l: Move word forward. Consistent with zsh
-noremap <c-l> w
-inoremap <c-l> <c-o>w
+noremap <c-l> W
+inoremap <c-l> <c-o>W
 
-" Ctrl-;: Vim can't map this (TODO We could map this through iTerm2)
+" Ctrl-;: Vim can't map this
 
-" Ctrl-': Vim can't map this (TODO We could map this through iTerm2)
+" Ctrl-': Vim can't map this
 
 " Ctrl-z: This is the command key for tmux
 
@@ -694,8 +694,7 @@ nmap <c-c> [unite]d
 " Ctrl-v: Paste (works with system clipboard due to clipboard setting earlier)
 nnoremap <c-v> p
 
-" Ctrl-b: Go (b)ack. Go to previously buffer
-nnoremap <c-b> <c-^>
+" Ctrl-b: TODO
 
 " Ctrl-n: Next cursor in MultiCursor mode
 
@@ -711,7 +710,6 @@ nmap <c-_> [unite]l
 " Ctrl-Space: Quick scratch buffer
 nmap <C-@> <Plug>(scratch-open)
 nmap <C-Space> <C-@>
-
 
 "===============================================================================
 " Insert Mode Ctrl Key Mappings
