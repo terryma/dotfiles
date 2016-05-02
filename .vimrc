@@ -21,6 +21,7 @@ Plug 'Valloric/YouCompleteMe', { 'on': [] }
 
 " Snippets
 Plug 'SirVer/ultisnips', { 'on': [] }
+Plug 'honza/vim-snippets'
 
 " Marks
 " Plug 'airblade/vim-gitgutter'
@@ -66,7 +67,7 @@ Plug 'bling/vim-airline'
 Plug 'junegunn/seoul256.vim'
 
 " Misc
-" Plug 'mtth/scratch.vim'
+Plug 'mtth/scratch.vim'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'terryma/vim-multiple-cursors'
 
@@ -406,29 +407,8 @@ nnoremap p gp
 " \: Toggle comment
 nmap \ <Leader>c<space>
 " a: Insert after cursor
-" s: TODO
-" d: Delete into the blackhole register to not clobber the last yank
-"===============================================================================
-" Normal Mode Key Mappings
-"===============================================================================
-
-" q: Record macros
-" w: Move word forward
-" e: Move to end of word
-" r: Replace single character
-" t: Find till
-" y: Yank
-" u: Undo
-" i: Insert before cursor
-" o: Insert line below cursor
-" p: Paste
-nnoremap p gp
-" [: Many functions
-" ]: Many functions
-" \: Toggle comment
-nmap \ <Leader>c<space>
-" a: Insert after cursor
-" s: TODO
+" s: Split
+nnoremap s i<cr><esc>
 " d: Delete into the blackhole register to not clobber the last yank
 nnoremap d "_d
 " dd: I use this often to yank a single line, retain its original behavior
@@ -619,12 +599,13 @@ nnoremap - <c-x>
 
 " Ctrl-w: Window management
 
-" Ctrl-e: (Scroll down. Ctrl-j is much more effective TODO Remap)
+" Ctrl-e: FZF files
+nnoremap <c-e> :Files<CR>
 
-" Ctrl-r: Recent files with FZF
-nnoremap <c-r> :History<CR>
+" Ctrl-r: Vim-repeat maps this
 
-" Ctrl-t: TODO
+" Ctrl-t: Recent files with FZF
+nnoremap <c-t> :History<CR>
 
 " Ctrl-y: (Scroll up. Ctrl-k is much more effective TODO Remap)
 " Ctrl-u: Scroll half a screen up smoothly
@@ -707,9 +688,7 @@ nnoremap <c-v> p
 " Ctrl-/: A more powerful '/'
 nmap <c-_> [unite]l
 
-" Ctrl-Space: Quick scratch buffer
-nmap <C-@> <Plug>(scratch-open)
-nmap <C-Space> <C-@>
+" Ctrl-Space: TODO
 
 "===============================================================================
 " Insert Mode Ctrl Key Mappings
@@ -752,12 +731,6 @@ inoremap <c-s> <esc>:w<CR>
 inoremap <c-f> <Left>
 
 " Ctrl-g: Move cursor right
-" Surround.vim maps these things that I don't use
-augroup MyAutoCmd
-  " autocmd VimEnter * silent! iunmap <C-G>s
-  " autocmd VimEnter * silent! iunmap <C-G>S
-  " autocmd BufEnter * silent! iunmap <buffer> <C-G>g
-augroup END
 inoremap <c-g> <Right>
 
 " Ctrl-h: Move word left
@@ -874,12 +847,13 @@ nnoremap <M-right> <c-w>>
 "===============================================================================
 
 " Alt-j: Move selections down
-vnoremap <m-j> :m'>+<cr>`<my`>mzgv`yo`z
-vnoremap j :m'>+<cr>`<my`>mzgv`yo`z
+" vnoremap <m-j> :m'>+<cr>`<my`>mzgv`yo`z
+" FIXME Now this maps escape, so escaping out of visual mode is slow. How to fix this?
+" vnoremap j :m'>+<cr>`<my`>mzgv`yo`z
 
 " Alt-k: Move selections up
-vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
-vnoremap k :m'<-2<cr>`>my`<mzgv`yo`z
+" vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
+" vnoremap k :m'<-2<cr>`>my`<mzgv`yo`z
 
 "===============================================================================
 " Space Key Mappings
@@ -935,15 +909,6 @@ xmap <s-tab> <
 "===============================================================================
 " Autocommands
 "===============================================================================
-
-" Turn on cursorline only on active window
-" Cursorline makes things REALLY slow for me. Especially moving left and right
-" on the same line when syntax highlight is on.
-" http://briancarper.net/blog/590/cursorcolumn--cursorline-slowdown
-augroup MyAutoCmd
-  " autocmd WinLeave * setlocal nocursorline
-  " autocmd WinEnter,BufRead * setlocal cursorline
-augroup END
 
 function! CursorPing()
   set cursorline cursorcolumn
@@ -1007,6 +972,9 @@ let NERDSpaceDelims=1
 let g:syntastic_mode_map = { 'mode': 'active',
       \ 'active_filetypes': ['ruby', 'python', 'javascript', 'sh', 'html'],
       \ 'passive_filetypes': ['puppet'] }
+
+let g:syntastic_html_tidy_ignore_errors=['proprietary attribute "ng-']
+let g:syntastic_python_flake8_args='--ignore=E111,E501,E128,E121,E203,E114'
 
 "===============================================================================
 " Fugitive
@@ -1203,34 +1171,6 @@ endif
 
 let g:unite_source_rec_max_cache_files = 99999
 
-
-"===============================================================================
-" Unite Sessions
-"===============================================================================
-
-" Save session automatically.
-" let g:unite_source_session_enable_auto_save = 1
-
-" Pop up session selection if no file is specified
-" TODO: Why does this not work when Vim isn't run from tmux???!
-" autocmd MyAutoCmd VimEnter * call s:unite_session_on_enter()
-function! s:unite_session_on_enter()
-  if !argc() && !exists("g:start_session_from_cmdline")
-    Unite -buffer-name=sessions session
-  endif
-endfunction
-
-"===============================================================================
-" VimShell
-"===============================================================================
-
-let g:vimshell_prompt = "% "
-let g:vimshell_user_prompt = 'fnamemodify(getcwd(), ":~")'
-autocmd MyAutoCmd FileType vimshell call s:vimshell_settings()
-function! s:vimshell_settings()
-  call vimshell#altercmd#define('g', 'git')
-endfunction
-
 "===============================================================================
 " QuickRun
 "===============================================================================
@@ -1251,28 +1191,6 @@ endfunction
       " \ 'exec': '%C',
       " \ 'outputter': 'null'
       " \}
-
-"===============================================================================
-" ScratchBuffer
-"===============================================================================
-
-autocmd MyAutoCmd User PluginScratchInitializeAfter
-      \ call s:on_User_plugin_scratch_initialize_after()
-
-function! s:on_User_plugin_scratch_initialize_after()
-  map <buffer> <CR>  <Plug>(scratch-evaluate!)
-endfunction
-let g:scratch_show_command = 'hide buffer'
-
-"===============================================================================
-" Quickhl
-"===============================================================================
-
-let g:quickhl_colors = [
-      \ "gui=bold ctermfg=255 ctermbg=153 guifg=#ffffff guibg=#0a7383",
-      \ "gui=bold guibg=#a07040 guifg=#ffffff",
-      \ "gui=bold guibg=#4070a0 guifg=#ffffff",
-      \ ]
 
 "===============================================================================
 " Instant Markdown
@@ -1384,7 +1302,6 @@ let g:ycm_filetype_blacklist = {
 "===============================================================================
 " UltiSnips
 "===============================================================================
-
 let g:UltiSnipsExpandTrigger="<tab>"
 let g:UltiSnipsJumpForwardTrigger="<tab>"
 let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
@@ -1405,7 +1322,7 @@ function! g:UltiSnips_Complete()
   return ""
 endfunction
 
-" au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 
 "===============================================================================
 " Jekyll
@@ -1441,12 +1358,6 @@ let g:tagbar_type_coffee = {
 "===============================================================================
 
 let g:html_indent_inctags = "html,body,head,tbody"
-
-"===============================================================================
-" tmux-complete
-"===============================================================================
-
-" let g:tmuxcomplete#trigger = ''
 
 "===============================================================================
 " My functions

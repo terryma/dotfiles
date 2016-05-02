@@ -274,4 +274,4 @@ function fj() {
 }
 zle -N fj
 
-# eval "$(docker-machine env default)"
+eval "$(docker-machine env default)"
