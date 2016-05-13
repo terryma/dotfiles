@@ -35,11 +35,10 @@ Plug 'ton/vim-bufsurf'
 
 " Syntax checker
 Plug 'scrooloose/syntastic'
+Plug 'Chiel92/vim-autoformat'
 
 " Shell
 Plug 'thinca/vim-quickrun'
-" NeoBundle 'Shougo/vimshell'
-" NeoBundle 'tpope/vim-dispatch'
 
 " Git
 Plug 'tpope/vim-fugitive'
@@ -300,10 +299,6 @@ nnoremap <silent> <Leader>1 :set paste!<cr>
 
 " <Leader>2: TODO
 
-" <Leader>0: Run the visually selected code in python and replace it with the
-" output
-vnoremap <silent> <Leader>0 :!python<cr>
-
 " <Leader>tab: TODO
 
 " <Leader>q: Quit all, very useful in vimdiff
@@ -332,7 +327,8 @@ nnoremap <Leader>e :e! ~/.vimrc<cr>
 
 " <Leader>d: TODO
 
-" <Leader>f: TODO
+" <Leader>f: Autoformat
+nnoremap <silent> <Leader>f :Autoformat<CR>
 
 " <Leader>g: Fugitive shortcuts
 
@@ -371,9 +367,6 @@ cnoremap <c-e> <end>
 cnoremap <c-h> <s-left>
 cnoremap <c-l> <s-right>
 
-" Ctrl-Space: Show history
-cnoremap <c-@> <c-f>
-
 cnoremap <c-j> <down>
 cnoremap <c-k> <up>
 cnoremap <c-f> <left>
@@ -390,8 +383,7 @@ autocmd MyAutoCmd CmdwinEnter : map <buffer> <cr> <cr>
 "===============================================================================
 " Normal Mode Key Mappings
 "===============================================================================
-
-" q: Record macros
+" q: record macros
 " w: Move word forward
 " e: Move to end of word
 " r: Replace single character
@@ -407,59 +399,13 @@ nnoremap p gp
 " \: Toggle comment
 nmap \ <Leader>c<space>
 " a: Insert after cursor
-" s: Split
+" s: Split and stay in normal mode
 nnoremap s i<cr><esc>
 " d: Delete into the blackhole register to not clobber the last yank
 nnoremap d "_d
 " dd: I use this often to yank a single line, retain its original behavior
 nnoremap dd dd
-" f: Find. Also support repeating with .
-" nnoremap <Plug>OriginalSemicolon ;
-" FIXME
-" nnoremap <silent> f :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>f
-" nnoremap <silent> t :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>t
-" nnoremap <silent> F :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>F
-" nnoremap <silent> T :<C-u>call repeat#set("\<lt>Plug>OriginalSemicolon")<CR>T
-" g: Many functions
-" gp to visually select pasted text
-nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
-" h: Left
-" j: Down
-" k: Up
-" l: Right
-" ;: Command mode
-noremap ; :
-" ': Go to mark
-" z: Many functions
-" x: Delete char
-" c: Change into the blackhole register to not clobber the last yank
-nnoremap c "_c
-" v: Visual mode
-" b: Move word backward
-" n: Next, keep search matches in the middle of the window
-nnoremap n nzzzv
-" m: Marks
-" ,: Leader
-" .: Repeat last command
-" /" Search
-" Up Down Left Right move pane
-nnoremap <up> <c-w>k
-nnoremap <down> <c-w>j
-nnoremap <left> <c-w>h
-nnoremap <right> <c-w>l
-
-" Enter: Highlight cursor location
-nnoremap <silent> <cr> :call CursorPing()<CR>
-
-" Backspace: Toggle search highlight
-nnoremap <bs> :set hlsearch! hlsearch?<cr>
-
-" Tab: Same as <Ctrl-i> on the command line
-
-nnoremap d "_d
-" dd: I use this often to yank a single line, retain its original behavior
-nnoremap dd dd
-" f: Find
+" f: Clever-f
 " g: Many functions
 " gp to visually select pasted text
 nnoremap <expr> gp '`[' . strpart(getregtype(), 0, 1) . '`]'
@@ -604,8 +550,7 @@ nnoremap <c-e> :Files<CR>
 
 " Ctrl-r: Vim-repeat maps this
 
-" Ctrl-t: Recent files with FZF
-nnoremap <c-t> :History<CR>
+" Ctrl-t: TODO
 
 " Ctrl-y: (Scroll up. Ctrl-k is much more effective TODO Remap)
 " Ctrl-u: Scroll half a screen up smoothly
@@ -617,8 +562,8 @@ nnoremap <c-i> <c-i>zzzv
 " Ctrl-o: Go back in the jumplist, also realign the screen
 nnoremap <c-o> <c-o>zzzv
 
-" Ctrl-p: Find all git files in directory using FZF
-nmap <c-p> :GitFiles<CR>
+" Ctrl-p: Recent files
+nnoremap <c-p> :History<CR>
 
 " Ctrl-[: Esc
 
@@ -627,9 +572,7 @@ nmap <c-p> :GitFiles<CR>
 " Ctrl-\: Quick outline
 nmap <silent> <c-\> [unite]o
 
-" Ctrl-a*: Dispatch related
-nnoremap <c-a><c-a> :Dispatch<CR>
-nnoremap <c-a><c-d> :Dispatch 
+" Ctrl-a: TODO
 
 " Ctrl-s: Save
 nmap <c-s> :w!<CR>
@@ -640,8 +583,8 @@ noremap <silent> <c-d> :call smooth_scroll#down(&scroll, 5, 1)<CR>
 " Ctrl-f: fzf
 nnoremap <c-f> :Ag 
 
-" Ctrl-g: Prints current file name (TODO statusline already shows this. Remap)
-nnoremap <c-g> 1<c-g>
+" Ctrl-g: GitFiles
+nmap <c-g> :GitFiles<CR>
 
 " Ctrl-h: Move word back. Consistent with zsh
 noremap <c-h> B
@@ -688,7 +631,7 @@ nnoremap <c-v> p
 " Ctrl-/: A more powerful '/'
 nmap <c-_> [unite]l
 
-" Ctrl-Space: TODO
+" Ctrl-Space: Reserved for tmux
 
 "===============================================================================
 " Insert Mode Ctrl Key Mappings
@@ -797,9 +740,6 @@ vnoremap <c-f> "hy:Ag <c-r>h<cr>
 " Alt-a: Select all
 nnoremap <silent> a :keepjumps normal ggVG<CR>
 
-" Alt-s: Go back in changelist. HACK ALERT! Ctrl-i generates s with iTerm2
-nnoremap s <c-i>
-
 " Alt-h: tmux
 
 " Alt-j: Move current line down
@@ -824,16 +764,10 @@ nnoremap i g,
 
 " Alt-n: tmux
 
-" Alt-Left/Right/Up/Down resize panes
-nnoremap <M-up> <c-w>+
-nnoremap <M-down> <c-w>-
-nnoremap <M-left> <c-w><
-nnoremap <M-right> <c-w>>
-
 "===============================================================================
 " Insert Mode Meta/Alt Key Mappings
 "===============================================================================
-
+" TODO Mapping these cause escaping out of insert mode to be slow
 " Alt-j: Move current line down
 " imap <m-j> <esc><m-j>a
 " imap j <esc><m-j>a
@@ -884,7 +818,7 @@ xnoremap <silent> <CR> y:let @/ = @"<cr>:set hlsearch<cr>
 xnoremap <bs> c
 
 " Space: QuickRun
-xnoremap <space> :QuickRun<CR>
+xnoremap <Space> :QuickRun<CR>
 
 " <|>: Reselect visual block after indent
 xnoremap < <gv
@@ -928,19 +862,6 @@ autocmd MyAutoCmd FileType qf nnoremap <silent> <buffer> q :q<CR>
 " json = javascript syntax highlight
 autocmd MyAutoCmd FileType json setlocal syntax=javascript
 
-" Enable omni completion
-set omnifunc=syntaxcomplete#Complete
-augroup MyAutoCmd
-  " autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-  " autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-  " autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-  " autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-  " autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-  " autocmd FileType ruby setlocal omnifunc=rubycomplete#Complete
-  " autocmd FileType java setlocal omnifunc=eclim#java#complete#CodeComplete
-  autocmd FileType ruby let b:dispatch = 'rspec %'
-augroup END
-
 " Diff mode settings
 " au MyAutoCmd FilterWritePre * if &diff | exe 'nnoremap <c-p> [c' | exe 'nnoremap <c-n> ]c' | endif
 " Quickfix
@@ -956,6 +877,7 @@ endfunction
 let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', '\.pyc', '__pycache__', '\.cache', '\.idea']
+autocmd MyAutoCmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NERDTree.isTabTree()) | q | endif
 
 "===============================================================================
 " NERDCommenter
@@ -993,7 +915,7 @@ nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>:Git push<cr>
 "===============================================================================
 " Unite
 "===============================================================================
-
+" TODO Slowly phase out unite and replace by fzf
 " Use the fuzzy matcher for everything
 " call unite#filters#matcher_default#use(['matcher_fuzzy'])
 " Use the rank sorter for everything
@@ -1193,13 +1115,6 @@ let g:unite_source_rec_max_cache_files = 99999
       " \}
 
 "===============================================================================
-" Instant Markdown
-"===============================================================================
-
-" let g:instant_markdown_slow = 1
-let g:instant_markdown_autostart = 0
-
-"===============================================================================
 " Markdown
 "===============================================================================
 " These are ammended on top of the existing markdown settings from
@@ -1279,14 +1194,6 @@ call expand_region#custom_text_objects('html', {
       \ })
 
 "===============================================================================
-" DelimitMate
-"===============================================================================
-
-autocmd MyAutoCmd FileType vim let b:delimitMate_quotes = "'"
-
-let delimitMate_expand_cr = 1
-
-"===============================================================================
 " YCM
 "===============================================================================
 
@@ -1325,12 +1232,6 @@ endfunction
 au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
 
 "===============================================================================
-" Jekyll
-"===============================================================================
-
-let g:jekyll_post_extension = '.md'
-
-"===============================================================================
 " Airline
 "===============================================================================
 
@@ -1339,25 +1240,10 @@ let g:airline_extensions = ['branch', 'quickfix', 'syntastic']
 let g:airline_section_c = airline#section#create_left(['%{getcwd()}', 'file'])
 
 "===============================================================================
-" TagBar
+" vim-autoformat
 "===============================================================================
-
-let g:tagbar_type_coffee = {
-      \ 'ctagstype' : 'coffee',
-      \ 'kinds'     : [
-      \ 'c:classes',
-      \ 'm:methods',
-      \ 'f:functions',
-      \ 'v:variables',
-      \ 'f:fields',
-      \ ]
-      \ }
-
-"===============================================================================
-" HTML Indent
-"===============================================================================
-
-let g:html_indent_inctags = "html,body,head,tbody"
+let g:formatters_python = ['yapf']
+let g:formatdef_yapf = '"yapf --style=''{based_on_style:pep8,indent_width:".&shiftwidth."}'' -l ".a:firstline."-".a:lastline'
 
 "===============================================================================
 " My functions

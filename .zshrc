@@ -17,7 +17,7 @@ DISABLE_AUTO_UPDATE=true
 DISABLE_AUTO_TITLE=true
 COMPLETION_WAITING_DOTS=true
 DEFAULT_USER=$USER
-plugins=(git brew osx zsh-syntax-highlighting history)
+plugins=(git brew osx zsh-syntax-highlighting history docker docker-compose)
 source $ZSH/oh-my-zsh.sh
 
 ################################################################################
@@ -83,6 +83,12 @@ alias grm='git rebase master'
 
 # ssh
 alias ssh='TERM=xterm-256color ssh'
+
+# Docker
+alias dcp='docker-compose'
+
+# Random
+alias q=exit
 
 ################################################################################
 # Ruby
@@ -274,4 +280,4 @@ function fj() {
 }
 zle -N fj
 
-eval "$(docker-machine env default)"
+# eval "$(docker-machine env default)"
