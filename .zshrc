@@ -185,7 +185,7 @@ case "$TERM" in
     # Ctrl-e: Move to the end of line
     bindkey '^e' end-of-line
     # Ctrl-r: Search backwards in history
-    bindkey '^r' history-incremental-pattern-search-backward
+    # bindkey '^r' history-incremental-pattern-search-backward
     # Ctrl-t: Set mark
     bindkey '^t' set-mark-command
     # Ctrl-y: Copy the area from the cursor to the mark to the kill buffer
@@ -195,7 +195,7 @@ case "$TERM" in
     # Ctrl-i: Same as tab
     # Ctrl-o: Deletes everything after cursor (o is on right) (Commonly Ctrl-k)
     bindkey '^o' kill-line
-    # Ctrl-p: TODO
+    # Ctrl-p: Recent directory with fzf
     bindkey '^p' fj
     # Ctrl-a: Go to the beginning of line
     bindkey '^a' beginning-of-line
@@ -240,11 +240,6 @@ case "$TERM" in
     # bindkey '^_' undo
     # Ctrl-Space: Quickly yank the entire line into the x CLIPBOARD
     bindkey '^@' x-vi-yank-whole-line
-
-    # Alt-k: Move to next directory in history
-    # bindkey -s '^[k' "→\r"
-    # Alt-j: Move to previous directory in history
-    # bindkey -s '^[j' "←\r"
   ;;
 esac
 
@@ -279,5 +274,16 @@ function fj() {
   dir=$(fasd -Rdl | fzf --no-sort +m) && cd "$dir"
 }
 zle -N fj
+
+# fs [FUZZY PATTERN] - Select selected tmux session
+#   - Bypass fuzzy finder if there's only one match (--select-1)
+#   - Exit if there's no match (--exit-0)
+fs() {
+  local session
+  session=$(tmux list-sessions -F "#{session_name}" | \
+    fzf --query="$1" --select-1 --exit-0) &&
+    tmux switch-client -t "$session"
+}
+zle -N fs
 
 # eval "$(docker-machine env default)"
