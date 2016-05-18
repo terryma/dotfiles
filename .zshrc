@@ -88,7 +88,8 @@ alias ssh='TERM=xterm-256color ssh'
 alias dcp='docker-compose'
 
 # Random
-alias q=exit
+alias v='vim $(fzf)'
+alias q='exit'
 
 ################################################################################
 # Ruby
@@ -245,7 +246,8 @@ esac
 
 
 # FZF
-export FZF_DEFAULT_COMMAND='ag -u -g ""'
+# export FZF_DEFAULT_COMMAND='ag -u -g ""'
+export FZF_DEFAULT_COMMAND='ag -g ""'
 export FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 source ~/.fzf.zsh
 

@@ -12,15 +12,16 @@ Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
 Plug 'Shougo/unite.vim'
 Plug 'Shougo/unite-outline'
-" Plug 'Shougo/unite-session'
 Plug 'Shougo/neomru.vim'
 " Plug 'thinca/vim-unite-history'
 
 " Code completion
+" Plug 'Valloric/YouCompleteMe'
 Plug 'Valloric/YouCompleteMe', { 'on': [] }
 
 " Snippets
 Plug 'SirVer/ultisnips', { 'on': [] }
+" Plug 'SirVer/ultisnips'
 Plug 'honza/vim-snippets'
 
 " Marks
@@ -45,7 +46,8 @@ Plug 'tpope/vim-fugitive'
 
 " Motions
 Plug 'rhysd/clever-f.vim'
-" Plug 'Lokaltog/vim-easymotion'
+Plug 'easymotion/vim-easymotion'
+" Plug 'justinmk/vim-sneak'
 
 " Text Objects
 Plug 'tpope/vim-surround'
@@ -217,8 +219,8 @@ set encoding=utf-8
 set colorcolumn=+1
 
 " Lower the delay of escaping out of other modes
-" set timeout timeoutlen=1000 ttimeoutlen=1
-set timeout timeoutlen=200 ttimeoutlen=1
+" keycode times out fast, mapping times out in a bit more time
+set timeout timeoutlen=1000 ttimeout ttimeoutlen=1
 
 " Reload vimrc when edited
 autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
@@ -277,12 +279,6 @@ endif
 "===============================================================================
 " Function Key Mappings
 "===============================================================================
-
-" <F1>: TODO
-" <F2>: TODO
-" <F3>: TODO
-" <F4>: TODO
-" <F5>: TODO
 
 "===============================================================================
 " Leader Key Mappings
@@ -399,8 +395,7 @@ nnoremap p gp
 " \: Toggle comment
 nmap \ <Leader>c<space>
 " a: Insert after cursor
-" s: Split and stay in normal mode
-nnoremap s i<cr><esc>
+" s: EasyMotion
 " d: Delete into the blackhole register to not clobber the last yank
 nnoremap d "_d
 " dd: I use this often to yank a single line, retain its original behavior
@@ -618,7 +613,8 @@ nmap <c-c> [unite]d
 " Ctrl-v: Paste (works with system clipboard due to clipboard setting earlier)
 nnoremap <c-v> p
 
-" Ctrl-b: TODO
+" Ctrl-b: Go to def
+nnoremap <c-b> :YcmCompleter GoTo<CR>
 
 " Ctrl-n: Next cursor in MultiCursor mode
 
@@ -697,9 +693,6 @@ inoremap <c-l> <c-o>w
 " Ctrl-c: Inserts line below
 inoremap <c-c> <c-o>o
 
-" Shift-Enter: Inserts line below. iTerm sends Alt-\ for Shift-Enter. HACK!!!
-" inoremap \ <c-o>o
-
 " Ctrl-v: Paste. For some reason, <c-o> is not creating an undo point in the
 " mapping
 inoremap <c-v> <c-g>u<c-o>gP
@@ -730,64 +723,65 @@ vnoremap <c-s> :s/\%V//g<left><left><left>
 
 " Ctrl-f: Find highlight word with FZF
 vnoremap <c-f> "hy:Ag <c-r>h<cr>
-" Ctrl-f: Find with MultipleCursors
-" vnoremap <c-f> :MultipleCursorsFind 
 
 "===============================================================================
 " Normal Mode Meta/Alt Key Mappings
 "===============================================================================
+" Fix alt key keycodes. Using keycodes instead of escape sequence for mapping will use ttimeout instead of timeout,
+" which means pressing escape will not cause a delay.
+let c='a'
+while c <= 'z'
+  exec "set <A-".c.">=\e".c
+  exec "set <A-".toupper(c).">=\e".toupper(c)
+  let c = nr2char(1+char2nr(c))
+endw
 
 " Alt-a: Select all
-nnoremap <silent> a :keepjumps normal ggVG<CR>
+nnoremap <silent> <A-a> :keepjumps normal ggVG<CR>
 
 " Alt-h: tmux
 
 " Alt-j: Move current line down
-nnoremap <silent> j mz:m+<cr>`z==
+nnoremap <silent> <A-j> mz:m+<cr>`z==
 
 " Alt-k: Move current line up
-nnoremap <silent> k mz:m-2<cr>`z==
+nnoremap <silent> <A-k> mz:m-2<cr>`z==
 
 " Alt-l: tmux
 
 " Alt-Shift-j: Duplicate line down
-nnoremap <silent> J mzyyp`zj
+nnoremap <silent> <A-J> mzyyp`zj
 
 " Alt-Shift-k: Duplicate line up
-nnoremap <silent> K mzyyp`z
+nnoremap <silent> <A-K> mzyyp`z
 
 " Alt-o: Jump back in the changelist
-nnoremap o g;
+nnoremap <A-o> g;
 
 " Alt-i: Jump forward in the changelist
-nnoremap i g,
+nnoremap <A-i> g,
 
 " Alt-n: tmux
 
 "===============================================================================
 " Insert Mode Meta/Alt Key Mappings
 "===============================================================================
-" TODO Mapping these cause escaping out of insert mode to be slow
+
 " Alt-j: Move current line down
-" imap <m-j> <esc><m-j>a
-" imap j <esc><m-j>a
+imap <A-j> <esc><m-j>a
 
 " Alt-k: Move current line down
-" imap <m-k> <esc><m-k>a
-" imap k <esc><m-k>a
+imap <A-k> <esc><m-k>a
 
 "===============================================================================
 " Visual Mode Meta/Alt Key Mappings
 "===============================================================================
 
 " Alt-j: Move selections down
-" vnoremap <m-j> :m'>+<cr>`<my`>mzgv`yo`z
-" FIXME Now this maps escape, so escaping out of visual mode is slow. How to fix this?
-" vnoremap j :m'>+<cr>`<my`>mzgv`yo`z
+vnoremap <A-j> :m'>+<cr>`<my`>mzgv`yo`z
 
 " Alt-k: Move selections up
-" vnoremap <m-k> :m'<-2<cr>`>my`<mzgv`yo`z
-" vnoremap k :m'<-2<cr>`>my`<mzgv`yo`z
+vnoremap <A-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 "===============================================================================
 " Space Key Mappings
@@ -807,6 +801,10 @@ xnoremap p "_dP
 " d: Delete into the blackhole register to not clobber the last yank. To 'cut',
 " use 'x' instead
 xnoremap d "_d
+
+" J/K: Move visual block
+vnoremap <c-j> :m '>+1<CR>gv=gv
+vnoremap <c-k> :m '<-2<CR>gv=gv
 
 " \: Toggle comment
 xmap \ <Leader>c<space>
@@ -831,7 +829,7 @@ xnoremap . :normal.<cr>
 xnoremap @ :normal@
 
 " Tab: Indent
-xmap <Tab> >
+xmap <c-i> >
 
 " shift-tab: unindent
 xmap <s-tab> <
@@ -939,7 +937,7 @@ nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>:Git push<cr>
 
 " Map space to the prefix for Unite
 nnoremap [unite] <Nop>
-nmap <space> [unite]
+" nmap <space> [unite]
 
 " General fuzzy search
 nnoremap <silent> [unite]<space> :<C-u>Unite
@@ -1246,6 +1244,14 @@ let g:formatters_python = ['yapf']
 let g:formatdef_yapf = '"yapf --style=''{based_on_style:pep8,indent_width:".&shiftwidth."}'' -l ".a:firstline."-".a:lastline'
 
 "===============================================================================
+" EasyMotion
+"===============================================================================
+let g:EasyMotion_do_mapping = 0 " Disable default mappings
+nmap s <Plug>(easymotion-overwin-f2)
+" Turn on case insensitive feature
+let g:EasyMotion_smartcase = 1
+
+"===============================================================================
 " My functions
 "===============================================================================
 
@@ -1285,6 +1291,11 @@ command! -nargs=? Scriptnames call s:Filter_lines('scriptnames', <q-args>)
 " https://github.com/junegunn/vim-plug/wiki/faq#loading-plugins-manually
 augroup load_us_ycm
   autocmd!
-  autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe')
-                     \| call youcompleteme#Enable() | autocmd! load_us_ycm
+  autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe') |
+        \ if !exists('g:youcompleteme_loaded') |
+        \   call youcompleteme#Enable()       |
+        \   let g:youcompleteme_loaded = 1 |
+        \ endif |
+        \ exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>" |
+        \ autocmd! load_us_ycm
 augroup END
