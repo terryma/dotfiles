@@ -480,8 +480,8 @@ nnoremap <bar> :vsp<cr>
 
 " A: Insert at end of line
 
-" S: Save
-nnoremap S :w!<cr>
+" S: Split and return to normal mode
+nnoremap S i<cr><esc>
 
 " D: Deletes til the end of line
 

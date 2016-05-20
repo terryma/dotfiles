@@ -83,9 +83,11 @@ alias grm='git rebase master'
 
 # ssh
 alias ssh='TERM=xterm-256color ssh'
+sshlb() { ssh ec2-user@`get-instances-in-lb $1 | head -1 | get-instance-ip` }
 
 # Docker
 alias dcp='docker-compose'
+dr() { dcp restart $1 && dcp logs -f $1 }
 
 # Random
 alias v='vim $(fzf)'
