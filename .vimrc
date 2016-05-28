@@ -76,6 +76,7 @@ call plug#end()
 
 filetype plugin indent on
 syntax enable
+runtime macros/matchit.vim
 
 "===============================================================================
 " Local Settings
@@ -540,12 +541,13 @@ nnoremap - <c-x>
 
 " Ctrl-w: Window management
 
-" Ctrl-e: FZF files
-nnoremap <c-e> :Files<CR>
+" Ctrl-e: YCM Show doc
+nnoremap <c-e> :YcmCompleter GetDoc<CR>
 
 " Ctrl-r: Vim-repeat maps this
 
-" Ctrl-t: TODO
+" Ctrl-t: Go to opposite tag
+nmap <c-t> %
 
 " Ctrl-y: (Scroll up. Ctrl-k is much more effective TODO Remap)
 " Ctrl-u: Scroll half a screen up smoothly
@@ -627,7 +629,8 @@ nnoremap <c-b> :YcmCompleter GoTo<CR>
 " Ctrl-/: A more powerful '/'
 nmap <c-_> [unite]l
 
-" Ctrl-Space: Reserved for tmux
+" Ctrl-Space: FZF files
+nnoremap <NUL> :Files<CR>
 
 "===============================================================================
 " Insert Mode Ctrl Key Mappings
@@ -703,7 +706,7 @@ inoremap <c-v> <c-g>u<c-o>gP
 
 " Ctrl-m: Same as Enter
 
-" Ctrl-space: TODO
+" Ctrl-space: YCM
 
 " Ctrl-/: Undo
 inoremap <c-_> <c-o>u

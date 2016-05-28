@@ -9,8 +9,8 @@ for config (~/.zsh/*.zsh) source $config
 # Oh My Zsh
 ################################################################################
 ZSH=$HOME/.oh-my-zsh
-# ZSH_THEME="agnoster"
-ZSH_THEME="pure"
+ZSH_THEME="agnoster"
+# ZSH_THEME="pure"
 
 DISABLE_UPDATE_PROMPT=true
 DISABLE_AUTO_UPDATE=true
@@ -92,6 +92,7 @@ dr() { dcp restart $1 && dcp logs -f $1 }
 # Random
 alias v='vim $(fzf)'
 alias q='exit'
+mkdircd () { mkdir -p "$@" && cd "$@"; }
 
 ################################################################################
 # Ruby
@@ -102,14 +103,14 @@ if which rbenv > /dev/null; then eval "$(rbenv init - --no-rehash)"; fi
 ################################################################################
 # fasd
 ################################################################################
-# eval "$(fasd --init posix-alias zsh-hook)"
+eval "$(fasd --init posix-alias zsh-hook)"
 # alias v='f -e vim'
-# fasd_cache="$HOME/.fasd-init-bash"
-# if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-  # fasd --init posix-alias zsh-{hook,ccomp,ccomp-install,wcomp,wcomp-install} >| "$fasd_cache"
-# fi
-# source "$fasd_cache"
-# unset fasd_cache
+fasd_cache="$HOME/.fasd-init-bash"
+if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+  fasd --init posix-alias zsh-{hook,ccomp,ccomp-install,wcomp,wcomp-install} >| "$fasd_cache"
+fi
+source "$fasd_cache"
+unset fasd_cache
 
 ################################################################################
 # ZLE Widgets
@@ -170,29 +171,17 @@ zle -N x-vi-yank-whole-line
 case "$TERM" in
   *xterm*|screen-256color)
 
-    # Marking, yanking, and pasting in insert mode
-    # Ctrl-t to set the mark, use movement commands to select the region, yank
-    # the region using Ctrl-y, and paste the region using Ctrl-p
-
-    # In iTerm, <Tab> sends Alt-t
-    bindkey 't' expand-or-complete
-    # In iTerm, <Ctrl-BS> sends Alt-d
-    bindkey 'd' vi-backward-kill-word
     # Backspace: Delete previous char
     bindkey '^?' backward-delete-char
     # Ctrl-q: Quoted insert (Default is Ctrl-v)
     bindkey '^q' quoted-insert
     # Ctrl-w: Delete previous word
-    # bindkey '^w' vi-backward-kill-word
     bindkey '^w' backward-kill-word
     # Ctrl-e: Move to the end of line
     bindkey '^e' end-of-line
-    # Ctrl-r: Search backwards in history
-    # bindkey '^r' history-incremental-pattern-search-backward
-    # Ctrl-t: Set mark
-    bindkey '^t' set-mark-command
-    # Ctrl-y: Copy the area from the cursor to the mark to the kill buffer
-    bindkey '^y' x-copy-region-as-kill
+    # Ctrl-r: FZF history search
+    # Ctrl-t: FZF file search
+    # Ctrl-y: TODO
     # Ctrl-u: Deletes everything before cursor (u is on left)
     bindkey '^u' backward-kill-line
     # Ctrl-i: Same as tab
@@ -202,8 +191,7 @@ case "$TERM" in
     bindkey '^p' fj
     # Ctrl-a: Go to the beginning of line
     bindkey '^a' beginning-of-line
-    # Ctrl-s: Search forwards in history
-    bindkey '^s' history-incremental-pattern-search-forward
+    # Ctrl-s: TODO
     # Ctrl-d: Delete next word
     bindkey '^d' kill-word
     # Ctrl-f: Move one character to the left. Good way to remember this is that
@@ -235,12 +223,10 @@ case "$TERM" in
     bindkey '^v' x-yank
     # Ctrl-b: Edit command line using vi. 'b' stands for better :)
     bindkey '^b' edit-command-line
-    # bindkey '^b'
     # Ctrl-m: Same as Enter
     # Ctrl-n: Clear the entire screen (cleaN)
     bindkey '^n' clear-screen
     # Ctrl-/: Undo
-    # bindkey '^_' undo
     # Ctrl-Space: Quickly yank the entire line into the x CLIPBOARD
     bindkey '^@' x-vi-yank-whole-line
   ;;
@@ -276,6 +262,7 @@ c() {
 function fj() {
   local dir
   dir=$(fasd -Rdl | fzf --no-sort +m) && cd "$dir"
+  zle reset-prompt
 }
 zle -N fj
 
@@ -289,5 +276,3 @@ fs() {
     tmux switch-client -t "$session"
 }
 zle -N fs
-
-# eval "$(docker-machine env default)"
