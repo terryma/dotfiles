@@ -37,6 +37,7 @@ Plug 'ton/vim-bufsurf'
 " Syntax checker
 Plug 'scrooloose/syntastic'
 Plug 'Chiel92/vim-autoformat'
+Plug 'hynek/vim-python-pep8-indent'
 
 " Shell
 Plug 'thinca/vim-quickrun'
@@ -68,9 +69,14 @@ Plug 'bling/vim-airline'
 Plug 'junegunn/seoul256.vim'
 
 " Misc
+Plug 'kchmck/vim-coffee-script'
 Plug 'mtth/scratch.vim'
+Plug 'mhinz/vim-startify'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'terryma/vim-multiple-cursors'
+Plug 'hashivim/vim-terraform'
+Plug 'jiangmiao/auto-pairs'
+Plug 'vimwiki/vimwiki'
 
 call plug#end()
 
@@ -107,8 +113,7 @@ set fcs=vert:│
 " Don't show the intro
 set shortmess+=I
 
-" Turn on the mouse, since it doesn't play well with tmux anyway. This way I can
-" scroll in the terminal
+" Turn on the mouse in all modes
 set mouse=a
 
 " Give one virtual space at end of line
@@ -277,6 +282,9 @@ else
   let &t_EI = "\<Esc>]50;CursorShape=0\x7"
 endif
 
+" Diff options
+set diffopt=filler,vertical
+
 "===============================================================================
 " Function Key Mappings
 "===============================================================================
@@ -385,7 +393,7 @@ autocmd MyAutoCmd CmdwinEnter : map <buffer> <cr> <cr>
 " e: Move to end of word
 " r: Replace single character
 " t: Find till
-" y: Yank
+" y: Yank. Last yank is always stored in register 0. So paste with "0p if you did a delete after the yank
 " u: Undo
 " i: Insert before cursor
 " o: Insert line below cursor
@@ -397,10 +405,7 @@ nnoremap p gp
 nmap \ <Leader>c<space>
 " a: Insert after cursor
 " s: EasyMotion
-" d: Delete into the blackhole register to not clobber the last yank
-nnoremap d "_d
-" dd: I use this often to yank a single line, retain its original behavior
-nnoremap dd dd
+" d: Delete. Access it from register "" or "1-9
 " f: Clever-f
 " g: Many functions
 " gp to visually select pasted text
@@ -673,10 +678,12 @@ inoremap <c-s> <esc>:w<CR>
 inoremap <c-f> <Left>
 
 " Ctrl-g: Move cursor right
+silent! iunmap <c-g>s
+silent! iunmap <c-g>S
 inoremap <c-g> <Right>
 
 " Ctrl-h: Move word left
-inoremap <c-h> <c-o>b
+inoremap <c-h> <c-o>B
 
 " Ctrl-j: Move cursor up
 inoremap <expr> <c-j> pumvisible() ? "\<C-e>\<Down>" : "\<Down>"
@@ -685,7 +692,7 @@ inoremap <expr> <c-j> pumvisible() ? "\<C-e>\<Down>" : "\<Down>"
 inoremap <expr> <c-k> pumvisible() ? "\<C-e>\<Up>" : "\<Up>"
 
 " Ctrl-l: Move word right
-inoremap <c-l> <c-o>w
+inoremap <c-l> <c-o>W
 
 " Ctrl-z: This is the command key for tmux
 
@@ -764,6 +771,9 @@ nnoremap <A-o> g;
 " Alt-i: Jump forward in the changelist
 nnoremap <A-i> g,
 
+" Alt-b: Git Blame
+nnoremap <silent> <A-b> :Gblame<CR>
+
 " Alt-n: tmux
 
 "===============================================================================
@@ -771,10 +781,10 @@ nnoremap <A-i> g,
 "===============================================================================
 
 " Alt-j: Move current line down
-imap <A-j> <esc><m-j>a
+" imap <A-j> <esc><m-j>a
 
 " Alt-k: Move current line down
-imap <A-k> <esc><m-k>a
+" imap <A-k> <esc><m-k>a
 
 "===============================================================================
 " Visual Mode Meta/Alt Key Mappings
@@ -800,10 +810,6 @@ xnoremap y y`]
 " p: Paste in visual mode should not replace the default register with the
 " deleted text
 xnoremap p "_dP
-
-" d: Delete into the blackhole register to not clobber the last yank. To 'cut',
-" use 'x' instead
-xnoremap d "_d
 
 " J/K: Move visual block
 vnoremap <c-j> :m '>+1<CR>gv=gv
@@ -1253,6 +1259,11 @@ let g:EasyMotion_do_mapping = 0 " Disable default mappings
 nmap s <Plug>(easymotion-overwin-f2)
 " Turn on case insensitive feature
 let g:EasyMotion_smartcase = 1
+
+"===============================================================================
+" AutoPair
+"===============================================================================
+let g:AutoPairsMapCh = 0
 
 "===============================================================================
 " My functions

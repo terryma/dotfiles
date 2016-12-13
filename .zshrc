@@ -9,8 +9,7 @@ for config (~/.zsh/*.zsh) source $config
 # Oh My Zsh
 ################################################################################
 ZSH=$HOME/.oh-my-zsh
-ZSH_THEME="agnoster"
-# ZSH_THEME="pure"
+ZSH_THEME=""
 
 DISABLE_UPDATE_PROMPT=true
 DISABLE_AUTO_UPDATE=true
@@ -18,6 +17,7 @@ DISABLE_AUTO_TITLE=true
 COMPLETION_WAITING_DOTS=true
 DEFAULT_USER=$USER
 plugins=(git brew osx zsh-syntax-highlighting history docker docker-compose)
+# plugins=()
 source $ZSH/oh-my-zsh.sh
 
 ################################################################################
@@ -42,6 +42,10 @@ stty -ixon -ixoff
 
 # Mass rename
 # autoload zmv
+
+# Load the pure theme using prompt
+autoload -U promptinit && promptinit
+prompt pure
 
 ################################################################################
 # Vars
@@ -87,7 +91,7 @@ sshlb() { ssh ec2-user@`get-instances-in-lb $1 | head -1 | get-instance-ip` }
 
 # Docker
 alias dcp='docker-compose'
-dr() { dcp restart $1 && dcp logs -f $1 }
+dr() { dcp restart $1 && dcp logs -f --tail=100 $1 }
 
 # Random
 alias v='vim $(fzf)'
@@ -103,14 +107,13 @@ if which rbenv > /dev/null; then eval "$(rbenv init - --no-rehash)"; fi
 ################################################################################
 # fasd
 ################################################################################
-eval "$(fasd --init posix-alias zsh-hook)"
-# alias v='f -e vim'
-fasd_cache="$HOME/.fasd-init-bash"
-if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-  fasd --init posix-alias zsh-{hook,ccomp,ccomp-install,wcomp,wcomp-install} >| "$fasd_cache"
-fi
-source "$fasd_cache"
-unset fasd_cache
+# eval "$(fasd --init posix-alias zsh-hook)"
+# fasd_cache="$HOME/.fasd-init-bash"
+# if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+  # fasd --init posix-alias zsh-{hook,ccomp,ccomp-install,wcomp,wcomp-install} >| "$fasd_cache"
+# fi
+# source "$fasd_cache"
+# unset fasd_cache
 
 ################################################################################
 # ZLE Widgets
@@ -276,3 +279,5 @@ fs() {
     tmux switch-client -t "$session"
 }
 zle -N fs
+
+test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
