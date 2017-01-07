@@ -50,7 +50,7 @@ prompt pure
 ################################################################################
 # Vars
 ################################################################################
-export PATH=~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:$PATH
+export PATH=~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:~/.cargo/bin:$PATH
 export PATH=/Users/terryma/Library/Python/2.7/bin:$PATH
 export PATH=~/code/dev-ops-tools/bin:$PATH
 export EDITOR=$(which vim)

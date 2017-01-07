@@ -38,6 +38,7 @@ Plug 'ton/vim-bufsurf'
 Plug 'scrooloose/syntastic'
 Plug 'Chiel92/vim-autoformat'
 Plug 'hynek/vim-python-pep8-indent'
+Plug 'fisadev/vim-isort'
 
 " Shell
 Plug 'thinca/vim-quickrun'
@@ -327,6 +328,7 @@ nnoremap <Leader>e :e! ~/.vimrc<cr>
 " <Leader>p: TODO
 
 " <Leader>a: TODO
+nnoremap <Leader>a :lopen<CR>
 
 " <Leader>s: TODO
 
@@ -436,7 +438,7 @@ nnoremap <left> <c-w>h
 nnoremap <right> <c-w>l
 
 " Enter: Highlight cursor location
-nnoremap <silent> <cr> :call CursorPing()<CR>
+" nnoremap <silent> <cr> :call CursorPing()<CR>
 
 " Backspace: Toggle search highlight
 nnoremap <bs> :set hlsearch! hlsearch?<cr>
@@ -904,6 +906,7 @@ let g:syntastic_mode_map = { 'mode': 'active',
 
 let g:syntastic_html_tidy_ignore_errors=['proprietary attribute "ng-']
 let g:syntastic_python_flake8_args='--ignore=E111,E501,E128,E121,E203,E114'
+let g:syntastic_always_populate_loc_list = 1
 
 "===============================================================================
 " Fugitive
@@ -1264,6 +1267,12 @@ let g:EasyMotion_smartcase = 1
 " AutoPair
 "===============================================================================
 let g:AutoPairsMapCh = 0
+
+"===============================================================================
+" Vimwiki
+"===============================================================================
+let g:vimwiki_list = [{'path': '~/gdrive/Notes/vimwiki/', 'path_html': '~/gdrive/Notes/vimwiki_html/'}]
+let g:vimwiki_table_mappings = 0
 
 "===============================================================================
 " My functions
