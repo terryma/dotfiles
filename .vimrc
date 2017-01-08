@@ -71,6 +71,7 @@ Plug 'junegunn/seoul256.vim'
 
 " Misc
 Plug 'kchmck/vim-coffee-script'
+Plug 'leafgarland/typescript-vim'
 Plug 'mtth/scratch.vim'
 Plug 'mhinz/vim-startify'
 Plug 'terryma/vim-smooth-scroll'
