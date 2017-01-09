@@ -16,6 +16,7 @@ draw_bold_text_with_bright_colors: true
 font:
   # The normal (roman) font face to use.
   normal:
+    # family: "Source Code Pro"
     family: "Hack"
     # family: "Droid Sans Mono Slashed for Powerline"
     # family: "Menlo"
@@ -175,6 +176,7 @@ key_bindings:
   - { key: Back,                    chars: "\x7f"                        }
   - { key: Delete,                  chars: "\x1b[3~",  mode: AppKeypad   }
   - { key: Delete,                  chars: "\x1b[P",   mode: ~AppKeypad  }
+  - { key: C,        mods: Alt,     chars: "\x1bc"                       }
   - { key: F,        mods: Alt,     chars: "\x1bf"                       }
   - { key: J,        mods: Alt,     chars: "\x1bj"                       }
   - { key: K,        mods: Alt,     chars: "\x1bk"                       }

@@ -104,3 +104,21 @@ function reloadConfig(files)
 end
 local myWatcher = hs.pathwatcher.new(os.getenv('HOME') .. '/.hammerspoon/', reloadConfig):start()
 hs.alert.show('Config loaded')
+
+-- Detect external keyboard
+local usbWatcher = nil
+
+function usbDeviceCallback(data)
+  if (data["productName"] == "daskeyboard") then
+    if (data["eventType"] == "added") then
+      hs.execute('~/.dotfiles/bin/karabiner-element-switch-profile.py external')
+      hs.notify.new({title="Hammerspoon", informativeText="Switched to external keyboard profile for Karabiner-Element"}):send()
+    elseif (data["eventType"] == "removed") then
+      hs.execute('~/.dotfiles/bin/karabiner-element-switch-profile.py internal')
+      hs.notify.new({title="Hammerspoon", informativeText="Switched to internal keyboard profile for Karabiner-Element"}):send()
+    end
+  end
+end
+
+usbWatcher = hs.usb.watcher.new(usbDeviceCallback)
+usbWatcher:start()
