@@ -10,14 +10,12 @@ for config (~/.zsh/*.zsh) source $config
 ################################################################################
 ZSH=$HOME/.oh-my-zsh
 ZSH_THEME=""
-
 DISABLE_UPDATE_PROMPT=true
 DISABLE_AUTO_UPDATE=true
 DISABLE_AUTO_TITLE=true
 COMPLETION_WAITING_DOTS=true
 DEFAULT_USER=$USER
 plugins=(git brew osx zsh-syntax-highlighting history docker docker-compose)
-# plugins=()
 source $ZSH/oh-my-zsh.sh
 
 ################################################################################
@@ -30,6 +28,7 @@ setopt no_beep
 # Disable auto correct
 unsetopt correct_all
 
+# Don't save duplicated entries into history
 setopt hist_ignore_all_dups
 
 # Export TERM correctly for tmux
@@ -50,9 +49,15 @@ prompt pure
 ################################################################################
 # Vars
 ################################################################################
-export PATH=~/.dotfiles/bin:~/.rbenv/bin:/usr/local/bin:~/.cargo/bin:$PATH
-export PATH=/Users/terryma/Library/Python/2.7/bin:$PATH
-export PATH=~/code/dev-ops-tools/bin:$PATH
+path=(
+  ~/.dotfiles/bin
+  ~/.rbenv/bin
+  ~/.cargo/bin
+  ~/Library/Python/2.7/bin
+  ~/code/dev-ops-tools/bin
+  /usr/local/bin
+  $path
+)
 export EDITOR=$(which vim)
 export VISUAL=$(which vim)
 export KEYTIMEOUT=1
@@ -85,6 +90,8 @@ alias gs='git --no-pager show --stat --oneline'
 alias gam='git commit -a --amend --no-edit'
 alias grm='git rebase master'
 alias gRm='git reset --hard origin/master'
+alias gpp="gca -m 'Update' && gp"
+alias git=hub
 
 # ssh
 alias ssh='TERM=xterm-256color ssh'
@@ -281,4 +288,4 @@ fs() {
 }
 zle -N fs
 
-test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
