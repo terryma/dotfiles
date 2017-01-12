@@ -5,6 +5,8 @@
 dpi:
   x: 96.0
   y: 96.0
+  # x: 227.0
+  # y: 227.0
 
 # Display tabs using this many cells (changes require restart)
 tabspaces: 8
@@ -176,12 +178,14 @@ key_bindings:
   - { key: Back,                    chars: "\x7f"                        }
   - { key: Delete,                  chars: "\x1b[3~",  mode: AppKeypad   }
   - { key: Delete,                  chars: "\x1b[P",   mode: ~AppKeypad  }
+  - { key: A,        mods: Alt,     chars: "\x1ba"                       }
   - { key: C,        mods: Alt,     chars: "\x1bc"                       }
   - { key: F,        mods: Alt,     chars: "\x1bf"                       }
   - { key: J,        mods: Alt,     chars: "\x1bj"                       }
   - { key: K,        mods: Alt,     chars: "\x1bk"                       }
   - { key: H,        mods: Alt,     chars: "\x1bh"                       }
   - { key: L,        mods: Alt,     chars: "\x1bl"                       }
+  - { key: M,        mods: Alt,     chars: "\x1bm"                       }
   - { key: N,        mods: Alt,     chars: "\x1bn"                       }
   - { key: R,        mods: Alt,     chars: "\x1br"                       }
   - { key: Backslash,        mods: Alt,     chars: "\x1b\\"              }

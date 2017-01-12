@@ -84,6 +84,7 @@ alias gg="git log --graph --pretty=oneline --format='format:%C(yellow)%h%C(reset
 alias gs='git --no-pager show --stat --oneline'
 alias gam='git commit -a --amend --no-edit'
 alias grm='git rebase master'
+alias gRm='git reset --hard origin/master'
 
 # ssh
 alias ssh='TERM=xterm-256color ssh'

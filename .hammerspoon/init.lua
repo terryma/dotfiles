@@ -72,6 +72,12 @@ k:bind({}, 'c', nil, function()
   k.triggered = true
 end)
 
+-- Hyper+delete: Screensaver
+k:bind({}, 'delete', nil, function()
+  hs.caffeinate.startScreensaver()
+end)
+
+
 -- Enter Hyper Mode when F18 (Hyper/Capslock) is pressed
 pressedF18 = function()
   k.triggered = false
@@ -107,9 +113,10 @@ hs.alert.show('Config loaded')
 
 -- Detect external keyboard
 local usbWatcher = nil
+local externalKeyboardName = "daskeyboard"
 
 function usbDeviceCallback(data)
-  if (data["productName"] == "daskeyboard") then
+  if (data["productName"] == externalKeyboardName) then
     if (data["eventType"] == "added") then
       hs.execute('~/.dotfiles/bin/karabiner-element-switch-profile.py external')
       hs.notify.new({title="Hammerspoon", informativeText="Switched to external keyboard profile for Karabiner-Element"}):send()
