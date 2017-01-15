@@ -5,8 +5,6 @@
 dpi:
   x: 96.0
   y: 96.0
-  # x: 227.0
-  # y: 227.0
 
 # Display tabs using this many cells (changes require restart)
 tabspaces: 8
@@ -44,6 +42,11 @@ font:
   offset:
     x: 0.0
     y: 0.0
+
+  # OS X only: use thin stroke font rendering. Thin strokes are suitable
+  # for retina displays, but for non-retina you probably want this set to
+  # false.
+  use_thin_strokes: true
 
 # Should display the render timer
 render_timer: false

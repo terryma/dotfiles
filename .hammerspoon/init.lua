@@ -1,3 +1,5 @@
+hs.window.animationDuration = 0
+
 -- A global variable for the Hyper Mode
 k = hs.hotkey.modal.new({}, "F17")
 

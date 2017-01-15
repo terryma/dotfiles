@@ -1,8 +1,6 @@
 [user]
   name = Terry Ma
   email = hi@terry.ma
-[init]
-	templatedir = ~/.git/templates
 [core]
   excludesfile = ~/.gitignore_global
   ; vimpager doesn't work very well with some log format, use less
