@@ -96,6 +96,7 @@ alias git=hub
 # ssh
 alias ssh='TERM=xterm-256color ssh'
 sshlb() { ssh ec2-user@`get-instances-in-lb $1 | head -1 | get-instance-ip` }
+sshlb-staging() { ssh ec2-user@`AWS_PROFILE=dev get-instances-in-lb $1 | head -1 | AWS_PROFILE=dev get-instance-ip` }
 
 # Docker
 alias dcp='docker-compose'
