@@ -3,26 +3,23 @@ set nocompatible
 "===============================================================================
 " vim-plug
 "===============================================================================
-
 call plug#begin('~/.vim/plugged')
 Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 
 " Fuzzy search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-Plug 'Shougo/unite.vim'
-Plug 'Shougo/unite-outline'
-Plug 'Shougo/neomru.vim'
+" Plug 'Shougo/unite.vim'
+" Plug 'Shougo/unite-outline'
 " Plug 'thinca/vim-unite-history'
+" Plug 'Shougo/neomru.vim'
 
 " Code completion
-" Plug 'Valloric/YouCompleteMe'
-Plug 'Valloric/YouCompleteMe', { 'on': [] }
+" Plug 'Valloric/YouCompleteMe', { 'on': [] }
 
 " Snippets
-Plug 'SirVer/ultisnips', { 'on': [] }
-" Plug 'SirVer/ultisnips'
-Plug 'honza/vim-snippets'
+" Plug 'SirVer/ultisnips', { 'on': [] }
+" Plug 'honza/vim-snippets'
 
 " Marks
 " Plug 'airblade/vim-gitgutter'
@@ -35,27 +32,34 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ton/vim-bufsurf'
 
 " Syntax checker
-Plug 'scrooloose/syntastic'
+" Plug 'scrooloose/syntastic'
 Plug 'Chiel92/vim-autoformat'
+Plug 'sbdchd/neoformat'
 Plug 'hynek/vim-python-pep8-indent'
 Plug 'fisadev/vim-isort'
+" Plug 'w0rp/ale'
+
 
 " Shell
 Plug 'thinca/vim-quickrun'
 
 " Git
 Plug 'tpope/vim-fugitive'
+Plug 'tpope/vim-rhubarb'
+Plug 'junegunn/gv.vim'
+Plug 'mattn/webapi-vim'
+Plug 'mattn/gist-vim'
 
 " Motions
 Plug 'rhysd/clever-f.vim'
-Plug 'easymotion/vim-easymotion'
+" Plug 'easymotion/vim-easymotion'
 " Plug 'justinmk/vim-sneak'
 
 " Text Objects
 Plug 'tpope/vim-surround'
 Plug 'tpope/vim-repeat'
 Plug 'kana/vim-textobj-user'
-Plug 'kana/vim-textobj-entire' " ae, ie
+" Plug 'kana/vim-textobj-entire' " ae, ie
 Plug 'kana/vim-textobj-line' " al, il
 Plug 'terryma/vim-expand-region'
 
@@ -64,7 +68,7 @@ Plug 'terryma/vim-expand-region'
 " Plug 'xolox/vim-easytags'
 
 " Status line
-Plug 'bling/vim-airline'
+" Plug 'bling/vim-airline'
 
 " Color themems
 Plug 'junegunn/seoul256.vim'
@@ -73,12 +77,15 @@ Plug 'junegunn/seoul256.vim'
 Plug 'kchmck/vim-coffee-script'
 Plug 'leafgarland/typescript-vim'
 Plug 'mtth/scratch.vim'
-Plug 'mhinz/vim-startify'
+" Plug 'mhinz/vim-startify'
 Plug 'terryma/vim-smooth-scroll'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'hashivim/vim-terraform'
-Plug 'jiangmiao/auto-pairs'
+" Plug 'jiangmiao/auto-pairs'
 Plug 'vimwiki/vimwiki'
+Plug 'metakirby5/codi.vim'
+Plug 'junegunn/vim-peekaboo'
+Plug 'junegunn/goyo.vim'
 
 call plug#end()
 
@@ -88,7 +95,7 @@ runtime macros/matchit.vim
 
 "===============================================================================
 " Local Settings
-"===============================================================================
+" ===============================================================================
 
 try
   source ~/.vimrc.local
@@ -138,7 +145,7 @@ let g:seoul256_background = 234
 colorscheme seoul256
 
 " Sets how many lines of history vim has to remember
-set history=10000
+set history=1000
 
 " Set to auto read when a file is changed from the outside
 set autoread
@@ -231,8 +238,10 @@ set colorcolumn=+1
 set timeout timeoutlen=1000 ttimeout ttimeoutlen=1
 
 " Reload vimrc when edited
+" autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
+"       \ so $MYVIMRC | if has('gui_running') | source $MYGVIMRC | endif | AirlineRefresh
 autocmd MyAutoCmd BufWritePost .vimrc,_vimrc,vimrc,.gvimrc,_gvimrc,gvimrc
-      \ so $MYVIMRC | if has('gui_running') | source $MYGVIMRC | endif | AirlineRefresh
+      \ so $MYVIMRC | if has('gui_running') | source $MYGVIMRC | endif
 try
   lang en_us
 catch
@@ -286,6 +295,9 @@ endif
 
 " Diff options
 set diffopt=filler,vertical
+
+" Disable viminfo, causes startup and shutdown to take longer
+set viminfo='10,<0,s0,h,/100,:100,@0
 
 "===============================================================================
 " Function Key Mappings
@@ -453,83 +465,83 @@ nnoremap <bs> :set hlsearch! hlsearch?<cr>
 " Shift-Tab: NERDTree
 nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
 
-" Q: Closes the window
+" Shift-q: Closes the window
 nnoremap Q :q<cr>
 
-" W: Move to start of next word
+" Shift-w: Move to start of next word
 
-" E: Move to end of word forward
+" Shift-e: Move to end of word forward
 
-" R: Reindent entire file
+" Shift-r: Reindent entire file
 nnoremap R mqHmwgg=G`wzt`q
 
-" T: Finds till backwards
+" Shift-t: Finds till backwards
 
-" Y: Remove join lines to this, Y looks like a join of two lines into one
+" Shift-y: Remove join lines to this, Y looks like a join of two lines into one
 noremap Y J
 
-" U: Redos since 'u' undos
+" Shift-u: Redos since 'u' undos
 nnoremap U :redo<cr>
 
-" I: Insert at beginning of line
+" Shift-i: Insert at beginning of line
 
-" O: Insert line above
+" Shift-o: Insert line above
 
-" P: Paste above line
+" Shift-p: Paste above line
 
-" {: Beginning of paragraph
+" Shift-[: Beginning of paragraph
 
-" }: End of paragraph
+" Shift-]: End of paragraph
 
-" _ : Quick horizontal splits
+" Shift--(_): Quick horizontal splits
 nnoremap _ :sp<cr>
 
-" | : Quick vertical splits
+" Shift-\(|): Quick vertical splits
 nnoremap <bar> :vsp<cr>
 
-" A: Insert at end of line
+" Shift-a: Insert at end of line
 
-" S: Split and return to normal mode
+" Shift-s: Split and return to normal mode
 nnoremap S i<cr><esc>
 
-" D: Deletes til the end of line
+" Shift-d: Deletes til the end of line
 
-" F: Finds backwards
+" Shift-f: Finds backwards
 
-" G: Go to end of file
+" Shift-g: Go to end of file
 
-" H: Go to beginning of line.
+" Shift-h: Go to beginning of line.
 noremap H ^
 
-" J: expand-region
+" Shift-j: expand-region
 map K <Plug>(expand_region_expand)
 
-" K: shrink-region
+" Shift-k: shrink-region
 map J <Plug>(expand_region_shrink)
 
-" L: Go to end of line
+" Shift-l: Go to end of line
 noremap L g_
 
 " :: TODO
 
-" ": Handles registers
+" Shift-'("): Handles registers
 
-" Z: Bufsurf back
+" Shift-z: Bufsurf back
 nnoremap <silent> Z :BufSurfBack<CR>
 
-" X: Bufsurf forward
+" Shift-z: Bufsurf forward
 nnoremap <silent> X :BufSurfForward<CR>
 
-" C: Deletes rest of line and go to insert mode
+" Shift-c: Deletes rest of line and go to insert mode
 
-" V: Visual line mode
+" Shift-v: Visual line mode
 
-" B: Move word backward (TODO Replaced by <C-H>, maybe remap?)
+" Shift-b: Move word backward (TODO Replaced by <C-H>, maybe remap?)
 
-" N: Find next occurrence backward
+" Shift-n: Find next occurrence backward
 nnoremap N Nzzzv
 
-" M: Move cursor to mid screen (TODO Remap since I don't ever use this)
+" Shift-m: Move cursor to mid screen (TODO Remap since I don't ever use this)
 
 " <: Indent left
 
@@ -553,6 +565,7 @@ nnoremap - <c-x>
 nnoremap <c-e> :YcmCompleter GetDoc<CR>
 
 " Ctrl-r: Vim-repeat maps this
+nmap <c-r> :History:<CR>
 
 " Ctrl-t: Go to opposite tag
 nmap <c-t> %
@@ -575,9 +588,11 @@ nnoremap <c-p> :History<CR>
 " Ctrl-]: Go forward in tag stack
 
 " Ctrl-\: Quick outline
-nmap <silent> <c-\> [unite]o
+" nmap <silent> <c-\> [unite]o
+nmap <silent> <c-\> :BTags<CR>
 
-" Ctrl-a: TODO
+" Ctrl-a: All buffers
+nnoremap <c-a> :Buffers<CR>
 
 " Ctrl-s: Save
 nmap <c-s> :w!<CR>
@@ -618,7 +633,7 @@ inoremap <c-l> <c-o>W
 nnoremap <c-x> <c-w>w
 
 " Ctrl-c: (C)hange (c)urrent directory
-nmap <c-c> [unite]d
+" nmap <c-c> [unite]d
 
 " Ctrl-v: Paste (works with system clipboard due to clipboard setting earlier)
 nnoremap <c-v> p
@@ -635,7 +650,7 @@ nnoremap <c-b> :YcmCompleter GoTo<CR>
 " Ctrl-.: Vim can't map this
 
 " Ctrl-/: A more powerful '/'
-nmap <c-_> [unite]l
+" nmap <c-_> [unite]l
 
 " Ctrl-Space: FZF files
 nnoremap <NUL> :Files<CR>
@@ -752,6 +767,9 @@ endw
 " Alt-a: Select all
 nnoremap <silent> <A-a> :keepjumps normal ggVG<CR>
 
+" Alt-s: isort and format
+nnoremap <silent> <A-s> :Isort<CR>:Neoformat autopep8<CR>
+
 " Alt-h: tmux
 
 " Alt-j: Move current line down
@@ -853,7 +871,6 @@ xmap <s-tab> <
 "===============================================================================
 " Autocommands
 "===============================================================================
-
 function! CursorPing()
   set cursorline cursorcolumn
   redraw
@@ -883,7 +900,6 @@ endfunction
 "===============================================================================
 " NERDTree
 "===============================================================================
-
 let NERDTreeShowBookmarks=1
 let NERDTreeShowHidden=1
 let NERDTreeIgnore=['\~$', '\.swp$', '\.git', '\.hg', '\.svn', '\.bzr', '\.pyc', '__pycache__', '\.cache', '\.idea']
@@ -892,27 +908,35 @@ autocmd MyAutoCmd bufenter * if (winnr("$") == 1 && exists("b:NERDTree") && b:NE
 "===============================================================================
 " NERDCommenter
 "===============================================================================
+" Add spaces after comment delimiters by default
+let g:NERDSpaceDelims = 1
 
-" Always leave a space between the comment character and the comment
-let NERDSpaceDelims=1
+" Use compact syntax for prettified multi-line comments
+let g:NERDCompactSexyComs = 1
+
+" Align line-wise comment delimiters flush left instead of following code indentation
+let g:NERDDefaultAlign = 'left'
+
+" Allow commenting and inverting empty lines (useful when commenting a region)
+let g:NERDCommentEmptyLines = 1
+
+" Enable trimming of trailing whitespace when uncommenting
+let g:NERDTrimTrailingWhitespace = 1
 
 "===============================================================================
 " Syntastic
 "===============================================================================
-
-" Syntastic settings
-let g:syntastic_mode_map = { 'mode': 'active',
-      \ 'active_filetypes': ['ruby', 'python', 'javascript', 'sh', 'html'],
-      \ 'passive_filetypes': ['puppet'] }
-
-let g:syntastic_html_tidy_ignore_errors=['proprietary attribute "ng-']
-let g:syntastic_python_flake8_args='--ignore=E111,E501,E128,E121,E203,E114'
-let g:syntastic_always_populate_loc_list = 1
+" let g:syntastic_mode_map = { 'mode': 'active',
+"       \ 'active_filetypes': ['ruby', 'python', 'javascript', 'sh', 'html'],
+"       \ 'passive_filetypes': ['puppet'] }
+"
+" let g:syntastic_html_tidy_ignore_errors=['proprietary attribute "ng-']
+" let g:syntastic_python_flake8_args='--ignore=E111,E501,E128,E121,E203,E114'
+" let g:syntastic_always_populate_loc_list = 1
 
 "===============================================================================
 " Fugitive
 "===============================================================================
-
 nnoremap <Leader>gb :Gblame<cr>
 nnoremap <Leader>gc :Gcommit<cr>
 nnoremap <Leader>gd :Gdiff<cr>
@@ -922,187 +946,6 @@ nnoremap <Leader>gs :Gstatus<cr>
 nnoremap <Leader>gw :Gwrite<cr>
 " Quickly stage, commit, and push the current file. Useful for editing .vimrc
 nnoremap <Leader>gg :Gwrite<cr>:Gcommit -m 'update'<cr>:Git push<cr>
-
-"===============================================================================
-" Unite
-"===============================================================================
-" TODO Slowly phase out unite and replace by fzf
-" Use the fuzzy matcher for everything
-" call unite#filters#matcher_default#use(['matcher_fuzzy'])
-" Use the rank sorter for everything
-" call unite#filters#sorter_default#use(['sorter_rank'])
-
-" Set up some custom ignores
-" call unite#custom_source('file_rec,file_rec/async,file_mru,file,buffer,grep',
-      " \ 'ignore_pattern', join([
-      " \ '\.git/',
-      " \ 'git5/.*/review/',
-      " \ 'google/obj/',
-      " \ 'tmp/',
-      " \ '.sass-cache',
-      " \ 'node_modules/',
-      " \ 'bower_components/',
-      " \ 'dist/',
-      " \ '.git5_specs/',
-      " \ '.pyc',
-      " \ 'build/',
-      " \ ], '\|'))
-
-" Map space to the prefix for Unite
-nnoremap [unite] <Nop>
-" nmap <space> [unite]
-
-" General fuzzy search
-nnoremap <silent> [unite]<space> :<C-u>Unite
-      \ -buffer-name=files buffer file_mru bookmark file_rec/async<CR>
-
-" Quick registers
-nnoremap <silent> [unite]r :<C-u>Unite -buffer-name=register register<CR>
-
-nnoremap <silent> [unite]u :<C-u>Unite -buffer-name=buffers file_mru buffer<CR>
-" Quick buffer and mru
-
-" Quick yank history
-nnoremap <silent> [unite]y :<C-u>Unite -buffer-name=yanks history/yank<CR>
-
-" Quick outline
-nnoremap <silent> [unite]o :<C-u>Unite -buffer-name=outline -vertical outline<CR>
-
-" Quick sessions (projects)
-nnoremap <silent> [unite]p :<C-u>Unite -buffer-name=sessions session<CR>
-
-" Quick sources
-nnoremap <silent> [unite]a :<C-u>Unite -buffer-name=sources source<CR>
-
-" Quick snippet
-nnoremap <silent> [unite]s :<C-u>Unite -buffer-name=snippets ultisnips<CR>
-
-" Quickly switch lcd
-nnoremap <silent> [unite]d
-      \ :<C-u>Unite -buffer-name=change-cwd -default-action=cd directory_mru directory_rec/async<CR>
-
-" Quick file search
-nnoremap <silent> [unite]f :<C-u>Unite -buffer-name=files file_rec/async file/new<CR>
-
-" Quick grep from cwd
-nnoremap <silent> [unite]g :<C-u>Unite -buffer-name=grep grep:.<CR>
-
-" Quick help
-nnoremap <silent> [unite]h :<C-u>Unite -buffer-name=help help<CR>
-
-" Quick line using the word under cursor
-" nnoremap <silent> [unite]l :<C-u>UniteWithCursorWord -buffer-name=search_file line<CR>
-
-" Quick line
-nnoremap <silent> [unite]l :<C-u>Unite -buffer-name=search_file line<CR>
-
-" Quick MRU search
-nnoremap <silent> [unite]m :<C-u>Unite -buffer-name=mru file_mru<CR>
-
-" Quick find
-nnoremap <silent> [unite]n :<C-u>Unite -buffer-name=find find:.<CR>
-
-" Quick commands
-nnoremap <silent> [unite]c :<C-u>Unite -buffer-name=commands command<CR>
-
-" Quick bookmarks
-nnoremap <silent> [unite]b :<C-u>Unite -buffer-name=bookmarks bookmark<CR>
-
-" Fuzzy search from current buffer
-" nnoremap <silent> [unite]b :<C-u>UniteWithBufferDir
-" \ -buffer-name=files -prompt=%\  buffer file_mru bookmark file<CR>
-
-" Quick commands
-nnoremap <silent> [unite]; :<C-u>Unite -buffer-name=history -default-action=edit history/command command<CR>
-
-" Custom Unite settings
-autocmd MyAutoCmd FileType unite call s:unite_settings()
-function! s:unite_settings()
-  " nmap <buffer> <ESC> <Plug>(unite_exit)
-  nmap <buffer> <ESC> <Plug>(unite_insert_enter)
-  imap <buffer> <ESC> <Plug>(unite_exit)
-  " imap <buffer> <c-j> <Plug>(unite_select_next_line)
-  imap <buffer> <c-j> <Plug>(unite_insert_leave)
-  nmap <buffer> <c-j> <Plug>(unite_loop_cursor_down)
-  nmap <buffer> <c-k> <Plug>(unite_loop_cursor_up)
-  nmap <buffer> <tab> <Plug>(unite_loop_cursor_down)
-  nmap <buffer> <s-tab> <Plug>(unite_loop_cursor_up)
-  imap <buffer> <c-a> <Plug>(unite_choose_action)
-  imap <buffer> <Tab> <Plug>(unite_insert_leave)
-  imap <buffer> jj <Plug>(unite_insert_leave)
-  imap <buffer> <C-w> <Plug>(unite_delete_backward_word)
-  imap <buffer> <C-u> <Plug>(unite_delete_backward_path)
-  imap <buffer> '     <Plug>(unite_quick_match_default_action)
-  nmap <buffer> '     <Plug>(unite_quick_match_default_action)
-  nmap <buffer> <C-r> <Plug>(unite_redraw)
-  imap <buffer> <C-r> <Plug>(unite_redraw)
-  inoremap <silent><buffer><expr> <C-s> unite#do_action('split')
-  nnoremap <silent><buffer><expr> <C-s> unite#do_action('split')
-  inoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-  nnoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-
-  let unite = unite#get_current_unite()
-  if unite.buffer_name =~# '^search'
-    nnoremap <silent><buffer><expr> r     unite#do_action('replace')
-  else
-    nnoremap <silent><buffer><expr> r     unite#do_action('rename')
-  endif
-
-  nnoremap <silent><buffer><expr> cd     unite#do_action('lcd')
-
-  " Using Ctrl-\ to trigger outline, so close it using the same keystroke
-  if unite.buffer_name =~# '^outline'
-    imap <buffer> <C-\> <Plug>(unite_exit)
-  endif
-
-  " Using Ctrl-/ to trigger line, close it using same keystroke
-  if unite.buffer_name =~# '^search_file'
-    imap <buffer> <C-_> <Plug>(unite_exit)
-  endif
-endfunction
-
-" Start in insert mode
-let g:unite_enable_start_insert = 1
-
-let g:unite_data_directory = "~/.unite"
-
-" Enable short source name in window
-" let g:unite_enable_short_source_names = 1
-
-" Enable history yank source
-" let g:unite_source_history_yank_enable = 1
-
-" Open in bottom right
-let g:unite_split_rule = "botright"
-
-" Shorten the default update date of 500ms
-let g:unite_update_time = 200
-
-let g:unite_source_file_mru_limit = 1000
-let g:unite_cursor_line_highlight = 'TabLineSel'
-" let g:unite_abbr_highlight = 'TabLine'
-
-let g:unite_source_file_mru_filename_format = ':~:.'
-let g:unite_source_file_mru_time_format = ''
-
-" For ack.
-if executable('ack-grep')
-  let g:unite_source_grep_command = 'ack-grep'
-  let g:unite_source_grep_default_opts = '-i --no-heading --no-color -a -H'
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('ack')
-  let g:unite_source_grep_command = 'ack'
-  let g:unite_source_grep_default_opts = '-i --no-heading --no-color -a -H'
-  let g:unite_source_grep_recursive_opt = ''
-elseif executable('ag')
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_opts =
-        \ '-i --vimgrep --hidden --ignore ' .
-        \ '''.hg'' --ignore ''.svn'' --ignore ''.git'' --ignore ''.bzr'''
-  let g:unite_source_grep_recursive_opt = ''
-endif
-
-let g:unite_source_rec_max_cache_files = 99999
 
 "===============================================================================
 " QuickRun
@@ -1156,7 +999,6 @@ endfunction
 "===============================================================================
 " Go
 "===============================================================================
-
 autocmd MyAutoCmd FileType go
       \ setlocal nolist |
       \ setlocal softtabstop=8 |
@@ -1167,21 +1009,15 @@ autocmd MyAutoCmd FileType go
 "===============================================================================
 " Python
 "===============================================================================
-
 autocmd MyAutoCmd FileType python
-      \ setlocal softtabstop=2 |
-      \ setlocal shiftwidth=2 |
-      \ setlocal tabstop=2 |
-      \ setlocal textwidth=120
+      \ setlocal softtabstop=4 |
+      \ setlocal shiftwidth=4 |
+      \ setlocal tabstop=4 |
+      \ setlocal textwidth=140
 
 "===============================================================================
 " Expand Region
 "===============================================================================
-
-" This option currently isn't working :( Neosnippet is unmappion my
-" select mode mappings, so if I switch buffer and come back, the mappings no
-" longer work. Not sure how to solve that
-" let g:expand_region_use_select_mode = 1
 let g:expand_region_use_select_mode = 0
 
 " Extend the global dictionary
@@ -1207,48 +1043,21 @@ call expand_region#custom_text_objects('html', {
 "===============================================================================
 " YCM
 "===============================================================================
-
-let g:ycm_confirm_extra_conf = 0
-let g:EclimCompletionMethod = 'omnifunc'
-let g:ycm_filetype_blacklist = {
-      \ 'notes' : 1,
-      \ 'markdown' : 1,
-      \ 'text' : 1,
-      \ 'unite' : 1
-      \}
-
-"===============================================================================
-" UltiSnips
-"===============================================================================
-let g:UltiSnipsExpandTrigger="<tab>"
-let g:UltiSnipsJumpForwardTrigger="<tab>"
-let g:UltiSnipsJumpBackwardTrigger="<s-tab>"
-
-" Make UltiSnips works nicely with YCM
-function! g:UltiSnips_Complete()
-  call UltiSnips#ExpandSnippet()
-  if g:ulti_expand_res == 0
-    if pumvisible()
-      return "\<C-n>"
-    else
-      call UltiSnips#JumpForwards()
-      if g:ulti_jump_forwards_res == 0
-        return "\<TAB>"
-      endif
-    endif
-  endif
-  return ""
-endfunction
-
-au BufEnter * exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>"
+" let g:ycm_confirm_extra_conf = 0
+" let g:EclimCompletionMethod = 'omnifunc'
+" let g:ycm_filetype_blacklist = {
+"       \ 'notes' : 1,
+"       \ 'markdown' : 1,
+"       \ 'text' : 1,
+"       \ 'unite' : 1
+"       \}
 
 "===============================================================================
 " Airline
 "===============================================================================
-
-let g:airline_powerline_fonts = 1
-let g:airline_extensions = ['branch', 'quickfix', 'syntastic']
-let g:airline_section_c = airline#section#create_left(['%{getcwd()}', 'file'])
+" let g:airline_powerline_fonts = 1
+" let g:airline_extensions = ['branch', 'quickfix']
+" let g:airline_section_c = airline#section#create_left(['%{getcwd()}', 'file'])
 
 "===============================================================================
 " vim-autoformat
@@ -1257,12 +1066,22 @@ let g:formatters_python = ['yapf']
 let g:formatdef_yapf = '"yapf --style=''{based_on_style:pep8,indent_width:".&shiftwidth."}'' -l ".a:firstline."-".a:lastline'
 
 "===============================================================================
+" Neoformat
+"==============================================================================
+let g:neoformat_enabled_python = ['autopep8']
+let g:neoformat_python_autopep8 = {
+            \ 'exe': 'autopep8',
+            \ 'args': ['-', '--indent-size 4', '--max-line-length 140'],
+            \ 'stdin': 1,
+            \ }
+
+"===============================================================================
 " EasyMotion
 "===============================================================================
-let g:EasyMotion_do_mapping = 0 " Disable default mappings
-nmap s <Plug>(easymotion-overwin-f2)
-" Turn on case insensitive feature
-let g:EasyMotion_smartcase = 1
+" let g:EasyMotion_do_mapping = 0 " Disable default mappings
+" nmap s <Plug>(easymotion-overwin-f2)
+" " Turn on case insensitive feature
+" let g:EasyMotion_smartcase = 1
 
 "===============================================================================
 " AutoPair
@@ -1274,6 +1093,20 @@ let g:AutoPairsMapCh = 0
 "===============================================================================
 let g:vimwiki_list = [{'path': '~/gdrive/Notes/vimwiki/', 'path_html': '~/gdrive/Notes/vimwiki_html/'}]
 let g:vimwiki_table_mappings = 0
+nmap <Leader>wk <Plug>VimwikiDiaryPrevDay
+nmap <Leader>wj <Plug>VimwikiDiaryNextDay
+
+
+"===============================================================================
+" Gist
+"===============================================================================
+let g:gist_post_private = 1
+
+"===============================================================================
+" FZF
+"===============================================================================
+let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+" let $FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 "===============================================================================
 " My functions
@@ -1310,16 +1143,3 @@ function! s:Filter_lines(cmd, filter)
   0
 endfunction
 command! -nargs=? Scriptnames call s:Filter_lines('scriptnames', <q-args>)
-
-" Load YouCompleteMe and UltiSnips lazily
-" https://github.com/junegunn/vim-plug/wiki/faq#loading-plugins-manually
-augroup load_us_ycm
-  autocmd!
-  autocmd InsertEnter * call plug#load('ultisnips', 'YouCompleteMe') |
-        \ if !exists('g:youcompleteme_loaded') |
-        \   call youcompleteme#Enable()       |
-        \   let g:youcompleteme_loaded = 1 |
-        \ endif |
-        \ exec "inoremap <silent> " . g:UltiSnipsExpandTrigger . " <C-R>=g:UltiSnips_Complete()<cr>" |
-        \ autocmd! load_us_ycm
-augroup END

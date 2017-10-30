@@ -17,11 +17,13 @@ font:
   # The normal (roman) font face to use.
   normal:
     # family: "Source Code Pro"
-    family: "Hack"
+    # family: "Hack"
+    family: "Iosevka"
+    # family: "Input Mono"
     # family: "Droid Sans Mono Slashed for Powerline"
     # family: "Menlo"
     # Style can be specified to pick a specific face.
-    # style: Regular
+    # style: "weight=Regular"
 
   # The bold font face
   bold:
@@ -36,7 +38,7 @@ font:
     # style: Italic
 
   # Point size of the font
-  size: 12.0
+  size: 14.0
   # Offset is the extra space around each character. offset.y can be thought of
   # as modifying the linespacing, and offset.x as modifying the letter spacing.
   offset:
@@ -80,6 +82,9 @@ colors:
     cyan:    '0x54ced6'
     white:   '0x2a2a2a'
 
+visual_bell:
+  animation: EaseOutExpo
+  duration: 0
 # Colors (Solarized Dark)
 # colors:
 #   # Default colors
@@ -182,6 +187,9 @@ key_bindings:
   - { key: Delete,                  chars: "\x1b[3~",  mode: AppKeypad   }
   - { key: Delete,                  chars: "\x1b[P",   mode: ~AppKeypad  }
   - { key: A,        mods: Alt,     chars: "\x1ba"                       }
+  - { key: S,        mods: Alt,     chars: "\x1bs"                       }
+  - { key: W,        mods: Alt,     chars: "\x1bw"                       }
+  - { key: W,        mods: Command, chars: "\x1bw"                       }
   - { key: C,        mods: Alt,     chars: "\x1bc"                       }
   - { key: F,        mods: Alt,     chars: "\x1bf"                       }
   - { key: J,        mods: Alt,     chars: "\x1bj"                       }
@@ -191,6 +199,8 @@ key_bindings:
   - { key: M,        mods: Alt,     chars: "\x1bm"                       }
   - { key: N,        mods: Alt,     chars: "\x1bn"                       }
   - { key: R,        mods: Alt,     chars: "\x1br"                       }
+  - { key: P,        mods: Alt,     chars: "\x1bp"                       }
+  - { key: T,        mods: Alt,     chars: "\x1bt"                       }
   - { key: Backslash,        mods: Alt,     chars: "\x1b\\"              }
   - { key: Minus,        mods: Alt,     chars: "\x1b-"              }
   - { key: Space,    mods: Control, chars: "\x00"                        }

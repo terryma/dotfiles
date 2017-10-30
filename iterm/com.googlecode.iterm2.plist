@@ -19,11 +19,13 @@
 	<key>HotKeyTogglesWindow</key>
 	<true/>
 	<key>Hotkey</key>
-	<true/>
+	<false/>
 	<key>HotkeyChar</key>
-	<integer>32</integer>
+	<integer>0</integer>
 	<key>HotkeyCode</key>
-	<integer>49</integer>
+	<integer>0</integer>
+	<key>HotkeyMigratedFromSingleToMulti</key>
+	<true/>
 	<key>HotkeyModifiers</key>
 	<integer>524288</integer>
 	<key>LoadPrefsFromCustomFolder</key>
@@ -71,19 +73,19 @@
 		<integer>1</integer>
 	</dict>
 	<key>NSWindow Frame NSFontPanel</key>
-	<string>628 144 1097 177 0 0 1920 1177 </string>
+	<string>527 156 1097 561 0 0 1680 1027 </string>
 	<key>NSWindow Frame Preferences</key>
 	<string>269 139 606 456 0 0 1920 1057 </string>
 	<key>NSWindow Frame SUUpdateAlert</key>
 	<string>650 499 620 392 0 0 1920 1057 </string>
 	<key>NSWindow Frame SharedPreferences</key>
-	<string>763 388 918 381 0 0 1920 1177 </string>
+	<string>-878 -469 918 495 0 0 1680 1027 </string>
 	<key>NSWindow Frame UKCrashReporter</key>
 	<string>155 473 592 584 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 0</key>
-	<string>0 798 1920 379 0 0 1920 1177 </string>
+	<string>0 -386 3440 1413 0 0 1920 1057 </string>
 	<key>NSWindow Frame iTerm Window 1</key>
-	<string>365 180 585 379 0 0 2560 1417 </string>
+	<string>527 129 505 429 0 0 3440 1417 </string>
 	<key>NeverWarnAboutShortLivedSessions_481D5DCE-0286-467D-840E-C31D5849E02F</key>
 	<true/>
 	<key>NeverWarnAboutShortLivedSessions_481D5DCE-0286-467D-840E-C31D5849E02F_selection</key>
@@ -617,7 +619,7 @@
 			<key>Non-ASCII Anti Aliased</key>
 			<true/>
 			<key>Normal Font</key>
-			<string>DroidSansMonoSlashedForPowerline 12</string>
+			<string>Iosevka 12</string>
 			<key>Option Key Sends</key>
 			<integer>2</integer>
 			<key>Prompt Before Closing 2</key>
@@ -1500,8 +1502,28 @@
 			</dict>
 			<key>Guid</key>
 			<string>80E489A7-A5DA-4CD2-8E9C-07B273B0309D</string>
+			<key>Has Hotkey</key>
+			<true/>
 			<key>Horizontal Spacing</key>
 			<real>1</real>
+			<key>HotKey Characters</key>
+			<string> </string>
+			<key>HotKey Characters Ignoring Modifiers</key>
+			<string> </string>
+			<key>HotKey Key Code</key>
+			<integer>49</integer>
+			<key>HotKey Modifier Flags</key>
+			<integer>524288</integer>
+			<key>HotKey Window Animates</key>
+			<true/>
+			<key>HotKey Window AutoHides</key>
+			<true/>
+			<key>HotKey Window Dock Click Action</key>
+			<integer>0</integer>
+			<key>HotKey Window Floats</key>
+			<false/>
+			<key>HotKey Window Reopens On Activation</key>
+			<false/>
 			<key>Idle Code</key>
 			<integer>0</integer>
 			<key>Jobs to Ignore</key>
@@ -1879,7 +1901,7 @@
 	<key>NoSyncInstallationId</key>
 	<string>B49AB66B-6175-41A4-A0B2-C77C2331EDB1</string>
 	<key>NoSyncLastTipTime</key>
-	<real>503616575.75646597</real>
+	<real>528365514.25192302</real>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile</key>
 	<true/>
 	<key>NoSyncNeverRemindPrefsChangesLostForFile_selection</key>
@@ -1961,6 +1983,7 @@
 		<string>0063</string>
 		<string>0064</string>
 		<string>0065</string>
+		<string>0066</string>
 	</array>
 	<key>OpenTmuxWindowsIn</key>
 	<integer>1</integer>
@@ -2014,7 +2037,7 @@
 	<key>SUHasLaunchedBefore</key>
 	<true/>
 	<key>SULastCheckTime</key>
-	<date>2017-01-09T03:21:54Z</date>
+	<date>2017-09-29T08:11:53Z</date>
 	<key>SUSendProfileInfo</key>
 	<false/>
 	<key>TabStyle</key>
@@ -2026,7 +2049,7 @@
 	<key>WordCharacters</key>
 	<string>/-+\~_.</string>
 	<key>iTerm Version</key>
-	<string>3.0.12</string>
+	<string>3.1.1</string>
 	<key>kCPKSelectionViewPreferredModeKey</key>
 	<integer>0</integer>
 	<key>kCPKSelectionViewShowHSBTextFieldsKey</key>

@@ -15,8 +15,10 @@ DISABLE_AUTO_UPDATE=true
 DISABLE_AUTO_TITLE=true
 COMPLETION_WAITING_DOTS=true
 DEFAULT_USER=$USER
-plugins=(git brew osx zsh-syntax-highlighting history docker docker-compose)
-source $ZSH/oh-my-zsh.sh
+# plugins=(git brew osx zsh-syntax-highlighting history docker docker-compose)
+# source $ZSH/oh-my-zsh.sh
+# source $ZSH/plugins/git/git.plugin.zsh
+source $ZSH/lib/history.zsh
 
 ################################################################################
 # General
@@ -30,6 +32,9 @@ unsetopt correct_all
 
 # Don't save duplicated entries into history
 setopt hist_ignore_all_dups
+
+# Auto cd to directory
+setopt auto_cd
 
 # Export TERM correctly for tmux
 [[ $TERM == "screen" ]] && export TERM=screen-256color
@@ -53,8 +58,8 @@ path=(
   ~/.dotfiles/bin
   ~/.rbenv/bin
   ~/.cargo/bin
-  ~/Library/Python/2.7/bin
   ~/code/dev-ops-tools/bin
+  /usr/local/opt/python/libexec/bin
   /usr/local/bin
   $path
 )
@@ -78,6 +83,8 @@ export LC_ALL="en_US.UTF-8"
 ################################################################################
 
 # Git
+alias ga='git add'
+alias gca='git commit -v -a'
 alias gd='git difftool'
 alias gbs='git branches'
 alias gbed='git branch --edit-description'
@@ -89,8 +96,14 @@ alias gg="git log --graph --pretty=oneline --format='format:%C(yellow)%h%C(reset
 alias gs='git --no-pager show --stat --oneline'
 alias gam='git commit -a --amend --no-edit'
 alias grm='git rebase master'
-alias gRm='git reset --hard origin/master'
+alias gp='git push'
+alias gco='git checkout'
+alias gRm='gco master && gup && gco - && git reset --hard origin/master'
 alias gpp="gca -m 'Update' && gp"
+alias gpr="git pull-request"
+alias gsp="git stash pop"
+alias gst='git status'
+alias gup='git pull --rebase'
 alias git=hub
 
 # ssh
@@ -102,10 +115,18 @@ sshlb-staging() { ssh ec2-user@`AWS_PROFILE=dev get-instances-in-lb $1 | head -1
 alias dcp='docker-compose'
 dr() { dcp restart $1 && dcp logs -f --tail=100 $1 }
 
+# Terraform
+alias tp='terraform plan'
+alias ta='terraform apply'
+alias ti='terraform init'
+
 # Random
-alias v='vim $(fzf)'
+alias ls='ls -G'
+alias ll='ls -l'
 alias q='exit'
 mkdircd () { mkdir -p "$@" && cd "$@"; }
+
+alias pgcli='PAGER=cat pgcli'
 
 ################################################################################
 # Ruby
@@ -117,12 +138,12 @@ if which rbenv > /dev/null; then eval "$(rbenv init - --no-rehash)"; fi
 # fasd
 ################################################################################
 # eval "$(fasd --init posix-alias zsh-hook)"
-# fasd_cache="$HOME/.fasd-init-bash"
-# if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
-  # fasd --init posix-alias zsh-{hook,ccomp,ccomp-install,wcomp,wcomp-install} >| "$fasd_cache"
-# fi
-# source "$fasd_cache"
-# unset fasd_cache
+fasd_cache="$HOME/.fasd-init-bash"
+if [ "$(command -v fasd)" -nt "$fasd_cache" -o ! -s "$fasd_cache" ]; then
+  fasd --init posix-alias zsh-{hook,ccomp,ccomp-install,wcomp,wcomp-install} >| "$fasd_cache"
+fi
+source "$fasd_cache"
+unset fasd_cache
 
 ################################################################################
 # ZLE Widgets
@@ -194,6 +215,7 @@ case "$TERM" in
     # Ctrl-r: FZF history search
     # Ctrl-t: FZF file search
     # Ctrl-y: TODO
+    # bindkey '^y' ff
     # Ctrl-u: Deletes everything before cursor (u is on left)
     bindkey '^u' backward-kill-line
     # Ctrl-i: Same as tab
@@ -274,9 +296,19 @@ c() {
 function fj() {
   local dir
   dir=$(fasd -Rdl | fzf --no-sort +m) && cd "$dir"
+  prompt_pure_preprompt_render
   zle reset-prompt
 }
 zle -N fj
+
+# v - recent files with fasd
+function v() {
+  local file
+  file="$(fasd -Rfl "$1" | fzf -1 -0 --no-sort +m)"
+  # prompt_pure_preprompt_render
+  # zle reset-prompt
+  vim "${file}"
+}
 
 # fs [FUZZY PATTERN] - Select selected tmux session
 #   - Bypass fuzzy finder if there's only one match (--select-1)
@@ -289,4 +321,4 @@ fs() {
 }
 zle -N fs
 
-# test -e "${HOME}/.iterm2_shell_integration.zsh" && source "${HOME}/.iterm2_shell_integration.zsh"
+# eval "$(pyenv init -)"

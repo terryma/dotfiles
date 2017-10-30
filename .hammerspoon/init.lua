@@ -50,9 +50,9 @@ k:bind({}, 'f', nil, function()
     k.triggered = true
 end)
 
--- Hyper+t: Focus or launch Alacritty
-k:bind({}, 't', nil, function()
-  local name = 'alacritty'
+-- Hyper+a: Focus or launch Alacritty
+k:bind({}, 'a', nil, function()
+  local name = 'Alacritty'
   local app = hs.application.get(name)
   if app then
     app:activate()
@@ -65,6 +65,18 @@ end)
 -- Hyper+c: Focus or launch Chrome
 k:bind({}, 'c', nil, function()
   local name = 'Google Chrome'
+  local app = hs.application.get(name)
+  if app then
+    app:activate()
+  else
+    hs.application.open(name)
+  end
+  k.triggered = true
+end)
+
+-- Hyper+c: Focus or launch Trello
+k:bind({}, 't', nil, function()
+  local name = 'Trello'
   local app = hs.application.get(name)
   if app then
     app:activate()
