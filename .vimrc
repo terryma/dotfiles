@@ -37,7 +37,8 @@ Plug 'Chiel92/vim-autoformat'
 Plug 'sbdchd/neoformat'
 Plug 'hynek/vim-python-pep8-indent'
 Plug 'fisadev/vim-isort'
-" Plug 'w0rp/ale'
+Plug 'w0rp/ale'
+Plug 'https://github.com/w0rp/ale.git'
 
 
 " Shell
@@ -82,7 +83,7 @@ Plug 'terryma/vim-smooth-scroll'
 Plug 'terryma/vim-multiple-cursors'
 Plug 'hashivim/vim-terraform'
 " Plug 'jiangmiao/auto-pairs'
-Plug 'vimwiki/vimwiki'
+Plug 'vimwiki/vimwiki', { 'branch': 'dev' }
 Plug 'metakirby5/codi.vim'
 Plug 'junegunn/vim-peekaboo'
 Plug 'junegunn/goyo.vim'
@@ -458,6 +459,9 @@ nnoremap <bs> :set hlsearch! hlsearch?<cr>
 
 " Tab: Same as <Ctrl-i> on the command line
 
+" Space: Scratch
+nnoremap <space> :Scratch<CR>
+
 "===============================================================================
 " Normal Mode Shift Key Mappings
 "===============================================================================
@@ -466,7 +470,7 @@ nnoremap <bs> :set hlsearch! hlsearch?<cr>
 nnoremap <silent> <S-Tab> :NERDTreeToggle<CR>
 
 " Shift-q: Closes the window
-nnoremap Q :q<cr>
+nnoremap Q :q!<cr>
 
 " Shift-w: Move to start of next word
 
@@ -588,7 +592,6 @@ nnoremap <c-p> :History<CR>
 " Ctrl-]: Go forward in tag stack
 
 " Ctrl-\: Quick outline
-" nmap <silent> <c-\> [unite]o
 nmap <silent> <c-\> :BTags<CR>
 
 " Ctrl-a: All buffers
@@ -649,8 +652,7 @@ nnoremap <c-b> :YcmCompleter GoTo<CR>
 
 " Ctrl-.: Vim can't map this
 
-" Ctrl-/: A more powerful '/'
-" nmap <c-_> [unite]l
+" Ctrl-/: Vim can't map this
 
 " Ctrl-Space: FZF files
 nnoremap <NUL> :Files<CR>
@@ -933,6 +935,14 @@ let g:NERDTrimTrailingWhitespace = 1
 " let g:syntastic_html_tidy_ignore_errors=['proprietary attribute "ng-']
 " let g:syntastic_python_flake8_args='--ignore=E111,E501,E128,E121,E203,E114'
 " let g:syntastic_always_populate_loc_list = 1
+
+"===============================================================================
+" ALE
+"===============================================================================
+let g:ale_linters = {
+\   'javascript': ['eslint'],
+\   'python': ['flake8'],
+\}
 
 "===============================================================================
 " Fugitive

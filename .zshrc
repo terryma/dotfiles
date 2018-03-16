@@ -119,11 +119,12 @@ dr() { dcp restart $1 && dcp logs -f --tail=100 $1 }
 alias tp='terraform plan'
 alias ta='terraform apply'
 alias ti='terraform init'
+alias tf='terraform'
 
 # Random
 alias ls='ls -G'
 alias ll='ls -l'
-alias q='exit'
+alias q='tmux kill-pane'
 mkdircd () { mkdir -p "$@" && cd "$@"; }
 
 alias pgcli='PAGER=cat pgcli'

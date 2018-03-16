@@ -86,6 +86,19 @@ k:bind({}, 't', nil, function()
   k.triggered = true
 end)
 
+-- Hyper+s: Focus or launch Slack
+k:bind({}, 's', nil, function()
+  local name = 'Slack'
+  local app = hs.application.get(name)
+  if app then
+    app:activate()
+  else
+    hs.application.open(name)
+  end
+  k.triggered = true
+end)
+
+
 -- Hyper+delete: Screensaver
 k:bind({}, 'delete', nil, function()
   hs.caffeinate.startScreensaver()
