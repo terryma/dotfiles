@@ -9,10 +9,6 @@ Plug 'Shougo/vimproc.vim', { 'do': 'make' }
 " Fuzzy search
 Plug 'junegunn/fzf', { 'dir': '~/.fzf', 'do': './install --all' }
 Plug 'junegunn/fzf.vim'
-" Plug 'Shougo/unite.vim'
-" Plug 'Shougo/unite-outline'
-" Plug 'thinca/vim-unite-history'
-" Plug 'Shougo/neomru.vim'
 
 " Code completion
 " Plug 'Valloric/YouCompleteMe', { 'on': [] }
@@ -32,14 +28,11 @@ Plug 'scrooloose/nerdtree', { 'on': 'NERDTreeToggle' }
 Plug 'ton/vim-bufsurf'
 
 " Syntax checker
-" Plug 'scrooloose/syntastic'
 Plug 'Chiel92/vim-autoformat'
 Plug 'sbdchd/neoformat'
 Plug 'hynek/vim-python-pep8-indent'
 Plug 'fisadev/vim-isort'
 Plug 'w0rp/ale'
-Plug 'https://github.com/w0rp/ale.git'
-
 
 " Shell
 Plug 'thinca/vim-quickrun'
@@ -67,9 +60,6 @@ Plug 'terryma/vim-expand-region'
 " Tags
 " Plug 'xolox/vim-misc'
 " Plug 'xolox/vim-easytags'
-
-" Status line
-" Plug 'bling/vim-airline'
 
 " Color themems
 Plug 'junegunn/seoul256.vim'
@@ -277,7 +267,6 @@ endif
 
 " Use a low updatetime. This is used by CursorHold
 set updatetime=1000
-
 " I like my word boundary to be a little bigger than the default
 " FIXME Apparently this affects html indenting. Figure out what the problem is
 " set iskeyword+=<,>,[,],:,-,`,!
@@ -299,10 +288,6 @@ set diffopt=filler,vertical
 
 " Disable viminfo, causes startup and shutdown to take longer
 set viminfo='10,<0,s0,h,/100,:100,@0
-
-"===============================================================================
-" Function Key Mappings
-"===============================================================================
 
 "===============================================================================
 " Leader Key Mappings
@@ -546,6 +531,7 @@ nnoremap <silent> X :BufSurfForward<CR>
 nnoremap N Nzzzv
 
 " Shift-m: Move cursor to mid screen (TODO Remap since I don't ever use this)
+nmap <silent> M <Plug>(ale_next_wrap)
 
 " <: Indent left
 
@@ -565,10 +551,9 @@ nnoremap - <c-x>
 
 " Ctrl-w: Window management
 
-" Ctrl-e: YCM Show doc
-nnoremap <c-e> :YcmCompleter GetDoc<CR>
+" Ctrl-e: TODO
 
-" Ctrl-r: Vim-repeat maps this
+" Ctrl-r: Show command history
 nmap <c-r> :History:<CR>
 
 " Ctrl-t: Go to opposite tag
@@ -635,14 +620,14 @@ inoremap <c-l> <c-o>W
 " wasting 4 very easy to hit keys for them.
 nnoremap <c-x> <c-w>w
 
-" Ctrl-c: (C)hange (c)urrent directory
-" nmap <c-c> [unite]d
+" Ctrl-c: FZF commands
+nnoremap <c-c> :Commands<CR>
 
 " Ctrl-v: Paste (works with system clipboard due to clipboard setting earlier)
 nnoremap <c-v> p
 
-" Ctrl-b: Go to def
-nnoremap <c-b> :YcmCompleter GoTo<CR>
+" Ctrl-b: Go to tag
+nnoremap <c-b> <c-]>
 
 " Ctrl-n: Next cursor in MultiCursor mode
 
@@ -770,7 +755,7 @@ endw
 nnoremap <silent> <A-a> :keepjumps normal ggVG<CR>
 
 " Alt-s: isort and format
-nnoremap <silent> <A-s> :Isort<CR>:Neoformat autopep8<CR>
+nnoremap <silent> <A-s> :Isort<CR>:Neoformat<CR>
 
 " Alt-h: tmux
 
@@ -793,9 +778,6 @@ nnoremap <A-o> g;
 
 " Alt-i: Jump forward in the changelist
 nnoremap <A-i> g,
-
-" Alt-b: Git Blame
-nnoremap <silent> <A-b> :Gblame<CR>
 
 " Alt-n: tmux
 
@@ -926,23 +908,14 @@ let g:NERDCommentEmptyLines = 1
 let g:NERDTrimTrailingWhitespace = 1
 
 "===============================================================================
-" Syntastic
-"===============================================================================
-" let g:syntastic_mode_map = { 'mode': 'active',
-"       \ 'active_filetypes': ['ruby', 'python', 'javascript', 'sh', 'html'],
-"       \ 'passive_filetypes': ['puppet'] }
-"
-" let g:syntastic_html_tidy_ignore_errors=['proprietary attribute "ng-']
-" let g:syntastic_python_flake8_args='--ignore=E111,E501,E128,E121,E203,E114'
-" let g:syntastic_always_populate_loc_list = 1
-
-"===============================================================================
 " ALE
 "===============================================================================
 let g:ale_linters = {
 \   'javascript': ['eslint'],
 \   'python': ['flake8'],
 \}
+let g:ale_python_flake8_executable = 'python'
+let g:ale_python_flake8_options = '-m flake8 --ignore=E501'
 
 "===============================================================================
 " Fugitive
@@ -1059,15 +1032,7 @@ call expand_region#custom_text_objects('html', {
 "       \ 'notes' : 1,
 "       \ 'markdown' : 1,
 "       \ 'text' : 1,
-"       \ 'unite' : 1
 "       \}
-
-"===============================================================================
-" Airline
-"===============================================================================
-" let g:airline_powerline_fonts = 1
-" let g:airline_extensions = ['branch', 'quickfix']
-" let g:airline_section_c = airline#section#create_left(['%{getcwd()}', 'file'])
 
 "===============================================================================
 " vim-autoformat
@@ -1078,7 +1043,7 @@ let g:formatdef_yapf = '"yapf --style=''{based_on_style:pep8,indent_width:".&shi
 "===============================================================================
 " Neoformat
 "==============================================================================
-let g:neoformat_enabled_python = ['autopep8']
+let g:neoformat_enabled_python = ['autopep8', 'yapf']
 let g:neoformat_python_autopep8 = {
             \ 'exe': 'autopep8',
             \ 'args': ['-', '--indent-size 4', '--max-line-length 140'],
@@ -1115,7 +1080,8 @@ let g:gist_post_private = 1
 "===============================================================================
 " FZF
 "===============================================================================
-let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+" let $FZF_DEFAULT_COMMAND = 'ag -g ""'
+let $FZF_DEFAULT_COMMAND = 'ag --hidden --ignore .git -g ""'
 " let $FZF_CTRL_T_COMMAND="$FZF_DEFAULT_COMMAND"
 
 "===============================================================================
@@ -1129,6 +1095,9 @@ command! -nargs=+ Silent
 " Format json using python. This needs some better error checking
 command! -nargs=0 -range=% Format 
       \ <line1>,<line2>!python -c "import sys, json, collections; print json.dumps(json.load(sys.stdin, object_pairs_hook=collections.OrderedDict), sort_keys=False, indent=2)"
+
+" Copy the absolute path of current file to clipboard
+command! CopyPath :let @*=expand("%:p")
 
 " Execute 'cmd' while redirecting output.
 " Delete all lines that do not match regex 'filter' (if not empty).
