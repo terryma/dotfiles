@@ -1,6 +1,5 @@
 .VimballRecord
 .netrwhist
-borgcfg.vim
 spell/
 tags
 .vim/bundle/*
@@ -9,3 +8,4 @@ tags
 .tmux/resurrect/
 .tmux/plugins/*
 !.tmux/plugins/tpm
+.config/configstore/*

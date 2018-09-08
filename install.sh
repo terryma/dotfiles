@@ -3,10 +3,12 @@ dotfiles=$HOME/.dotfiles
 zshrc=$dotfiles/.zshrc
 vimrc=$dotfiles/.vimrc
 gvimrc=$dotfiles/.gvimrc
-vimfiles=$dotfiles/.vimfiles
+vimfiles=$dotfiles/.vim
 tmux_conf=$dotfiles/.tmux.conf
 tmux_powerline_rc=$dotfiles/.tmux-powerlinerc
-configs=$dotfiles/.configs
+config=$dotfiles/.config
+hammerspoon=$dotfiles/.hammerspoon
+gitconfig=$dotfiles/.gitconfig
 
 [[ ! -e $HOME/.zshrc ]] && ln -s $zshrc $HOME/.zshrc \
   || echo ".zshrc already exists..."
@@ -23,11 +25,17 @@ configs=$dotfiles/.configs
 [[ ! -e $HOME/.tmux.conf ]] && ln -s $tmux_conf $HOME/.tmux.conf \
   || echo ".tmux.conf already exists..."
 
-[[ ! -e $HOME/.configs ]] && ln -s $configs $HOME/.configs \
-  || echo ".configs already exists..."
+[[ ! -e $HOME/.config ]] && ln -s $config $HOME/.config \
+  || echo ".config already exists..."
 
 [[ ! -e $HOME/.tmux-powerlinerc ]] && ln -s $tmux_powerline_rc $HOME/.tmux-powerlinerc \
   || echo ".tmux-powerlinerc already exists..."
+
+[[ ! -e $HOME/.hammerspoon ]] && ln -s $hammerspoon $HOME/.hammerspoon \
+  || echo ".hammerspoon already exists..."
+
+[[ ! -e $HOME/.gitconfig ]] && ln -s $gitconfig $HOME/.gitconfig \
+  || echo ".gitconfig already exists..."
 
 echo "Done"
 
