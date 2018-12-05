@@ -6,7 +6,6 @@ gvimrc=$dotfiles/.gvimrc
 vimfiles=$dotfiles/.vim
 tmux_conf=$dotfiles/.tmux.conf
 tmux_powerline_rc=$dotfiles/.tmux-powerlinerc
-config=$dotfiles/.config
 hammerspoon=$dotfiles/.hammerspoon
 gitconfig=$dotfiles/.gitconfig
 
@@ -24,9 +23,6 @@ gitconfig=$dotfiles/.gitconfig
 
 [[ ! -e $HOME/.tmux.conf ]] && ln -s $tmux_conf $HOME/.tmux.conf \
   || echo ".tmux.conf already exists..."
-
-[[ ! -e $HOME/.config ]] && ln -s $config $HOME/.config \
-  || echo ".config already exists..."
 
 [[ ! -e $HOME/.tmux-powerlinerc ]] && ln -s $tmux_powerline_rc $HOME/.tmux-powerlinerc \
   || echo ".tmux-powerlinerc already exists..."

@@ -1,3 +1,6 @@
+# Turn on to profile zsh
+# zmodload zsh/zprof
+
 # Enable glob with no matches
 # http://unix.stackexchange.com/questions/26805/how-to-silently-get-an-empty-string-from-a-glob-pattern-with-no-matches
 setopt null_glob
@@ -5,36 +8,16 @@ setopt null_glob
 # Source local zsh config first
 for config (~/.zsh/*.zsh) source $config
 
-###############################################################################
-# Oh My Zsh
-################################################################################
-ZSH=$HOME/.oh-my-zsh
-ZSH_THEME=""
-DISABLE_UPDATE_PROMPT=true
-DISABLE_AUTO_UPDATE=true
-DISABLE_AUTO_TITLE=true
-COMPLETION_WAITING_DOTS=true
-DEFAULT_USER=$USER
-# plugins=(git brew osx zsh-syntax-highlighting history docker docker-compose)
-# source $ZSH/oh-my-zsh.sh
-# source $ZSH/plugins/git/git.plugin.zsh
-# source $ZSH/lib/history.zsh
-
 ## Command history configuration
 if [ -z "$HISTFILE" ]; then
-    HISTFILE=$HOME/.zsh_history
+  HISTFILE=$HOME/.zsh_history
 fi
 
 HISTSIZE=10000
+HISTSTAMPS="yyyy-mm-dd"
 SAVEHIST=10000
 
-# Show history
-case $HIST_STAMPS in
-  "mm/dd/yyyy") alias history='fc -fl 1' ;;
-  "dd.mm.yyyy") alias history='fc -El 1' ;;
-  "yyyy-mm-dd") alias history='fc -il 1' ;;
-  *) alias history='fc -l 1' ;;
-esac
+alias history='fc -il 1'
 
 setopt append_history
 setopt extended_history
@@ -79,14 +62,21 @@ prompt pure
 ################################################################################
 # Vars
 ################################################################################
+
+export GOPATH="${HOME}/.go"
+# DON'T USE brew --prefix golang it's really slow
+export GOROOT="/usr/local/opt/go/libexec"
 path=(
   ~/.dotfiles/bin
   ~/.rbenv/bin
   ~/.cargo/bin
   ~/.npm-global/bin
-  ~/code/dev-ops-tools/bin
+  ./node_modules/.bin
+  ${GOPATH}/bin
+  ${GOROOT}/bin
   /usr/local/opt/python/libexec/bin
   /usr/local/bin
+  /Applications/Postgres.app/Contents/Versions/latest/bin
   $path
 )
 export EDITOR=$(which vim)
@@ -112,6 +102,7 @@ export LC_ALL="en_US.UTF-8"
 alias ga='git add'
 alias gca='git commit -v -a'
 alias gd='git difftool'
+function gb() { git checkout -b tma/$1 }
 alias gbs='git branches'
 alias gbed='git branch --edit-description'
 alias gmt='git mergetool'
@@ -122,11 +113,11 @@ alias gg="git log --graph --pretty=oneline --format='format:%C(yellow)%h%C(reset
 alias gs='git --no-pager show --stat --oneline'
 alias gam='git commit -a --amend --no-edit'
 alias grm='git rebase master'
-alias gp='git push'
+alias gp='git push -u origin $(git rev-parse --abbrev-ref HEAD)'
 alias gco='git checkout'
 alias gRm='gco master && gup && gco - && git reset --hard origin/master'
 alias gpp="gca -m 'Update' && gp"
-alias gpr="git pull-request"
+alias gpr="git pull-request --no-edit -o"
 alias gsp="git stash pop"
 alias gst='git status'
 alias gup='git pull --rebase'
@@ -134,8 +125,6 @@ alias git=hub
 
 # ssh
 alias ssh='TERM=xterm-256color ssh'
-sshlb() { ssh ec2-user@`get-instances-in-lb $1 | head -1 | get-instance-ip` }
-sshlb-staging() { ssh ec2-user@`AWS_PROFILE=dev get-instances-in-lb $1 | head -1 | AWS_PROFILE=dev get-instance-ip` }
 
 # Docker
 alias dcp='docker-compose'
@@ -361,3 +350,40 @@ starttransfer:  %{time_starttransfer}s\n\
 }
 
 eval "$(pyenv init -)"
+
+# Lazy load nvm, to prevent it slowly down terminal startup time
+export NVM_DIR="$HOME/.nvm"
+function nvm() {
+  unset -f nvm
+  . $NVM_DIR/nvm.sh
+  nvm $@
+}
+
+# Completions
+
+# homebrew
+if type brew &>/dev/null; then
+  FPATH=$(brew --prefix)/share/zsh/site-functions:$FPATH
+fi
+
+fpath=(~/.zsh/completions $fpath)
+
+# The following lines were added by compinstall
+zstyle :compinstall filename '/Users/tma/.zshrc'
+
+autoload -Uz compinit
+if [ $(date +'%j') != $(stat -f '%Sm' -t '%j' ~/.zcompdump) ]; then
+  compinit
+  compdump
+else
+  compinit -C
+fi
+
+autoload -z edit-command-line
+zle -N edit-command-line
+
+# helpful zsh completion for `kubectl` and `helm`
+# if [ $commands[kubectl] ]; then source <(kubectl completion zsh); fi
+# if [ $commands[helm] ]; then source <(helm completion zsh); fi
+
+# zprof

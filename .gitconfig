@@ -47,3 +47,7 @@
 	required = true
 [init]
 	templatedir = ~/.git_template
+[hub]
+	protocol = https
+[protocol]
+	version = 2

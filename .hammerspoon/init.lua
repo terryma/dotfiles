@@ -74,6 +74,19 @@ k:bind({}, 'c', nil, function()
   k.triggered = true
 end)
 
+-- Hyper+q: Focus or launch VSCode
+k:bind({}, 'q', nil, function()
+  local name = 'Code'
+  local app = hs.application.get(name)
+  if app then
+    app:activate()
+  else
+    hs.application.open(name)
+  end
+  k.triggered = true
+end)
+
+
 -- Hyper+c: Focus or launch Trello
 k:bind({}, 't', nil, function()
   local name = 'Trello'
